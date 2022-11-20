@@ -1,0 +1,13 @@
+::selection {
+    background: #69306D;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: #69306D;
+}
