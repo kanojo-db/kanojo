@@ -1,26 +1,40 @@
 <script setup>
-import { computed } from "vue";
-import { Bar } from "vue-chartjs";
 import {
-    Chart as ChartJS,
     BarElement,
     CategoryScale,
+    Chart as ChartJS,
     LinearScale,
-} from "chart.js";
+} from 'chart.js';
+import { computed } from 'vue';
+import { Bar } from 'vue-chartjs';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
-const { counts, customValues } = defineProps({
-    counts: Object,
-    customValues: Object,
+const props = defineProps({
+    counts: {
+        type: Array,
+        required: true,
+    },
+    customValues: {
+        type: Array,
+        default: undefined,
+    },
+    highlightValue: {
+        type: Number,
+        default: undefined,
+    },
 });
 
 const values = computed(() => {
-    if (customValues) {
-        return customValues;
+    if (props.customValues) {
+        return props.customValues;
     }
 
-    const values = counts.map((c) => c.value);
+    if (props.counts === undefined) {
+        return [];
+    }
+
+    const values = props.counts.map((c) => c.value);
     const min = Math.min(...values);
     const max = Math.max(...values);
 
@@ -30,15 +44,23 @@ const values = computed(() => {
 });
 
 const chartColor = computed(() => {
-    return values.value.map((d) => {
-        return "#69306D";
+    return values.value.map((value) => {
+        if (value == props.highlightValue) {
+            return '#BB4430';
+        }
+
+        return '#69306D';
     });
 });
 
 const chartData = computed(() => {
     // Build an array of count for each year
     const countsByValue = values.value.map((value) => {
-        const count = counts.find((c) => c.value === value);
+        if (props.counts === undefined) {
+            return 0;
+        }
+
+        const count = props.counts.find((c) => c.value === value);
 
         return count ? count.count : 0;
     });
@@ -57,6 +79,7 @@ const chartData = computed(() => {
 const chartOptions = {
     responsive: true,
     maintainAspectRatio: true,
+    aspectRatio: 2,
     animation: {
         duration: 0,
     },
@@ -82,9 +105,7 @@ const chartOptions = {
 
 <template>
     <Bar
-        :chart-data="chartData"
-        :chart-options="chartOptions"
-        :width="600"
-        :height="300"
+        :data="chartData"
+        :options="chartOptions"
     />
 </template>

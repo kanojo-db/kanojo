@@ -1,0 +1,48 @@
+// General
+
+::selection {
+    background: #69306D;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: #69306D;
+}
+
+// Utilities
+
+// Grids
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(33%, 1fr) ) ;
+    grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
+}
+
+@media (max-width: $breakpoint-sm) {
+    .grid-3 {
+        grid-template-columns: repeat(1, minmax(100%, 1fr));
+    }
+}
+
+@media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(50%, 2fr));
+    }
+}
+
+@media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(50%, 2fr));
+    }
+}
+
+@media (min-width: $breakpoint-lg) {
+    .grid-3 {
+        grid-template-columns: repeat(3, minmax(33%, 1fr));
+    }
+}

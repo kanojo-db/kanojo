@@ -1,40 +1,46 @@
 <script setup>
-import { computed } from "vue";
-import { Link, useForm } from "@inertiajs/inertia-vue3";
+import { Link, useForm } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import MovieTabBar from "@/Components/MovieTabBar.vue";
+import MovieTabBar from '@/Components/MovieTabBar.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { movie } = defineProps({
-    movie: Object,
+const props = defineProps({
+    movie: {
+        type: Object,
+        required: true,
+    },
 });
 
 const title = computed(() =>
-    movie.title.en ? movie.title.en : movie.title.jp
+    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
 );
 
 const posterUrl = computed(() => {
-    if (movie?.media && movie.media.length > 0) {
-        return movie.media.filter((m) => m.collection_name === "poster")?.[0]
-            .original_url;
+    if (props.movie?.media && props.movie.media.length > 0) {
+        return props.movie.media.filter(
+            (m) => m.collection_name === 'poster',
+        )?.[0].original_url;
     }
 
     return null;
 });
 
 const movieEditForm = useForm({
-    title: movie.title.en,
-    original_title: movie.title.jp,
-    product_code: movie.product_code,
-    release_date: movie.release_date,
-    runtime: movie.runtime,
-    type: movie.type,
+    title: props.movie.title.en,
+    original_title: props.movie.title.jp,
+    product_code: props.movie.product_code,
+    release_date: props.movie.release_date,
+    runtime: props.movie.runtime,
+    type: props.movie.type,
 });
 
 const submit = () => {
-    movieEditForm.transform((data) => ({
-        ...data,
-    })).patch(route("movies.update", movie.id));
+    movieEditForm
+        .transform((data) => ({
+            ...data,
+        }))
+        .patch(route('movies.update', props.movie.id));
 };
 </script>
 
@@ -43,7 +49,10 @@ const submit = () => {
         <div class="col bg-grey-3">
             <MovieTabBar :movie="movie" />
             <div class="row q-py-md q-px-md">
-                <div class="q-pl-none q-mr-lg" style="max-width: 300px">
+                <div
+                    class="q-pl-none q-mr-lg"
+                    style="max-width: 300px"
+                >
                     <q-img
                         v-if="posterUrl"
                         :src="posterUrl"
@@ -57,7 +66,11 @@ const submit = () => {
                         class="row bg-grey-1 rounded-borders justify-center items-center"
                         style="width: 80px; height: 120px"
                     >
-                        <q-icon name="mdi-help" size="60px" color="grey-2" />
+                        <q-icon
+                            name="mdi-help"
+                            size="60px"
+                            color="grey-2"
+                        />
                     </div>
                 </div>
                 <div class="col flex">
@@ -73,7 +86,10 @@ const submit = () => {
                             :href="route('movies.show', movie)"
                             class="text-subtitle1"
                         >
-                            <q-icon name="mdi-arrow-left" size="14px" />
+                            <q-icon
+                                name="mdi-arrow-left"
+                                size="14px"
+                            />
                             Back to Overview
                         </Link>
                     </div>
@@ -83,7 +99,11 @@ const submit = () => {
         <div class="q-ma-md">
             <div class="row q-col-gutter-md full-width">
                 <div class="col-2 q-pl-none">
-                    <q-card class="my-card" flat bordered>
+                    <q-card
+                        class="my-card"
+                        flat
+                        bordered
+                    >
                         <q-card-section
                             class="bg-primary text-white row items-center"
                         >
@@ -92,7 +112,11 @@ const submit = () => {
 
                         <q-separator />
 
-                        <q-list dense bordered padding>
+                        <q-list
+                            dense
+                            bordered
+                            padding
+                        >
                             <q-item clickable>
                                 <q-item-section>General</q-item-section>
                             </q-item>
@@ -108,7 +132,6 @@ const submit = () => {
                                     v-model="movieEditForm.title"
                                     label="Title"
                                     filled
-                                    autofocus
                                     :error="!!movieEditForm?.errors?.title"
                                     :error-message="movieEditForm.errors.title"
                                 />

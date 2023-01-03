@@ -1,14 +1,18 @@
 <script setup>
-import { computed } from "vue";
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
 
-const { model } = defineProps({
-    model: Object,
+const props = defineProps({
+    model: {
+        type: Object,
+        required: true,
+    },
 });
 
 const posterUrl = computed(() => {
-    return model?.media?.filter((m) => m.collection_name === "profile")?.[0]
-        ?.original_url;
+    return props.model?.media?.filter(
+        (m) => m.collection_name === 'profile',
+    )?.[0]?.original_url;
 });
 </script>
 
@@ -27,10 +31,20 @@ const posterUrl = computed(() => {
                 fit="cover"
                 class="rounded-borders"
             />
-            <div v-else class="row bg-grey-1 rounded-borders justify-center items-center" style="width: 200px; height: 300px;">
-                <q-icon name="mdi-help" size="150px" color="grey-2" />
+            <div
+                v-else
+                class="row bg-grey-1 rounded-borders justify-center items-center"
+                style="width: 200px; height: 300px"
+            >
+                <q-icon
+                    name="mdi-help"
+                    size="150px"
+                    color="grey-2"
+                />
             </div>
-            <div class="fit column no-wrap justify-start items-start content-start relative-position q-pt-sm">
+            <div
+                class="fit column no-wrap justify-start items-start content-start relative-position q-pt-sm"
+            >
                 <span class="text-weight-bold q-mt-sm">{{
                     model.name.en ? model.name.en : model.name.jp
                 }}</span>

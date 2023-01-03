@@ -1,35 +1,37 @@
 <script setup>
-import { ref } from "vue";
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { Inertia } from "@inertiajs/inertia";
-import { mdiPlus, mdiMagnify } from "@quasar/extras/mdi-v6";
+import { Inertia } from '@inertiajs/inertia';
+import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
+import { ref } from 'vue';
 
 defineProps({
     title: {
         type: String,
         required: false,
-        default: "",
+        default: '',
     },
 });
 
 const showSearch = ref(false);
 
 const logout = () => {
-    Inertia.post(route("logout"));
+    Inertia.post(route('logout'));
 };
 
 const searchForm = useForm({
-    q: route().params.q || "",
+    q: route().params.q || '',
 });
 
 const submit = () => {
-    searchForm.transform(({q}) => {
-        if (route().params.type) {
-            return {q, type: route().params.type};
-        }
+    searchForm
+        .transform(({ q }) => {
+            if (route().params.type) {
+                return { q, type: route().params.type };
+            }
 
-        return {q: q.trim()};
-    }).get(route("search"));
+            return { q: q.trim() };
+        })
+        .get(route('search'));
 };
 </script>
 
@@ -41,6 +43,7 @@ const submit = () => {
             <q-toolbar class="bg-grey-8 q-py-sm q-px-md">
                 <Link href="/">
                     <img
+                        alt="Kanojo Logo"
                         src="/images/logo-dark.svg"
                         style="width: 150px; height: 48px"
                         fit="contain"
@@ -50,20 +53,39 @@ const submit = () => {
                 <q-space />
 
                 <q-btn
-                    @click="$inertia.get(route('movies.create'))"
                     square
                     dense
                     :icon="mdiPlus"
                     class="q-mr-md"
+                    @click="$inertia.get(route('movies.create'))"
                 />
-                <q-avatar size="32px" color="white">
-                    <q-icon class="cursor-pointer" name="mdi-account" size="24px" color="pink-3" />
-                    <q-menu dense auto-close>
-                        <q-list dense style="width: 200px; max-width: 200px">
+                <q-avatar
+                    v-if="$page.props.user"
+                    size="32px"
+                    color="white"
+                >
+                    <q-icon
+                        class="cursor-pointer"
+                        name="mdi-account"
+                        size="24px"
+                        color="pink-3"
+                    />
+                    <q-menu
+                        dense
+                        auto-close
+                    >
+                        <q-list
+                            dense
+                            style="width: 200px; max-width: 200px"
+                        >
                             <q-item clickable>
                                 <q-item-section class="q-py-md">
-                                    <q-item-label class="text-weight-bold">{{ $page.props.user.name }}</q-item-label>
-                                    <q-item-label caption>View profile</q-item-label>
+                                    <q-item-label class="text-weight-bold">
+                                        {{ $page.props.user.name }}
+                                    </q-item-label>
+                                    <q-item-label caption>
+                                        View profile
+                                    </q-item-label>
                                 </q-item-section>
                             </q-item>
                             <q-separator class="q-my-xs" />
@@ -74,17 +96,26 @@ const submit = () => {
                                 <q-item-section>Settings</q-item-section>
                             </q-item>
                             <q-separator class="q-my-xs" />
-                            <q-item clickable @click="logout">
+                            <q-item
+                                clickable
+                                @click="logout"
+                            >
                                 <q-item-section>Logout</q-item-section>
                             </q-item>
                         </q-list>
                     </q-menu>
                 </q-avatar>
-                <template v-if="!$page.props.user">
-                    <q-btn @click="$inertia.get(route('login'))" flat>
+                <template v-else>
+                    <q-btn
+                        flat
+                        @click="$inertia.get(route('login'))"
+                    >
                         Login
                     </q-btn>
-                    <q-btn @click="$inertia.get(route('register'))" flat>
+                    <q-btn
+                        flat
+                        @click="$inertia.get(route('register'))"
+                    >
                         Register
                     </q-btn>
                 </template>
@@ -102,11 +133,16 @@ const submit = () => {
                 <q-form @submit.prevent="submit">
                     <q-input
                         v-model="searchForm.q"
-                        :class="{ hidden: !showSearch && $page.component !== 'Search' }"
+                        :class="{
+                            hidden: !showSearch && $page.component !== 'Search',
+                        }"
                         placeholder="Search a title, product code or model..."
                     >
                         <template #prepend>
-                            <q-icon class="q-ml-md" name="mdi-magnify" />
+                            <q-icon
+                                class="q-ml-md"
+                                name="mdi-magnify"
+                            />
                         </template>
                         <template #append>
                             <q-btn
@@ -129,6 +165,7 @@ const submit = () => {
                     class="col-1 column justify-start items-start content-end text-white"
                 >
                     <img
+                        alt="Kanojo Logo"
                         src="/images/logo-dark.svg"
                         style="width: 150px; height: 48px"
                         fit="contain"
@@ -138,11 +175,14 @@ const submit = () => {
                     class="col-1 column justify-start items-start content-start text-white"
                 >
                     <h3 class="text-h6 text-weight-bold q-my-none">General</h3>
-                    <Link :href="route('about.index')" class="text-white"
-                        >About Kanojo</Link
+                    <Link
+                        :href="route('about.index')"
+                        class="text-white"
                     >
-                    <Link class="text-white">Contact Us</Link>
-                    <Link class="text-white">API</Link>
+                        About Kanojo
+                    </Link>
+                    <Link class="text-white"> Contact Us </Link>
+                    <Link class="text-white"> API </Link>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
@@ -150,12 +190,18 @@ const submit = () => {
                     <h3 class="text-h6 text-weight-bold q-my-none">
                         Contribute
                     </h3>
-                    <Link class="text-white" :href="route('movies.create')"
-                        >Add a Movie</Link
+                    <Link
+                        class="text-white"
+                        :href="route('movies.create')"
                     >
-                    <Link class="text-white" :href="route('movies.create')"
-                        >Fill Missing Data</Link
+                        Add a Movie
+                    </Link>
+                    <Link
+                        class="text-white"
+                        :href="route('movies.create')"
                     >
+                        Fill Missing Data
+                    </Link>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
@@ -163,7 +209,12 @@ const submit = () => {
                     <h3 class="text-h6 text-weight-bold q-my-none">
                         Community
                     </h3>
-                    <a class="text-white" href="#">Discord</a>
+                    <a
+                        class="text-white"
+                        href="#"
+                    >
+                        Discord
+                    </a>
                 </div>
             </div>
         </q-footer>

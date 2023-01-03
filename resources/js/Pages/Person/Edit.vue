@@ -1,42 +1,45 @@
 <script setup>
-import { computed } from "vue";
-import { Link, useForm } from "@inertiajs/inertia-vue3";
+import { Link, useForm } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import PersonTabBar from "@/Components/PersonTabBar.vue";
+import PersonTabBar from '@/Components/PersonTabBar.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { person } = defineProps({
-    person: Object,
+const props = defineProps({
+    person: {
+        type: Object,
+        required: true,
+    },
 });
 
-console.dir(person);
-
-const name = computed(() => (person.name.en ? person.name.en : person.name.jp));
+const name = computed(() =>
+    props.person.name.en ? props.person.name.en : props.person.name.jp,
+);
 
 const posterUrl = computed(() => {
-    if (person?.media && person.media.length > 0) {
-        return person.media.filter((m) => m.collection_name === "profile")?.[0]
-            .original_url;
+    if (props.person?.media && props.person.media.length > 0) {
+        return props.person.media.filter(
+            (m) => m.collection_name === 'profile',
+        )?.[0].original_url;
     }
 
     return null;
 });
 
 const personEditForm = useForm({
-    name: person.name.en,
-    original_name: person.name.jp,
-    birthdate: person.birthdate,
-    career_start: person.career_start,
-    career_end: person.career_end,
-    country: person.country,
-    blood_type: person.blood_type,
-    cup_size: person.cup_size,
-    height: person.height,
-    bust: person.bust,
-    waist: person.waist,
-    hip: person.hip,
-    cup_size: person.cup_size,
-    dob_doubt: person.dob_doubt,
+    name: props.person.name.en,
+    original_name: props.person.name.jp,
+    birthdate: props.person.birthdate,
+    career_start: props.person.career_start,
+    career_end: props.person.career_end,
+    country: props.person.country,
+    blood_type: props.person.blood_type,
+    cup_size: props.person.cup_size,
+    height: props.person.height,
+    bust: props.person.bust,
+    waist: props.person.waist,
+    hip: props.person.hip,
+    dob_doubt: props.person.dob_doubt,
 });
 
 const submit = () => {
@@ -44,7 +47,7 @@ const submit = () => {
         .transform((data) => ({
             ...data,
         }))
-        .patch(route("models.update", person.id));
+        .patch(route('models.update', props.person.id));
 };
 </script>
 
@@ -53,7 +56,10 @@ const submit = () => {
         <div class="col bg-grey-3">
             <PersonTabBar :person="person" />
             <div class="row q-py-md q-px-md">
-                <div class="q-pl-none q-mr-lg" style="max-width: 300px">
+                <div
+                    class="q-pl-none q-mr-lg"
+                    style="max-width: 300px"
+                >
                     <q-img
                         v-if="posterUrl"
                         :src="posterUrl"
@@ -67,7 +73,11 @@ const submit = () => {
                         class="row bg-grey-1 rounded-borders justify-center items-center"
                         style="width: 80px; height: 120px"
                     >
-                        <q-icon name="mdi-help" size="60px" color="grey-2" />
+                        <q-icon
+                            name="mdi-help"
+                            size="60px"
+                            color="grey-2"
+                        />
                     </div>
                 </div>
                 <div class="col flex">
@@ -83,7 +93,10 @@ const submit = () => {
                             :href="route('models.show', person)"
                             class="text-subtitle1"
                         >
-                            <q-icon name="mdi-arrow-left" size="14px" />
+                            <q-icon
+                                name="mdi-arrow-left"
+                                size="14px"
+                            />
                             Back to Overview
                         </Link>
                     </div>
@@ -93,7 +106,10 @@ const submit = () => {
         <div class="q-ma-md">
             <div class="row q-col-gutter-lg full-width">
                 <div class="col-2 q-pl-none">
-                    <q-card flat bordered>
+                    <q-card
+                        flat
+                        bordered
+                    >
                         <q-card-section
                             class="bg-primary text-white row items-center"
                         >
@@ -102,7 +118,11 @@ const submit = () => {
 
                         <q-separator />
 
-                        <q-list dense bordered padding>
+                        <q-list
+                            dense
+                            bordered
+                            padding
+                        >
                             <q-item clickable>
                                 <q-item-section>General</q-item-section>
                             </q-item>
@@ -118,7 +138,6 @@ const submit = () => {
                                     v-model="personEditForm.name"
                                     label="Name"
                                     filled
-                                    autofocus
                                     :error="!!personEditForm?.errors?.name"
                                     :error-message="personEditForm.errors.name"
                                 />
@@ -146,12 +165,12 @@ const submit = () => {
                         <div class="row q-col-gutter-md">
                             <div class="col">
                                 <q-input
-                                    filled
                                     v-model="personEditForm.birthdate"
+                                    filled
                                     mask="date"
                                     label="Birthdate"
                                 >
-                                    <template v-slot:append>
+                                    <template #append>
                                         <q-icon
                                             name="mdi-calendar"
                                             class="cursor-pointer"
@@ -162,7 +181,9 @@ const submit = () => {
                                                 transition-hide="scale"
                                             >
                                                 <q-date
-                                                    v-model="personEditForm.birthdate"
+                                                    v-model="
+                                                        personEditForm.birthdate
+                                                    "
                                                 >
                                                     <div
                                                         class="row items-center justify-end"
@@ -186,9 +207,7 @@ const submit = () => {
                                     v-model="personEditForm.country"
                                     label="Country"
                                     filled
-                                    :error="
-                                        !!personEditForm?.errors?.country
-                                    "
+                                    :error="!!personEditForm?.errors?.country"
                                     :error-message="
                                         personEditForm.errors.country
                                     "
@@ -209,12 +228,12 @@ const submit = () => {
                         <div class="row q-col-gutter-md q-mb-md">
                             <div class="col">
                                 <q-input
-                                    filled
                                     v-model="personEditForm.career_start"
+                                    filled
                                     mask="date"
                                     label="Career Start"
                                 >
-                                    <template v-slot:append>
+                                    <template #append>
                                         <q-icon
                                             name="mdi-calendar"
                                             class="cursor-pointer"
@@ -225,7 +244,9 @@ const submit = () => {
                                                 transition-hide="scale"
                                             >
                                                 <q-date
-                                                    v-model="personEditForm.career_start"
+                                                    v-model="
+                                                        personEditForm.career_start
+                                                    "
                                                 >
                                                     <div
                                                         class="row items-center justify-end"
@@ -245,12 +266,12 @@ const submit = () => {
                             </div>
                             <div class="col">
                                 <q-input
-                                    filled
                                     v-model="personEditForm.career_end"
+                                    filled
                                     mask="date"
                                     label="Career End"
                                 >
-                                    <template v-slot:append>
+                                    <template #append>
                                         <q-icon
                                             name="mdi-calendar"
                                             class="cursor-pointer"
@@ -261,7 +282,9 @@ const submit = () => {
                                                 transition-hide="scale"
                                             >
                                                 <q-date
-                                                    v-model="personEditForm.career_end"
+                                                    v-model="
+                                                        personEditForm.career_end
+                                                    "
                                                 >
                                                     <div
                                                         class="row items-center justify-end"
@@ -302,9 +325,7 @@ const submit = () => {
                                     v-model="personEditForm.cup_size"
                                     label="Cup Size"
                                     filled
-                                    :error="
-                                        !!personEditForm?.errors?.cup_size
-                                    "
+                                    :error="!!personEditForm?.errors?.cup_size"
                                     :error-message="
                                         personEditForm.errors.cup_size
                                     "
@@ -315,36 +336,30 @@ const submit = () => {
                         <div class="row q-col-gutter-md">
                             <div class="col">
                                 <q-input
-                                    type="number"
                                     id="height"
                                     v-model="personEditForm.height"
+                                    type="number"
                                     label="Height"
                                     filled
-                                    :error="
-                                        !!personEditForm?.errors?.height
-                                    "
+                                    :error="!!personEditForm?.errors?.height"
                                     :error-message="
                                         personEditForm.errors.height
                                     "
                                 >
-                                <template v-slot:append>cm</template>
+                                    <template #append> cm </template>
                                 </q-input>
                             </div>
                             <div class="col">
                                 <q-input
-                                    type="number"
                                     id="bust"
                                     v-model="personEditForm.bust"
+                                    type="number"
                                     label="Bust Size"
                                     filled
-                                    :error="
-                                        !!personEditForm?.errors?.bust
-                                    "
-                                    :error-message="
-                                        personEditForm.errors.bust
-                                    "
+                                    :error="!!personEditForm?.errors?.bust"
+                                    :error-message="personEditForm.errors.bust"
                                 >
-                                <template v-slot:append>cm</template>
+                                    <template #append> cm </template>
                                 </q-input>
                             </div>
                         </div>
@@ -352,36 +367,28 @@ const submit = () => {
                         <div class="row q-col-gutter-md">
                             <div class="col">
                                 <q-input
-                                    type="number"
                                     id="waist"
                                     v-model="personEditForm.waist"
+                                    type="number"
                                     label="Waist Size"
                                     filled
-                                    :error="
-                                        !!personEditForm?.errors?.waist
-                                    "
-                                    :error-message="
-                                        personEditForm.errors.waist
-                                    "
+                                    :error="!!personEditForm?.errors?.waist"
+                                    :error-message="personEditForm.errors.waist"
                                 >
-                                <template v-slot:append>cm</template>
+                                    <template #append> cm </template>
                                 </q-input>
                             </div>
                             <div class="col">
                                 <q-input
-                                    type="number"
                                     id="hip"
                                     v-model="personEditForm.hip"
+                                    type="number"
                                     label="Hips Size"
                                     filled
-                                    :error="
-                                        !!personEditForm?.errors?.hip
-                                    "
-                                    :error-message="
-                                        personEditForm.errors.hip
-                                    "
+                                    :error="!!personEditForm?.errors?.hip"
+                                    :error-message="personEditForm.errors.hip"
                                 >
-                                <template v-slot:append>cm</template>
+                                    <template #append> cm </template>
                                 </q-input>
                             </div>
                         </div>

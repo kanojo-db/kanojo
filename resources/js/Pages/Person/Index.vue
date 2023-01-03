@@ -1,38 +1,56 @@
 <script setup>
-import { ref } from "vue";
-import { Inertia } from "@inertiajs/inertia";
+import { Inertia } from '@inertiajs/inertia';
+import { ref } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import ModelCard from "@/Components/ModelCard.vue";
-import RangeSlider from "@/Components/RangeSlider.vue";
+import ModelCard from '@/Components/ModelCard.vue';
+import RangeSlider from '@/Components/RangeSlider.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { models, birth_counts, height_counts } = defineProps({
-    models: Object,
-    birth_counts: Object,
-    height_counts: Object,
-    bust_counts: Object,
-    waist_counts: Object,
-    hip_counts: Object,
+const props = defineProps({
+    models: {
+        type: Object,
+        required: true,
+    },
+    birth_counts: {
+        type: Object,
+        required: true,
+    },
+    height_counts: {
+        type: Object,
+        required: true,
+    },
+    bust_counts: {
+        type: Object,
+        required: true,
+    },
+    waist_counts: {
+        type: Object,
+        required: true,
+    },
+    hip_counts: {
+        type: Object,
+        required: true,
+    }
 });
 
 const route_params = route().params;
 const filterBornBetween = ref(
-    route_params?.filter?.born?.split(",") || [null, null]
+    route_params?.filter?.born?.split(',') || [null, null],
 );
 const filterHeightBetween = ref(
-    route_params?.filter?.height?.split(",") || [null, null]
+    route_params?.filter?.height?.split(',') || [null, null],
 );
 const filterBustBetween = ref(
-    route_params?.filter?.bust?.split(",") || [null, null]
+    route_params?.filter?.bust?.split(',') || [null, null],
 );
 const filterWaistBetween = ref(
-    route_params?.filter?.waist?.split(",") || [null, null]
+    route_params?.filter?.waist?.split(',') || [null, null],
 );
 const filterHipBetween = ref(
-    route_params?.filter?.hip?.split(",") || [null, null]
+    route_params?.filter?.hip?.split(',') || [null, null],
 );
 
-const currentPage = ref(models.current_page);
+const currentPage = ref(props.models.current_page);
 
 const dateRange = ref({
     min: filterBornBetween.value[0],
@@ -60,7 +78,7 @@ const hipRange = ref({
 });
 
 const goToPage = (page) => {
-    const pageLink = models.links.find((link) => link.label == page);
+    const pageLink = props.models.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
         Inertia.get(pageLink.url);
@@ -69,40 +87,38 @@ const goToPage = (page) => {
 
 function applyFilters() {
     const params = {
-        page: models.current_page,
+        page: props.models.current_page,
     };
 
     if (dateRange.value.min && dateRange.value.max) {
         params[
-            "filter[born]"
+            'filter[born]'
         ] = `${dateRange.value.min},${dateRange.value.max}`;
     }
 
     if (heightRange.value.min && heightRange.value.max) {
         params[
-            "filter[height]"
+            'filter[height]'
         ] = `${heightRange.value.min},${heightRange.value.max}`;
     }
 
     if (bustRange.value.min && bustRange.value.max) {
         params[
-            "filter[bust]"
+            'filter[bust]'
         ] = `${bustRange.value.min},${bustRange.value.max}`;
     }
 
     if (waistRange.value.min && waistRange.value.max) {
         params[
-            "filter[waist]"
+            'filter[waist]'
         ] = `${waistRange.value.min},${waistRange.value.max}`;
     }
 
     if (hipRange.value.min && hipRange.value.max) {
-        params[
-            "filter[hip]"
-        ] = `${hipRange.value.min},${hipRange.value.max}`;
+        params['filter[hip]'] = `${hipRange.value.min},${hipRange.value.max}`;
     }
 
-    Inertia.get(route("models.index"), params, {
+    Inertia.get(route('models.index'), params, {
         preserveState: true,
         preserveScroll: true,
     });
@@ -114,7 +130,11 @@ function applyFilters() {
         <div class="q-pa-md">
             <div class="row q-col-gutter-lg full-width">
                 <div class="col-2 q-pl-none">
-                    <q-card class="my-card" flat bordered>
+                    <q-card
+                        class="my-card"
+                        flat
+                        bordered
+                    >
                         <q-card-section
                             class="bg-primary text-white row items-center"
                         >
@@ -124,7 +144,7 @@ function applyFilters() {
                         <q-separator />
 
                         <div class="q-pa-md">
-                            <div class="col">
+                            <div class="column">
                                 <span class="text-body1 text-weight-bold"
                                     >Year of birth</span
                                 >

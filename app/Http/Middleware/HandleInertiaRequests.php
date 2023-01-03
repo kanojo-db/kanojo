@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
+use Session;
 use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -40,6 +41,25 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy())->toArray(), [
                     'location' => $request->url(),
                 ]);
+            },
+            'locale' => app()->getLocale(),
+            'user' => function () use ($request) {
+                if (!$request->user()) {
+                    return;
+                }
+
+                return array_merge(
+                  $request->user()->toArray(),
+                  [
+                    'two_factor_enabled' => ! is_null($request->user()->two_factor_secret),
+                  ]
+                );
+            },
+            '_token' => function () {
+                return Session::token();
+            },
+            '_session' => function () {
+                return Session::all();
             },
         ]);
     }

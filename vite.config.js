@@ -1,9 +1,17 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+import { quasar } from '@quasar/vite-plugin';
 import vue from '@vitejs/plugin-vue';
-import { quasar } from '@quasar/vite-plugin'
+import laravel from 'laravel-vite-plugin';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
+    ssr: {
+        noExternal: ['@inertiajs/server'],
+    },
+    server: {
+        hmr: {
+            host: 'localhost',
+        },
+    },
     plugins: [
         laravel({
             input: 'resources/js/app.js',
@@ -19,11 +27,7 @@ export default defineConfig({
             },
         }),
         quasar({
-            autoImportComponentCase: 'pascal',
             sassVariables: 'resources/css/variables.sass',
         }),
     ],
-    ssr: {
-        noExternal: ['@inertiajs/server'],
-    },
 });

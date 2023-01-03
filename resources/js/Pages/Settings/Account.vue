@@ -1,21 +1,25 @@
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm } from '@inertiajs/inertia-vue3';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
+import MenuCardSettings from '@/Components/MenuCardSettings.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { settings } = defineProps({
-    settings: Object,
+const props = defineProps({
+    settings: {
+        type: Object,
+        required: true,
+    },
 });
 
 const accountSettingsFoirm = useForm({
-    show_jav: settings.show_jav.value,
-    show_vr: settings.show_vr.value,
-    show_gravure: settings.show_gravure.value,
-    show_minors: settings.show_minors.value,
+    show_jav: props.settings.show_jav.value,
+    show_vr: props.settings.show_vr.value,
+    show_gravure: props.settings.show_gravure.value,
+    show_minors: props.settings.show_minors.value,
 });
 
 function submit() {
-    accountSettingsFoirm.post(route("settings.account.update"));
+    accountSettingsFoirm.post(route('settings.account.update'));
 }
 </script>
 
@@ -31,72 +35,77 @@ function submit() {
         <div class="q-ma-md">
             <div class="row q-col-gutter-lg full-width">
                 <div class="col-2 q-pl-none">
-                    <q-card flat bordered>
-                        <q-card-section
-                            class="bg-primary text-white row items-center"
-                        >
-                            <div class="text-weight-bold text-h6">Settings</div>
-                        </q-card-section>
-
-                        <q-separator />
-
-                        <q-list>
-                            <q-item
-                                clickable
-                                :class="{
-                                    'text-weight-bold text-primary':
-                                        $page.component === 'Settings/Account',
-                                }"
-                            >
-                                <q-item-section>
-                                    Account Settings
-                                </q-item-section>
-                            </q-item>
-                        </q-list>
-                    </q-card>
+                    <MenuCardSettings />
                 </div>
                 <div class="col col-10">
                     <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
-                        Account Settings
+                        {{ $t('web.settings.account.title') }}
                     </h2>
-                    <q-banner
+                    <!--<q-banner
                         v-if="$page.props.jetstream.flash.banner"
                         class="text-white q-mb-sm"
                         :class="{
-                            'bg-positive': $page.props.jetstream.flash.bannerStyle ===
+                            'bg-positive':
+                                $page.props.jetstream.flash.bannerStyle ===
                                 'success',
-                            'bg-negative': $page.props.jetstream.flash.bannerStyle ===
+                            'bg-negative':
+                                $page.props.jetstream.flash.bannerStyle ===
                                 'error',
                         }"
                     >
                         {{ $page.props.jetstream.flash.banner }}
-                    </q-banner>
-                    <q-form @submit.prevent="accountSettingsFoirm.post('')">
+                    </q-banner>-->
+                    <q-form @submit.prevent="submit">
                         <div class="column items-start">
-                            <h3 class="text-h6 text-weight-bold q-mt-none q-mb-sm">
-                                Content Visibility
+                            <h3
+                                class="text-h6 text-weight-bold q-mt-none q-mb-sm"
+                            >
+                                {{
+                                    $t(
+                                        'web.settings.account.content_visibility',
+                                    )
+                                }}
                             </h3>
                             <q-toggle
                                 v-model="accountSettingsFoirm.show_jav"
-                                label="Show adult content"
+                                :label="
+                                    $t(
+                                        'web.settings.account.show_adult_content',
+                                    )
+                                "
                                 color="primary"
                             />
                             <q-toggle
                                 v-model="accountSettingsFoirm.show_vr"
-                                label="Show VR content"
+                                :label="
+                                    $t('web.settings.account.show_vr_content')
+                                "
                                 color="primary"
                             />
                             <q-toggle
                                 v-model="accountSettingsFoirm.show_gravure"
-                                label="Show gravure content"
+                                :label="
+                                    $t(
+                                        'web.settings.account.show_gravure_content',
+                                    )
+                                "
                                 color="primary"
                             />
                             <q-toggle
                                 v-model="accountSettingsFoirm.show_minors"
-                                label="Show gravure content featuring minors"
+                                :label="
+                                    $t(
+                                        'web.settings.account.show_gravure_minors_content',
+                                    )
+                                "
                                 color="primary"
                             />
-                            <q-btn type="submit" color="primary" label="Save" class="q-mt-lg" />
+                            <q-btn
+                                type="submit"
+                                color="primary"
+                                :label="$t('web.general.save_changes')"
+                                class="q-mt-lg"
+                            />
                         </div>
                     </q-form>
                 </div>

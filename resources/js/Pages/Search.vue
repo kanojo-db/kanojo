@@ -1,21 +1,30 @@
 <script setup>
-import { ref, computed } from "vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
-import Card from "@/Components/Card.vue";
-import ModelCard from "@/Components/ModelCard.vue";
-import { Inertia } from "@inertiajs/inertia";
+import { Inertia } from '@inertiajs/inertia';
+import { ref } from 'vue';
 
-const { movies_results, models_results } = defineProps({
-    movies_results: Object,
-    models_results: Object,
+import ModelCard from '@/Components/ModelCard.vue';
+import MovieCard from '@/Components/MovieCard.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
+
+const props = defineProps({
+    moviesResults: {
+        type: Object,
+        required: true,
+    },
+    modelsResults: {
+        type: Object,
+        required: true,
+    },
 });
 
 let results = {};
 
 if (route().params.type === 'person') {
-    results = models_results;
+    // eslint-disable-next-line vue/no-setup-props-destructure -- Intentional
+    results = props.modelsResults;
 } else {
-    results = movies_results;
+    // eslint-disable-next-line vue/no-setup-props-destructure -- Intentional
+    results = props.moviesResults;
 }
 
 const currentPage = ref(results.current_page);
@@ -38,7 +47,11 @@ const goToPage = (page) => {
         <div class="q-pa-md">
             <div class="row q-col-gutter-lg full-width">
                 <div class="col-2 q-pl-none">
-                    <q-card class="my-card" flat bordered>
+                    <q-card
+                        class="my-card"
+                        flat
+                        bordered
+                    >
                         <q-card-section
                             class="bg-primary text-white row items-center"
                         >
@@ -47,8 +60,19 @@ const goToPage = (page) => {
 
                         <q-separator />
 
-                        <q-list dense bordered padding>
-                            <q-item clickable @click="() => goToType('movie')" :class="{ 'text-primary text-weight-bold': route().params.type !== 'person' }">
+                        <q-list
+                            dense
+                            bordered
+                            padding
+                        >
+                            <q-item
+                                clickable
+                                :class="{
+                                    'text-primary text-weight-bold':
+                                        route().params.type !== 'person',
+                                }"
+                                @click="() => goToType('movie')"
+                            >
                                 <q-item-section> Movies </q-item-section>
                                 <q-item-section side>
                                     <q-badge
@@ -61,16 +85,21 @@ const goToPage = (page) => {
                                     </q-badge>
                                 </q-item-section>
                             </q-item>
-                            <q-item clickable @click="() => goToType('person')" :class="{ 'text-primary text-weight-bold': route().params.type === 'person' }">
-                                <q-item-section>
-                                    Models
-                                </q-item-section>
+                            <q-item
+                                clickable
+                                :class="{
+                                    'text-primary text-weight-bold':
+                                        route().params.type === 'person',
+                                }"
+                            >
+                                <q-item-section> Models </q-item-section>
                                 <q-item-section side>
                                     <q-badge
                                         class="text-subtitle1 q-px-md"
                                         align="middle"
                                         color="grey-5"
                                         rounded
+                                        @click="() => goToType('person')"
                                     >
                                         {{ models_results.total }}
                                     </q-badge>
@@ -89,7 +118,10 @@ const goToPage = (page) => {
                             @update:model-value="goToPage"
                         />
                     </div>
-                    <div v-if="results.data.length === 0" class="text-center">
+                    <div
+                        v-if="results.data.length === 0"
+                        class="text-center"
+                    >
                         <h1 class="text-h5">No results found</h1>
                     </div>
                     <div v-else>
@@ -108,7 +140,7 @@ const goToPage = (page) => {
                                 v-else
                                 class="fit row wrap justify-start items-start content-start q-gutter-md"
                             >
-                                <Card
+                                <MovieCard
                                     v-for="movie in results.data"
                                     :key="movie.id"
                                     :movie="movie"

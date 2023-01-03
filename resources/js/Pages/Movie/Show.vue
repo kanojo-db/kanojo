@@ -1,20 +1,23 @@
 <script setup>
-import { computed } from "vue";
-import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
-import { DateTime, Duration } from "luxon";
+import { Link, useForm, usePage } from '@inertiajs/inertia-vue3';
+import { DateTime, Duration } from 'luxon';
+import { computed } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import MovieTabBar from "@/Components/MovieTabBar.vue";
+import MovieTabBar from '@/Components/MovieTabBar.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { movie } = defineProps({
-    movie: Object,
-    reactions: Object,
+const props = defineProps({
+    movie: {
+        type: Object,
+        required: true,
+    },
 });
 
 const posterUrl = computed(() => {
-    if (movie?.media && movie.media.length > 0) {
-        return movie.media.filter((m) => m.collection_name === "poster")?.[0]
-            .original_url;
+    if (props.movie?.media && props.movie.media.length > 0) {
+        return props.movie.media.filter(
+            (m) => m.collection_name === 'poster',
+        )?.[0].original_url;
     }
 
     return null;
@@ -25,9 +28,9 @@ const getHumanReadableDate = (date) => {
 };
 
 const getModelAge = (date) => {
-    if (DateTime.fromSQL(movie.release_date)) {
+    if (DateTime.fromSQL(props.movie.release_date)) {
         const modelDate = DateTime.fromSQL(date)
-            .diff(DateTime.fromISO(movie.release_date), "years")
+            .diff(DateTime.fromISO(props.movie.release_date), 'years')
             .toObject();
 
         return Math.floor(Math.abs(modelDate.years));
@@ -38,25 +41,29 @@ const getModelAge = (date) => {
 
 const getModelImage = (model) => {
     if (model?.media && model.media.length > 0) {
-        return model.media.filter((m) => m.collection_name === "profile")?.[0]
+        return model.media.filter((m) => m.collection_name === 'profile')?.[0]
             .original_url;
     }
 
     return null;
 };
 
+const isVrMovie = computed(() => {
+    return props.movie.type.name === 'VR';
+});
+
 const movieReleaseDate = computed(() => {
-    return DateTime.fromSQL(movie.release_date).toLocaleString(
-        DateTime.DATE_SHORT
+    return DateTime.fromSQL(props.movie.release_date).toLocaleString(
+        DateTime.DATE_SHORT,
     );
 });
 
 const movieDuration = computed(() => {
-    return Duration.fromObject({ minutes: movie.length });
+    return Duration.fromObject({ minutes: props.movie.length });
 });
 
 const hasLiked = computed(() => {
-    const userLike = movie.love_reactant.reactions.filter((reaction) => {
+    const userLike = props.movie.love_reactant.reactions.filter((reaction) => {
         return (
             reaction.reacter.reacterable.id === usePage().props.value.user.id
         );
@@ -66,30 +73,49 @@ const hasLiked = computed(() => {
 });
 
 const hasDisliked = computed(() => {
-    const userDislike = movie.love_reactant.reactions.filter((reaction) => {
-        return (
-            reaction.reacter.reacterable.id === usePage().props.value.user.id
-        );
-    });
+    const userDislike = props.movie.love_reactant.reactions.filter(
+        (reaction) => {
+            return (
+                reaction.reacter.reacterable.id ===
+                usePage().props.value.user.id
+            );
+        },
+    );
 
     return userDislike.length > 0 && userDislike[0].reaction_type_id === 2;
 });
 
 const title = computed(() =>
-    movie.title.en ? movie.title.en : movie.title.jp
+    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
 );
+
+const userScore = computed(() => {
+    if (props.movie.love_reactant.reaction_total?.count) {
+        const likeReactions = props.movie.love_reactant.reactions.filter(
+            (reaction) => reaction.type.name === 'Like',
+        );
+
+        return (
+            (likeReactions.length /
+                props.movie.love_reactant.reaction_total.count) *
+            100
+        );
+    }
+
+    return 'N/A';
+});
 
 const likeForm = useForm({});
 
 const likeMovie = () => {
-    likeForm.post(route("movies.like.store", [movie]));
+    likeForm.post(route('movies.like.store', [props.movie]), {
+        onSuccess: () => likeForm.reset(),
+    });
 };
 
 const dislikeMovie = () => {
-    likeForm.dislike = true;
-
-    likeForm.post(route("movies.dislike.store", [movie]), {
-        onSuccess: () => (likeForm.dislike = false),
+    likeForm.post(route('movies.dislike.store', [props.movie]), {
+        onSuccess: () => likeForm.reset(),
     });
 };
 </script>
@@ -102,17 +128,21 @@ const dislikeMovie = () => {
                 <q-img
                     v-if="posterUrl"
                     :src="posterUrl"
+                    height="450px"
                     width="300px"
-                    :ratio="2 / 3"
-                    fit="cover"
-                    class="rounded-borders q-mr-lg"
+                    :fit="isVrMovie ? 'contain' : 'cover'"
+                    class="bg-grey-2 rounded-borders q-mr-lg"
                 />
                 <div
                     v-else
                     class="row bg-grey-1 rounded-borders justify-center items-center q-mr-lg"
                     style="width: 300px; height: 450px"
                 >
-                    <q-icon name="mdi-help" size="150px" color="grey-2" />
+                    <q-icon
+                        name="mdi-help"
+                        size="150px"
+                        color="grey-2"
+                    />
                 </div>
                 <div class="col">
                     <div class="row q-mb-sm">
@@ -127,29 +157,34 @@ const dislikeMovie = () => {
                                 outline
                                 square
                                 color="secondary"
-                                >{{ movie.type.name }}</q-chip
                             >
-                            <span v-if="movie.release_date" class="text-body1 q-mx-md q-mt-none">{{
-                                movieReleaseDate
-                            }}</span>
+                                {{ movie.type.name }}
+                            </q-chip>
+                            <span
+                                v-if="movie.release_date"
+                                class="text-body1 q-mx-md q-mt-none"
+                            >
+                                {{ movieReleaseDate }}
+                            </span>
                             <span
                                 v-if="movie.length > 0"
                                 class="text-body1 q-mt-none"
-                                >{{
-                                    movieDuration.toHuman({
-                                        unitDisplay: "short",
-                                    })
-                                }}</span
                             >
+                                {{
+                                    movieDuration.toHuman({
+                                        unitDisplay: 'short',
+                                    })
+                                }}
+                            </span>
                         </div>
                     </div>
                     <div class="row justify-start items-center">
                         <div class="row justify-start items-center">
                             <q-knob
+                                :value="movie.average_rating"
                                 readonly
                                 :min="0"
                                 :max="10"
-                                v-model="movie.average_rating"
                                 show-value
                                 size="65px"
                                 :thickness="0.15"
@@ -160,10 +195,10 @@ const dislikeMovie = () => {
                                 <div
                                     class="row justify-center items-start text-overline"
                                 >
-                                    <span class="text-weight-bolder text-h6">{{
-                                        movie.average_rating * 10
-                                    }}</span
-                                    >%
+                                    <span class="text-weight-bolder text-h6">
+                                        {{ userScore }}
+                                    </span>
+                                    %
                                 </div>
                             </q-knob>
                             <div class="q-ml-sm text-weight-bold q-mr-md">
@@ -196,8 +231,9 @@ const dislikeMovie = () => {
                             v-for="tag in movie.tags"
                             :key="`movie-tag-${tag.id}`"
                             color="grey-4"
-                            >{{ tag.name.en ? tag.name.en : tag.name.jp }}</q-chip
                         >
+                            {{ tag.name.en ? tag.name.en : tag.name.jp }}
+                        </q-chip>
                     </div>
                 </div>
             </div>
@@ -251,18 +287,19 @@ const dislikeMovie = () => {
                                             Born:
                                             {{
                                                 getHumanReadableDate(
-                                                    model.birthdate
+                                                    model.birthdate,
                                                 )
                                             }}
                                             <span
                                                 v-if="
                                                     getModelAge(model.birthdate)
                                                 "
-                                                >({{
+                                            >
+                                                ({{
                                                     getModelAge(model.birthdate)
                                                 }}
-                                                years old)</span
-                                            >
+                                                years old)
+                                            </span>
                                         </div>
                                         <div
                                             v-else

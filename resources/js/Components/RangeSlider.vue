@@ -1,37 +1,43 @@
 <script setup>
-import { computed, ref } from "vue";
-import { Bar } from "vue-chartjs";
 import {
-    Chart as ChartJS,
     BarElement,
     CategoryScale,
+    Chart as ChartJS,
     LinearScale,
-} from "chart.js";
+} from 'chart.js';
+import { computed, ref } from 'vue';
+import { Bar } from 'vue-chartjs';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
-const { modelValue, counts, leftLabelValue, rightLabelValue } = defineProps({
-    modelValue: Object,
-    counts: Object,
+const props = defineProps({
+    modelValue: {
+        type: Object,
+        required: true,
+    },
+    counts: {
+        type: Array,
+        required: true,
+    },
     leftLabelValue: {
         type: String,
-        default: "",
+        default: '',
     },
     rightLabelValue: {
         type: String,
-        default: "",
+        default: '',
     },
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 
 const value = ref({
-    min: modelValue.min,
-    max: modelValue.max,
+    min: props.modelValue.min,
+    max: props.modelValue.max,
 });
 
 const values = computed(() => {
-    const values = counts.map((c) => c.value);
+    const values = props.counts.map((c) => c.value);
     const min = Math.min(...values);
     const max = Math.max(...values);
 
@@ -51,17 +57,17 @@ const end = computed(() => {
 const chartColor = computed(() => {
     return values.value.map((d) => {
         if (d >= value.value.min && d <= value.value.max) {
-            return "#69306D";
+            return '#69306D';
         }
 
-        return "#babfbc";
+        return '#babfbc';
     });
 });
 
 const chartData = computed(() => {
     // Build an array of count for each year
     const countsByValue = values.value.map((value) => {
-        const count = counts.find((c) => c.value === value);
+        const count = props.counts.find((c) => c.value === value);
 
         return count ? count.count : 0;
     });
@@ -78,8 +84,8 @@ const chartData = computed(() => {
 });
 
 const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: false,
+    maintainAspectRatio: true,
     animation: {
         duration: 0,
     },
@@ -104,14 +110,14 @@ const chartOptions = {
 
 function updateValue($event) {
     value.value = $event;
-    emit("update:modelValue", $event);
+    emit('update:modelValue', $event);
 }
 </script>
 
 <template>
     <Bar
-        :chart-data="chartData"
-        :chart-options="chartOptions"
+        :data="chartData"
+        :options="chartOptions"
         :width="345"
         :height="100"
     />
@@ -119,11 +125,19 @@ function updateValue($event) {
         :model-value="modelValue"
         :min="start"
         :max="end"
-        :left-label-value="modelValue.min === null ? 'Not set' :`${modelValue.min}${leftLabelValue}`"
-        :right-label-value="modelValue.max === null ? 'Not set' :`${modelValue.max}${rightLabelValue}`"
+        :left-label-value="
+            modelValue.min === null
+                ? 'Not set'
+                : `${modelValue.min}${leftLabelValue}`
+        "
+        :right-label-value="
+            modelValue.max === null
+                ? 'Not set'
+                : `${modelValue.max}${rightLabelValue}`
+        "
         snap
         label-always
         switch-label-side
-        @update:modelValue="updateValue"
+        @update:model-value="updateValue"
     />
 </template>

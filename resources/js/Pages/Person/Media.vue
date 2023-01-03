@@ -1,12 +1,12 @@
 <script setup>
-import { computed } from "vue";
-import { Link, useForm } from "@inertiajs/inertia-vue3";
-import { useQuasar } from "quasar";
-import { DateTime } from "luxon";
+import { Link, useForm } from '@inertiajs/inertia-vue3';
+import { DateTime } from 'luxon';
+import { useQuasar } from 'quasar';
+import { computed } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import PersonTabBar from "@/Components/PersonTabBar.vue";
-import MediaUploadDialog from "@/Components/MediaUploadDialog.vue";
+import MediaUploadDialog from '@/Components/MediaUploadDialog.vue';
+import PersonTabBar from '@/Components/PersonTabBar.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
 const { person } = defineProps({
     person: Object,
@@ -17,7 +17,7 @@ const name = computed(() => (person.name.en ? person.name.en : person.name.jp));
 
 const posterUrl = computed(() => {
     if (person?.media && person.media.length > 0) {
-        return person.media.filter((m) => m.collection_name === "profile")?.[0]
+        return person.media.filter((m) => m.collection_name === 'profile')?.[0]
             .original_url;
     }
 
@@ -26,11 +26,11 @@ const posterUrl = computed(() => {
 
 const mediaUploadForm = useForm({
     media: null,
-    collection_name: "profile",
+    collection_name: 'profile',
 });
 
 const mediaFormSubmit = () => {
-    mediaUploadForm.post(route("models.media.store", person), {
+    mediaUploadForm.post(route('models.media.store', person), {
         preserveScroll: true,
         onSuccess: () => {
             mediaUploadForm.reset();
@@ -38,7 +38,7 @@ const mediaFormSubmit = () => {
     });
 };
 
-const $q = useQuasar()
+const $q = useQuasar();
 
 const openMediaUploadDialog = () => {
     $q.dialog({
@@ -56,7 +56,10 @@ const openMediaUploadDialog = () => {
         <div class="col bg-grey-3">
             <PersonTabBar :person="person" />
             <div class="row q-py-md q-px-md">
-                <div class="q-pl-none q-mr-lg" style="max-width: 300px">
+                <div
+                    class="q-pl-none q-mr-lg"
+                    style="max-width: 300px"
+                >
                     <q-img
                         v-if="posterUrl"
                         :src="posterUrl"
@@ -70,7 +73,11 @@ const openMediaUploadDialog = () => {
                         class="row bg-grey-1 rounded-borders justify-center items-center"
                         style="width: 80px; height: 120px"
                     >
-                        <q-icon name="mdi-help" size="60px" color="grey-2" />
+                        <q-icon
+                            name="mdi-help"
+                            size="60px"
+                            color="grey-2"
+                        />
                     </div>
                 </div>
                 <div class="col flex">
@@ -86,7 +93,10 @@ const openMediaUploadDialog = () => {
                             :href="route('models.show', person)"
                             class="text-subtitle1"
                         >
-                            <q-icon name="mdi-arrow-left" size="14px" />
+                            <q-icon
+                                name="mdi-arrow-left"
+                                size="14px"
+                            />
                             Back to Overview
                         </Link>
                     </div>
@@ -96,24 +106,37 @@ const openMediaUploadDialog = () => {
         <div class="q-ma-md">
             <div class="row q-col-gutter-lg full-width">
                 <div class="col-2 q-pl-none">
-                    <q-card class="my-card" flat bordered>
+                    <q-card
+                        class="my-card"
+                        flat
+                        bordered
+                    >
                         <q-card-section
                             class="bg-primary text-white row items-center"
                         >
                             <div class="text-weight-bold text-h6">Media</div>
                             <q-space />
-                            <q-btn flat round icon="mdi-plus" @click="openMediaUploadDialog" />
+                            <q-btn
+                                flat
+                                round
+                                icon="mdi-plus"
+                                @click="openMediaUploadDialog"
+                            />
                         </q-card-section>
 
                         <q-separator />
 
-                        <q-list dense bordered padding>
+                        <q-list
+                            dense
+                            bordered
+                            padding
+                        >
                             <q-item clickable>
                                 <q-item-section>Posters</q-item-section>
                                 <q-item-section side>
-                                    <q-chip class="bg-grey-6 text-white">{{
-                                        posters.length
-                                    }}</q-chip>
+                                    <q-chip class="bg-grey-6 text-white">
+                                        {{ posters.length }}
+                                    </q-chip>
                                 </q-item-section>
                             </q-item>
                         </q-list>
@@ -121,13 +144,17 @@ const openMediaUploadDialog = () => {
                 </div>
                 <div class="col col-10">
                     <div v-if="posters.length === 0">No posters found.</div>
-                    <div v-else class="fit row wrap justify-start items-start content-start">
+                    <div
+                        v-else
+                        class="fit row wrap justify-start items-start content-start"
+                    >
                         <q-card
                             v-for="poster in posters"
                             :key="poster.id"
                             class="my-card"
                             flat
-                            bordered>
+                            bordered
+                        >
                             <q-img
                                 :src="poster.original_url"
                                 width="250px"
@@ -143,7 +170,9 @@ const openMediaUploadDialog = () => {
                                     icon="mdi-thumb-up"
                                     @click="likeMovie"
                                 >
-                                    <q-tooltip class="bg-primary"> Like </q-tooltip>
+                                    <q-tooltip class="bg-primary">
+                                        Like
+                                    </q-tooltip>
                                 </q-btn>
 
                                 <q-space />
@@ -151,20 +180,27 @@ const openMediaUploadDialog = () => {
                                 <q-btn
                                     unelevated
                                     round
-                                    :color="hasDisliked ? 'secondary' : 'primary'"
+                                    :color="
+                                        hasDisliked ? 'secondary' : 'primary'
+                                    "
                                     icon="mdi-thumb-down"
-                                    class="q-mx-sm"
                                     @click="dislikeMovie"
                                 >
-                                    <q-tooltip class="bg-primary"> Dislike </q-tooltip>
+                                    <q-tooltip class="bg-primary">
+                                        Dislike
+                                    </q-tooltip>
                                 </q-btn>
                             </q-card-section>
 
                             <q-separator />
 
                             <q-card-section class="text-subtitle1">
-                                <strong class="text-weight-bold ">Added on</strong><br />
-                                {{ DateTime.fromISO(poster.created_at).toLocaleString(DateTime.DATETIME_MED) }}
+                                <strong class="text-weight-bold">Added on</strong><br />
+                                {{
+                                    DateTime.fromISO(
+                                        poster.created_at,
+                                    ).toLocaleString(DateTime.DATETIME_MED)
+                                }}
                             </q-card-section>
                         </q-card>
                     </div>

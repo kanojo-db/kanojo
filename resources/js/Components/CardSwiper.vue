@@ -1,21 +1,30 @@
 <script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import Card from './Card.vue';
-
 import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
-const { movies } = defineProps({
-    movies: Object,
+import MovieCard from './MovieCard.vue';
+
+const props = defineProps({
+    movies: {
+        type: Array,
+        required: true,
+    },
 });
 </script>
 
 <template>
     <swiper
-    :slidesPerGroup="1" slidesPerGroupAuto slidesPerView="auto"
-    :space-between="16"
-  >
-    <swiper-slide v-for="movie in movies" :key="movie.id" style="width: 200px">
-        <Card :movie="movie" />
-    </swiper-slide>
-  </swiper>
+        :slides-per-group="1"
+        slides-per-group-auto
+        slides-per-view="auto"
+        :space-between="16"
+    >
+        <swiper-slide
+            v-for="movie in props.movies"
+            :key="movie.id"
+            style="width: 200px"
+        >
+            <MovieCard :movie="movie" />
+        </swiper-slide>
+    </swiper>
 </template>

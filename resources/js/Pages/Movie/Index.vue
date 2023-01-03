@@ -1,18 +1,21 @@
 <script setup>
-import { ref } from "vue";
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
+import { ref } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import Card from '@/Components/Card.vue';
+import MovieCard from '@/Components/MovieCard.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { movies } = defineProps({
-    movies: Object,
+const props = defineProps({
+    movies: {
+        type: Object,
+        required: true,
+    },
 });
 
-const currentPage = ref(movies.current_page);
+const currentPage = ref(props.movies.current_page);
 
 const goToPage = (page) => {
-    const pageLink = movies.links.find((link) => link.label == page);
+    const pageLink = props.movies.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
         Inertia.get(pageLink.url);
@@ -32,8 +35,14 @@ const goToPage = (page) => {
                     @update:model-value="goToPage"
                 />
             </div>
-            <div class="fit row wrap justify-start items-start content-start q-gutter-md">
-                <Card v-for="movie in movies.data" :key="movie.id" :movie="movie" />
+            <div
+                class="fit row wrap justify-start items-start content-start q-gutter-md"
+            >
+                <MovieCard
+                    v-for="movie in movies.data"
+                    :key="movie.id"
+                    :movie="movie"
+                />
             </div>
             <div class="row justify-center q-mt-md">
                 <q-pagination

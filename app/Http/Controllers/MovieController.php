@@ -76,9 +76,9 @@ class MovieController extends Controller
      *
      * @param \App\Models\Movie  $movie
      */
-    public function show($movie): \Inertia\Response
+    public function show(Movie $movie): \Inertia\Response
     {
-        $movieRecord = Movie::with([
+        $movie->load([
             'studio',
             'type',
             'tags',
@@ -89,15 +89,11 @@ class MovieController extends Controller
             'loveReactant.reactions.type',
             'loveReactant.reactionCounters',
             'loveReactant.reactionTotal'
-        ])->find($movie);
+        ]);
 
-        if (!$movieRecord) {
-            abort(404);
-        }
+        $movie->visit();
 
-        $movieRecord->visit();
-
-        return Inertia::render('Movie/Show', ['movie' => $movieRecord, 'reactions' => $movieRecord->getLoveReactant()->getReactionCounters()]);
+        return Inertia::render('Movie/Show', ['movie' => $movie]);
     }
 
     /**

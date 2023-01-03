@@ -17,16 +17,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use \JordanMiguel\LaravelPopular\Traits\Visitable;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Movie extends Model implements HasMedia, AuditableContract, ReactableInterface
 {
+    use Auditable;
     use HasFactory;
+    use HasSlug;
     use HasTags;
     use HasTranslations;
     use InteractsWithMedia;
-    use Searchable;
-    use Auditable;
     use Reactable;
+    use Searchable;
     use Visitable;
 
     /**
@@ -50,6 +53,26 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      * @var string[]
      */
     public $translatable = ['title'];
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('product_code')
+            ->saveSlugsTo('slug');
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Studio>
@@ -114,8 +137,6 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     public function scopeFilterHidden(Builder $query): Builder
     {
         if (Auth::check()) {
-            $user = Auth::user();
-
             $shouldShowJav = Auth::user()->settings->get('show_jav');
             $shouldShowVr = Auth::user()->settings->get('show_vr');
             $shouldShowGravure = Auth::user()->settings->get('show_gravure');

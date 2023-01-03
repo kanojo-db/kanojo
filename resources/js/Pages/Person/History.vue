@@ -1,10 +1,10 @@
 <script setup>
-import { computed } from "vue";
-import { Link } from "@inertiajs/inertia-vue3";
-import { DateTime } from "luxon";
+import { Link } from '@inertiajs/inertia-vue3';
+import { DateTime } from 'luxon';
+import { computed } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import PersonTabBar from "@/Components/PersonTabBar.vue";
+import PersonTabBar from '@/Components/PersonTabBar.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
 const { model } = defineProps({
     model: Object,
@@ -13,29 +13,30 @@ const { model } = defineProps({
 
 const posterUrl = computed(() => {
     if (model?.media && model.media.length > 0) {
-        return model.media.filter((m) => m.collection_name === "profile")?.[0]
+        return model.media.filter((m) => m.collection_name === 'profile')?.[0]
             .original_url;
     }
 
     return null;
 });
 
-const name = computed(() =>
-    model.name.en ? model.name.en : model.name.jp
-);
+const name = computed(() => (model.name.en ? model.name.en : model.name.jp));
 
 const isSystemChange = (change) => {
-    return (change.user_id === null && change.url === "console") || (change.user_id === null && change.user_type === null);
+    return (
+        (change.user_id === null && change.url === 'console') ||
+        (change.user_id === null && change.user_type === null)
+    );
 };
 
 const getChangeIcon = (change) => {
     switch (change.event) {
-        case "created":
-            return "mdi-auto-fix";
-        case "updated":
-            return "mdi-pencil";
+        case 'created':
+            return 'mdi-auto-fix';
+        case 'updated':
+            return 'mdi-pencil';
         default:
-            return "mdi-help";
+            return 'mdi-help';
     }
 };
 </script>
@@ -45,7 +46,10 @@ const getChangeIcon = (change) => {
         <div class="col bg-grey-3">
             <PersonTabBar :person="model" />
             <div class="row q-py-md q-px-md">
-                <div class="q-pl-none q-mr-lg" style="max-width: 300px">
+                <div
+                    class="q-pl-none q-mr-lg"
+                    style="max-width: 300px"
+                >
                     <q-img
                         v-if="posterUrl"
                         :src="posterUrl"
@@ -59,21 +63,30 @@ const getChangeIcon = (change) => {
                         class="row bg-grey-1 rounded-borders justify-center items-center"
                         style="width: 80px; height: 120px"
                     >
-                        <q-icon name="mdi-help" size="60px" color="grey-2" />
+                        <q-icon
+                            name="mdi-help"
+                            size="60px"
+                            color="grey-2"
+                        />
                     </div>
                 </div>
                 <div class="col flex">
                     <div
                         class="column full-height justify-start items-start q-mb-sm"
                     >
-                        <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
+                        <h1
+                            class="text-h4 q-mt-none q-mb-none ellipsis-2-lines"
+                        >
                             {{ name }}
                         </h1>
                         <Link
                             :href="route('movies.show', model)"
                             class="text-subtitle1"
                         >
-                            <q-icon name="mdi-arrow-left" size="14px" />
+                            <q-icon
+                                name="mdi-arrow-left"
+                                size="14px"
+                            />
                             Back to Overview
                         </Link>
                     </div>
@@ -88,7 +101,10 @@ const getChangeIcon = (change) => {
                     :key="`change-${index}`"
                     class="full-width"
                 >
-                    <q-card flat bordered>
+                    <q-card
+                        flat
+                        bordered
+                    >
                         <q-item class="bg-grey-2 justify-start items-center">
                             <q-avatar
                                 size="32px"
@@ -106,7 +122,7 @@ const getChangeIcon = (change) => {
                             <span class="text-weight-bold q-ml-sm">
                                 {{
                                     isSystemChange(change)
-                                        ? "System"
+                                        ? 'System'
                                         : change.user?.name
                                 }}
                             </span>
@@ -124,9 +140,9 @@ const getChangeIcon = (change) => {
                                 {{ change.event }} on
                                 {{
                                     DateTime.fromISO(
-                                        change.created_at
+                                        change.created_at,
                                     ).toLocaleString(
-                                        DateTime.DATETIME_FULL_WITH_SECONDS
+                                        DateTime.DATETIME_FULL_WITH_SECONDS,
                                     )
                                 }}
                             </span>

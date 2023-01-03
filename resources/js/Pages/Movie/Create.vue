@@ -1,8 +1,8 @@
 <script setup>
-import { provide, ref } from "vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm } from '@inertiajs/inertia-vue3';
+import { provide, ref } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from '@/Layouts/AppLayout.vue';
 
 const { studios } = defineProps({
     studios: Object,
@@ -16,9 +16,9 @@ const studio = ref(null);
 const movie_type = ref(null);
 
 const form = useForm({
-    title: "",
-    original_title: "",
-    product_code: "",
+    title: '',
+    original_title: '',
+    product_code: '',
     release_date: new Date(0),
     length: 0,
     poster: null,
@@ -31,14 +31,14 @@ const submit = () => {
         studio_id: studio.value?.id,
         movie_type_id: movie_type.value?.id,
         tags: data.tags.map((v) => v.name.en),
-    })).post(route("movies.store"));
+    })).post(route('movies.store'));
 };
 
 const filterFn = (val, update, abort) => {
     update(() => {
         const needle = val.toLowerCase();
         options.value = studios.filter(
-            (v) => v.name.toLowerCase().indexOf(needle) > -1
+            (v) => v.name.toLowerCase().indexOf(needle) > -1,
         );
     });
 };
@@ -94,9 +94,9 @@ const filterFn = (val, update, abort) => {
                 <div class="row q-col-gutter-md">
                     <div class="col">
                         <q-select
+                            v-model="studio"
                             clearable
                             filled
-                            v-model="studio"
                             use-input
                             input-debounce="0"
                             label="Studio"
@@ -107,7 +107,7 @@ const filterFn = (val, update, abort) => {
                             :error-message="form.errors.studio"
                             @filter="filterFn"
                         >
-                            <template v-slot:no-option>
+                            <template #no-option>
                                 <q-item>
                                     <q-item-section class="text-grey">
                                         No results
@@ -118,9 +118,9 @@ const filterFn = (val, update, abort) => {
                     </div>
                     <div class="col">
                         <q-select
+                            v-model="movie_type"
                             clearable
                             filled
-                            v-model="movie_type"
                             use-input
                             input-debounce="0"
                             label="Movie Type"
@@ -131,7 +131,7 @@ const filterFn = (val, update, abort) => {
                             :error-message="form.errors.movie_type"
                             @filter="filterFn"
                         >
-                            <template v-slot:no-option>
+                            <template #no-option>
                                 <q-item>
                                     <q-item-section class="text-grey">
                                         No results
@@ -145,13 +145,13 @@ const filterFn = (val, update, abort) => {
                 <div class="row q-col-gutter-md">
                     <div class="col">
                         <q-input
-                            filled
                             v-model="form.release_date"
+                            filled
                             mask="date"
                             :rules="['date']"
                             label="Release Date"
                         >
-                            <template v-slot:append>
+                            <template #append>
                                 <q-icon
                                     name="mdi-calendar"
                                     class="cursor-pointer"
@@ -193,15 +193,19 @@ const filterFn = (val, update, abort) => {
 
                 <div class="row q-col-gutter-md">
                     <div class="col">
-                        <q-file v-model="form.poster" filled label="Poster" />
+                        <q-file
+                            v-model="form.poster"
+                            filled
+                            label="Poster"
+                        />
                     </div>
                 </div>
 
                 <div class="row q-col-gutter-md">
                     <div class="col">
                         <q-select
-                            filled
                             v-model="form.tags"
+                            filled
                             multiple
                             :options="tags"
                             use-chips

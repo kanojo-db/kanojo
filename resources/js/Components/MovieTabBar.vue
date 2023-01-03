@@ -1,6 +1,9 @@
 <script setup>
-defineProps({
-    movie: Object,
+const props = defineProps({
+    movie: {
+        type: Object,
+        required: true,
+    },
 });
 </script>
 
@@ -13,7 +16,7 @@ defineProps({
                     'text-weight-bold': $page.component === 'Movie/Show',
                 }"
                 label="Overview"
-                @click="$inertia.get(route('movies.show', movie))"
+                @click="$inertia.get(route('movies.show', props.movie))"
             />
             <q-btn
                 flat
@@ -21,14 +24,20 @@ defineProps({
                     'text-weight-bold': $page.component === 'Movie/Media',
                 }"
                 label="Media"
-                @click="$inertia.get(route('movies.show', movie))"
+                @click="$inertia.get(route('movies.show', props.movie))"
             />
             <q-btn
                 flat
                 label="History"
-                @click="$inertia.get(route('movies.history.index', movie))"
+                @click="
+                    $inertia.get(route('movies.history.index', props.movie))
+                "
             />
-            <q-btn flat label="Edit" @click="$inertia.get(route('movies.edit', movie))" />
+            <q-btn
+                flat
+                label="Edit"
+                @click="$inertia.get(route('movies.edit', props.movie))"
+            />
         </q-btn-group>
     </div>
 </template>

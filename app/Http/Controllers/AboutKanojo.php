@@ -15,6 +15,19 @@ class AboutKanojo extends Controller
      */
     public function index(): \Inertia\Response
     {
+        $movie_per_year_count = Movie::select(
+            DB::raw('YEAR(release_date) AS value'),
+            DB::raw('COUNT(*) AS count')
+        )
+        ->where('release_date', '!=', null)
+        ->groupBy(
+            DB::raw('value')
+        )
+        ->orderBy(
+            DB::raw('value')
+        )
+        ->get();
+
         $birth_counts = Person::select(
             DB::raw('YEAR(birthdate) AS value'),
             DB::raw('COUNT(*) AS count')
@@ -77,6 +90,7 @@ class AboutKanojo extends Controller
             'movieCount' => Movie::count(),
             'modelCount' => Person::count(),
             'tagCount' => Tag::count(),
+            'moviePerYearCount' => $movie_per_year_count,
             'birthCounts' => $birth_counts,
             'heightCounts' => $height_counts,
             'bustCounts' => $bust_counts,

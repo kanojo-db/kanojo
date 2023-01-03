@@ -1,18 +1,22 @@
 <script setup>
-import { computed } from "vue";
+import { computed } from 'vue';
 
-import AppLayout from "@/Layouts/AppLayout.vue";
-import PersonTabBar from "@/Components/PersonTabBar.vue";
-import Card from "@/Components/Card.vue";
+import MovieCard from '@/Components/MovieCard.vue';
+import PersonTabBar from '@/Components/PersonTabBar.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { person } = defineProps({
-    person: Object,
+const props = defineProps({
+    person: {
+        type: Object,
+        required: true,
+    },
 });
 
 const posterUrl = computed(() => {
-    if (person?.media && person.media.length > 0) {
-        return person.media.filter((m) => m.collection_name === "profile")?.[0]
-            .original_url;
+    if (props.person?.media && props.person.media.length > 0) {
+        return props.person.media.filter(
+            (m) => m.collection_name === 'profile',
+        )?.[0].original_url;
     }
 
     return null;
@@ -37,7 +41,11 @@ const posterUrl = computed(() => {
                     class="row bg-grey-1 rounded-borders justify-center items-center q-mr-lg"
                     style="width: 300px; height: 450px"
                 >
-                    <q-icon name="mdi-help" size="150px" color="grey-2" />
+                    <q-icon
+                        name="mdi-help"
+                        size="150px"
+                        color="grey-2"
+                    />
                 </div>
                 <div class="col">
                     <div class="col q-mb-sm">
@@ -50,35 +58,53 @@ const posterUrl = computed(() => {
                                 align="middle"
                                 color="grey-7"
                             >
-                                {{ person.movies.length }} Movies
+                                {{
+                                    $t('web.personShow.moviesCount', {
+                                        number: person.movies.length,
+                                    })
+                                }}
                             </q-badge>
                         </h1>
-                        <span v-if="person.name.en" class="text-subtitle1">{{
-                            person.name.jp
-                        }}</span>
+                        <span
+                            v-if="person.name.en"
+                            class="text-subtitle1"
+                        >
+                            {{ person.name.jp }}
+                        </span>
                     </div>
                     <div class="row justify-start items-start">
                         <div class="col">
                             <div class="q-mb-md">
                                 <strong>Birthdate:</strong><br />
-                                <span>{{ person.birthdate ?? "Unknown" }}</span>
+                                <span>{{
+                                    person.birthdate ??
+                                    $t('web.general.unknown')
+                                }}</span>
                             </div>
                             <div class="q-mb-md">
                                 <strong>Active:</strong><br />
-                                <span v-if="person.career_start"
-                                    >{{ person.career_start }} -
-                                    {{ person.career_end ?? "Present" }}</span
-                                >
-                                <span v-else>Unknown</span>
+                                <span v-if="person.career_start">
+                                    {{ person.career_start }} -
+                                    {{
+                                        person.career_end ??
+                                        $t('web.general.present')
+                                    }}
+                                </span>
+                                <span v-else>{{
+                                    $t('web.general.unknown')
+                                }}</span>
                             </div>
                             <div class="q-mb-md">
                                 <strong>Country:</strong><br />
-                                <span>{{ person.country ?? "Unknown" }}</span>
+                                <span>{{
+                                    person.country ?? $t('web.general.unknown')
+                                }}</span>
                             </div>
                             <div class="q-mb-md">
                                 <strong>Blood Type:</strong><br />
                                 <span>{{
-                                    person.blood_type ?? "Unknown"
+                                    person.blood_type ??
+                                    $t('web.general.unknown')
                                 }}</span>
                             </div>
                         </div>
@@ -88,13 +114,15 @@ const posterUrl = computed(() => {
                                 <span>{{
                                     person.height
                                         ? `${person.height}cm`
-                                        : "Unknown"
+                                        : $t('web.general.unknown')
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
                                 <strong>Bust:</strong><br />
                                 <span>{{
-                                    person.bust ? `${person.bust}cm` : "Unknown"
+                                    person.bust
+                                        ? `${person.bust}cm`
+                                        : $t('web.general.unknown')
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
@@ -102,30 +130,35 @@ const posterUrl = computed(() => {
                                 <span>{{
                                     person.waist
                                         ? `${person.waist}cm`
-                                        : "Unknown"
+                                        : $t('web.general.unknown')
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
                                 <strong>Hips:</strong><br />
                                 <span>{{
-                                    person.hip ? `${person.hip}cm` : "Unknown"
+                                    person.hip
+                                        ? `${person.hip}cm`
+                                        : $t('web.general.unknown')
                                 }}</span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="q-mb-md">
                                 <strong>Cup Size:</strong><br />
-                                <span
-                                    >{{ person.cup_size ?? "Unknown" }}
+                                <span>
+                                    {{
+                                        person.cup_size ??
+                                        $t('web.general.unknown')
+                                    }}
                                     <template
                                         v-if="person.breast_implants !== null"
                                         >({{
                                             person.breast_implants
-                                                ? "Implants"
-                                                : "Natural"
-                                        }})</template
-                                    ></span
-                                >
+                                                ? 'Implants'
+                                                : 'Natural'
+                                        }})
+                                    </template>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -136,7 +169,7 @@ const posterUrl = computed(() => {
             <div
                 class="fit row wrap justify-start items-start content-start q-gutter-md"
             >
-                <Card
+                <MovieCard
                     v-for="movie in person.movies"
                     :key="movie.id"
                     :movie="movie"

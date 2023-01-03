@@ -29,10 +29,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 |
 */
 
-Route::get('age_check', function () {
-    return Inertia::render('AgeCheck');
-})->name('age_check');
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'popularModels' => Person::with(['media'])->popularMonth()->take(25)->get(),
@@ -42,7 +38,13 @@ Route::get('/', function () {
             ->allowedFilters([
                 AllowedFilter::scope('filter_hidden')->default(true),
             ])
-            ->with('media')
+            ->with([
+                'media',
+                'loveReactant.reactions.reacter.reacterable',
+                'loveReactant.reactions.type',
+                'loveReactant.reactionCounters',
+                'loveReactant.reactionTotal'
+            ])
             ->popularMonth()
             ->take(25)
             ->get(),
@@ -52,7 +54,13 @@ Route::get('/', function () {
             ->allowedFilters([
                 AllowedFilter::scope('filter_hidden')->default(true),
             ])
-            ->with('media')
+            ->with([
+                'media',
+                'loveReactant.reactions.reacter.reacterable',
+                'loveReactant.reactions.type',
+                'loveReactant.reactionCounters',
+                'loveReactant.reactionTotal'
+            ])
             ->latest()
             ->take(25)
             ->get(),
@@ -62,7 +70,13 @@ Route::get('/', function () {
             ->allowedFilters([
                 AllowedFilter::scope('filter_hidden')->default(true),
             ])
-            ->with('media')
+            ->with([
+                'media',
+                'loveReactant.reactions.reacter.reacterable',
+                'loveReactant.reactions.type',
+                'loveReactant.reactionCounters',
+                'loveReactant.reactionTotal'
+            ])
             ->take(25)
             ->get(),
         'recentlyReleasedMovies' => QueryBuilder::for(Movie::class)
@@ -72,7 +86,13 @@ Route::get('/', function () {
                 AllowedFilter::scope('filter_hidden')->default(true),
             ])
             ->where('release_date', '<=', now()->toDateString())
-            ->with('media')
+            ->with([
+                'media',
+                'loveReactant.reactions.reacter.reacterable',
+                'loveReactant.reactions.type',
+                'loveReactant.reactionCounters',
+                'loveReactant.reactionTotal'
+            ])
             ->take(25)
             ->get(),
         'movieCount' => Movie::count(),
@@ -81,11 +101,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/settings/account', [SettingsAccountController::class, 'show'])->name('settings.account');
     Route::post('/settings/account', [SettingsAccountController::class, 'update'])->name('settings.account.update');
 });
@@ -111,3 +127,7 @@ Route::resource('models.media', PersonMediaController::class)->only([
 Route::resource('models.history', PersonHistoryController::class)->only([
     'index'
 ])->shallow();
+
+Route::get('bible/general', function () {
+    return Inertia::render('Bible/General');
+})->name('bible.general');
