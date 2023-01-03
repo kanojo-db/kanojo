@@ -57,15 +57,32 @@ function submit() {
                     </q-banner>-->
                     <q-form @submit.prevent="submit">
                         <div class="column items-start">
-                            <h3
-                                class="text-h6 text-weight-bold q-mt-none q-mb-sm"
-                            >
-                                {{
-                                    $t(
-                                        'web.settings.account.content_visibility',
-                                    )
-                                }}
-                            </h3>
+                            <div class="row items-center">
+                                <h3
+                                    class="text-h6 text-weight-bold q-mt-none q-mb-sm"
+                                >
+                                    {{
+                                        $t(
+                                            'web.settings.account.content_visibility',
+                                        )
+                                    }}
+                                </h3>
+                                <q-btn
+                                    class="q-mb-sm q-ml-sm"
+                                    round
+                                    icon="mdi-help"
+                                    size="xs"
+                                    color="primary"
+                                >
+                                    <q-tooltip>
+                                        {{
+                                            $t(
+                                                'web.settings.account.content_visibility_tooltip',
+                                            )
+                                        }}
+                                    </q-tooltip>
+                                </q-btn>
+                            </div>
                             <q-toggle
                                 v-model="accountSettingsFoirm.show_jav"
                                 :label="

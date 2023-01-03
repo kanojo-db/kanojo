@@ -23,10 +23,19 @@
                 clickable
                 :class="{
                     'text-weight-bold text-primary':
-                        $page.component === 'Settings/API',
+                        $page.component === 'Settings/Tokens',
                 }"
             >
                 <q-item-section> API Tokens </q-item-section>
+            </q-item>
+            <q-item
+                clickable
+                :class="{
+                    'text-weight-bold text-primary':
+                        $page.component === 'Settings/Sessions',
+                }"
+            >
+                <q-item-section> Sessions </q-item-section>
             </q-item>
         </q-list>
     </q-card>

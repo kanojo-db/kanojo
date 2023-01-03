@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "halaxa/json-machine": "^1.1",
         "inertiajs/inertia-laravel": "^0.6.3",
+        "jenssegers/agent": "^2.6",
         "jordanmiguel/laravel-popular": "^1.0",
         "laravel/fortify": "^1.14",
         "laravel/framework": "^9.19",

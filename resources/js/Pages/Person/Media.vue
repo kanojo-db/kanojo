@@ -4,21 +4,24 @@ import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
 import { computed } from 'vue';
 
-import MediaUploadDialog from '@/Components/MediaUploadDialog.vue';
+import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { person } = defineProps({
+const props = defineProps({
     person: Object,
     posters: Object,
 });
 
-const name = computed(() => (person.name.en ? person.name.en : person.name.jp));
+const name = computed(() =>
+    props.person.name.en ? props.person.name.en : props.person.name.jp,
+);
 
 const posterUrl = computed(() => {
-    if (person?.media && person.media.length > 0) {
-        return person.media.filter((m) => m.collection_name === 'profile')?.[0]
-            .original_url;
+    if (props.person?.media && props.person.media.length > 0) {
+        return props.person.media.filter(
+            (m) => m.collection_name === 'profile',
+        )?.[0].original_url;
     }
 
     return null;
@@ -42,7 +45,7 @@ const $q = useQuasar();
 
 const openMediaUploadDialog = () => {
     $q.dialog({
-        component: MediaUploadDialog,
+        component: DialogMediaUpload,
         componentProps: {
             uploadForm: mediaUploadForm,
             onSubmit: mediaFormSubmit,
@@ -54,7 +57,7 @@ const openMediaUploadDialog = () => {
 <template>
     <AppLayout :title="`${name} - Media`">
         <div class="col bg-grey-3">
-            <PersonTabBar :person="person" />
+            <PersonTabBar :person="props.person" />
             <div class="row q-py-md q-px-md">
                 <div
                     class="q-pl-none q-mr-lg"
@@ -90,7 +93,7 @@ const openMediaUploadDialog = () => {
                             {{ name }}
                         </h1>
                         <Link
-                            :href="route('models.show', person)"
+                            :href="route('models.show', props.person)"
                             class="text-subtitle1"
                         >
                             <q-icon
@@ -195,7 +198,9 @@ const openMediaUploadDialog = () => {
                             <q-separator />
 
                             <q-card-section class="text-subtitle1">
-                                <strong class="text-weight-bold">Added on</strong><br />
+                                <strong class="text-weight-bold"
+                                    >Added on</strong
+                                ><br />
                                 {{
                                     DateTime.fromISO(
                                         poster.created_at,

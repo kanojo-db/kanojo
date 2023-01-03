@@ -191,6 +191,7 @@ return [
         JordanMiguel\LaravelPopular\LaravelPopularServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
         /*
          * Application Service Providers...

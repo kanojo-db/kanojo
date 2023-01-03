@@ -10,6 +10,8 @@ use App\Http\Controllers\PersonHistoryController;
 use App\Http\Controllers\PersonMediaController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsAccountController;
+use App\Http\Controllers\SettingsSessionsController;
+use App\Http\Controllers\SettingsTokensController;
 use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Support\Facades\Auth;
@@ -104,6 +106,12 @@ Route::get('/', function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/settings/account', [SettingsAccountController::class, 'show'])->name('settings.account');
     Route::post('/settings/account', [SettingsAccountController::class, 'update'])->name('settings.account.update');
+
+    Route::get('/settings/sessions', [SettingsSessionsController::class, 'show'])->name('settings.sessions');
+
+    Route::get('/settings/tokens', [SettingsTokensController::class, 'index'])->name('settings.tokens');
+    Route::post('/settings/tokens', [SettingsTokensController::class, 'store'])->name('settings.tokens.create');
+    Route::delete('/settings/tokens/{token}', [SettingsTokensController::class, 'destroy'])->name('settings.tokens.destroy');
 });
 
 Route::get('search', SearchController::class)->name('search');

@@ -5,7 +5,7 @@ import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css';
 import { BrowserTracing } from '@sentry/tracing';
 import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { Dialog, Quasar } from 'quasar';
+import { Dialog, Notify, Quasar } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
 import 'quasar/src/css/index.sass';
 import { createApp, h } from 'vue';
@@ -37,7 +37,7 @@ createInertiaApp({
             .use(i18n)
             .use(ZiggyVue, Ziggy)
             .use(Quasar, {
-                plugins: { Dialog },
+                plugins: { Dialog, Notify },
                 iconSet: quasarIconSet,
             });
 
