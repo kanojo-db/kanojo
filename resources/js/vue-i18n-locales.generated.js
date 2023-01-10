@@ -294,24 +294,85 @@ export default {
                 "hips": "Hips:",
                 "cup_size": "Cup Size:",
                 "breasts_natural": "(Natural)",
-                "breasts_implant": "(Implants)"
+                "breasts_implant": "(Implants)",
+                "unit_cm": "{number}cm"
+            }
+        }
+    },
+    "es": {
+        "web": {
+            "about": {
+                "community": "Comunidad",
+                "point3": "Construido por personas como tú. Creamos Kanojo para resolver algunos de los problemas que hemos tenido con otros sitios o herramientas en los últimos 10 años.",
+                "title": "Kanojo es una base de datos {0} de videos japonese para adultos y videos gravure",
+                "subtitle": "Todos los datos son enviados y seleccionados por los usuarios,{0} con el objetivo de proveer una información de alta calidad.",
+                "point2": "Se acabo el screpear tiendas en línea o evadir baneos de IP para obtener la información que necesitas. Nosotros proveemos un API comprensivo y fácil de usar para los desarrolladores, para integrar nuestros datos con tus herramientas o servicios.",
+                "point1": "Una extensa base de datos con información de películas, estudios y modelos, complementada con imágenes. Incluye todo lo que necesitas para encontrar tu siguiente título favorito, desde etiquetas detalladas hasta información de la modelo."
+            },
+            "dialogs": {
+                "create_token": {
+                    "title": "Crear Token de API",
+                    "description": "Ingresa un nombre único al token del API para ayudarte a identificarlo después."
+                }
+            },
+            "general": {
+                "search": "Buscar",
+                "present": "Presente",
+                "save_changes": "Guardar Cambios",
+                "unknown": "Desconocido"
+            },
+            "personShow": {
+                "moviesCount": "{number} Películas"
+            },
+            "welcome": {
+                "countMovies": "Películas",
+                "countCategories": "Categorías",
+                "recentlyReleasedMovies": "Películas recientemente lanzadas",
+                "popularModels": "Modelos populares",
+                "popularMovies": "Películas populares",
+                "recentlyAddedMovies": "Películas recientemente añadidas",
+                "slogan": "Encuentra tu siguiente amor",
+                "recentlyUpdatedMovies": "Películas recientemente actualizadas",
+                "countModels": "Modelos"
+            },
+            "settings": {
+                "account": {
+                    "title": "Configuración de cuenta",
+                    "content_visibility": "Visibilidad de contenido",
+                    "show_adult_content": "Mostrar contenido adulto",
+                    "show_vr_content": "Mostrar contenido con RV",
+                    "show_gravure_content": "Mostrar contenido gravure",
+                    "show_gravure_minors_content": "Mostrar contenido gravure con menores",
+                    "content_visibility_tooltip": "Selecciona que contenido quieres ver u ocultar en el sito."
+                },
+                "sessions": {
+                    "title": "Sesiones"
+                },
+                "tokens": {
+                    "title": "Tokens de API",
+                    "create_token": "Crear Token de API",
+                    "success": "Tu token de API a sido creado. Por favor cópialo, ya que no volverá a mostrarse.",
+                    "copy_token": "Token copiado",
+                    "no_tokens": "No tienes tokens de API, para acceder al API o usar las herramientas que requieren un token de API, necesitas crear uno."
+                }
             }
         }
     },
     "fr": {
         "web": {
             "about": {
-                "title": "Kanojo est une base de données {0} de films pour adultes japonais et de vidéos de gravure.",
+                "title": "Kanojo est une base de données {0} de films pour adultes japonais et de vidéos de gravure",
                 "community": "communautaire",
                 "subtitle": "Chaque élément de données est soumis et sélectionné par nos utilisateurs,{0} dans le but de fournir des informations de haute qualité.",
                 "point1": "Une vaste base de données d'informations sur les films, les studios et les modèles, avec images. Elle comprend tout ce dont vous avez besoin pour trouver votre prochain titre préféré, d'une liste du contenu aux informations détaillées sur les modèles.",
-                "point2": "Plus besoin d'extraire les informations des boutiques en ligne ou de contourner les bans d'IP pour obtenir les informations dont vous avez besoin. Nous fournissons une API complète et facile à utiliser pour les développeurs, afin d'intégrer nos données à votre outil ou service.",
+                "point2": "Plus besoin de scraper les boutiques en ligne ou de contourner les interdictions d'IP pour obtenir les informations dont vous avez besoin. Nous fournissons une API complète et facile à utiliser pour les développeurs, afin d'intégrer nos données à votre outil ou service.",
                 "point3": "Développé par des gens comme vous. Nous avons créé Kanojo pour résoudre certains des problèmes que nous avons rencontrés avec d'autres sites et outils au cours des 10 dernières années."
             },
             "general": {
                 "search": "Rechercher",
                 "unknown": "Inconnu",
-                "present": "Présent"
+                "present": "Présent",
+                "save_changes": "Enregistrer"
             },
             "personShow": {
                 "moviesCount": "{number} films"
@@ -326,6 +387,33 @@ export default {
                 "popularMovies": "Films populaires",
                 "recentlyAddedMovies": "Films récemment ajoutés",
                 "recentlyUpdatedMovies": "Films récemment mis à jour"
+            },
+            "settings": {
+                "account": {
+                    "content_visibility": "Visibilité du contenu",
+                    "title": "Paramètres du compte",
+                    "show_adult_content": "Voir le contenu pornographique",
+                    "show_vr_content": "Voir le contenu en réalité virtuelle",
+                    "show_gravure_content": "Voir le contenu de gravure",
+                    "show_gravure_minors_content": "Voir le contenu de gravure mettant en scène des mineurs",
+                    "content_visibility_tooltip": "Sélectionnez le contenu que vous souhaitez voir ou cacher sur le site."
+                },
+                "tokens": {
+                    "title": "Jetons d'API",
+                    "create_token": "Créer un jeton d'API",
+                    "copy_token": "Copier le jeton",
+                    "success": "Votre jeton d'API a été créé. Veuillez le copier maintenant, car il ne sera plus affiché à l'avenir.",
+                    "no_tokens": "Vous n'avez actuellement aucun jeton d'API. Afin d'accéder à l'API ou d'utiliser les outils qui nécessitent un jeton d'API, vous devrez en créer un."
+                },
+                "sessions": {
+                    "title": "Sessions"
+                }
+            },
+            "dialogs": {
+                "create_token": {
+                    "title": "Créer un jeton d'API",
+                    "description": "Donnez un nom unique à votre jeton d'API afin de vous aider à l'identifier ultérieurement."
+                }
             }
         }
     }

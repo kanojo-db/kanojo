@@ -145,5 +145,6 @@ return [
         "cup_size" => "Cup Size:",
         "breasts_natural" => "(Natural)",
         "breasts_implant" => "(Implants)",
+        "unit_cm" => "{number}cm",
     ],
 ];

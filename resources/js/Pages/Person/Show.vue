@@ -68,7 +68,7 @@ const title = computed(() =>
                             >
                                 {{
                                     $t('web.personShow.moviesCount', {
-                                        number: movieCount,
+                                        number: movieCount.toLocaleString(),
                                     })
                                 }}
                             </q-badge>
@@ -134,7 +134,9 @@ const title = computed(() =>
                                 <br />
                                 <span>{{
                                     person.height
-                                        ? `${person.height}cm`
+                                        ? $t('web.model.unit_cm', {
+                                              number: person.height.toLocaleString(),
+                                          })
                                         : $t('web.general.unknown')
                                 }}</span>
                             </div>
@@ -145,7 +147,9 @@ const title = computed(() =>
                                 <br />
                                 <span>{{
                                     person.bust
-                                        ? `${person.bust}cm`
+                                        ? $t('web.model.unit_cm', {
+                                              number: person.bust.toLocaleString(),
+                                          })
                                         : $t('web.general.unknown')
                                 }}</span>
                             </div>
@@ -156,7 +160,9 @@ const title = computed(() =>
                                 <br />
                                 <span>{{
                                     person.waist
-                                        ? `${person.waist}cm`
+                                        ? $t('web.model.unit_cm', {
+                                              number: person.waist.toLocaleString(),
+                                          })
                                         : $t('web.general.unknown')
                                 }}</span>
                             </div>
@@ -167,7 +173,9 @@ const title = computed(() =>
                                 <br />
                                 <span>{{
                                     person.hip
-                                        ? `${person.hip}cm`
+                                        ? $t('web.model.unit_cm', {
+                                              number: person.hip.toLocaleString(),
+                                          })
                                         : $t('web.general.unknown')
                                 }}</span>
                             </div>

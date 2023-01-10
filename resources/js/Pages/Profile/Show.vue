@@ -66,7 +66,7 @@ const props = defineProps({
                         <span
                             class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
                         >
-                            {{ props.editsCount ?? 0 }}
+                            {{ props.editsCount.toLocaleString() }}
                         </span>
                     </div>
                     <div class="column">
@@ -76,7 +76,7 @@ const props = defineProps({
                         <span
                             class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
                         >
-                            {{ props.favoritesCount ?? 0 }}
+                            {{ props.favoritesCount.toLocaleString() }}
                         </span>
                     </div>
                     <div class="column">
@@ -86,7 +86,7 @@ const props = defineProps({
                         <span
                             class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
                         >
-                            {{ props.collectionCount ?? 0 }}
+                            {{ props.collectionCount.toLocaleString() }}
                         </span>
                     </div>
                     <div class="column">
@@ -96,7 +96,7 @@ const props = defineProps({
                         <span
                             class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
                         >
-                            {{ props.wishlistCount ?? 0 }}
+                            {{ props.wishlistCount.toLocaleString() }}
                         </span>
                     </div>
                 </div>
