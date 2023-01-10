@@ -16,6 +16,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\MovieFavoriteController;
 use App\Http\Controllers\MovieCollectionController;
 use App\Http\Controllers\MovieWishlistController;
+use App\Http\Controllers\MovieMediaController;
 use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Support\Facades\Auth;
@@ -115,9 +116,9 @@ Route::get('search', SearchController::class)->name('search');
 Route::resource('about', AboutKanojo::class)->only(['index'])->shallow();
 
 Route::resource('movies', MovieController::class);
-/*Route::resource('movies.media', MovieMediaController::class)->only([
+Route::resource('movies.media', MovieMediaController::class)->only([
     'index', 'store', 'destroy'
-])->shallow();*/
+])->shallow();
 Route::resource('movies.history', MovieHistoryController::class)->only([
     'index'
 ])->shallow();

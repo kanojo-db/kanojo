@@ -15,7 +15,7 @@ This list is subject to change.
 -   [ ] Add favorite models list
 -   [ ] Add Merge feature for moderation
 -   [ ] Add moderation dashboard for reports
--   [ ] Add movie media page
+-   [x] Add movie media page
 -   [ ] Add other types of images (Cover/fanart, Disc, maybe previews?)
 -   [ ] Add report system for Movie, Person, Studio, Series
 -   [ ] Add schedule for scraper command

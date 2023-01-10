@@ -5,22 +5,28 @@ import { useQuasar } from 'quasar';
 import { computed } from 'vue';
 
 import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
-import PersonTabBar from '@/Components/PersonTabBar.vue';
+import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 const props = defineProps({
-    person: Object,
-    posters: Object,
+    movie: {
+        type: Object,
+        required: true,
+    },
+    posters: {
+        type: Object,
+        required: true,
+    },
 });
 
 const title = computed(() =>
-    props.person.name.en ? props.person.name.en : props.person.name.jp,
+    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
 );
 
 const posterUrl = computed(() => {
-    if (props.person?.media && props.person.media.length > 0) {
-        return props.person.media.filter(
-            (m) => m.collection_name === 'profile',
+    if (props.movie?.media && props.movie.media.length > 0) {
+        return props.movie.media.filter(
+            (m) => m.collection_name === 'poster',
         )?.[0].original_url;
     }
 
@@ -29,11 +35,11 @@ const posterUrl = computed(() => {
 
 const mediaUploadForm = useForm({
     media: null,
-    collection_name: 'profile',
+    collection_name: 'poster',
 });
 
 const mediaFormSubmit = () => {
-    mediaUploadForm.post(route('models.media.store', person), {
+    mediaUploadForm.post(route('movies.media.store', { movie: props.movie }), {
         preserveScroll: true,
         onSuccess: () => {
             mediaUploadForm.reset();
@@ -55,9 +61,9 @@ const openMediaUploadDialog = () => {
 </script>
 
 <template>
-    <AppLayout :title="`${name} - Media`">
+    <AppLayout :title="`${title} - Media`">
         <div class="col bg-grey-3">
-            <PersonTabBar :person="props.person" />
+            <MovieTabBar :movie="props.movie" />
             <div class="row q-py-md q-px-md">
                 <div
                     class="q-pl-none q-mr-lg"
@@ -90,10 +96,14 @@ const openMediaUploadDialog = () => {
                         <h1
                             class="text-h4 q-mt-none q-mb-none ellipsis-2-lines"
                         >
-                            {{ name }}
+                            {{ title }}
                         </h1>
                         <Link
-                            :href="route('models.show', props.person)"
+                            :href="
+                                route('movies.show', {
+                                    movie: props.movie.slug,
+                                })
+                            "
                             class="text-subtitle1"
                         >
                             <q-icon
@@ -135,7 +145,7 @@ const openMediaUploadDialog = () => {
                             padding
                         >
                             <q-item clickable>
-                                <q-item-section>Profile</q-item-section>
+                                <q-item-section>Posters</q-item-section>
                                 <q-item-section side>
                                     <q-chip class="bg-grey-6 text-white">
                                         {{ posters.length }}

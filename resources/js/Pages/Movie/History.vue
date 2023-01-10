@@ -6,22 +6,29 @@ import { computed } from 'vue';
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { movie } = defineProps({
-    movie: Object,
-    history: Object,
+const props = defineProps({
+    movie: {
+        type: Object,
+        required: true,
+    },
+    history: {
+        type: Array,
+        required: true,
+    },
 });
 
 const posterUrl = computed(() => {
-    if (movie?.media && movie.media.length > 0) {
-        return movie.media.filter((m) => m.collection_name === 'poster')?.[0]
-            .original_url;
+    if (props.movie?.media && props.movie.media.length > 0) {
+        return props.movie.media.filter(
+            (m) => m.collection_name === 'poster',
+        )?.[0].original_url;
     }
 
     return null;
 });
 
 const title = computed(() =>
-    movie.title.en ? movie.title.en : movie.title.jp,
+    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
 );
 
 const isSystemChange = (change) => {
@@ -79,7 +86,11 @@ const getChangeIcon = (change) => {
                             {{ title }}
                         </h1>
                         <Link
-                            :href="route('movies.show', movie)"
+                            :href="
+                                route('movies.show', {
+                                    movie: props.movie.slug,
+                                })
+                            "
                             class="text-subtitle1"
                         >
                             <q-icon
