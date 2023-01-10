@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
     movie: {
@@ -18,8 +19,10 @@ const posterUrl = computed(() => {
         ?.original_url;
 });
 
-const userScore = computed(() => {
-    if (props.movie?.love_reactant?.reaction_total?.count) {
+const { t } = useI18n();
+
+const averageScore = computed(() => {
+    if (props.movie.love_reactant.reaction_total?.count) {
         const likeReactions = props.movie.love_reactant.reactions.filter(
             (reaction) => reaction.type.name === 'Like',
         );
@@ -31,7 +34,15 @@ const userScore = computed(() => {
         );
     }
 
-    return 'N/A';
+    return 0;
+});
+
+const userScore = computed(() => {
+    if (props.movie.love_reactant.reaction_total?.count) {
+        return averageScore.value;
+    }
+
+    return t('web.general.not_available');
 });
 </script>
 
@@ -65,10 +76,10 @@ const userScore = computed(() => {
                 class="fit column no-wrap justify-start items-start content-start relative-position q-pt-sm"
             >
                 <q-knob
+                    :value="averageScore"
                     readonly
                     :min="0"
                     :max="10"
-                    :model-value="movie.average_rating ?? 0"
                     show-value
                     size="50px"
                     :thickness="0.15"
@@ -81,8 +92,13 @@ const userScore = computed(() => {
                     <div
                         class="row justify-center items-start text-overline text-black"
                     >
-                        <span class="text-weight-bolder">{{ userScore }}</span>
-                        %
+                        <i18n-t keypath="web.general.x_percent">
+                            <template #number>
+                                <span class="text-weight-bolder">{{
+                                    userScore
+                                }}</span>
+                            </template>
+                        </i18n-t>
                     </div>
                 </q-knob>
                 <span class="text-weight-bold q-mt-lg ellipsis-2-lines">{{

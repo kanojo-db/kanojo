@@ -163,7 +163,7 @@ const deleteToken = (rowId) => {
                             :columns="columns"
                             row-key="id"
                         >
-                            <template v-slot:body="props">
+                            <template #body="props">
                                 <q-tr :props="props">
                                     <q-td
                                         key="name"

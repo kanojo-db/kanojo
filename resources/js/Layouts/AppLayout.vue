@@ -1,8 +1,8 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, useForm, usePage } from '@inertiajs/inertia-vue3';
+import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 defineProps({
     title: {
@@ -91,7 +91,7 @@ const submit = () => {
                                         {{ $page.props.user.name }}
                                     </q-item-label>
                                     <q-item-label caption>
-                                        View profile
+                                        {{ $t('web.general.view_profile') }}
                                     </q-item-label>
                                 </q-item-section>
                             </q-item>
@@ -100,14 +100,18 @@ const submit = () => {
                                 clickable
                                 @click="$inertia.get(route('settings.account'))"
                             >
-                                <q-item-section>Settings</q-item-section>
+                                <q-item-section>
+                                    {{ $t('web.general.pages.settings') }}
+                                </q-item-section>
                             </q-item>
                             <q-separator class="q-my-xs" />
                             <q-item
                                 clickable
                                 @click="logout"
                             >
-                                <q-item-section>Logout</q-item-section>
+                                <q-item-section>
+                                    {{ $t('web.general.logout') }}
+                                </q-item-section>
                             </q-item>
                         </q-list>
                     </q-menu>
@@ -117,13 +121,13 @@ const submit = () => {
                         flat
                         @click="$inertia.get(route('login'))"
                     >
-                        Login
+                        {{ $t('web.general.login') }}
                     </q-btn>
                     <q-btn
                         flat
                         @click="$inertia.get(route('register'))"
                     >
-                        Register
+                        {{ $t('web.general.register') }}
                     </q-btn>
                 </template>
                 <q-btn
@@ -143,7 +147,7 @@ const submit = () => {
                         :class="{
                             hidden: !showSearch && $page.component !== 'Search',
                         }"
-                        placeholder="Search a title, product code or model..."
+                        :placeholder="$t('web.general.search_placeholder')"
                     >
                         <template #prepend>
                             <q-icon
@@ -181,63 +185,73 @@ const submit = () => {
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
                 >
-                    <h3 class="text-h6 text-weight-bold q-my-none">General</h3>
+                    <h3 class="text-h6 text-weight-bold q-my-none">
+                        {{ $t('web.general.pages.general') }}
+                    </h3>
                     <Link
                         :href="route('about.index')"
                         class="text-white"
                     >
-                        About Kanojo
+                        {{ $t('web.general.pages.about') }}
                     </Link>
-                    <Link class="text-white"> Contact Us </Link>
+                    <Link class="text-white">
+                        {{ $t('web.general.pages.contact_us') }}
+                    </Link>
                     <Link
                         class="text-white"
                         :href="route('scribe')"
                     >
-                        API
+                        {{ $t('web.general.pages.api') }}
                     </Link>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
                 >
                     <h3 class="text-h6 text-weight-bold q-my-none">
-                        Contribute
+                        {{ $t('web.general.pages.contribute') }}
                     </h3>
                     <Link
                         class="text-white"
-                        :href="route('movies.create')"
+                        :href="route('bible.general')"
                     >
-                        Add a Movie
+                        {{ $t('web.general.pages.bible') }}
                     </Link>
                     <Link
                         class="text-white"
                         :href="route('movies.create')"
                     >
-                        Fill Missing Data
+                        {{ $t('web.general.pages.add_movie') }}
+                    </Link>
+                    <Link
+                        class="text-white"
+                        :href="route('movies.create')"
+                    >
+                        {{ $t('web.general.pages.fill_missing') }}
                     </Link>
                     <Link
                         class="text-white"
                         href="https://hosted.weblate.org/projects/kanojo/website/"
                     >
-                        Help Translate Kanojo
+                        {{ $t('web.general.pages.help_translate') }}
                     </Link>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
                 >
                     <h3 class="text-h6 text-weight-bold q-my-none">
-                        Community
+                        {{ $t('web.general.pages.community') }}
                     </h3>
                     <a
                         class="text-white"
                         href="#"
                     >
-                        Discord
+                        {{ $t('web.general.pages.discord') }}
                     </a>
                     <Link
                         class="text-white"
                         href="https://github.com/kanojo-db"
                     >
-                        GitHub
+                        {{ $t('web.general.pages.github') }}
                     </Link>
                 </div>
             </div>

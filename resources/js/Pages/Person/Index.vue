@@ -30,7 +30,7 @@ const props = defineProps({
     hip_counts: {
         type: Object,
         required: true,
-    }
+    },
 });
 
 const route_params = route().params;

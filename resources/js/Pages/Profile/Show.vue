@@ -1,4 +1,6 @@
 <script setup>
+import { DateTime } from 'luxon';
+
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 const props = defineProps({
@@ -36,40 +38,64 @@ const props = defineProps({
         )}`"
     >
         <div class="col bg-grey-3">
-            <div class="row q-py-lg q-px-md">
-                <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
+            <div class="row q-py-lg q-px-md items-end">
+                <h1
+                    class="text-h3 text-grey-8 text-weight-bold q-mt-none q-mb-none ellipsis-2-lines"
+                >
                     {{ $page.props.user.name }}
                 </h1>
+                <span class="text-h6 q-ml-md text-grey-7">
+                    {{
+                        $t('web.profile.member_since', {
+                            date: DateTime.fromISO(
+                                $page.props.user.created_at,
+                            ).toLocaleString(DateTime.DATE_FULL),
+                        })
+                    }}
+                </span>
             </div>
-            <div class="row q-pb-lg q-px-md">
+            <div class="row q-pb-sm q-px-md">
+                <h2 class="text-h4 q-my-none">{{ $t('web.profile.stats') }}</h2>
+            </div>
+            <div class="row q-pt-none q-pb-lg q-px-md">
                 <div class="fit grid-4">
                     <div class="column">
-                        <span class="text-h6 q-mt-none q-mb-none"> Edits </span>
-                        <span class="text-h4 q-mt-none q-mb-none">
+                        <span class="text-h6 q-mt-none q-mb-none text-grey-7">
+                            {{ $t('web.profile.edits') }}
+                        </span>
+                        <span
+                            class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
+                        >
                             {{ props.editsCount ?? 0 }}
                         </span>
                     </div>
                     <div class="column">
-                        <span class="text-h6 q-mt-none q-mb-none">
-                            Favorites
+                        <span class="text-h6 q-mt-none q-mb-none text-grey-7">
+                            {{ $t('web.profile.favorites') }}
                         </span>
-                        <span class="text-h4 q-mt-none q-mb-none">
+                        <span
+                            class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
+                        >
                             {{ props.favoritesCount ?? 0 }}
                         </span>
                     </div>
                     <div class="column">
-                        <span class="text-h6 q-mt-none q-mb-none">
-                            Collection
+                        <span class="text-h6 q-mt-none q-mb-none text-grey-7">
+                            {{ $t('web.profile.collection') }}
                         </span>
-                        <span class="text-h4 q-mt-none q-mb-none">
+                        <span
+                            class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
+                        >
                             {{ props.collectionCount ?? 0 }}
                         </span>
                     </div>
                     <div class="column">
-                        <span class="text-h6 q-mt-none q-mb-none">
-                            Wishlist
+                        <span class="text-h6 q-mt-none q-mb-none text-grey-7">
+                            {{ $t('web.profile.wishlist') }}
                         </span>
-                        <span class="text-h4 q-mt-none q-mb-none">
+                        <span
+                            class="text-h3 text-weight-bolder q-mt-none q-mb-none text-secondary"
+                        >
                             {{ props.wishlistCount ?? 0 }}
                         </span>
                     </div>

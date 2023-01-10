@@ -51,8 +51,8 @@ const closeModal = () => {
                 </DangerButton>
             </div>
         -->
-            <!-- Delete Account Confirmation Modal -->
-            <!--
+    <!-- Delete Account Confirmation Modal -->
+    <!--
             <DialogModal
                 :show="confirmingUserDeletion"
                 @close="closeModal"

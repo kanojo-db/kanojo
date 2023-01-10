@@ -54,8 +54,8 @@ const closeModal = () => {
                 should also update your password.
             </div>
         -->
-            <!-- Other Browser Sessions -->
-            <!--<div
+    <!-- Other Browser Sessions -->
+    <!--<div
                 v-if="sessions.length > 0"
                 class="mt-5 space-y-6"
             >
@@ -143,8 +143,8 @@ const closeModal = () => {
                 </ActionMessage>
             </div>
         -->
-            <!-- Log Out Other Devices Confirmation Modal -->
-            <!--
+    <!-- Log Out Other Devices Confirmation Modal -->
+    <!--
             <DialogModal
                 :show="confirmingLogout"
                 @close="closeModal"

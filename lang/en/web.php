@@ -13,6 +13,15 @@ return [
         "create_token" => [
             "title" => "Create an API Token",
             "description" => "Give a unique name to your API token to help you identify it later.",
+        ],
+        "media_upload" => [
+            "title" => "Upload Media",
+            "instructions" => "Select a profile picture by clicking on the button below and
+            selecting an image on your computer.",
+            "requirements_heading" => "Profile images must meet the following criteria:",
+            "requirements_1" => "A maximum resolution of 2000x3000",
+            "requirements_2" => "A minimum resolution of 300x450",
+            "requirements_3" => "Aspect ratio of 1:1.5 (2:3)",
         ]
     ],
     "general" => [
@@ -21,9 +30,40 @@ return [
         "present" => "Present",
         "save_changes" => "Save Changes",
         "years_old" => ":age years old",
+        "pages" => [
+            "about" => "About Kanojo",
+            "add_movie" => "Add a Movie",
+            "api" => "API",
+            "bible" => "Contribution Bible",
+            "community" => "Community",
+            "contact_us" => "Contact Us",
+            "contribute" => "Contribute",
+            "discord" => "Discord",
+            "general" => "General",
+            "github" => "GitHub",
+            "fill_missing" => "Fill Missing Data",
+            "help_translate" => "Help Translate Kanojo",
+            "search" => "Search",
+            "settings" => "Settings",
+        ],
+        "not_available" => "N/A",
+        "x_percent" => "{number}%",
+        "view_profile" => "View Profile",
+        "login" => "Login",
+        "logout" => "Logout",
+        "register" => "Register",
+        "search_placeholder" => "Search a title, product code or model…",
     ],
     "personShow" => [
         "moviesCount" => "{number} Movies",
+    ],
+    "profile" => [
+        "edits" => "Total Edits",
+        "favorites" => "Favorites",
+        "wishlist" => "Wishlist",
+        "collection" => "Collection",
+        "member_since" => "Member since {date}",
+        "stats" => "Stats",
     ],
     "welcome" => [
         "slogan" => "Find your next crush",
@@ -56,5 +96,54 @@ return [
             "success" => "Your API token has been created. Please copy it now, as it will not be shown again.",
             "copy_token" => "Copy Token",
         ],
-    ]
+    ],
+    "search" => [
+        "result_types" => [
+            "movies" => "Movies",
+            "models" => "Models",
+        ],
+        "no_results" => "No results found",
+    ],
+    "bible" => [
+        "sections" => [
+            "general" => "General",
+        ],
+        "general" => [
+            "general_tips" => "General Tips",
+        ]
+    ],
+    "movie" => [
+        "show" => [
+            "score" => "Score",
+            "like" => "Like",
+            "remove_like" => "Remove Like",
+            "dislike" => "Dislike",
+            "remove_dislike" => "Remove Dislike",
+            "add_to_wishlist" => "Add to Wishlist",
+            "remove_from_wishlist" => "Remove from Wishlist",
+            "add_to_collection" => "Add to Collection",
+            "remove_from_collection" => "Remove from Collection",
+            "add_to_favorites" => "Add to Favorites",
+            "remove_from_favorites" => "Remove from Favorites",
+            "born" => "Born:",
+            "age" => "({age} years old)",
+            "unknown_birth_date" => "Unknown",
+            "product_code" => "Product Code",
+            "original_title" => "Original Title",
+            "studio" => "Studio",
+        ]
+        ],
+    "model" => [
+        "birth_date" => "Birth Date:",
+        "active" => "Active:",
+        "country" => "Country:",
+        "blood_type" => "Blood Type:",
+        "height" => "Height:",
+        "bust" => "Bust:",
+        "waist" => "Waist:",
+        "hips" => "Hips:",
+        "cup_size" => "Cup Size:",
+        "breasts_natural" => "(Natural)",
+        "breasts_implant" => "(Implants)",
+    ],
 ];

@@ -55,7 +55,9 @@ const goToPage = (page) => {
                         <q-card-section
                             class="bg-primary text-white row items-center"
                         >
-                            <div class="text-weight-bold text-h6">Search</div>
+                            <div class="text-weight-bold text-h6">
+                                {{ $t('web.general.pages.search') }}
+                            </div>
                         </q-card-section>
 
                         <q-separator />
@@ -73,7 +75,9 @@ const goToPage = (page) => {
                                 }"
                                 @click="() => goToType('movie')"
                             >
-                                <q-item-section> Movies </q-item-section>
+                                <q-item-section>
+                                    {{ $t('web.search.result_types.movies') }}
+                                </q-item-section>
                                 <q-item-section side>
                                     <q-badge
                                         class="text-subtitle1 q-px-md"
@@ -92,7 +96,9 @@ const goToPage = (page) => {
                                         route().params.type === 'person',
                                 }"
                             >
-                                <q-item-section> Models </q-item-section>
+                                <q-item-section>
+                                    {{ $t('web.search.result_types.models') }}
+                                </q-item-section>
                                 <q-item-section side>
                                     <q-badge
                                         class="text-subtitle1 q-px-md"
@@ -122,7 +128,9 @@ const goToPage = (page) => {
                         v-if="results.data.length === 0"
                         class="text-center"
                     >
-                        <h1 class="text-h5">No results found</h1>
+                        <h1 class="text-h5">
+                            {{ $t('web.search.no_results') }}
+                        </h1>
                     </div>
                     <div v-else>
                         <div class="q-pa-md">

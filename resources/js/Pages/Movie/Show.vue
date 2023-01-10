@@ -2,6 +2,7 @@
 import { Link, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { DateTime, Duration } from 'luxon';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
@@ -89,6 +90,8 @@ const title = computed(() =>
     props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
 );
 
+const { t } = useI18n();
+
 const averageScore = computed(() => {
     if (props.movie.love_reactant.reaction_total?.count) {
         const likeReactions = props.movie.love_reactant.reactions.filter(
@@ -107,10 +110,10 @@ const averageScore = computed(() => {
 
 const userScore = computed(() => {
     if (props.movie.love_reactant.reaction_total?.count) {
-        return averageScore.value;
+        return `${averageScore.value}`;
     }
 
-    return 'N/A';
+    return t('web.general.not_available');
 });
 
 const likeForm = useForm({});
@@ -203,15 +206,19 @@ const dislikeMovie = () => {
                                 <div
                                     class="row justify-center items-start text-overline"
                                 >
-                                    <span class="text-weight-bolder text-h6">
-                                        {{ userScore }}
-                                    </span>
-                                    %
+                                    <i18n-t keypath="web.general.x_percent">
+                                        <template #number>
+                                            <span
+                                                class="text-weight-bolder text-h6"
+                                            >
+                                                {{ userScore }}
+                                            </span>
+                                        </template>
+                                    </i18n-t>
                                 </div>
                             </q-knob>
                             <div class="q-ml-sm text-weight-bold q-mr-md">
-                                User<br />
-                                Score
+                                {{ $t('web.movie.show.score') }}
                             </div>
                         </div>
                         <q-btn
@@ -221,7 +228,13 @@ const dislikeMovie = () => {
                             icon="mdi-thumb-up"
                             @click="likeMovie"
                         >
-                            <q-tooltip class="bg-primary"> Like </q-tooltip>
+                            <q-tooltip class="bg-primary">
+                                {{
+                                    hasLiked
+                                        ? $t('web.movie.show.remove_like')
+                                        : $t('web.movie.show.like')
+                                }}
+                            </q-tooltip>
                         </q-btn>
                         <q-btn
                             unelevated
@@ -231,7 +244,13 @@ const dislikeMovie = () => {
                             class="q-ml-sm"
                             @click="dislikeMovie"
                         >
-                            <q-tooltip class="bg-primary"> Dislike </q-tooltip>
+                            <q-tooltip class="bg-primary">
+                                {{
+                                    hasDisliked
+                                        ? $t('web.movie.show.remove_dislike')
+                                        : $t('web.movie.show.dislike')
+                                }}
+                            </q-tooltip>
                         </q-btn>
                         <q-btn
                             unelevated
@@ -258,7 +277,13 @@ const dislikeMovie = () => {
                             "
                         >
                             <q-tooltip class="bg-primary">
-                                Add to collection
+                                {{
+                                    props.movie.is_collection
+                                        ? $t(
+                                              'web.movie.show.remove_from_collection',
+                                          )
+                                        : $t('web.movie.show.add_to_collection')
+                                }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn
@@ -286,7 +311,13 @@ const dislikeMovie = () => {
                             "
                         >
                             <q-tooltip class="bg-primary">
-                                Add to favorites
+                                {{
+                                    props.movie.is_favorite
+                                        ? $t(
+                                              'web.movie.show.remove_from_favorites',
+                                          )
+                                        : $t('web.movie.show.add_to_favorites')
+                                }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn
@@ -314,7 +345,13 @@ const dislikeMovie = () => {
                             "
                         >
                             <q-tooltip class="bg-primary">
-                                Add to wishlist
+                                {{
+                                    props.movie.is_wishlist
+                                        ? $t(
+                                              'web.movie.show.remove_from_wishlist',
+                                          )
+                                        : $t('web.movie.show.add_to_wishlist')
+                                }}
                             </q-tooltip>
                         </q-btn>
                     </div>
@@ -376,28 +413,36 @@ const dislikeMovie = () => {
                                             v-if="model.birthdate"
                                             class="text-body1 q-mt-none"
                                         >
-                                            Born:
+                                            {{ $t('web.movie.show.born') }}
                                             {{
                                                 getHumanReadableDate(
                                                     model.birthdate,
                                                 )
                                             }}
-                                            <span
-                                                v-if="
-                                                    getModelAge(model.birthdate)
-                                                "
-                                            >
-                                                ({{
-                                                    getModelAge(model.birthdate)
-                                                }}
-                                                years old)
+                                            <span v-if="model.birthdate">
+                                                <i18n-t
+                                                    keypath="web.movie.show.age"
+                                                >
+                                                    <template #age>
+                                                        {{
+                                                            getModelAge(
+                                                                model.birthdate,
+                                                            )
+                                                        }}
+                                                    </template>
+                                                </i18n-t>
                                             </span>
                                         </div>
                                         <div
                                             v-else
                                             class="text-body1 q-mt-none"
                                         >
-                                            Born: Unknown
+                                            {{ $t('web.movie.show.born') }}
+                                            {{
+                                                $t(
+                                                    'web.movie.show.unknown_birth_date',
+                                                )
+                                            }}
                                         </div>
                                     </div>
                                 </div>
@@ -407,15 +452,21 @@ const dislikeMovie = () => {
                 </div>
                 <div class="col-2">
                     <p>
-                        <strong class="block">Product Code</strong>
+                        <strong class="block">
+                            {{ $t('web.movie.show.product_code') }}
+                        </strong>
                         {{ movie.product_code }}
                     </p>
                     <p v-if="movie.title.en">
-                        <strong class="block">Original Title</strong>
+                        <strong class="block">
+                            {{ $t('web.movie.show.original_title') }}
+                        </strong>
                         {{ movie.title.jp }}
                     </p>
                     <p v-if="movie.studio">
-                        <strong class="block">Studio</strong>
+                        <strong class="block">
+                            {{ $t('web.movie.show.studio') }}
+                        </strong>
                         {{
                             movie.studio.name.en
                                 ? movie.studio.name.en

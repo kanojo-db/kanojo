@@ -25,10 +25,14 @@ const posterUrl = computed(() => {
 
     return null;
 });
+
+const title = computed(() =>
+    props.person.name.en ? props.person.name.en : props.person.name.jp,
+);
 </script>
 
 <template>
-    <AppLayout>
+    <AppLayout :title="title">
         <div class="col bg-grey-3">
             <PersonTabBar :person="person" />
             <div class="row q-py-lg q-px-md">
@@ -79,14 +83,18 @@ const posterUrl = computed(() => {
                     <div class="row justify-start items-start">
                         <div class="col">
                             <div class="q-mb-md">
-                                <strong>Birthdate:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.birth_date') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.birthdate ??
                                     $t('web.general.unknown')
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
-                                <strong>Active:</strong><br />
+                                <strong> {{ $t('web.model.active') }} </strong>
+                                <br />
                                 <span v-if="person.career_start">
                                     {{ person.career_start }} -
                                     {{
@@ -99,13 +107,19 @@ const posterUrl = computed(() => {
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
-                                <strong>Country:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.country') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.country ?? $t('web.general.unknown')
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
-                                <strong>Blood Type:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.blood_type') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.blood_type ??
                                     $t('web.general.unknown')
@@ -114,7 +128,10 @@ const posterUrl = computed(() => {
                         </div>
                         <div class="col">
                             <div class="q-mb-md">
-                                <strong>Height:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.height') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.height
                                         ? `${person.height}cm`
@@ -122,7 +139,10 @@ const posterUrl = computed(() => {
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
-                                <strong>Bust:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.bust') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.bust
                                         ? `${person.bust}cm`
@@ -130,7 +150,10 @@ const posterUrl = computed(() => {
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
-                                <strong>Waist:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.waist') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.waist
                                         ? `${person.waist}cm`
@@ -138,7 +161,10 @@ const posterUrl = computed(() => {
                                 }}</span>
                             </div>
                             <div class="q-mb-md">
-                                <strong>Hips:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.hips') }}
+                                </strong>
+                                <br />
                                 <span>{{
                                     person.hip
                                         ? `${person.hip}cm`
@@ -148,7 +174,10 @@ const posterUrl = computed(() => {
                         </div>
                         <div class="col">
                             <div class="q-mb-md">
-                                <strong>Cup Size:</strong><br />
+                                <strong>
+                                    {{ $t('web.model.cup_size') }}
+                                </strong>
+                                <br />
                                 <span>
                                     {{
                                         person.cup_size ??
@@ -156,11 +185,16 @@ const posterUrl = computed(() => {
                                     }}
                                     <template
                                         v-if="person.breast_implants !== null"
-                                        >({{
+                                    >
+                                        {{
                                             person.breast_implants
-                                                ? 'Implants'
-                                                : 'Natural'
-                                        }})
+                                                ? $t(
+                                                      'web.model.breasts_implant',
+                                                  )
+                                                : $t(
+                                                      'web.model.breasts_natural',
+                                                  )
+                                        }}
                                     </template>
                                 </span>
                             </div>

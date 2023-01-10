@@ -5,7 +5,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import ModelCard from './ModelCard.vue';
 
 const props = defineProps({
-    models: Object,
+    models: {
+        type: Array,
+        required: true,
+    },
 });
 </script>
 

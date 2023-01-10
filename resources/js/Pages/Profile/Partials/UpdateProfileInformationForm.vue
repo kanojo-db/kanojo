@@ -80,15 +80,15 @@ const clearPhotoFileInput = () => {
 
         <template #form>
         -->
-            <!-- Profile Photo -->
-            <!--
+    <!-- Profile Photo -->
+    <!--
             <div
                 v-if="$page.props.jetstream.managesProfilePhotos"
                 class="col-span-6 sm:col-span-4"
             >
             -->
-                <!-- Profile Photo File Input -->
-                <!--
+    <!-- Profile Photo File Input -->
+    <!--
                 <input
                     ref="photoInput"
                     type="file"
@@ -101,8 +101,8 @@ const clearPhotoFileInput = () => {
                     value="Photo"
                 />
                 -->
-                <!-- Current Profile Photo -->
-                <!--
+    <!-- Current Profile Photo -->
+    <!--
                 <div
                     v-show="!photoPreview"
                     class="mt-2"
@@ -114,8 +114,8 @@ const clearPhotoFileInput = () => {
                     />
                 </div>
             -->
-                <!-- New Profile Photo Preview -->
-                <!--
+    <!-- New Profile Photo Preview -->
+    <!--
                 <div
                     v-show="photoPreview"
                     class="mt-2"
@@ -151,8 +151,8 @@ const clearPhotoFileInput = () => {
                 />
             </div>
         -->
-            <!-- Name -->
-            <!--
+    <!-- Name -->
+    <!--
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel
                     for="name"
@@ -171,8 +171,8 @@ const clearPhotoFileInput = () => {
                 />
             </div>
         -->
-            <!-- Email -->
-            <!--
+    <!-- Email -->
+    <!--
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel
                     for="email"

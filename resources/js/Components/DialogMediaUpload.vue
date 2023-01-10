@@ -29,7 +29,9 @@ function onOKClick() {
     >
         <q-card>
             <q-card-section class="bg-primary text-white row items-center">
-                <div class="text-weight-bold text-h6">Upload Profile</div>
+                <div class="text-weight-bold text-h6">
+                    {{ $t('web.dialogs.media_upload.title') }}
+                </div>
                 <q-space />
                 <q-btn
                     v-close-popup
@@ -44,16 +46,15 @@ function onOKClick() {
 
             <q-card-section>
                 <p class="text-body1">
-                    Select a profile picture by clicking on the button below and
-                    selecting an image on your computer.
+                    {{ $t('web.dialogs.media_upload.instructions') }}
                 </p>
                 <p class="text-body1">
-                    Profile images must meet the following criteria:
+                    {{ $t('web.dialogs.media_upload.requirements_heading') }}
                 </p>
                 <ul class="text-body1">
-                    <li>A maximum resolution of 2000x3000</li>
-                    <li>A minimum resolution of 300x450</li>
-                    <li>Aspect ratio of 1:1.5 (2:3)</li>
+                    <li>{{ $t('web.dialogs.media_upload.requirements_1') }}</li>
+                    <li>{{ $t('web.dialogs.media_upload.requirements_2') }}</li>
+                    <li>{{ $t('web.dialogs.media_upload.requirements_3') }}</li>
                 </ul>
                 <q-form
                     class="row"

@@ -4,7 +4,7 @@
         bordered
     >
         <q-card-section class="bg-primary text-white row items-center">
-            <div class="text-weight-bold text-h6">Settings</div>
+            <div class="text-weight-bold text-h6">{{ $t('web.general.pages.settings') }}</div>
         </q-card-section>
 
         <q-separator />
