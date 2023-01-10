@@ -1,4 +1,5 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import copy from 'copy-to-clipboard';
 import { DateTime } from 'luxon';
@@ -42,6 +43,7 @@ const openTokenCreateDialog = () => {
 };
 
 const copyToken = (token) => {
+    console.debug('copyToken', token);
     copy(token, {
         onCopy: () => {
             $q.notify({
@@ -81,11 +83,24 @@ const columns = [
         format: (val) =>
             DateTime.fromISO(val).toLocaleString(DateTime.DATETIME_SHORT),
     },
+    {
+        name: 'actions',
+        label: 'Actions',
+        align: 'center',
+    },
 ];
+
+const deleteToken = (rowId) => {
+    Inertia.delete(route('settings.tokens.destroy', rowId), {
+        preserveScroll: true,
+    });
+};
 </script>
 
 <template>
-    <AppLayout :title="`${$page.props.user.name} - Sessions`">
+    <AppLayout
+        :title="`${$page.props.user.name} - ${$t('web.settings.tokens.title')}`"
+    >
         <div class="col bg-grey-3">
             <div class="row q-py-lg q-px-md">
                 <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
@@ -108,7 +123,7 @@ const columns = [
                         class="bg-grey-1"
                     >
                         {{ $t('web.settings.tokens.no_tokens') }}
-                        <template v-slot:action>
+                        <template #action>
                             <q-btn
                                 flat
                                 color="primary"
@@ -124,7 +139,7 @@ const columns = [
                             class="bg-grey-1 q-mb-md"
                         >
                             {{ $t('web.settings.tokens.success') }}
-                            <template v-slot:action>
+                            <template #action>
                                 <q-btn
                                     icon="mdi-content-copy"
                                     flat
@@ -135,8 +150,8 @@ const columns = [
                                     @click="
                                         () =>
                                             copyToken(
-                                                $page.props._session._flash
-                                                    .token,
+                                                Inertia.page.props._session
+                                                    ._flash.token,
                                             )
                                     "
                                 />
@@ -147,7 +162,56 @@ const columns = [
                             :rows="props.tokens"
                             :columns="columns"
                             row-key="id"
-                        />
+                        >
+                            <template v-slot:body="props">
+                                <q-tr :props="props">
+                                    <q-td
+                                        key="name"
+                                        :props="props"
+                                    >
+                                        {{ props.row.name }}
+                                    </q-td>
+                                    <q-td
+                                        key="last_used_at"
+                                        :props="props"
+                                    >
+                                        {{ props.row.last_used_at }}
+                                    </q-td>
+                                    <q-td
+                                        key="created_at"
+                                        :props="props"
+                                    >
+                                        {{ props.row.created_at }}
+                                    </q-td>
+                                    <q-td
+                                        key="actions"
+                                        :props="props"
+                                    >
+                                        <q-btn
+                                            icon="mdi-delete"
+                                            flat
+                                            color="negative"
+                                            @click="
+                                                () =>
+                                                    $q
+                                                        .dialog({
+                                                            title: 'Delete Token',
+                                                            message:
+                                                                'Are you sure you want to delete this token?',
+                                                            ok: true,
+                                                            cancel: 'Cancel',
+                                                        })
+                                                        .onOk(() =>
+                                                            deleteToken(
+                                                                props.row.id,
+                                                            ),
+                                                        )
+                                            "
+                                        />
+                                    </q-td>
+                                </q-tr>
+                            </template>
+                        </q-table>
 
                         <q-btn
                             color="primary"

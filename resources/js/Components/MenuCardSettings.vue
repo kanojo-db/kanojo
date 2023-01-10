@@ -17,7 +17,7 @@
                         $page.component === 'Settings/Account',
                 }"
             >
-                <q-item-section> Account Settings </q-item-section>
+                <q-item-section>{{ $t('web.settings.account.title') }}</q-item-section>
             </q-item>
             <q-item
                 clickable
@@ -26,7 +26,7 @@
                         $page.component === 'Settings/Tokens',
                 }"
             >
-                <q-item-section> API Tokens </q-item-section>
+                <q-item-section>{{ $t('web.settings.tokens.title') }}</q-item-section>
             </q-item>
             <q-item
                 clickable
@@ -35,7 +35,7 @@
                         $page.component === 'Settings/Sessions',
                 }"
             >
-                <q-item-section> Sessions </q-item-section>
+                <q-item-section>{{ $t('web.settings.sessions.title') }}</q-item-section>
             </q-item>
         </q-list>
     </q-card>

@@ -1,7 +1,7 @@
 // General
 
 ::selection {
-    background: #69306D;
+    background: #69306d;
     color: #fff;
 }
 
@@ -11,7 +11,7 @@ a {
 }
 
 a:hover {
-    color: #69306D;
+    color: #69306d;
 }
 
 // Utilities
@@ -19,18 +19,26 @@ a:hover {
 // Grids
 .grid-3 {
     display: grid;
-    grid-template-columns: repeat(3, minmax(33%, 1fr) ) ;
+    grid-template-columns: repeat(3, minmax(33%, 1fr));
+    grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(25%, 1fr));
     grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
 }
 
 @media (max-width: $breakpoint-sm) {
-    .grid-3 {
+    .grid-3,
+    .grid-4 {
         grid-template-columns: repeat(1, minmax(100%, 1fr));
     }
 }
 
 @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
-    .grid-3 {
+    .grid-3,
+    .grid-4 {
         grid-template-columns: repeat(2, minmax(50%, 2fr));
     }
 }
@@ -39,10 +47,18 @@ a:hover {
     .grid-3 {
         grid-template-columns: repeat(2, minmax(50%, 2fr));
     }
+
+    .grid-4 {
+        grid-template-columns: repeat(3, minmax(33%, 1fr));
+    }
 }
 
 @media (min-width: $breakpoint-lg) {
     .grid-3 {
         grid-template-columns: repeat(3, minmax(33%, 1fr));
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(4, minmax(25%, 1fr));
     }
 }

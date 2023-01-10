@@ -35,6 +35,6 @@ class SettingsAccountController extends Controller
         Auth::user()->settings->set('show_gravure', $request->show_gravure);
         Auth::user()->settings->set('show_minors', $request->show_minors);
 
-        return back()->banner('Account settings updated successfully');
+        return back();
     }
 }

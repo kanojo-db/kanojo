@@ -1,8 +1,8 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 defineProps({
     title: {
@@ -78,7 +78,14 @@ const submit = () => {
                             dense
                             style="width: 200px; max-width: 200px"
                         >
-                            <q-item clickable>
+                            <q-item
+                                clickable
+                                @click="
+                                    $inertia.get(
+                                        route('profile.show', $page.props.user),
+                                    )
+                                "
+                            >
                                 <q-item-section class="q-py-md">
                                     <q-item-label class="text-weight-bold">
                                         {{ $page.props.user.name }}
@@ -182,7 +189,12 @@ const submit = () => {
                         About Kanojo
                     </Link>
                     <Link class="text-white"> Contact Us </Link>
-                    <Link class="text-white"> API </Link>
+                    <Link
+                        class="text-white"
+                        :href="route('scribe')"
+                    >
+                        API
+                    </Link>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
@@ -202,6 +214,12 @@ const submit = () => {
                     >
                         Fill Missing Data
                     </Link>
+                    <Link
+                        class="text-white"
+                        href="https://hosted.weblate.org/projects/kanojo/website/"
+                    >
+                        Help Translate Kanojo
+                    </Link>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
@@ -215,6 +233,12 @@ const submit = () => {
                     >
                         Discord
                     </a>
+                    <Link
+                        class="text-white"
+                        href="https://github.com/kanojo-db"
+                    >
+                        GitHub
+                    </Link>
                 </div>
             </div>
         </q-footer>

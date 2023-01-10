@@ -1,2 +1,2 @@
-*.generated.*
+vue-i18n-locales.generated.js
 .eslintrc.js

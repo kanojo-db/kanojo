@@ -20,6 +20,7 @@ return [
         "unknown" => "Unknown",
         "present" => "Present",
         "save_changes" => "Save Changes",
+        "years_old" => ":age years old",
     ],
     "personShow" => [
         "moviesCount" => "{number} Movies",

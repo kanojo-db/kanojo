@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { Link } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
 
@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const isVrMovie = computed(() => {
-    return props.movie.type.name === 'VR';
+    return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
 
 const posterUrl = computed(() => {
@@ -19,7 +19,7 @@ const posterUrl = computed(() => {
 });
 
 const userScore = computed(() => {
-    if (props.movie.love_reactant.reaction_total?.count) {
+    if (props.movie?.love_reactant?.reaction_total?.count) {
         const likeReactions = props.movie.love_reactant.reactions.filter(
             (reaction) => reaction.type.name === 'Like',
         );
@@ -38,7 +38,7 @@ const userScore = computed(() => {
 <template>
     <Link
         class="block"
-        :href="route('movies.show', movie)"
+        :href="route('movies.show', { movie: movie.slug })"
         style="width: 200px"
     >
         <div class="fit column no-wrap justify-start items-start content-start">
@@ -48,7 +48,7 @@ const userScore = computed(() => {
                 width="200px"
                 :ratio="2 / 3"
                 :fit="isVrMovie ? 'contain' : 'cover'"
-                class="rounded-borders"
+                class="rounded-borders bg-grey-1"
             />
             <div
                 v-else
@@ -68,7 +68,7 @@ const userScore = computed(() => {
                     readonly
                     :min="0"
                     :max="10"
-                    :value="movie.average_rating"
+                    :model-value="movie.average_rating ?? 0"
                     show-value
                     size="50px"
                     :thickness="0.15"

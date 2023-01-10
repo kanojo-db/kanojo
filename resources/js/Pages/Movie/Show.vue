@@ -49,7 +49,7 @@ const getModelImage = (model) => {
 };
 
 const isVrMovie = computed(() => {
-    return props.movie.type.name === 'VR';
+    return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
 
 const movieReleaseDate = computed(() => {
@@ -89,7 +89,7 @@ const title = computed(() =>
     props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
 );
 
-const userScore = computed(() => {
+const averageScore = computed(() => {
     if (props.movie.love_reactant.reaction_total?.count) {
         const likeReactions = props.movie.love_reactant.reactions.filter(
             (reaction) => reaction.type.name === 'Like',
@@ -100,6 +100,14 @@ const userScore = computed(() => {
                 props.movie.love_reactant.reaction_total.count) *
             100
         );
+    }
+
+    return 0;
+});
+
+const userScore = computed(() => {
+    if (props.movie.love_reactant.reaction_total?.count) {
+        return averageScore.value;
     }
 
     return 'N/A';
@@ -181,7 +189,7 @@ const dislikeMovie = () => {
                     <div class="row justify-start items-center">
                         <div class="row justify-start items-center">
                             <q-knob
-                                :value="movie.average_rating"
+                                :value="averageScore"
                                 readonly
                                 :min="0"
                                 :max="10"
@@ -220,10 +228,94 @@ const dislikeMovie = () => {
                             round
                             :color="hasDisliked ? 'secondary' : 'primary'"
                             icon="mdi-thumb-down"
-                            class="q-mx-sm"
+                            class="q-ml-sm"
                             @click="dislikeMovie"
                         >
                             <q-tooltip class="bg-primary"> Dislike </q-tooltip>
+                        </q-btn>
+                        <q-btn
+                            unelevated
+                            round
+                            :color="
+                                props.movie.is_collection
+                                    ? 'secondary'
+                                    : 'primary'
+                            "
+                            icon="mdi-plus"
+                            class="q-ml-sm"
+                            @click="
+                                props.movie.is_collection
+                                    ? $inertia.delete(
+                                          route('movies.collection.destroy', [
+                                              movie,
+                                          ]),
+                                      )
+                                    : $inertia.post(
+                                          route('movies.collection.store', [
+                                              movie,
+                                          ]),
+                                      )
+                            "
+                        >
+                            <q-tooltip class="bg-primary">
+                                Add to collection
+                            </q-tooltip>
+                        </q-btn>
+                        <q-btn
+                            unelevated
+                            round
+                            :color="
+                                props.movie.is_favorite
+                                    ? 'secondary'
+                                    : 'primary'
+                            "
+                            icon="mdi-heart"
+                            class="q-ml-sm"
+                            @click="
+                                props.movie.is_favorite
+                                    ? $inertia.delete(
+                                          route('movies.favorite.destroy', [
+                                              movie,
+                                          ]),
+                                      )
+                                    : $inertia.post(
+                                          route('movies.favorite.store', [
+                                              movie,
+                                          ]),
+                                      )
+                            "
+                        >
+                            <q-tooltip class="bg-primary">
+                                Add to favorites
+                            </q-tooltip>
+                        </q-btn>
+                        <q-btn
+                            unelevated
+                            round
+                            :color="
+                                props.movie.is_wishlist
+                                    ? 'secondary'
+                                    : 'primary'
+                            "
+                            icon="mdi-bookmark"
+                            class="q-ml-sm"
+                            @click="
+                                props.movie.is_wishlist
+                                    ? $inertia.delete(
+                                          route('movies.wishlist.destroy', [
+                                              movie,
+                                          ]),
+                                      )
+                                    : $inertia.post(
+                                          route('movies.wishlist.store', [
+                                              movie,
+                                          ]),
+                                      )
+                            "
+                        >
+                            <q-tooltip class="bg-primary">
+                                Add to wishlist
+                            </q-tooltip>
                         </q-btn>
                     </div>
                     <div class="row q-mt-sm">

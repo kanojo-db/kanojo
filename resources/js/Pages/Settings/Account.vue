@@ -24,7 +24,11 @@ function submit() {
 </script>
 
 <template>
-    <AppLayout :title="`${$page.props.user.name} - Account Settings`">
+    <AppLayout
+        :title="`${$page.props.user.name} - ${$t(
+            'web.settings.account.title',
+        )}`"
+    >
         <div class="col bg-grey-3">
             <div class="row q-py-lg q-px-md">
                 <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">

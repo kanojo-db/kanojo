@@ -31,12 +31,14 @@
         "spatie/laravel-translatable": "^6.1",
         "teamtnt/laravel-scout-tntsearch-driver": "^12.1",
         "teamtnt/tntsearch": "^3.0",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "werk365/etagconditionals": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
+        "knuckleswtf/scribe": "^4.10",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.16",
         "mockery/mockery": "^1.4.4",

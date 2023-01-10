@@ -54,6 +54,14 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     public $translatable = ['title'];
 
+    protected static function booted(): void
+    {
+        // Filter out hidden movies globally, since we don't want to show them anywhere
+        static::addGlobalScope('filterHidden', function (Builder $builder) {
+            return $builder->filterHidden();
+        });
+    }
+
     /**
      * Get the options for generating the slug.
      */
@@ -160,21 +168,14 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
                 $IdsToHide[] = 3;
             }
 
-            if (count($IdsToHide) > 0) {
-                Log::info('Hiding movies of type: ' . implode(', ', $IdsToHide));
+            if (!empty($IdsToHide)) {
                 return $query->whereNotIn('type_id', $IdsToHide);
             }
-
-            Log::info('IDs to hide: ' . implode(', ', $IdsToHide));
-            Log::info('Should show JAV: ' . $shouldShowJav);
-            Log::info('Should show VR: ' . $shouldShowVr);
-            Log::info('Should show Gravure: ' . $shouldShowGravure);
-            Log::info('Should show Minors: ' . $shouldShowMinors);
 
             return $query;
         }
 
         // If not connected, we always hide JAV and VR titles
-        return $query->whereNot('type_id', [1, 4]);
+        return $query->whereNotIn('type_id', [1, 4]);
     }
 }

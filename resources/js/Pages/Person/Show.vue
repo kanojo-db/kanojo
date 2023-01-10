@@ -10,6 +10,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    movieCount: {
+        type: Number,
+        required: true,
+    },
 });
 
 const posterUrl = computed(() => {
@@ -60,7 +64,7 @@ const posterUrl = computed(() => {
                             >
                                 {{
                                     $t('web.personShow.moviesCount', {
-                                        number: person.movies.length,
+                                        number: movieCount,
                                     })
                                 }}
                             </q-badge>

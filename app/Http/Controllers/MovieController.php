@@ -10,7 +10,7 @@ use App\Models\MovieType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Tags\Tag;
 
@@ -73,12 +73,10 @@ class MovieController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param \App\Models\Movie  $movie
      */
-    public function show(Movie $movie): \Inertia\Response
+    public function show($movie): \Inertia\Response
     {
-        $movie->load([
+        $movieRecord = Movie::with([
             'studio',
             'type',
             'tags',
@@ -89,11 +87,32 @@ class MovieController extends Controller
             'loveReactant.reactions.type',
             'loveReactant.reactionCounters',
             'loveReactant.reactionTotal'
-        ]);
+        ])->where('slug', $movie)->firstOrFail();
 
-        $movie->visit();
+        // If it's in the user's favorites, mark it as such
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        return Inertia::render('Movie/Show', ['movie' => $movie]);
+            $movieRecord->is_favorite = $user->favorites->contains($movieRecord);
+        }
+
+        // If it's in the user's wishlist, mark it as such
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            $movieRecord->is_wishlist = $user->wishlist->contains($movieRecord);
+        }
+
+        // If it's in the user's collection list, mark it as such
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            $movieRecord->is_collection = $user->collection->contains($movieRecord);
+        }
+
+        $movieRecord->visit();
+
+        return Inertia::render('Movie/Show', ['movie' => $movieRecord]);
     }
 
     /**
@@ -101,7 +120,7 @@ class MovieController extends Controller
      *
      * @param \App\Models\Movie  $movie
      */
-    public function edit(Movie $movie): \Inertia\Response
+    public function edit(\App\Models\Movie $movie): \Inertia\Response
     {
         $movie->load('studio', 'media', 'tags', 'type');
 
@@ -111,7 +130,7 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateMovieRequest  $request
+     * @param \Illuminate\Http\Request  $request
      * @param \App\Models\Movie  $movie
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
@@ -144,7 +163,7 @@ class MovieController extends Controller
      *
      * @param \App\Models\Movie  $movie
      */
-    public function destroy(Movie $movie): \Illuminate\Http\RedirectResponse
+    public function destroy(\App\Models\Movie $movie): \Illuminate\Http\RedirectResponse
     {
         $movie->delete();
 

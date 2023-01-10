@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Models\Movie;
 
 class PersonController extends Controller
 {
@@ -95,19 +96,20 @@ class PersonController extends Controller
      *
      * @param \App\Models\Person  $person
      */
-    public function show($person): \Inertia\Response
+    public function show(Person $model): \Inertia\Response
     {
-        $personRecord = Person::with(['media', 'movies' => function($query) {
+        $model->load(['media', 'movies' => function($query) {
             $query->orderBy('release_date', 'desc');
-        }, 'movies.media'])->find($person);
+        }, 'movies.media', 'movies.type']);
 
-        if (!$personRecord) {
-            abort(404);
-        }
+        $model->visit();
 
-        $personRecord->visit();
+        // Get all movies with this person, and count them, without going through the relation
+        $movieCount = Movie::whereHas('models', function($query) use ($model) {
+            $query->where('person_id', $model->id);
+        })->withoutGlobalScope('filterHidden')->count();
 
-        return Inertia::render('Person/Show', ['person' => $personRecord]);
+        return Inertia::render('Person/Show', ['person' => $model, 'movieCount' => $movieCount]);
     }
 
     /**

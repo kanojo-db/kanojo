@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\MovieDetailsController;
+use App\Http\Controllers\API\SearchMovieController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// middleware('auth:sanctum')->
+Route::get('/search/movie', [SearchMovieController::class, 'index']);
+Route::get('/movie/{movie}', [MovieDetailsController::class, 'show']);

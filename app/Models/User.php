@@ -53,4 +53,28 @@ class User extends Authenticatable implements ReacterableInterface
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the favorite movies for the user.
+     */
+    public function favorites()
+    {
+        return $this->belongsToMany(Movie::class, 'movie_user_favorite');
+    }
+
+    /**
+     * Get the wishlisted movies for the user.
+     */
+    public function wishlist()
+    {
+        return $this->belongsToMany(Movie::class, 'movie_user_wishlist');
+    }
+
+    /**
+     * Get the user's movie collection.
+     */
+    public function collection()
+    {
+        return $this->belongsToMany(Movie::class, 'movie_user_collection');
+    }
 }
