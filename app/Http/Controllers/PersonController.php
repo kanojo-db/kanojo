@@ -98,9 +98,18 @@ class PersonController extends Controller
      */
     public function show(Person $model): \Inertia\Response
     {
-        $model->load(['media', 'movies' => function($query) {
-            $query->orderBy('release_date', 'desc');
-        }, 'movies.media', 'movies.type']);
+        $model->load([
+            'media',
+            'movies' => function($query) {
+                $query->orderBy('release_date', 'desc');
+            },
+            'movies.media',
+            'movies.type',
+            'movies.loveReactant.reactions.reacter.reacterable',
+            'movies.loveReactant.reactions.type',
+            'movies.loveReactant.reactionCounters',
+            'movies.loveReactant.reactionTotal'
+        ]);
 
         $model->visit();
 
