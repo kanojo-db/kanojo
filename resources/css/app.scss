@@ -17,6 +17,12 @@ a:hover {
 // Utilities
 
 // Grids
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 1fr));
+    grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
+}
+
 .grid-3 {
     display: grid;
     grid-template-columns: repeat(3, minmax(33%, 1fr));
@@ -30,6 +36,7 @@ a:hover {
 }
 
 @media (max-width: $breakpoint-sm) {
+    .grid-2,
     .grid-3,
     .grid-4 {
         grid-template-columns: repeat(1, minmax(100%, 1fr));
@@ -37,6 +44,10 @@ a:hover {
 }
 
 @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+    .grid-2 {
+        grid-template-columns: repeat(1, minmax(100%, 1fr));
+    }
+
     .grid-3,
     .grid-4 {
         grid-template-columns: repeat(2, minmax(50%, 2fr));
@@ -44,6 +55,10 @@ a:hover {
 }
 
 @media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
+    .grid-2 {
+        grid-template-columns: repeat(2, minmax(50%, 2fr));
+    }
+
     .grid-3 {
         grid-template-columns: repeat(2, minmax(50%, 2fr));
     }
@@ -54,6 +69,10 @@ a:hover {
 }
 
 @media (min-width: $breakpoint-lg) {
+    .grid-2 {
+        grid-template-columns: repeat(2, minmax(50%, 1fr));
+    }
+
     .grid-3 {
         grid-template-columns: repeat(3, minmax(33%, 1fr));
     }

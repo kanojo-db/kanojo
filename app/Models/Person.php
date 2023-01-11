@@ -43,6 +43,11 @@ class Person extends Model implements AuditableContract, HasMedia
         'country',
     ];
 
+    public function reports()
+    {
+        return $this->morphMany(ContentReport::class, 'reportable');
+    }
+
     /**
      * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Movie>
      */

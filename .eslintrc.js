@@ -40,6 +40,7 @@ module.exports = {
                 math: 'always',
             },
         ],
+        'vue/multi-word-component-names': 'off',
     },
     settings: {
         'vue-i18n': {

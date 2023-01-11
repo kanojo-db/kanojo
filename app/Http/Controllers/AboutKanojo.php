@@ -86,6 +86,8 @@ class AboutKanojo extends Controller
         ->orderBy('value')
         ->get();
 
+        $average_movies_per_model = Person::has('movies')->withCount('movies')->get()->avg('movies_count');
+
         return Inertia::render('About', [
             'movieCount' => Movie::count(),
             'modelCount' => Person::count(),
@@ -97,6 +99,7 @@ class AboutKanojo extends Controller
             'waistCounts' => $waist_counts,
             'hipCounts' => $hip_counts,
             'cupCounts' => $cup_counts,
+            'averageMoviesPerModel' => $average_movies_per_model,
         ]);
     }
 }

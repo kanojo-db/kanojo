@@ -2,7 +2,7 @@
 import { Inertia } from '@inertiajs/inertia';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 defineProps({
     title: {

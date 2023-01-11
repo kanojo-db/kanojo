@@ -17,6 +17,7 @@ use App\Http\Controllers\MovieFavoriteController;
 use App\Http\Controllers\MovieCollectionController;
 use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\MovieMediaController;
+use App\Http\Controllers\ContentReportController;
 use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Support\Facades\Auth;
@@ -127,6 +128,7 @@ Route::resource('movies.dislike', MovieDislikeController::class)->only(['store']
 Route::resource('movies.favorite', MovieFavoriteController::class)->only(['store', 'destroy'])->shallow();
 Route::resource('movies.wishlist', MovieWishlistController::class)->only(['store', 'destroy'])->shallow();
 Route::resource('movies.collection', MovieCollectionController::class)->only(['store', 'destroy'])->shallow();
+Route::resource('movies.reports', ContentReportController::class)->shallow();
 
 Route::resource('models', PersonController::class);
 Route::resource('models.media', PersonMediaController::class)->only([

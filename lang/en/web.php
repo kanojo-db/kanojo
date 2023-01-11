@@ -22,7 +22,23 @@ return [
             "requirements_1" => "A maximum resolution of 2000x3000",
             "requirements_2" => "A minimum resolution of 300x450",
             "requirements_3" => "Aspect ratio of 1:1.5 (2:3)",
-        ]
+        ],
+        "share_link" => [
+            "title" => "Share {pageName}",
+            "url" => "URL",
+        ],
+        "report_content" => [
+            "title" => "Report {title}",
+            "type_of_problem" => "Type of Problem",
+            "additional_information" => "Additional Information",
+            "public_report" => "Make this report public",
+            "report" => "Report",
+            "bad_image" => "Bad Image",
+            "duplicate" => "Duplicate",
+            "incorrect" => "Incorrect Content",
+            "spam" => "Spam",
+            "other" => "Other",
+        ],
     ],
     "general" => [
         "search" => "Search",
@@ -37,6 +53,7 @@ return [
             "bible" => "Contribution Bible",
             "community" => "Community",
             "contact_us" => "Contact Us",
+            "content_reports" => "Content Reports",
             "contribute" => "Contribute",
             "discord" => "Discord",
             "general" => "General",
@@ -113,6 +130,22 @@ return [
         ]
     ],
     "movie" => [
+        "tabs" => [
+            "overview" => [
+                "title" => "Overview",
+                "main" => "Main",
+                "report" => "Report",
+            ],
+            "share" => [
+                "title" => "Share",
+                "link" => "Share Link",
+                "facebook" => "Share on Facebook",
+                "twitter" => "Share on Twitter",
+            ],
+            "manage" => [
+                "title" => "Manage",
+            ],
+        ],
         "show" => [
             "score" => "Score",
             "like" => "Like",
@@ -131,8 +164,12 @@ return [
             "product_code" => "Product Code",
             "original_title" => "Original Title",
             "studio" => "Studio",
-        ]
         ],
+        "reports" => [
+            "report_type" => "Report Type:",
+            "opened_at" => "Opened {date}",
+        ]
+    ],
     "model" => [
         "birth_date" => "Birth Date:",
         "active" => "Active:",

@@ -15,7 +15,15 @@ return new class extends Migration
     {
         Schema::create('content_reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('reporter_id')->constrained('users');
+            $table->integer('reportable_id');
+            $table->string('reportable_type');
+            $table->string('type');
+            $table->text('message');
+            $table->boolean('public')->default(true);
+            $table->boolean('resolved')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -43,6 +43,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    averageMoviesPerModel: {
+        type: Number,
+        required: true,
+    },
 });
 </script>
 
@@ -122,25 +126,38 @@ const props = defineProps({
             </p>
             <div class="row q-my-md">
                 <div class="col-2">
-                    <span class="text-h3 text-weight-medium">
+                    <span class="text-secondary text-h3 text-weight-bolder">
                         {{ props.movieCount.toLocaleString() }}
                     </span>
                     <br />
                     <span class="text-h5 text-weight-bolder">Movies</span>
                 </div>
                 <div class="col-2">
-                    <span class="text-h3 text-weight-medium">
+                    <span class="text-secondary text-h3 text-weight-bolder">
                         {{ props.modelCount.toLocaleString() }}
                     </span>
                     <br />
                     <span class="text-h5 text-weight-bolder">Models</span>
                 </div>
                 <div class="col-2">
-                    <span class="text-h3 text-weight-medium">
+                    <span class="text-secondary text-h3 text-weight-bolder">
                         {{ props.tagCount.toLocaleString() }}
                     </span>
                     <br />
                     <span class="text-h5 text-weight-bolder">Categories</span>
+                </div>
+                <div class="col-2">
+                    <span class="text-secondary text-h3 text-weight-bolder">
+                        {{
+                            props.averageMoviesPerModel
+                                .toFixed(1)
+                                .toLocaleString()
+                        }}
+                    </span>
+                    <br />
+                    <span class="text-h5 text-weight-bolder">
+                        Average number of movies per model
+                    </span>
                 </div>
             </div>
             <div class="fit grid-3">

@@ -48,6 +48,16 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<ContentReport>
+     */
+    public function reports()
+    {
+        return $this->morphMany(ContentReport::class, 'reportable');
+    }
+
+    /**
      * The attributes that are translatable.
      *
      * @var string[]

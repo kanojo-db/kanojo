@@ -48,6 +48,8 @@ class HandleInertiaRequests extends Middleware
                     return;
                 }
 
+                $request->user()->load('roles');
+
                 return array_merge(
                   $request->user()->toArray(),
                   [

@@ -129,6 +129,22 @@ const dislikeMovie = () => {
         onSuccess: () => likeForm.reset(),
     });
 };
+
+const groupedTags = computed(() => {
+    const tags = props.movie.tags;
+
+    const groupedTags = tags.reduce((acc, tag) => {
+        if (!acc[tag.type]) {
+            acc[tag.type] = [];
+        }
+
+        acc[tag.type].push(tag);
+
+        return acc;
+    }, {});
+
+    return groupedTags;
+});
 </script>
 
 <template>
@@ -252,16 +268,23 @@ const dislikeMovie = () => {
                                 }}
                             </q-tooltip>
                         </q-btn>
+                    </div>
+                    <div class="row justify-start items-center q-mt-md">
                         <q-btn
                             unelevated
-                            round
                             :color="
                                 props.movie.is_collection
                                     ? 'secondary'
                                     : 'primary'
                             "
                             icon="mdi-plus"
-                            class="q-ml-sm"
+                            :label="
+                                props.movie.is_collection
+                                    ? $t(
+                                          'web.movie.show.remove_from_collection',
+                                      )
+                                    : $t('web.movie.show.add_to_collection')
+                            "
                             @click="
                                 props.movie.is_collection
                                     ? $inertia.delete(
@@ -275,26 +298,20 @@ const dislikeMovie = () => {
                                           ]),
                                       )
                             "
-                        >
-                            <q-tooltip class="bg-primary">
-                                {{
-                                    props.movie.is_collection
-                                        ? $t(
-                                              'web.movie.show.remove_from_collection',
-                                          )
-                                        : $t('web.movie.show.add_to_collection')
-                                }}
-                            </q-tooltip>
-                        </q-btn>
+                        />
                         <q-btn
                             unelevated
-                            round
                             :color="
                                 props.movie.is_favorite
                                     ? 'secondary'
                                     : 'primary'
                             "
                             icon="mdi-heart"
+                            :label="
+                                props.movie.is_favorite
+                                    ? $t('web.movie.show.remove_from_favorites')
+                                    : $t('web.movie.show.add_to_favorites')
+                            "
                             class="q-ml-sm"
                             @click="
                                 props.movie.is_favorite
@@ -309,26 +326,20 @@ const dislikeMovie = () => {
                                           ]),
                                       )
                             "
-                        >
-                            <q-tooltip class="bg-primary">
-                                {{
-                                    props.movie.is_favorite
-                                        ? $t(
-                                              'web.movie.show.remove_from_favorites',
-                                          )
-                                        : $t('web.movie.show.add_to_favorites')
-                                }}
-                            </q-tooltip>
-                        </q-btn>
+                        />
                         <q-btn
                             unelevated
-                            round
                             :color="
                                 props.movie.is_wishlist
                                     ? 'secondary'
                                     : 'primary'
                             "
                             icon="mdi-bookmark"
+                            :label="
+                                props.movie.is_wishlist
+                                    ? $t('web.movie.show.remove_from_wishlist')
+                                    : $t('web.movie.show.add_to_wishlist')
+                            "
                             class="q-ml-sm"
                             @click="
                                 props.movie.is_wishlist
@@ -343,26 +354,40 @@ const dislikeMovie = () => {
                                           ]),
                                       )
                             "
-                        >
-                            <q-tooltip class="bg-primary">
-                                {{
-                                    props.movie.is_wishlist
-                                        ? $t(
-                                              'web.movie.show.remove_from_wishlist',
-                                          )
-                                        : $t('web.movie.show.add_to_wishlist')
-                                }}
-                            </q-tooltip>
-                        </q-btn>
+                        />
                     </div>
                     <div class="row q-mt-sm">
-                        <q-chip
-                            v-for="tag in movie.tags"
-                            :key="`movie-tag-${tag.id}`"
-                            color="grey-4"
-                        >
-                            {{ tag.name.en ? tag.name.en : tag.name.jp }}
-                        </q-chip>
+                        <table>
+                            <tr
+                                v-for="(
+                                    tagGroupItems, tagGroupName, tagGroupIndex
+                                ) in groupedTags"
+                                :key="`movie-tag-group-${tagGroupIndex}`"
+                            >
+                                <td class="text-weight-bold q-pr-md">
+                                    {{
+                                        tagGroupName === 'null'
+                                            ? $t(
+                                                  'web.movie.show.unknown_birth_date',
+                                              )
+                                            : tagGroupName
+                                    }}
+                                </td>
+                                <td>
+                                    <q-chip
+                                        v-for="tag in tagGroupItems"
+                                        :key="`movie-tag-${tag.id}`"
+                                        color="grey-4"
+                                    >
+                                        {{
+                                            tag.name.en
+                                                ? tag.name.en
+                                                : tag.name.jp
+                                        }}
+                                    </q-chip>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
