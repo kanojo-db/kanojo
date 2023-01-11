@@ -18,6 +18,7 @@ use App\Http\Controllers\MovieCollectionController;
 use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\MovieMediaController;
 use App\Http\Controllers\ContentReportController;
+use App\Http\Controllers\StudioController;
 use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Support\Facades\Auth;
@@ -137,6 +138,8 @@ Route::resource('models.media', PersonMediaController::class)->only([
 Route::resource('models.history', PersonHistoryController::class)->only([
     'index'
 ])->shallow();
+
+Route::resource('studios', StudioController::class);
 
 Route::get('/user/{user}', function (\App\Models\User $user) {
     return Inertia::render('Profile/Show', [

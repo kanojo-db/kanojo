@@ -334,6 +334,9 @@ export default {
                 "breasts_natural": "(Natural)",
                 "breasts_implant": "(Implants)",
                 "unit_cm": "{number}cm"
+            },
+            "studio": {
+                "known_for": "Known For"
             }
         }
     },
@@ -351,13 +354,45 @@ export default {
                 "create_token": {
                     "title": "Crear Token de API",
                     "description": "Ingresa un nombre único al token del API para ayudarte a identificarlo después."
+                },
+                "media_upload": {
+                    "title": "Subir Multimedia",
+                    "requirements_heading": "Las imágenes de perfil deben seguir los siguientes criterios:",
+                    "requirements_1": "Una resolución máxima de 2000x3000",
+                    "instructions": "Selecciona una imagen de perfil presionando el botón de abajo y\n            selecciona una imagen de tu computadora.",
+                    "requirements_2": "Una resolución mínima de 300x450",
+                    "requirements_3": "Relación de aspecto 1{1}{5} (2{3})"
                 }
             },
             "general": {
                 "search": "Buscar",
                 "present": "Presente",
                 "save_changes": "Guardar Cambios",
-                "unknown": "Desconocido"
+                "unknown": "Desconocido",
+                "years_old": "{age} años",
+                "pages": {
+                    "about": "Acerca de Kanojo",
+                    "bible": "Biblia de contribuciones",
+                    "community": "Comunidad",
+                    "contact_us": "Contáctanos",
+                    "contribute": "Aportar",
+                    "general": "General",
+                    "github": "GitHub",
+                    "help_translate": "Ayuda a traducir Kanojo",
+                    "api": "API",
+                    "add_movie": "Añadir película",
+                    "fill_missing": "Llenar datos faltantes",
+                    "search": "Buscar",
+                    "settings": "Ajustes",
+                    "discord": "Servidor en discord"
+                },
+                "not_available": "N/D",
+                "x_percent": "{number}%",
+                "view_profile": "Ver perfil",
+                "logout": "Cerrar Sesión",
+                "login": "Iniciar Sesión",
+                "register": "Regístrate",
+                "search_placeholder": "Buscar un título, código o modelo…"
             },
             "personShow": {
                 "moviesCount": "{number} Películas"
@@ -393,6 +428,63 @@ export default {
                     "copy_token": "Token copiado",
                     "no_tokens": "No tienes tokens de API, para acceder al API o usar las herramientas que requieren un token de API, necesitas crear uno."
                 }
+            },
+            "profile": {
+                "edits": "Ediciones totales",
+                "favorites": "Favoritos",
+                "collection": "Colección",
+                "stats": "Estadísticas",
+                "wishlist": "Lista de deseos",
+                "member_since": "Miembro desde {date}"
+            },
+            "search": {
+                "no_results": "Sin resultados",
+                "result_types": {
+                    "movies": "Películas",
+                    "models": "Modelos"
+                }
+            },
+            "bible": {
+                "general": {
+                    "general_tips": "Tips generales"
+                },
+                "sections": {
+                    "general": "General"
+                }
+            },
+            "movie": {
+                "show": {
+                    "remove_like": "Remover me gusta",
+                    "add_to_wishlist": "Añadir a la lista de deseos",
+                    "remove_from_wishlist": "Remover de la lista de deseos",
+                    "add_to_collection": "Añadir a la colección",
+                    "remove_from_collection": "Remover de la colección",
+                    "add_to_favorites": "Añadir a favoritos",
+                    "remove_from_favorites": "Remover de los favoritos",
+                    "born": "Nacimiento:",
+                    "age": "({age} años)",
+                    "unknown_birth_date": "Desconocido",
+                    "product_code": "Código",
+                    "original_title": "Titulo original",
+                    "studio": "Estudio",
+                    "score": "Puntuación",
+                    "like": "Me gusta",
+                    "remove_dislike": "Remover no me gusta",
+                    "dislike": "No me gusta"
+                }
+            },
+            "model": {
+                "active": "Activa:",
+                "country": "País:",
+                "blood_type": "Tipo de sangre:",
+                "height": "Altura:",
+                "waist": "Cintura:",
+                "hips": "Cadera:",
+                "cup_size": "Tamaño de copa:",
+                "breasts_implant": "(Implantes)",
+                "breasts_natural": "(Naturales)",
+                "bust": "Busto:",
+                "birth_date": "Fecha de Nacimiento:"
             }
         }
     },

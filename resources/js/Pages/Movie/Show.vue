@@ -492,11 +492,13 @@ const groupedTags = computed(() => {
                         <strong class="block">
                             {{ $t('web.movie.show.studio') }}
                         </strong>
-                        {{
-                            movie.studio.name.en
-                                ? movie.studio.name.en
-                                : movie.studio.name.jp
-                        }}
+                        <Link :href="route('studios.show', movie.studio)">
+                            {{
+                                movie.studio.name.en
+                                    ? movie.studio.name.en
+                                    : movie.studio.name.jp
+                            }}
+                        </Link>
                     </p>
                 </div>
             </div>

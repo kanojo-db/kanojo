@@ -185,4 +185,7 @@ return [
         "breasts_implant" => "(Implants)",
         "unit_cm" => "{number}cm",
     ],
+    "studio" => [
+        "known_for" => "Known For",
+    ]
 ];
