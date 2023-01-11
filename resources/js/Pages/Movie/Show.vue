@@ -113,7 +113,7 @@ const userScore = computed(() => {
         return `${averageScore.value}`;
     }
 
-    return t('web.general.not_available');
+    return t('web.general.not_rated');
 });
 
 const likeForm = useForm({});
@@ -222,7 +222,10 @@ const groupedTags = computed(() => {
                                 <div
                                     class="row justify-center items-start text-overline"
                                 >
-                                    <i18n-t keypath="web.general.x_percent">
+                                    <i18n-t
+                                        v-if="averageScore > 0"
+                                        keypath="web.general.x_percent"
+                                    >
                                         <template #number>
                                             <span
                                                 class="text-weight-bolder text-h6"
@@ -231,6 +234,12 @@ const groupedTags = computed(() => {
                                             </span>
                                         </template>
                                     </i18n-t>
+                                    <span
+                                        v-else
+                                        class="text-weight-bolder text-h6"
+                                    >
+                                        {{ $t('web.general.not_rated') }}
+                                    </span>
                                 </div>
                             </q-knob>
                             <div class="q-ml-sm text-weight-bold q-mr-md">

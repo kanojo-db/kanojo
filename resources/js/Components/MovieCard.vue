@@ -102,11 +102,12 @@ const userScore = computed(() => {
                                 }}</span>
                             </template>
                         </i18n-t>
-                        <i18n-t
+                        <span
                             v-else
-                            keypath="web.general.not_rated"
-                            class="text-weight-bolder"
-                        />
+                            class="text-weight-bolder text-h6"
+                        >
+                            {{ $t('web.general.not_rated') }}
+                        </span>
                     </div>
                 </q-knob>
                 <span class="text-weight-bold q-mt-lg ellipsis-2-lines">{{
