@@ -14,13 +14,13 @@ This list is subject to change.
 -   [x] Add favorite movies list
 -   [ ] Add favorite models list
 -   [ ] Add Merge feature for moderation
--   [ ] Add moderation dashboard for reports
+-   [x] Add moderation dashboard for reports
 -   [x] Add movie media page
 -   [ ] Add other types of images (Cover/fanart, Disc, maybe previews?)
 -   [ ] Add report system for Movie, Person, Studio, Series
 -   [ ] Add schedule for scraper command
 -   [ ] Add scraper result monitoring
--   [ ] Add studios & studio pages
+-   [x] Add studios & studio pages
 -   [ ] Build forgotten password pages
 -   [ ] Fix Login/Register screens not being centered vertically on page
 -   [ ] Fix title ratings

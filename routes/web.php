@@ -21,6 +21,7 @@ use App\Http\Controllers\ContentReportController;
 use App\Http\Controllers\StudioController;
 use App\Models\Movie;
 use App\Models\Person;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -99,6 +100,15 @@ Route::get('/', function () {
         'movieCount' => Movie::withoutGlobalScope('filterHidden')->count(),
         'modelCount' => Person::count(),
         'tagCount' => \Spatie\Tags\Tag::count(),
+        'topUsers' => User::with(['audits'])->withCount(['audits'])->take(10)->get()->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'avatar' => $user->avatar,
+                'total_audits' => $user->audits_count,
+                'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
+            ];
+        }),
     ]);
 });
 

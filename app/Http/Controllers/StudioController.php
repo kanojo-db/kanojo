@@ -53,10 +53,8 @@ class StudioController extends Controller
             ])
             ->paginate(25);
 
-        // Get all movies from this studio, and count them, without going through the relation
         $movieCount = Movie::where('studio_id', $studio->id)->withoutGlobalScope('filterHidden')->count();
 
-        // Get all people who have appeared in movies by this studio
         $models = Person::whereHas('movies', function ($query) use ($studio) {
             $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
         })->withCount([

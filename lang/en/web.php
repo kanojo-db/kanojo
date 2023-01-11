@@ -63,7 +63,7 @@ return [
             "search" => "Search",
             "settings" => "Settings",
         ],
-        "not_available" => "N/A",
+        "not_rated" => "NR",
         "x_percent" => "{number}%",
         "view_profile" => "View Profile",
         "login" => "Login",
@@ -92,6 +92,9 @@ return [
         "popularMovies" => "Popular Movies",
         "recentlyAddedMovies" => "Recently Added Movies",
         "recentlyUpdatedMovies" => "Recently Updated Movies",
+        "leaderboard" => "Leaderboard",
+        "leaderboardEditsThisWeek" => "Edits this week",
+        "leaderboardTotalEdits" => "Total Edits",
     ],
     "settings" => [
         "account" => [

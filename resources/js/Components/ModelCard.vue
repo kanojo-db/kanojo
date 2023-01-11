@@ -29,11 +29,11 @@ const posterUrl = computed(() => {
                 width="200px"
                 :ratio="2 / 3"
                 fit="cover"
-                class="rounded-borders"
+                class="rounded-borders shadow-1"
             />
             <div
                 v-else
-                class="row bg-grey-1 rounded-borders justify-center items-center"
+                class="row bg-grey-1 rounded-borders justify-center items-center shadow-1"
                 style="width: 200px; height: 300px"
             >
                 <q-icon

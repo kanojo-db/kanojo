@@ -42,7 +42,7 @@ const userScore = computed(() => {
         return averageScore.value;
     }
 
-    return t('web.general.not_available');
+    return t('web.general.not_rated');
 });
 </script>
 
@@ -92,13 +92,21 @@ const userScore = computed(() => {
                     <div
                         class="row justify-center items-start text-overline text-black"
                     >
-                        <i18n-t keypath="web.general.x_percent">
+                        <i18n-t
+                            v-if="averageScore > 0"
+                            keypath="web.general.x_percent"
+                        >
                             <template #number>
                                 <span class="text-weight-bolder">{{
                                     userScore
                                 }}</span>
                             </template>
                         </i18n-t>
+                        <i18n-t
+                            v-else
+                            keypath="web.general.not_rated"
+                            class="text-weight-bolder"
+                        />
                     </div>
                 </q-knob>
                 <span class="text-weight-bold q-mt-lg ellipsis-2-lines">{{

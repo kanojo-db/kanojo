@@ -11,6 +11,7 @@ use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
 use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
 use DarkGhostHunter\Laraconfig\HasConfig;
 use Spatie\Permission\Traits\HasRoles;
+use OwenIt\Auditing\Models\Audit;
 
 class User extends Authenticatable implements ReacterableInterface
 {
@@ -76,5 +77,10 @@ class User extends Authenticatable implements ReacterableInterface
     public function collection()
     {
         return $this->belongsToMany(Movie::class, 'movie_user_collection');
+    }
+
+    public function audits()
+    {
+        return $this->hasMany(Audit::class);
     }
 }
