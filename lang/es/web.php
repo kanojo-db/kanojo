@@ -45,7 +45,6 @@ return [
             'settings' => "Ajustes",
             'discord' => "Servidor en discord",
         ],
-        'not_available' => "N/D",
         'x_percent' => "{number}%",
         'view_profile' => "Ver perfil",
         'logout' => "Cerrar Sesión",
