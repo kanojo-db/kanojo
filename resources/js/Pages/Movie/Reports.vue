@@ -87,7 +87,11 @@ const title = computed(() =>
         <div class="q-mx-md">
             <div class="row q-mb-md">
                 <h2 class="text-h5 q-mb-none">
-                    {{ props.movie.reports.length }} Reports
+                    {{
+                        $t('web.movie.reports.x_reports', {
+                            count: props.movie.reports.length,
+                        })
+                    }}
                 </h2>
             </div>
             <div class="fit grid-2">

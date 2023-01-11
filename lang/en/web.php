@@ -168,6 +168,7 @@ return [
         "reports" => [
             "report_type" => "Report Type:",
             "opened_at" => "Opened {date}",
+            "x_reports" => "No Reports | {count} Report | {count} Reports",
         ]
     ],
     "model" => [
