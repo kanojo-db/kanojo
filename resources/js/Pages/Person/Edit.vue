@@ -5,6 +5,9 @@ import { computed } from 'vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+import { useName } from '../Pages/utils/item';
+import { useFirstImage } from '../utils/item';
+
 const props = defineProps({
     person: {
         type: Object,
@@ -12,19 +15,9 @@ const props = defineProps({
     },
 });
 
-const name = computed(() =>
-    props.person.name.en ? props.person.name.en : props.person.name.jp,
-);
+const name = useName(props.person);
 
-const posterUrl = computed(() => {
-    if (props.person?.media && props.person.media.length > 0) {
-        return props.person.media.filter(
-            (m) => m.collection_name === 'profile',
-        )?.[0].original_url;
-    }
-
-    return null;
-});
+const posterUrl = useFirstImage(props.person, 'profile');
 
 const personEditForm = useForm({
     name: props.person.name.en,

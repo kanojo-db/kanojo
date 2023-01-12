@@ -3,12 +3,12 @@ import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { useQuasar } from 'quasar';
 import { computed, defineProps, ref } from 'vue';
 
-import { useTitle } from '../Pages/utils/item';
+import { useName } from '../Pages/utils/item';
 import DialogReportContent from './DialogReportContent.vue';
 import DialogShareLink from './DialogShareLink.vue';
 
 const props = defineProps({
-    movie: {
+    studio: {
         type: Object,
         required: true,
     },
@@ -28,14 +28,14 @@ const isAdmin = computed(() => {
 
 const $q = useQuasar();
 
-const title = useTitle(props.movie);
+const name = useName(props.studio);
 
 const openShareLinkDialog = () => {
     $q.dialog({
         component: DialogShareLink,
         componentProps: {
             url: fullUrl.value,
-            title: title,
+            title: name,
         },
     });
 };
@@ -50,12 +50,12 @@ const openReportDialog = () => {
     $q.dialog({
         component: DialogReportContent,
         componentProps: {
-            title: title,
+            title: name,
             reportForm: reportForm,
             onSubmit: () => {
                 reportForm.post(
                     route('movies.reports.store', {
-                        movie: props.movie.slug,
+                        movie: props.studio.slug,
                     }),
                 );
 
@@ -83,7 +83,7 @@ const openReportDialog = () => {
                         @click="
                             $inertia.get(
                                 route('movies.show', {
-                                    movie: props.movie.slug,
+                                    movie: props.studio.slug,
                                 }),
                             )
                         "
@@ -111,7 +111,7 @@ const openReportDialog = () => {
                 @click="
                     $inertia.get(
                         route('movies.media.index', {
-                            movie: props.movie.slug,
+                            movie: props.studio.slug,
                         }),
                     )
                 "
@@ -122,7 +122,7 @@ const openReportDialog = () => {
                 @click="
                     $inertia.get(
                         route('movies.history.index', {
-                            movie: props.movie.slug,
+                            movie: props.studio.slug,
                         }),
                     )
                 "
@@ -132,7 +132,7 @@ const openReportDialog = () => {
                 label="Edit"
                 @click="
                     $inertia.get(
-                        route('movies.edit', { movie: props.movie.slug }),
+                        route('movies.edit', { movie: props.studio.slug }),
                     )
                 "
             />
@@ -187,7 +187,7 @@ const openReportDialog = () => {
                         @click="
                             $inertia.get(
                                 route('movies.reports.index', {
-                                    movie: props.movie.slug,
+                                    movie: props.studio.slug,
                                 }),
                             )
                         "

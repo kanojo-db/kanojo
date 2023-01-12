@@ -3,6 +3,8 @@ import { Link } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { useFirstImage } from '../Pages/utils/item';
+
 const props = defineProps({
     movie: {
         type: Object,
@@ -14,10 +16,7 @@ const isVrMovie = computed(() => {
     return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
 
-const posterUrl = computed(() => {
-    return props.movie.media?.filter((m) => m.collection_name === 'poster')?.[0]
-        ?.original_url;
-});
+const posterUrl = useFirstImage(props.movie);
 
 const { t } = useI18n();
 

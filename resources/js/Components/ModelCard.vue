@@ -2,6 +2,8 @@
 import { Link } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
 
+import { useFirstImage, useName } from '../Pages/utils/item';
+
 const props = defineProps({
     model: {
         type: Object,
@@ -9,11 +11,9 @@ const props = defineProps({
     },
 });
 
-const posterUrl = computed(() => {
-    return props.model?.media?.filter(
-        (m) => m.collection_name === 'profile',
-    )?.[0]?.original_url;
-});
+const posterUrl = useFirstImage(props.model, 'profile');
+
+const name = useName(props.model);
 </script>
 
 <template>
@@ -45,10 +45,7 @@ const posterUrl = computed(() => {
             <div
                 class="fit column no-wrap justify-start items-start content-start relative-position q-pt-sm"
             >
-                <span class="text-weight-bold q-mt-sm">{{
-                    model.name.en ? model.name.en : model.name.jp
-                }}</span>
-                <!--<span class="q-mb-sm">{{ model.product_code }}</span>-->
+                <span class="text-weight-bold q-mt-sm">{{ name }}</span>
             </div>
         </div>
     </Link>

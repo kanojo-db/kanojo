@@ -5,6 +5,8 @@ import MovieCard from '@/Components/MovieCard.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+import { useFirstImage, useName } from '../utils/item';
+
 const props = defineProps({
     person: {
         type: Object,
@@ -16,23 +18,13 @@ const props = defineProps({
     },
 });
 
-const posterUrl = computed(() => {
-    if (props.person?.media && props.person.media.length > 0) {
-        return props.person.media.filter(
-            (m) => m.collection_name === 'profile',
-        )?.[0].original_url;
-    }
+const posterUrl = useFirstImage(props.person, 'profile');
 
-    return null;
-});
-
-const title = computed(() =>
-    props.person.name.en ? props.person.name.en : props.person.name.jp,
-);
+const name = useName(props.person);
 </script>
 
 <template>
-    <AppLayout :title="title">
+    <AppLayout :title="name">
         <div class="col bg-grey-3">
             <PersonTabBar :person="person" />
             <div class="row q-py-lg q-px-md">
@@ -58,9 +50,7 @@ const title = computed(() =>
                 <div class="col">
                     <div class="col q-mb-sm">
                         <h1 class="text-h4 q-mt-none q-mb-sm">
-                            {{
-                                person.name.en ? person.name.en : person.name.jp
-                            }}
+                            {{ name }}
                             <q-badge
                                 class="text-subtitle1"
                                 align="middle"
@@ -74,7 +64,7 @@ const title = computed(() =>
                             </q-badge>
                         </h1>
                         <span
-                            v-if="person.name.en"
+                            v-if="name !== person.name.jp"
                             class="text-subtitle1"
                         >
                             {{ person.name.jp }}

@@ -6,21 +6,22 @@ import { computed } from 'vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { model } = defineProps({
-    model: Object,
-    history: Object,
+import { useFirstImage, useName } from '../utils/item';
+
+const props = defineProps({
+    model: {
+        type: Object,
+        required: true,
+    },
+    history: {
+        type: Array,
+        required: true,
+    },
 });
 
-const posterUrl = computed(() => {
-    if (model?.media && model.media.length > 0) {
-        return model.media.filter((m) => m.collection_name === 'profile')?.[0]
-            .original_url;
-    }
+const posterUrl = useFirstImage(props.model, 'profile');
 
-    return null;
-});
-
-const name = computed(() => (model.name.en ? model.name.en : model.name.jp));
+const name = useName(props.model);
 
 const isSystemChange = (change) => {
     return (
@@ -44,7 +45,7 @@ const getChangeIcon = (change) => {
 <template>
     <AppLayout :title="`${name} - History`">
         <div class="col bg-grey-3">
-            <PersonTabBar :person="model" />
+            <PersonTabBar :person="props.model" />
             <div class="row q-py-md q-px-md">
                 <div
                     class="q-pl-none q-mr-lg"
@@ -80,7 +81,7 @@ const getChangeIcon = (change) => {
                             {{ name }}
                         </h1>
                         <Link
-                            :href="route('movies.show', model)"
+                            :href="route('movies.show', props.model)"
                             class="text-subtitle1"
                         >
                             <q-icon
@@ -95,9 +96,11 @@ const getChangeIcon = (change) => {
         </div>
         <div class="q-mx-md">
             <div class="row q-col-gutter-md">
-                <h2 class="text-h5 q-mb-none">{{ history.length }} Changes</h2>
+                <h2 class="text-h5 q-mb-none">
+                    {{ props.history.length }} Changes
+                </h2>
                 <div
-                    v-for="(change, index) in history"
+                    v-for="(change, index) in props.history"
                     :key="`change-${index}`"
                     class="full-width"
                 >

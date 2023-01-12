@@ -6,6 +6,9 @@ import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
 import MovieCard from '@/Components/MovieCard.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+import StudioTabBar from '../../Components/StudioTabBar.vue';
+import { useName } from '../utils/item';
+
 const props = defineProps({
     studio: {
         type: Object,
@@ -25,9 +28,7 @@ const props = defineProps({
     },
 });
 
-const name = computed(() =>
-    props.studio.name.en ? props.studio.name.en : props.studio.name.jp,
-);
+const name = useName(props.studio);
 
 const currentPage = ref(props.movies.current_page);
 
@@ -35,7 +36,7 @@ const goToPage = (page) => {
     const pageLink = props.movies.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
-        Inertia.get(pageLink.url);
+        Inertia.visit(pageLink.url, { preserveScroll: true, only: ['movies'] });
     }
 };
 </script>
@@ -43,6 +44,7 @@ const goToPage = (page) => {
 <template>
     <AppLayout :title="name">
         <div class="col bg-grey-3 q-pb-lg">
+            <StudioTabBar :studio="studio" />
             <div class="row q-pt-lg q-px-md">
                 <div class="col">
                     <div class="row q-mb-sm">
@@ -63,7 +65,10 @@ const goToPage = (page) => {
                     </div>
                 </div>
             </div>
-            <div class="row q-px-md">
+            <div
+                v-if="props.models.length > 0"
+                class="column q-px-md"
+            >
                 <div class="row">
                     <h2 class="text-h5 q-mt-none">
                         {{ $t('web.studio.known_for') }}

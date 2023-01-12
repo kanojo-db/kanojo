@@ -7,6 +7,8 @@ import { useI18n } from 'vue-i18n';
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+import { useFirstImage, useName, useTitle } from '../utils/item';
+
 const props = defineProps({
     movie: {
         type: Object,
@@ -14,15 +16,7 @@ const props = defineProps({
     },
 });
 
-const posterUrl = computed(() => {
-    if (props.movie?.media && props.movie.media.length > 0) {
-        return props.movie.media.filter(
-            (m) => m.collection_name === 'poster',
-        )?.[0].original_url;
-    }
-
-    return null;
-});
+const posterUrl = useFirstImage(props.movie);
 
 const getHumanReadableDate = (date) => {
     return DateTime.fromSQL(date).toLocaleString(DateTime.DATE_SHORT);
@@ -86,9 +80,8 @@ const hasDisliked = computed(() => {
     return userDislike.length > 0 && userDislike[0].reaction_type_id === 2;
 });
 
-const title = computed(() =>
-    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
-);
+const title = useTitle(props.movie);
+const studioName = useName(props.movie.studio);
 
 const { t } = useI18n();
 
@@ -502,11 +495,7 @@ const groupedTags = computed(() => {
                             {{ $t('web.movie.show.studio') }}
                         </strong>
                         <Link :href="route('studios.show', movie.studio)">
-                            {{
-                                movie.studio.name.en
-                                    ? movie.studio.name.en
-                                    : movie.studio.name.jp
-                            }}
+                            {{ studioName }}
                         </Link>
                     </p>
                 </div>

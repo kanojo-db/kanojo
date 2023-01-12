@@ -8,6 +8,8 @@ import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+import { useFirstImage } from '../utils/item';
+
 const props = defineProps({
     person: Object,
     posters: Object,
@@ -17,15 +19,7 @@ const title = computed(() =>
     props.person.name.en ? props.person.name.en : props.person.name.jp,
 );
 
-const posterUrl = computed(() => {
-    if (props.person?.media && props.person.media.length > 0) {
-        return props.person.media.filter(
-            (m) => m.collection_name === 'profile',
-        )?.[0].original_url;
-    }
-
-    return null;
-});
+const posterUrl = useFirstImage(props.person, 'profile');
 
 const mediaUploadForm = useForm({
     media: null,

@@ -41,33 +41,31 @@ class StudioController extends Controller
      */
     public function show(Studio $studio)
     {
-        $movies = Movie::orderBy('release_date', 'desc')
-            ->where('studio_id', $studio->id)
-            ->with([
-                'media',
-                'loveReactant.reactions.reacter.reacterable',
-                'loveReactant.reactions.type',
-                'loveReactant.reactionCounters',
-                'loveReactant.reactionTotal',
-                'type',
-            ])
-            ->paginate(25);
-
-        $movieCount = Movie::where('studio_id', $studio->id)->withoutGlobalScope('filterHidden')->count();
-
-        $models = Person::whereHas('movies', function ($query) use ($studio) {
-            $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
-        })->withCount([
-            'movies' => function ($query) use ($studio) {
-                $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
-            },
-        ])->orderBy('movies_count', 'desc')->with(['media'])->take(10)->get();
-
         return Inertia::render('Studio/Show', [
             'studio' => $studio,
-            'movies' => $movies,
-            'models' => $models,
-            'movieCount' => $movieCount,
+            'movies' => function () use ($studio) {
+                return Movie::orderBy('release_date', 'desc')
+                    ->where('studio_id', $studio->id)
+                    ->with([
+                        'media',
+                        'loveReactant.reactions.reacter.reacterable',
+                        'loveReactant.reactions.type',
+                        'loveReactant.reactionCounters',
+                        'loveReactant.reactionTotal',
+                        'type',
+                    ])
+                    ->paginate(25);
+            },
+            'models' => function () use ($studio) {
+                return Person::whereHas('movies', function ($query) use ($studio) {
+                    $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
+                })->withCount([
+                    'movies' => function ($query) use ($studio) {
+                        $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
+                    },
+                ])->orderBy('movies_count', 'desc')->with(['media'])->take(10)->get();
+            },
+            'movieCount' => Movie::where('studio_id', $studio->id)->withoutGlobalScope('filterHidden')->count(),
         ]);
     }
 
