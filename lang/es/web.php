@@ -22,6 +22,22 @@ return [
             'requirements_2' => "Una resolución mínima de 300x450",
             'requirements_3' => "Relación de aspecto 1:1:5 (2:3)",
         ],
+        'share_link' => [
+            'title' => "Compartir {pageName}",
+            'url' => "URL",
+        ],
+        'report_content' => [
+            'title' => "Informe {title}",
+            'type_of_problem' => "Tipo de problema",
+            'additional_information' => "Información adicional",
+            'public_report' => "Hacer público este informe",
+            'report' => "Informe",
+            'bad_image' => "Mala imagen",
+            'duplicate' => "Duplicado",
+            'incorrect' => "Contenido incorrecto",
+            'spam' => "Spam",
+            'other' => "Otros",
+        ],
     ],
     'general' => [
         'search' => "Buscar",
@@ -44,6 +60,7 @@ return [
             'search' => "Buscar",
             'settings' => "Ajustes",
             'discord' => "Servidor en discord",
+            'content_reports' => "Contenido de los informes",
         ],
         'x_percent' => "{number}%",
         'view_profile' => "Ver perfil",
@@ -51,6 +68,7 @@ return [
         'login' => "Iniciar Sesión",
         'register' => "Regístrate",
         'search_placeholder' => "Buscar un título, código o modelo…",
+        'not_rated' => "NR",
     ],
     'personShow' => [
         'moviesCount' => "{number} Películas",
@@ -65,6 +83,9 @@ return [
         'slogan' => "Encuentra tu siguiente amor",
         'recentlyUpdatedMovies' => "Películas recientemente actualizadas",
         'countModels' => "Modelos",
+        'leaderboard' => "Clasificación",
+        'leaderboardEditsThisWeek' => "Modificaciones de esta semana",
+        'leaderboardTotalEdits' => "Total de modificaciones",
     ],
     'settings' => [
         'account' => [
@@ -130,6 +151,27 @@ return [
             'remove_dislike' => "Remover no me gusta",
             'dislike' => "No me gusta",
         ],
+        'reports' => [
+            'opened_at' => "Abierto el {data}",
+            'report_type' => "Tipo de informe:",
+            'x_reports' => "Ningún informe | {count} Informenes ",
+        ],
+        'tabs' => [
+            'overview' => [
+                'title' => "Resumen",
+                'main' => "Principal",
+                'report' => "Informe",
+            ],
+            'share' => [
+                'title' => "Compartir",
+                'link' => "Compartir enlace",
+                'facebook' => "Compartir en Facebook",
+                'twitter' => "Compartir en Twitter",
+            ],
+            'manage' => [
+                'title' => "Gestionar",
+            ],
+        ],
     ],
     'model' => [
         'active' => "Activa:",
@@ -143,5 +185,9 @@ return [
         'breasts_natural' => "(Naturales)",
         'bust' => "Busto:",
         'birth_date' => "Fecha de Nacimiento:",
+        'unit_cm' => "{number}cm",
+    ],
+    'studio' => [
+        'known_for' => "Conocido por",
     ],
 ];
