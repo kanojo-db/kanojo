@@ -45,7 +45,7 @@
     "dependencies": {
         "@quasar/extras": "^1.15.9",
         "@sentry/tracing": "^7.29.0",
-        "@sentry/vue": "^7.29.0",
+        "@sentry/vue": "^7.31.0",
         "chart.js": "^4.1.2",
         "copy-to-clipboard": "^3.3.3",
         "luxon": "^3.2.1",
