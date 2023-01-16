@@ -30,7 +30,7 @@
         "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-vue": "^9.8.0",
-        "eslint-plugin-vuejs-accessibility": "^2.0.0",
+        "eslint-plugin-vuejs-accessibility": "^2.1.0",
         "laravel-vite-plugin": "^0.7.2",
         "lodash": "^4.17.21",
         "postcss": "^8.4.21",
