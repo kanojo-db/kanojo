@@ -9451,27 +9451,27 @@
         },
         {
             "name": "spatie/laravel-translatable",
-            "version": "6.2.0",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-translatable.git",
-                "reference": "e001426def09342dd2723bf28c7a9313621f1d69"
+                "reference": "b3f6fa43ce05d7640ca9eacf4fee9c0037fc84d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/e001426def09342dd2723bf28c7a9313621f1d69",
-                "reference": "e001426def09342dd2723bf28c7a9313621f1d69",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/b3f6fa43ce05d7640ca9eacf4fee9c0037fc84d2",
+                "reference": "b3f6fa43ce05d7640ca9eacf4fee9c0037fc84d2",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^9.0",
-                "illuminate/support": "^9.0",
+                "illuminate/database": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
                 "php": "^8.0",
                 "spatie/laravel-package-tools": "^1.11"
             },
             "require-dev": {
                 "mockery/mockery": "^1.4",
-                "orchestra/testbench": "^7.0",
+                "orchestra/testbench": "^7.0|^8.0",
                 "pestphp/pest": "^1.20"
             },
             "type": "library",
@@ -9520,7 +9520,7 @@
                 "translate"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-translatable/tree/6.2.0"
+                "source": "https://github.com/spatie/laravel-translatable/tree/6.3.0"
             },
             "funding": [
                 {
@@ -9528,7 +9528,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-23T10:18:49+00:00"
+            "time": "2023-01-14T20:57:45+00:00"
         },
         {
             "name": "spatie/laravel-typescript-transformer",
