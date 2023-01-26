@@ -34,10 +34,29 @@ const submit = () => {
         })
         .get(route('search'));
 };
+
+const websiteSchema = ref({
+    '@context': 'https://schema.org/',
+    '@type': 'WebSite',
+    name: 'Kanojo',
+    url: 'http://localhost',
+    potentialAction: {
+        '@type': 'SearchAction',
+        target: 'http://localhost/search?q={search_term_string}',
+        'query-input': 'required name=search_term_string',
+    },
+});
 </script>
 
 <template>
-    <Head :title="title" />
+    <Head :title="title">
+        <component
+            :is="'script'"
+            type="application/ld+json"
+        >
+            {{ websiteSchema }}
+        </component>
+    </Head>
 
     <q-layout>
         <q-header height-hint="64">

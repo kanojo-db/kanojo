@@ -1,5 +1,7 @@
 <script setup>
 import { router } from '@inertiajs/vue3';
+import { definePerson, useSchemaOrg } from '@vueuse/schema-org';
+import { ref } from 'vue';
 
 import MovieCard from '@/Components/MovieCard.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
@@ -21,6 +23,8 @@ const props = defineProps({
     },
 });
 
+const currentPage = ref(props.movies.current_page);
+
 const posterUrl = useFirstImage(props.person, 'profile');
 
 const name = useName(props.person);
@@ -36,6 +40,12 @@ const goToPage = (page) => {
         });
     }
 };
+
+useSchemaOrg(
+    definePerson({
+        name: name,
+    }),
+);
 </script>
 
 <template>

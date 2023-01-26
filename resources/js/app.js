@@ -26,8 +26,6 @@ createInertiaApp({
         ),
     progress: { color: '#69306D', includeCSS: true },
     setup({ el, App, props, plugin }) {
-        console.debug('initalPage', props.initialPage.props);
-
         const i18n = createI18n({
             legacy: false,
             locale: props.initialPage.props.locale,
@@ -55,11 +53,10 @@ createInertiaApp({
                         /^\//,
                     ],
                 }),
+                new Sentry.Replay(),
             ],
-            // Set tracesSampleRate to 1.0 to capture 100%
-            // of transactions for performance monitoring.
-            // We recommend adjusting this value in production
-            tracesSampleRate: 1.0,
+            tracesSampleRate: 0.1,
+            replaysOnErrorSampleRate: 1.0,
             logErrors: true,
         });
 
