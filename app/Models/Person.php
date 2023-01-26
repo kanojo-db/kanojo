@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 use \JordanMiguel\LaravelPopular\Traits\Visitable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model implements AuditableContract, HasMedia
 {
@@ -22,6 +23,7 @@ class Person extends Model implements AuditableContract, HasMedia
     use InteractsWithMedia;
     use HasTranslations;
     use Visitable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Laravel\Scout\Searchable;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Studio extends Model implements AuditableContract, HasMedia
 {
@@ -18,6 +19,7 @@ class Studio extends Model implements AuditableContract, HasMedia
     use Searchable;
     use InteractsWithMedia;
     use HasTranslations;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

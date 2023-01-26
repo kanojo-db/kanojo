@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use \JordanMiguel\LaravelPopular\Traits\Visitable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Movie extends Model implements HasMedia, AuditableContract, ReactableInterface
 {
@@ -31,6 +32,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     use Reactable;
     use Searchable;
     use Visitable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

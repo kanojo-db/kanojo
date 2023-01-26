@@ -12,6 +12,7 @@ use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
 use DarkGhostHunter\Laraconfig\HasConfig;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Models\Audit;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements ReacterableInterface
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable implements ReacterableInterface
     use Reacterable;
     use HasConfig;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
