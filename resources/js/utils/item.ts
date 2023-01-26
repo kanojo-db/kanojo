@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 /**
  * Returns the title of the movie in the correct language.
@@ -9,7 +10,9 @@ import { computed } from 'vue';
  * @returns {string} - The title of the movie.
  */
 export function getTitle(movie) {
-    return movie.title.en ? movie.title.en : movie.title.jp;
+    const locale = useI18n().locale.value;
+
+    return movie.title[locale] ? movie.title[locale] : movie.title['ja-JP'];
 }
 
 /**
@@ -35,7 +38,9 @@ export function useTitle(movie) {
  * @returns {string} - The name of the item.
  */
 export function getName(item) {
-    return item.name.en ? item.name.en : item.name.jp;
+    const locale = useI18n().locale.value;
+
+    return item.name[locale] ? item.name[locale] : item.name['ja-JP'];
 }
 
 /**

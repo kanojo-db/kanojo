@@ -24,7 +24,7 @@ class MovieDetailsController extends Controller
     public function show(Movie $movie)
     {
         // Get the language from the query string, default to en-US
-        $language = request()->query('language', 'en');
+        $language = request()->query('language', 'en-US');
 
         // Load tags to use for genres
         $movie->load('tags');
@@ -52,7 +52,7 @@ class MovieDetailsController extends Controller
             $studio = [
                 [
                     "id" => $movie->studio->id,
-                    "name" => $movie->studio->getTranslation('name', 'en', true) === '' ? $movie->studio->getTranslation('name', 'jp', false) : $movie->studio->getTranslation('name', 'en', false),
+                    "name" => $movie->studio->getTranslation('name', $language, true) === '' ? $movie->studio->getTranslation('name', 'ja-JP', false) : $movie->studio->getTranslation('name', $language, false),
                 ]
             ];
         } else {
@@ -71,7 +71,7 @@ class MovieDetailsController extends Controller
 
             return [
                 "id" => $model->id,
-                "name" => $model->getTranslation('name', $language, true) === '' ? $model->getTranslation('name', 'jp', false) : $model->getTranslation('name', $language, false),
+                "name" => $model->getTranslation('name', $language, true) === '' ? $model->getTranslation('name', 'ja-JP', false) : $model->getTranslation('name', $language, false),
                 "age" => $age,
                 "age_text" => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
                 "profile_path" => $model->getFirstMedia('profile') !== null ? $model->getFirstMedia('profile')->getFullUrl() : null,
@@ -83,7 +83,7 @@ class MovieDetailsController extends Controller
             "cast" => $cast,
             "genres" => $genres,
             "id" => $movie->id,
-            "original_title" => $movie->getTranslation('title', 'jp', false),
+            "original_title" => $movie->getTranslation('title', 'ja-JP', false),
             "popularity" => [
                 "today" => $movie->visitsDay(),
                 "this_week" => $movie->visitsWeek(),

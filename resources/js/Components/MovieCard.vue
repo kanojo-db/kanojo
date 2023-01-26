@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useFirstImage } from '../Pages/utils/item';
+import { useFirstImage, useTitle } from '@/utils/item';
 
 const props = defineProps({
     movie: {
@@ -15,6 +15,8 @@ const props = defineProps({
 const isVrMovie = computed(() => {
     return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
+
+const title = useTitle(props.movie);
 
 const posterUrl = useFirstImage(props.movie);
 
@@ -89,14 +91,14 @@ const userScore = computed(() => {
                     style="top: -25px"
                 >
                     <div
-                        class="row justify-center items-start text-overline text-black"
+                        class="row justify-center items-start text-overline text-grey-7"
                     >
                         <i18n-t
                             v-if="averageScore > 0"
                             keypath="web.general.x_percent"
                         >
                             <template #number>
-                                <span class="text-weight-bolder">{{
+                                <span class="text-weight-bolder text-h6">{{
                                     userScore
                                 }}</span>
                             </template>
@@ -110,7 +112,7 @@ const userScore = computed(() => {
                     </div>
                 </q-knob>
                 <span class="text-weight-bold q-mt-lg ellipsis-2-lines">{{
-                    movie.title.en ? movie.title.en : movie.title.jp
+                    title
                 }}</span>
                 <span class="q-mb-sm">{{ movie.product_code }}</span>
             </div>

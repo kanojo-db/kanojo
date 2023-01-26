@@ -1,11 +1,10 @@
 <script setup>
-import { computed } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
 
 import MovieCard from '@/Components/MovieCard.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage, useName } from '../utils/item';
+import { useFirstImage, useName } from '@/utils/item';
 
 const props = defineProps({
     person: {
@@ -16,11 +15,27 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    movies: {
+        type: Array,
+        required: true,
+    },
 });
 
 const posterUrl = useFirstImage(props.person, 'profile');
 
 const name = useName(props.person);
+
+const goToPage = (page) => {
+    const pageLink = props.movies.links.find((link) => link.label == page);
+
+    if (pageLink && pageLink.url) {
+        Inertia.visit(pageLink.url, {
+            preserveScroll: true,
+            preserveState: true,
+            only: ['movies'],
+        });
+    }
+};
 </script>
 
 <template>
@@ -64,10 +79,10 @@ const name = useName(props.person);
                             </q-badge>
                         </h1>
                         <span
-                            v-if="name !== person.name.jp"
+                            v-if="name !== person.name['ja-JP']"
                             class="text-subtitle1"
                         >
-                            {{ person.name.jp }}
+                            {{ person.name['ja-JP'] }}
                         </span>
                     </div>
                     <div class="row justify-start items-start">
@@ -202,13 +217,31 @@ const name = useName(props.person);
             </div>
         </div>
         <div class="q-pa-md">
+            <div class="row justify-center q-mb-md">
+                <q-pagination
+                    v-model="currentPage"
+                    :max="props.movies.last_page"
+                    :max-pages="6"
+                    boundary-numbers
+                    @update:model-value="goToPage"
+                />
+            </div>
             <div
                 class="fit row wrap justify-start items-start content-start q-gutter-md"
             >
                 <MovieCard
-                    v-for="movie in person.movies"
+                    v-for="movie in movies.data"
                     :key="movie.id"
                     :movie="movie"
+                />
+            </div>
+            <div class="row justify-center q-mb-md">
+                <q-pagination
+                    v-model="currentPage"
+                    :max="props.movies.last_page"
+                    :max-pages="6"
+                    boundary-numbers
+                    @update:model-value="goToPage"
                 />
             </div>
         </div>

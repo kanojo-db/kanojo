@@ -3,7 +3,8 @@ import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { useQuasar } from 'quasar';
 import { computed, defineProps, ref } from 'vue';
 
-import { useTitle } from '../Pages/utils/item';
+import { useTitle } from '@/utils/item';
+
 import DialogReportContent from './DialogReportContent.vue';
 import DialogShareLink from './DialogShareLink.vue';
 

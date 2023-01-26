@@ -1,7 +1,6 @@
 <script setup>
+import SidemenuBibleGeneral from '@/Components/SidemenuBibleGeneral.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import SidemenuBibleGeneral from '../../Components/SidemenuBibleGeneral.vue';
 </script>
 
 <template>

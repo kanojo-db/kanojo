@@ -5,8 +5,7 @@ import { computed } from 'vue';
 
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage, useName } from '../utils/item';
+import { useFirstImage, useName } from '@/utils/item';
 
 const props = defineProps({
     model: {

@@ -2,22 +2,24 @@
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
-import { computed } from 'vue';
 
 import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage } from '../utils/item';
+import { useFirstImage, useName } from '@/utils/item';
 
 const props = defineProps({
-    person: Object,
-    posters: Object,
+    person: {
+        type: Object,
+        required: true,
+    },
+    posters: {
+        type: Object,
+        required: true,
+    },
 });
 
-const title = computed(() =>
-    props.person.name.en ? props.person.name.en : props.person.name.jp,
-);
+const name = useName(props.person);
 
 const posterUrl = useFirstImage(props.person, 'profile');
 
@@ -27,7 +29,7 @@ const mediaUploadForm = useForm({
 });
 
 const mediaFormSubmit = () => {
-    mediaUploadForm.post(route('models.media.store', person), {
+    mediaUploadForm.post(route('models.media.store', props.person), {
         preserveScroll: true,
         onSuccess: () => {
             mediaUploadForm.reset();

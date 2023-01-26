@@ -1,11 +1,11 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage } from '../utils/item';
+import { useFirstImage, useTitle } from '@/utils/item';
 
 const props = defineProps({
     movie: {
@@ -14,15 +14,15 @@ const props = defineProps({
     },
 });
 
-const title = computed(() =>
-    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
-);
+const title = useTitle(props.movie);
 
 const posterUrl = useFirstImage(props.movie);
 
+const locale = useI18n().locale.value;
+
 const movieEditForm = useForm({
-    title: props.movie.title.en,
-    original_title: props.movie.title.jp,
+    title: props.movie.title[locale],
+    original_title: props.movie.title['ja-JP'],
     product_code: props.movie.product_code,
     release_date: props.movie.release_date,
     runtime: props.movie.runtime,

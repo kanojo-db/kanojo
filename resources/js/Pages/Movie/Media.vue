@@ -7,8 +7,7 @@ import { computed } from 'vue';
 import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage } from '../utils/item';
+import { useFirstImage, useTitle } from '@/utils/item';
 
 const props = defineProps({
     movie: {
@@ -21,9 +20,7 @@ const props = defineProps({
     },
 });
 
-const title = computed(() =>
-    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
-);
+const title = useTitle(props.movie);
 
 const posterUrl = useFirstImage(props.movie);
 

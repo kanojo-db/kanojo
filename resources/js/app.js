@@ -26,10 +26,12 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue'),
         ),
     setup({ el, app, props, plugin }) {
+        console.debug('initalPage', props.initialPage.props);
+
         const i18n = createI18n({
             legacy: false,
             locale: props.initialPage.props.locale,
-            fallbackLocale: 'en',
+            fallbackLocale: 'en-US',
             messages: localeMessages,
         });
 

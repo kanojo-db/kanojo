@@ -5,8 +5,7 @@ import { computed } from 'vue';
 
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage } from '../utils/item';
+import { useFirstImage, useTitle } from '@/utils/item';
 
 const props = defineProps({
     movie: {
@@ -21,9 +20,7 @@ const props = defineProps({
 
 const posterUrl = useFirstImage(props.movie);
 
-const title = computed(() =>
-    props.movie.title.en ? props.movie.title.en : props.movie.title.jp,
-);
+const title = useTitle(props.movie);
 
 const isSystemChange = (change) => {
     return change.user_id === null && change.url === 'console';

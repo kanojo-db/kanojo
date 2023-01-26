@@ -1,13 +1,12 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia';
-import { computed, defineProps, ref } from 'vue';
+import { defineProps, ref } from 'vue';
 
 import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
 import MovieCard from '@/Components/MovieCard.vue';
+import StudioTabBar from '@/Components/StudioTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import StudioTabBar from '../../Components/StudioTabBar.vue';
-import { useName } from '../utils/item';
+import { useName } from '@/utils/item';
 
 const props = defineProps({
     studio: {

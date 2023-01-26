@@ -5,10 +5,9 @@ import copy from 'copy-to-clipboard';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
 
+import DialogCreateToken from '@/Components/DialogCreateToken.vue';
 import MenuCardSettings from '@/Components/MenuCardSettings.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import DialogCreateToken from '../../Components/DialogCreateToken.vue';
 
 const props = defineProps({
     tokens: {

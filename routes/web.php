@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\AboutKanojo;
+use App\Http\Controllers\ContentReportController;
+use App\Http\Controllers\MovieCollectionController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\MovieDislikeController;
+use App\Http\Controllers\MovieFavoriteController;
 use App\Http\Controllers\MovieHistoryController;
 use App\Http\Controllers\MovieLikeController;
-use App\Http\Controllers\MovieDislikeController;
+use App\Http\Controllers\MovieMediaController;
+use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonHistoryController;
 use App\Http\Controllers\PersonMediaController;
@@ -12,20 +17,12 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsAccountController;
 use App\Http\Controllers\SettingsSessionsController;
 use App\Http\Controllers\SettingsTokensController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\MovieFavoriteController;
-use App\Http\Controllers\MovieCollectionController;
-use App\Http\Controllers\MovieWishlistController;
-use App\Http\Controllers\MovieMediaController;
-use App\Http\Controllers\ContentReportController;
 use App\Http\Controllers\StudioController;
 use App\Models\Movie;
 use App\Models\Person;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /*
@@ -51,7 +48,7 @@ Route::get('/', function () {
                 'loveReactant.reactions.type',
                 'loveReactant.reactionCounters',
                 'loveReactant.reactionTotal',
-                'type'
+                'type',
             ])
             ->popularMonth()
             ->take(25)
@@ -65,7 +62,7 @@ Route::get('/', function () {
                 'loveReactant.reactions.type',
                 'loveReactant.reactionCounters',
                 'loveReactant.reactionTotal',
-                'type'
+                'type',
             ])
             ->latest()
             ->take(25)
@@ -79,7 +76,7 @@ Route::get('/', function () {
                 'loveReactant.reactions.type',
                 'loveReactant.reactionCounters',
                 'loveReactant.reactionTotal',
-                'type'
+                'type',
             ])
             ->take(25)
             ->get(),
@@ -93,7 +90,7 @@ Route::get('/', function () {
                 'loveReactant.reactions.type',
                 'loveReactant.reactionCounters',
                 'loveReactant.reactionTotal',
-                'type'
+                'type',
             ])
             ->take(25)
             ->get(),
@@ -112,6 +109,17 @@ Route::get('/', function () {
     ]);
 });
 
+Route::post('/user/locale', function () {
+    request()->validate([
+        'locale' => ['required', 'string', 'in:en-US,fr-FR,es-ES'],
+    ]);
+
+    app()->setLocale(request('locale'));
+    session()->put('locale', request('locale'));
+
+    return redirect()->back();
+})->name('user.locale.store');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/settings/account', [SettingsAccountController::class, 'show'])->name('settings.account');
     Route::post('/settings/account', [SettingsAccountController::class, 'update'])->name('settings.account.update');
@@ -129,10 +137,10 @@ Route::resource('about', AboutKanojo::class)->only(['index'])->shallow();
 
 Route::resource('movies', MovieController::class);
 Route::resource('movies.media', MovieMediaController::class)->only([
-    'index', 'store', 'destroy'
+    'index', 'store', 'destroy',
 ])->shallow();
 Route::resource('movies.history', MovieHistoryController::class)->only([
-    'index'
+    'index',
 ])->shallow();
 Route::resource('movies.like', MovieLikeController::class)->only(['store'])->shallow();
 Route::resource('movies.dislike', MovieDislikeController::class)->only(['store'])->shallow();
@@ -143,15 +151,15 @@ Route::resource('movies.reports', ContentReportController::class)->shallow();
 
 Route::resource('models', PersonController::class);
 Route::resource('models.media', PersonMediaController::class)->only([
-    'index', 'store', 'destroy'
+    'index', 'store', 'destroy',
 ])->shallow();
 Route::resource('models.history', PersonHistoryController::class)->only([
-    'index'
+    'index',
 ])->shallow();
 
 Route::resource('studios', StudioController::class);
 
-Route::get('/user/{user}', function (\App\Models\User $user) {
+Route::get('/user/{user}', function (User $user) {
     return Inertia::render('Profile/Show', [
         'user' => $user,
         'isCurrentUser' => $user->is(auth()->user()),

@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Movie;
+use App;
 
 class PersonController extends Controller
 {
@@ -18,76 +19,76 @@ class PersonController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $models = QueryBuilder::for(Person::class)
-        ->defaultSort('-created_at')
-        ->allowedSorts('created_at', 'birthdate', 'height')
-        ->allowedFilters([
-            AllowedFilter::scope('born', 'born_between'),
-            'height',
-            'bust',
-            'waist',
-            'hip',
-        ])
-        ->with('media')
-        ->paginate(25)
-        ->appends(request()->query());
-
-        $birth_counts = Person::select(
-            DB::raw('YEAR(birthdate) AS value'),
-            DB::raw('COUNT(*) AS count')
-        )
-        ->where('birthdate', '!=', null)
-        ->groupBy(
-            DB::raw('value')
-        )
-        ->orderBy(
-            DB::raw('value')
-        )
-        ->get();
-
-        $height_counts = Person::select(
-            DB::raw('height as value'),
-            DB::raw('COUNT(*) AS count')
-        )
-        ->where('height', '!=', null)
-        ->groupBy('value')
-        ->orderBy('value')
-        ->get();
-
-        $bust_counts = Person::select(
-            DB::raw('bust as value'),
-            DB::raw('COUNT(*) AS count')
-        )
-        ->where('bust', '!=', null)
-        ->groupBy('value')
-        ->orderBy('value')
-        ->get();
-
-        $waist_counts = Person::select(
-            DB::raw('waist as value'),
-            DB::raw('COUNT(*) AS count')
-        )
-        ->where('waist', '!=', null)
-        ->groupBy('value')
-        ->orderBy('value')
-        ->get();
-
-        $hip_counts = Person::select(
-            DB::raw('hip as value'),
-            DB::raw('COUNT(*) AS count')
-        )
-        ->where('hip', '!=', null)
-        ->groupBy('value')
-        ->orderBy('value')
-        ->get();
-
         return Inertia::render('Person/Index', [
-            'models' => $models,
-            'birth_counts' => $birth_counts,
-            'height_counts' => $height_counts,
-            'bust_counts' => $bust_counts,
-            'waist_counts' => $waist_counts,
-            'hip_counts' => $hip_counts,
+            'models' => function () {
+                return QueryBuilder::for(Person::class)
+                    ->defaultSort('-created_at')
+                    ->allowedSorts(['created_at', 'birthdate', 'height'])
+                    ->allowedFilters([
+                        AllowedFilter::scope('born', 'born_between'),
+                        'height',
+                        'bust',
+                        'waist',
+                        'hip',
+                    ])
+                    ->with('media')
+                    ->paginate(25)
+                    ->appends(request()->query());
+            },
+            'birthCounts' => function () {
+                return Person::select(
+                    DB::raw('YEAR(birthdate) AS value'),
+                    DB::raw('COUNT(*) AS count')
+                )
+                ->where('birthdate', '!=', null)
+                ->groupBy(
+                    DB::raw('value')
+                )
+                ->orderBy(
+                    DB::raw('value')
+                )
+                ->get();
+            },
+            'heightCounts' => function () {
+                return Person::select(
+                    DB::raw('height as value'),
+                    DB::raw('COUNT(*) AS count')
+                )
+                ->where('height', '!=', null)
+                ->groupBy('value')
+                ->orderBy('value')
+                ->get();
+            },
+            'bustCounts' => function () {
+                return Person::select(
+                    DB::raw('bust as value'),
+                    DB::raw('COUNT(*) AS count')
+                )
+                ->where('bust', '!=', null)
+                ->groupBy('value')
+                ->orderBy('value')
+                ->get();
+            },
+            'waistCounts' => function () {
+                return Person::select(
+                    DB::raw('waist as value'),
+                    DB::raw('COUNT(*) AS count')
+                )
+                ->where('waist', '!=', null)
+                ->groupBy('value')
+                ->orderBy('value')
+                ->get();
+            },
+            'hipCounts' => function () {
+                return  Person::select(
+                        DB::raw('hip as value'),
+                        DB::raw('COUNT(*) AS count')
+                    )
+                    ->where('hip', '!=', null)
+                    ->groupBy('value')
+                    ->orderBy('value')
+                    ->get();
+            },
         ]);
     }
 
@@ -100,15 +101,6 @@ class PersonController extends Controller
     {
         $model->load([
             'media',
-            'movies' => function($query) {
-                $query->orderBy('release_date', 'desc');
-            },
-            'movies.media',
-            'movies.type',
-            'movies.loveReactant.reactions.reacter.reacterable',
-            'movies.loveReactant.reactions.type',
-            'movies.loveReactant.reactionCounters',
-            'movies.loveReactant.reactionTotal'
         ]);
 
         $model->visit();
@@ -118,7 +110,18 @@ class PersonController extends Controller
             $query->where('person_id', $model->id);
         })->withoutGlobalScope('filterHidden')->count();
 
-        return Inertia::render('Person/Show', ['person' => $model, 'movieCount' => $movieCount]);
+        $movies = Movie::whereHas('models', function($query) use ($model) {
+            $query->where('person_id', $model->id);
+        })->with([
+            'media',
+            'type',
+            'loveReactant.reactions.reacter.reacterable',
+            'loveReactant.reactions.type',
+            'loveReactant.reactionCounters',
+            'loveReactant.reactionTotal'
+        ])->orderBy('release_date', 'desc')->paginate(25);
+
+        return Inertia::render('Person/Show', ['person' => $model, 'movieCount' => $movieCount, 'movies' => $movies]);
     }
 
     /**
@@ -142,6 +145,8 @@ class PersonController extends Controller
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
+        $locale = App::getLocale();
+
         $data = $request->validate([
             'name' => [],
             'original_name' => ['required'],
@@ -162,8 +167,8 @@ class PersonController extends Controller
 
         $person->update([
             'name' => [
-                'en' => $data['name'],
-                'jp' => $data['original_name'],
+                $locale => $data['name'],
+                'ja-JP' => $data['original_name'],
             ],
             'birthdate' => $data['birthdate'],
             'country' => $data['country'],

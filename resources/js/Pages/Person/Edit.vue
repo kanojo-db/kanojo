@@ -1,12 +1,12 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useName } from '../Pages/utils/item';
-import { useFirstImage } from '../utils/item';
+import { useName } from '@/utils/item';
+import { useFirstImage } from '@/utils/item';
 
 const props = defineProps({
     person: {
@@ -19,9 +19,11 @@ const name = useName(props.person);
 
 const posterUrl = useFirstImage(props.person, 'profile');
 
+const locale = useI18n().locale.value;
+
 const personEditForm = useForm({
-    name: props.person.name.en,
-    original_name: props.person.name.jp,
+    name: props.person.name[locale],
+    original_name: props.person.name['ja-JP'],
     birthdate: props.person.birthdate,
     career_start: props.person.career_start,
     career_end: props.person.career_end,

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Tags\Tag;
+use App;
 
 class MovieController extends Controller
 {
@@ -43,6 +44,8 @@ class MovieController extends Controller
      */
     public function store(StoreMovieRequest $request): \Illuminate\Http\RedirectResponse
     {
+        $locale = App::getLocale();
+
         $studio_id = $request->studio_id;
         $studio = Studio::find($studio_id);
 
@@ -51,8 +54,8 @@ class MovieController extends Controller
 
         $movie = $studio->movies()->create([
             'title' => [
-                'en' => $request->title,
-                'jp' => $request->original_title,
+                $locale => $request->title,
+                'ja-JP' => $request->original_title,
             ],
             'product_code' => $request->product_code,
             'release_date' => $request->release_date,
@@ -135,6 +138,9 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
+        // TODO: Allow updating other locales. Maybe through another controller?
+        $locale = App::getLocale();
+
         $data = $request->validate([
             'title' => [],
             'original_title' => ['required'],
@@ -147,8 +153,8 @@ class MovieController extends Controller
 
         $movie->update([
             'title' => [
-                'en' => $data['title'],
-                'jp' => $data['original_title'],
+                $locale => $data['title'],
+                'ja-JP' => $data['original_title'],
             ],
             'product_code' => $data['product_code'],
             'release_date' => $data['release_date'],

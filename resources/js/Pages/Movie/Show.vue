@@ -6,8 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-
-import { useFirstImage, useName, useTitle } from '../utils/item';
+import { getName, useFirstImage, useName, useTitle } from '@/utils/item';
 
 const props = defineProps({
     movie: {
@@ -83,7 +82,7 @@ const hasDisliked = computed(() => {
 const title = useTitle(props.movie);
 const studioName = useName(props.movie.studio);
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const averageScore = computed(() => {
     if (props.movie.love_reactant.reaction_total?.count) {
@@ -381,11 +380,7 @@ const groupedTags = computed(() => {
                                         :key="`movie-tag-${tag.id}`"
                                         color="grey-4"
                                     >
-                                        {{
-                                            tag.name.en
-                                                ? tag.name.en
-                                                : tag.name.jp
-                                        }}
+                                        {{ getName(tag) }}
                                     </q-chip>
                                 </td>
                             </tr>
@@ -430,11 +425,7 @@ const groupedTags = computed(() => {
                                     </div>
                                     <div class="col">
                                         <div class="text-h6 q-my-none">
-                                            {{
-                                                model.name.en
-                                                    ? model.name.en
-                                                    : model.name.jp
-                                            }}
+                                            {{ getName(model) }}
                                         </div>
                                         <div
                                             v-if="model.birthdate"
@@ -484,11 +475,11 @@ const groupedTags = computed(() => {
                         </strong>
                         {{ movie.product_code }}
                     </p>
-                    <p v-if="movie.title.en">
+                    <p v-if="movie.title[locale]">
                         <strong class="block">
                             {{ $t('web.movie.show.original_title') }}
                         </strong>
-                        {{ movie.title.jp }}
+                        {{ movie.title['ja-JP'] }}
                     </p>
                     <p v-if="movie.studio">
                         <strong class="block">

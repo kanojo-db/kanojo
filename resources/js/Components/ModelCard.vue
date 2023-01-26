@@ -2,7 +2,7 @@
 import { Link } from '@inertiajs/inertia-vue3';
 import { computed } from 'vue';
 
-import { useFirstImage, useName } from '../Pages/utils/item';
+import { useFirstImage, useName } from '@/utils/item';
 
 const props = defineProps({
     model: {

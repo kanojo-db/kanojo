@@ -1,5 +1,5 @@
 export default {
-    "en": {
+    "en-US": {
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
@@ -343,7 +343,7 @@ export default {
             }
         }
     },
-    "es": {
+    "es-ES": {
         "web": {
             "about": {
                 "community": "Comunidad",
@@ -389,7 +389,6 @@ export default {
                     "settings": "Ajustes",
                     "discord": "Servidor en discord"
                 },
-                "not_available": "N/D",
                 "x_percent": "{number}%",
                 "view_profile": "Ver perfil",
                 "logout": "Cerrar Sesión",
@@ -491,7 +490,7 @@ export default {
             }
         }
     },
-    "fr": {
+    "fr-FR": {
         "web": {
             "about": {
                 "title": "Kanojo est une base de données {0} de films pour adultes japonais et de vidéos de gravure",

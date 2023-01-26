@@ -11,23 +11,23 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    birth_counts: {
+    birthCounts: {
         type: Object,
         required: true,
     },
-    height_counts: {
+    heightCounts: {
         type: Object,
         required: true,
     },
-    bust_counts: {
+    bustCounts: {
         type: Object,
         required: true,
     },
-    waist_counts: {
+    waistCounts: {
         type: Object,
         required: true,
     },
-    hip_counts: {
+    hipCounts: {
         type: Object,
         required: true,
     },
@@ -118,7 +118,8 @@ function applyFilters() {
         params['filter[hip]'] = `${hipRange.value.min},${hipRange.value.max}`;
     }
 
-    Inertia.get(route('models.index'), params, {
+    Inertia.visit(route('models.index'), params, {
+        only: ['models'],
         preserveState: true,
         preserveScroll: true,
     });
@@ -150,7 +151,7 @@ function applyFilters() {
                                 >
                                 <RangeSlider
                                     v-model="dateRange"
-                                    :counts="birth_counts"
+                                    :counts="birthCounts"
                                 />
                             </div>
                         </div>
@@ -164,7 +165,7 @@ function applyFilters() {
                                 >
                                 <RangeSlider
                                     v-model="heightRange"
-                                    :counts="height_counts"
+                                    :counts="heightCounts"
                                     left-label-value="cm"
                                     right-label-value="cm"
                                 />
@@ -180,7 +181,7 @@ function applyFilters() {
                                 >
                                 <RangeSlider
                                     v-model="bustRange"
-                                    :counts="bust_counts"
+                                    :counts="bustCounts"
                                     left-label-value="cm"
                                     right-label-value="cm"
                                 />
@@ -196,7 +197,7 @@ function applyFilters() {
                                 >
                                 <RangeSlider
                                     v-model="waistRange"
-                                    :counts="waist_counts"
+                                    :counts="waistCounts"
                                     left-label-value="cm"
                                     right-label-value="cm"
                                 />
@@ -212,7 +213,7 @@ function applyFilters() {
                                 >
                                 <RangeSlider
                                     v-model="hipRange"
-                                    :counts="hip_counts"
+                                    :counts="hipCounts"
                                     left-label-value="cm"
                                     right-label-value="cm"
                                 />
