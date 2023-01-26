@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import ModelCard from '@/Components/ModelCard.vue';
@@ -81,7 +81,7 @@ const goToPage = (page) => {
     const pageLink = props.models.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
-        Inertia.get(pageLink.url);
+        router.get(pageLink.url);
     }
 };
 
@@ -118,7 +118,7 @@ function applyFilters() {
         params['filter[hip]'] = `${hipRange.value.min},${hipRange.value.max}`;
     }
 
-    Inertia.visit(route('models.index'), params, {
+    router.visit(route('models.index'), params, {
         only: ['models'],
         preserveState: true,
         preserveScroll: true,

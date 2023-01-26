@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 
 import MovieCard from '@/Components/MovieCard.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
@@ -29,7 +29,7 @@ const goToPage = (page) => {
     const pageLink = props.movies.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
-        Inertia.visit(pageLink.url, {
+        router.visit(pageLink.url, {
             preserveScroll: true,
             preserveState: true,
             only: ['movies'],

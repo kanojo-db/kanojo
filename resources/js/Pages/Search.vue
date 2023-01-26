@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import ModelCard from '@/Components/ModelCard.vue';
@@ -30,14 +30,14 @@ if (route().params.type === 'person') {
 const currentPage = ref(results.current_page);
 
 const goToType = (type) => {
-    Inertia.get('search', { type, q: route().params.q });
+    router.get('search', { type, q: route().params.q });
 };
 
 const goToPage = (page) => {
     const pageLink = results.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
-        Inertia.get(pageLink.url);
+        router.get(pageLink.url);
     }
 };
 </script>

@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 
 defineProps({
     status: String,

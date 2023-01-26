@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm, usePage } from '@inertiajs/inertia-vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { DateTime, Duration } from 'luxon';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -56,11 +56,11 @@ const movieDuration = computed(() => {
     return Duration.fromObject({ minutes: props.movie.length });
 });
 
+const page = usePage();
+
 const hasLiked = computed(() => {
     const userLike = props.movie.love_reactant.reactions.filter((reaction) => {
-        return (
-            reaction.reacter.reacterable.id === usePage().props.value.user.id
-        );
+        return reaction.reacter.reacterable.id === page.props.user.id;
     });
 
     return userLike.length > 0 && userLike[0].reaction_type_id === 1;
@@ -69,10 +69,7 @@ const hasLiked = computed(() => {
 const hasDisliked = computed(() => {
     const userDislike = props.movie.love_reactant.reactions.filter(
         (reaction) => {
-            return (
-                reaction.reacter.reacterable.id ===
-                usePage().props.value.user.id
-            );
+            return reaction.reacter.reacterable.id === page.props.user.id;
         },
     );
 

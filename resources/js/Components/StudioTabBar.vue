@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, usePage } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
 import { computed, defineProps, ref } from 'vue';
 
@@ -20,7 +20,7 @@ const fullUrl = ref(window.location.href.split('?')[0]);
 const page = usePage();
 
 const isAdmin = computed(() => {
-    const adminRoles = page.props.value.user?.roles.filter(
+    const adminRoles = page.props.user?.roles.filter(
         (role) => role.name === 'admin',
     );
 

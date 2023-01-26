@@ -1,9 +1,9 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
-import { computed, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
+
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
 defineProps({
     title: {
@@ -16,7 +16,7 @@ defineProps({
 const showSearch = ref(false);
 
 const logout = () => {
-    Inertia.post(route('logout'));
+    router.post(route('logout'));
 };
 
 const searchForm = useForm({
@@ -33,52 +33,6 @@ const submit = () => {
             return { q: q.trim() };
         })
         .get(route('search'));
-};
-
-const i18n = useI18n();
-
-const locale = computed(() => {
-    return i18n.locale.value.split('-')[0].toUpperCase();
-});
-
-const localeList = ref([
-    {
-        label: 'English (en-US)',
-        value: 'en-US',
-    },
-    {
-        label: 'French (fr-FR)',
-        value: 'fr-FR',
-    },
-    {
-        label: 'Spanish (es-ES)',
-        value: 'es-ES',
-    },
-]);
-
-const currentLocale = ref({
-    label: localeList.value.find((locale) => locale.value === i18n.locale.value)
-        .label,
-    value: i18n.locale.value,
-});
-
-const changeLocaleForm = useForm({
-    locale: currentLocale.value.value,
-});
-
-const changeLocale = () => {
-    // Change the locale on the user's side early, to provide a better UX
-    i18n.locale.value = currentLocale.value.value;
-
-    changeLocaleForm.locale = currentLocale.value.value;
-
-    changeLocaleForm.post(route('user.locale.store'), {
-        preserveState: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            changeLocaleForm.reset();
-        },
-    });
 };
 </script>
 
@@ -106,30 +60,7 @@ const changeLocale = () => {
                     class="q-mr-lg"
                     @click="$inertia.get(route('movies.create'))"
                 />
-                <q-btn
-                    outline
-                    square
-                    class="q-mr-lg"
-                    :label="locale"
-                >
-                    <q-menu
-                        anchor="bottom middle"
-                        self="top middle"
-                    >
-                        <q-list
-                            class="q-pa-md"
-                            style="min-width: 300px"
-                        >
-                            <q-select
-                                v-model="currentLocale"
-                                :options="localeList"
-                                label="Translations"
-                                filled
-                                @update:model-value="changeLocale"
-                            />
-                        </q-list>
-                    </q-menu>
-                </q-btn>
+                <LanguageSwitcher />
                 <q-avatar
                     v-if="$page.props.user"
                     size="32px"

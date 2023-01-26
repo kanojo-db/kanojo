@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 import { defineProps, ref } from 'vue';
 
 import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
@@ -35,7 +35,7 @@ const goToPage = (page) => {
     const pageLink = props.movies.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
-        Inertia.visit(pageLink.url, { preserveScroll: true, only: ['movies'] });
+        router.visit(pageLink.url, { preserveScroll: true, only: ['movies'] });
     }
 };
 </script>

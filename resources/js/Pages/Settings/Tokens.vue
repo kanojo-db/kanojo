@@ -1,6 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import copy from 'copy-to-clipboard';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
@@ -42,7 +41,6 @@ const openTokenCreateDialog = () => {
 };
 
 const copyToken = (token) => {
-    console.debug('copyToken', token);
     copy(token, {
         onCopy: () => {
             $q.notify({
@@ -90,7 +88,7 @@ const columns = [
 ];
 
 const deleteToken = (rowId) => {
-    Inertia.delete(route('settings.tokens.destroy', rowId), {
+    router.delete(route('settings.tokens.destroy', rowId), {
         preserveScroll: true,
     });
 };

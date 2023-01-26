@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/vue3';
 
 import MenuCardSettings from '@/Components/MenuCardSettings.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';

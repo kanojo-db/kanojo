@@ -1,6 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
-import { Link, useForm } from '@inertiajs/inertia-vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -53,7 +52,7 @@ const updatePhotoPreview = () => {
 };
 
 const deletePhoto = () => {
-    Inertia.delete(route('current-user-photo.destroy'), {
+    router.delete(route('current-user-photo.destroy'), {
         preserveScroll: true,
         onSuccess: () => {
             photoPreview.value = null;
@@ -236,5 +235,4 @@ const clearPhotoFileInput = () => {
             </PrimaryButton>
         </template>
     </FormSection>
--->
-</template>
+--></template>

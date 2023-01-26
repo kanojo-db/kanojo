@@ -1,5 +1,4 @@
-import { createInertiaApp } from '@inertiajs/inertia-vue3';
-import { InertiaProgress } from '@inertiajs/progress';
+import { createInertiaApp } from '@inertiajs/vue3';
 import '@quasar/extras/mdi-v6/mdi-v6.css';
 import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css';
 import { BrowserTracing } from '@sentry/tracing';
@@ -25,7 +24,8 @@ createInertiaApp({
             `./Pages/${name}.vue`,
             import.meta.glob('./Pages/**/*.vue'),
         ),
-    setup({ el, app, props, plugin }) {
+    progress: { color: '#69306D', includeCSS: true },
+    setup({ el, App, props, plugin }) {
         console.debug('initalPage', props.initialPage.props);
 
         const i18n = createI18n({
@@ -35,7 +35,7 @@ createInertiaApp({
             messages: localeMessages,
         });
 
-        const vueApp = createApp({ render: () => h(app, props) })
+        const vueApp = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(i18n)
             .use(ZiggyVue, Ziggy)
@@ -65,8 +65,6 @@ createInertiaApp({
 
         vueApp.mount(el);
 
-        return app;
+        return App;
     },
 });
-
-InertiaProgress.init({ color: '#69306D', includeCSS: true });

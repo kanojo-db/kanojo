@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import MovieCard from '@/Components/MovieCard.vue';
@@ -18,7 +18,7 @@ const goToPage = (page) => {
     const pageLink = props.movies.links.find((link) => link.label == page);
 
     if (pageLink && pageLink.url) {
-        Inertia.get(pageLink.url);
+        router.get(pageLink.url);
     }
 };
 </script>

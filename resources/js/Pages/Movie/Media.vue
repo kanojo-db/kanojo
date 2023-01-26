@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/inertia-vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
 import { computed } from 'vue';
