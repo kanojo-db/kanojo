@@ -54,6 +54,13 @@
         "vue-i18n": "^9.2.2"
     },
     "lint-staged": {
-        "**/*.php": "./vendor/bin/pint"
+        "**/*.php": [
+            "./vendor/bin/pint",
+            "./vendor/bin/psalm --show-info=true"
+        ],
+        "**/*.{js,jsx,ts,tsx,vue}": [
+            "eslint --fix",
+            "prettier --write"
+        ]
     }
 }
