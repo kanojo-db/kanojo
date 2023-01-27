@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Person;
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
 use JsonMachine\Items;
 
 class DMMPersonSeeder extends Seeder
@@ -18,7 +17,6 @@ class DMMPersonSeeder extends Seeder
      */
     public function run()
     {
-
         $people = Items::fromFile('database/data/dmm_actress.json');
 
         foreach ($people as $person) {

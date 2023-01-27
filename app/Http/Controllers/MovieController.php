@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\Movie;
-use App\Models\Studio;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreMovieRequest;
-use App\Models\MovieType;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Spatie\Tags\Tag;
 use App;
 use App\Filters\FiltersFeaturedModelAge;
+use App\Http\Requests\StoreMovieRequest;
+use App\Models\Movie;
+use App\Models\MovieType;
+use App\Models\Studio;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\Tags\Tag;
 
 class MovieController extends Controller
 {
@@ -41,7 +42,7 @@ class MovieController extends Controller
                     ->defaultSort('-created_at')
                     ->allowedSorts(['created_at', 'product_code'])
                     ->allowedFilters([
-                        AllowedFilter::custom('age', new FiltersFeaturedModelAge)
+                        AllowedFilter::custom('age', new FiltersFeaturedModelAge),
                     ])
                     ->paginate(25)
                     ->appends(request()->query());
@@ -125,7 +126,7 @@ class MovieController extends Controller
             'loveReactant.reactions.reacter.reacterable',
             'loveReactant.reactions.type',
             'loveReactant.reactionCounters',
-            'loveReactant.reactionTotal'
+            'loveReactant.reactionTotal',
         ])->where('slug', $movie)->firstOrFail();
 
         // If it's in the user's favorites, mark it as such
@@ -157,9 +158,9 @@ class MovieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Movie  $movie
+     * @param  \App\Models\Movie  $movie
      */
-    public function edit(\App\Models\Movie $movie): \Inertia\Response
+    public function edit(Movie $movie): \Inertia\Response
     {
         $movie->load('studio', 'media', 'tags', 'type');
 
@@ -169,8 +170,8 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request  $request
-     * @param \App\Models\Movie  $movie
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Movie  $movie
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
@@ -203,9 +204,9 @@ class MovieController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Movie  $movie
+     * @param  \App\Models\Movie  $movie
      */
-    public function destroy(\App\Models\Movie $movie): \Illuminate\Http\RedirectResponse
+    public function destroy(Movie $movie): \Illuminate\Http\RedirectResponse
     {
         $movie->delete();
 

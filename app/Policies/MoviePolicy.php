@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Movie;
@@ -13,22 +15,22 @@ class MoviePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User  $user
+     * @param  \App\Models\User  $user
      */
     public function viewAny(User $user): void
     {
-        //
+
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User  $user
-     * @param \App\Models\Movie  $movie
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Movie  $movie
      */
     public function view(User $user, Movie $movie): void
     {
-        //
+
     }
 
     /**
@@ -69,12 +71,12 @@ class MoviePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User  $user
-     * @param \App\Models\Movie  $movie
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Movie  $movie
      */
     public function restore(User $user, Movie $movie): void
     {
-        //
+
     }
 
     /**

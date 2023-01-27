@@ -1,18 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\Movie;
-use App\Models\User;
-use App\Http\Requests\StoreMovieRequest;
-use App\Models\MovieType;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
-use Spatie\Tags\Tag;
 
 class MovieMediaController extends Controller
 {

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class MovieDetailsController extends Controller
@@ -15,7 +16,9 @@ class MovieDetailsController extends Controller
      * Get the primary information about a movie.
      *
      * @group Movie
+     *
      * @urlParam movie_slug required The slug of the movie, usually a product code. Example: abc-123
+     *
      * @queryParam language string Pass a locale value to display translated data for the fields that support it. Defaults to en. Example: jp
      *
      * @param  \App\Models\Movie  $movie
@@ -51,9 +54,9 @@ class MovieDetailsController extends Controller
         if ($movie->studio !== null) {
             $studio = [
                 [
-                    "id" => $movie->studio->id,
-                    "name" => $movie->studio->getTranslation('name', $language, true) === '' ? $movie->studio->getTranslation('name', 'ja-JP', false) : $movie->studio->getTranslation('name', $language, false),
-                ]
+                    'id' => $movie->studio->id,
+                    'name' => $movie->studio->getTranslation('name', $language, true) === '' ? $movie->studio->getTranslation('name', 'ja-JP', false) : $movie->studio->getTranslation('name', $language, false),
+                ],
             ];
         } else {
             $studio = [];
@@ -70,34 +73,34 @@ class MovieDetailsController extends Controller
             }
 
             return [
-                "id" => $model->id,
-                "name" => $model->getTranslation('name', $language, true) === '' ? $model->getTranslation('name', 'ja-JP', false) : $model->getTranslation('name', $language, false),
-                "age" => $age,
-                "age_text" => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
-                "profile_path" => $model->getFirstMedia('profile') !== null ? $model->getFirstMedia('profile')->getFullUrl() : null,
+                'id' => $model->id,
+                'name' => $model->getTranslation('name', $language, true) === '' ? $model->getTranslation('name', 'ja-JP', false) : $model->getTranslation('name', $language, false),
+                'age' => $age,
+                'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
+                'profile_path' => $model->getFirstMedia('profile') !== null ? $model->getFirstMedia('profile')->getFullUrl() : null,
             ];
         });
 
         // Return the movie details as JSON
         return response()->json([
-            "cast" => $cast,
-            "genres" => $genres,
-            "id" => $movie->id,
-            "original_title" => $movie->getTranslation('title', 'ja-JP', false),
-            "popularity" => [
-                "today" => $movie->visitsDay(),
-                "this_week" => $movie->visitsWeek(),
-                "this_month" => $movie->visitsMonth(),
-                "forever" => $movie->visitsForever(),
+            'cast' => $cast,
+            'genres' => $genres,
+            'id' => $movie->id,
+            'original_title' => $movie->getTranslation('title', 'ja-JP', false),
+            'popularity' => [
+                'today' => $movie->visitsDay(),
+                'this_week' => $movie->visitsWeek(),
+                'this_month' => $movie->visitsMonth(),
+                'forever' => $movie->visitsForever(),
             ],
-            "poster_path" => $poster,
-            "product_code" => $movie->product_code,
-            "release_date" => $movie->release_date,
-            "runtime" => $movie->length,
-            "studios" => $studio,
-            "title" => $movie->getTranslation('title', $language, true),
-            "vote_average" => $votes->avg() * 100,
-            "vote_count" => $total !== null ? $total->count : 0,
+            'poster_path' => $poster,
+            'product_code' => $movie->product_code,
+            'release_date' => $movie->release_date,
+            'runtime' => $movie->length,
+            'studios' => $studio,
+            'title' => $movie->getTranslation('title', $language, true),
+            'vote_average' => $votes->avg() * 100,
+            'vote_count' => $total !== null ? $total->count : 0,
         ]);
     }
 }

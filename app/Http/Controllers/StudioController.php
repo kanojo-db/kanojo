@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
@@ -14,7 +16,7 @@ class StudioController extends Controller
      */
     public function index(): void
     {
-        //
+
     }
 
     /**
@@ -22,7 +24,7 @@ class StudioController extends Controller
      */
     public function create(): void
     {
-        //
+
     }
 
     /**
@@ -30,7 +32,7 @@ class StudioController extends Controller
      */
     public function store(): void
     {
-        //
+
     }
 
     /**
@@ -76,7 +78,7 @@ class StudioController extends Controller
      */
     public function edit(Studio $studio): void
     {
-        //
+
     }
 
     /**
@@ -86,7 +88,7 @@ class StudioController extends Controller
      */
     public function update(Studio $studio): void
     {
-        //
+
     }
 
     /**
@@ -96,6 +98,6 @@ class StudioController extends Controller
      */
     public function destroy(Studio $studio): void
     {
-        //
+
     }
 }

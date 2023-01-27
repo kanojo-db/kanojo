@@ -1,19 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\Person;
-use App\Models\Studio;
-use App\Models\User;
-use App\Http\Requests\StoreMovieRequest;
-use App\Models\MovieType;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
-use Spatie\Tags\Tag;
 
 class PersonMediaController extends Controller
 {
@@ -40,6 +33,5 @@ class PersonMediaController extends Controller
             $person->addMediaFromRequest('media')->toMediaCollection($request->collection_name);
         }
 
-        return;
     }
 }

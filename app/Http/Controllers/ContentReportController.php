@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\ReportType;
@@ -44,7 +46,7 @@ class ContentReportController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -86,7 +88,7 @@ class ContentReportController extends Controller
      */
     public function show(ContentReport $contentReport)
     {
-        //
+
     }
 
     /**
@@ -97,7 +99,7 @@ class ContentReportController extends Controller
      */
     public function edit(ContentReport $contentReport)
     {
-        //
+
     }
 
     /**
@@ -109,7 +111,7 @@ class ContentReportController extends Controller
      */
     public function update(Request $request, ContentReport $contentReport)
     {
-        //
+
     }
 
     /**
@@ -120,6 +122,6 @@ class ContentReportController extends Controller
      */
     public function destroy(ContentReport $contentReport)
     {
-        //
+
     }
 }

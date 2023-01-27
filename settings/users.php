@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use DarkGhostHunter\Laraconfig\Facades\Setting;
 
 Setting::name('show_jav')->boolean()->default(false);

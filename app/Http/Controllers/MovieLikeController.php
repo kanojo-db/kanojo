@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
-use App\Http\Requests\StoreMovieLikeRequest;
-use Cog\Laravel\Love\ReactionType\Models\ReactionType;
 use Illuminate\Support\Facades\Auth;
 
 class MovieLikeController extends Controller

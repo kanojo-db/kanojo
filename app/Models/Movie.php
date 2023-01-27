@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
+use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+use JordanMiguel\LaravelPopular\Traits\Visitable;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Tags\HasTags;
-use Spatie\Translatable\HasTranslations;
-use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
-use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use \JordanMiguel\LaravelPopular\Traits\Visitable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Tags\HasTags;
+use Spatie\Translatable\HasTranslations;
 
 class Movie extends Model implements HasMedia, AuditableContract, ReactableInterface
 {
@@ -77,7 +78,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('product_code')
@@ -164,23 +165,23 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
             $IdsToHide = [];
 
-            if (!$shouldShowJav->value) {
+            if (! $shouldShowJav->value) {
                 $IdsToHide[] = 1;
             }
 
-            if (!$shouldShowVr->value) {
+            if (! $shouldShowVr->value) {
                 $IdsToHide[] = 4;
             }
 
-            if (!$shouldShowGravure->value) {
+            if (! $shouldShowGravure->value) {
                 $IdsToHide[] = 2;
             }
 
-            if (!$shouldShowMinors->value) {
+            if (! $shouldShowMinors->value) {
                 $IdsToHide[] = 3;
             }
 
-            if (!empty($IdsToHide)) {
+            if (! empty($IdsToHide)) {
                 return $query->whereNotIn('type_id', $IdsToHide);
             }
 

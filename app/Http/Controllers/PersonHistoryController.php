@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\Movie;
 use App\Models\Person;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PersonHistoryController extends Controller
@@ -16,6 +16,6 @@ class PersonHistoryController extends Controller
     {
         $person = Person::with(['media'])->findOrFail($id);
 
-        return Inertia::render('Person/History', ['model' => $person, 'history' => $person->audits()->orderBy('updated_at','DESC')->get()]);
+        return Inertia::render('Person/History', ['model' => $person, 'history' => $person->audits()->orderBy('updated_at', 'DESC')->get()]);
     }
 }

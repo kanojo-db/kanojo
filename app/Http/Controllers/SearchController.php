@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use ProtoneMedia\LaravelCrossEloquentSearch\Search;
 
 class SearchController extends Controller
 {

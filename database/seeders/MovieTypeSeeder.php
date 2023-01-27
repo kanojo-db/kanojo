@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\MovieType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MovieTypeSeeder extends Seeder
@@ -26,7 +27,7 @@ class MovieTypeSeeder extends Seeder
 
         foreach ($movie_types as $movie_type) {
             MovieType::create([
-                "name" => $movie_type['name'],
+                'name' => $movie_type['name'],
             ]);
         }
     }

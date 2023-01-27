@@ -247,22 +247,26 @@ const orderedTopUsers = computed(() => {
                         :key="`top-user-${user.id}`"
                         class="row items-center"
                     >
-                        <q-avatar
-                            size="90px"
-                            class="bg-grey-1"
-                        >
-                            <q-icon
-                                name="mdi-account"
-                                size="48px"
-                                color="grey-2"
-                            />
-                        </q-avatar>
-                        <div class="col-grow column q-ml-md">
-                            <h3
-                                class="text-h5 text-weight-bold q-mt-none q-mb-xs"
+                        <Link :href="route('profile.show', user)">
+                            <q-avatar
+                                size="90px"
+                                class="bg-grey-1"
                             >
-                                {{ user.name }}
-                            </h3>
+                                <q-icon
+                                    name="mdi-account"
+                                    size="48px"
+                                    color="grey-2"
+                                />
+                            </q-avatar>
+                        </Link>
+                        <div class="col-grow column q-ml-md">
+                            <Link :href="route('profile.show', user)">
+                                <h3
+                                    class="text-h5 text-weight-bold q-mt-none q-mb-xs"
+                                >
+                                    {{ user.name }}
+                                </h3>
+                            </Link>
                             <div class="row no-wrap items-center">
                                 <div
                                     class="bg-primary rounded-borders"

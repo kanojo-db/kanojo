@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Movie;
@@ -23,24 +25,24 @@ class IVMovieSeeder extends Seeder
         foreach ($movies as $movie) {
             try {
                 $movieRecord = Movie::create([
-                    "title" => [
+                    'title' => [
                         'jp' => $movie['title_jp'],
                         'en' => $movie['title_en'],
                     ],
                     'product_code' => $movie['product_code'],
-                    "release_date" => $movie['release_date'],
+                    'release_date' => $movie['release_date'],
                 ]);
 
                 $movieRecord->type()->associate($movie_type);
 
-                if (array_key_exists('models', $movie) && sizeof($movie['models']) > 0) {
+                if (array_key_exists('models', $movie) && count($movie['models']) > 0) {
                     foreach ($movie['models'] as $model) {
                         $modelRecord = Person::where('name->jp', $model)->first();
                         if ($modelRecord == null) {
                             $modelRecord = Person::create([
                                 'name' => [
                                     'jp' => $model,
-                                ]
+                                ],
                             ]);
                         }
 
@@ -48,20 +50,20 @@ class IVMovieSeeder extends Seeder
                     }
                 }
 
-                if (array_key_exists('genres', $movie) && sizeof($movie['genres']) > 0) {
+                if (array_key_exists('genres', $movie) && count($movie['genres']) > 0) {
                     foreach ($movie['genres'] as $genre) {
                         $movieRecord->attachTag($genre);
                     }
                 }
 
-                # If the movie has a studio, firstOrCreate it
+                // If the movie has a studio, firstOrCreate it
                 if (array_key_exists('studio', $movie) && $movie['studio'] != '') {
                     $studio = Studio::where('name->jp', $movie['studio'])->first();
                     if ($studio == null) {
                         $studio = Studio::create([
                             'name' => [
                                 'jp' => $movie['studio'],
-                            ]
+                            ],
                         ]);
                     }
 
@@ -69,18 +71,19 @@ class IVMovieSeeder extends Seeder
                 }
 
                 Log::info("Adding poster for {$movie['product_code']}");
-                $posterfile = sprintf("database/data/covers/%s.jpg", $movieRecord->product_code);
+                $posterfile = sprintf('database/data/covers/%s.jpg', $movieRecord->product_code);
                 if (File::exists($posterfile)) {
-                    Log::info(sprintf("Found poster for %s", $movie['product_code']));
+                    Log::info(sprintf('Found poster for %s', $movie['product_code']));
                     $movieRecord->addMedia($posterfile)->preservingOriginal()->toMediaCollection('poster');
                 } else {
-                    Log::info(sprintf("No poster found for %s", $movie['product_code']));
+                    Log::info(sprintf('No poster found for %s', $movie['product_code']));
                 }
 
                 $movieRecord->save();
             } catch (Throwable $t) {
                 Log::error($t->getMessage());
                 Log::error($t->getTraceAsString());
+
                 continue;
             }
         }

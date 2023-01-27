@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -9,7 +11,7 @@ return [
     | The default path where the translations are stored by Laravel.
     | Note: the path will be prepended to point to the App directory.
     |
-    */
+     */
 
     'langPath' => '/lang',
 
@@ -21,13 +23,13 @@ return [
     | You can choose which translation files to be generated.
     | Note: leave this empty for all the translation files to be generated.
     |
-    */
+     */
 
     'langFiles' => [
         /*
         'pagination',
         'passwords'
-        */
+         */
     ],
 
     /*
@@ -37,13 +39,13 @@ return [
     |
     | Exclude translation files, generic files or folders you don't need.
     |
-    */
+     */
     'excludes' => [
         /*
         'validation',
         'example.file',
         'example-folder',
-        */
+         */
     ],
 
     /*
@@ -54,7 +56,7 @@ return [
     | The javascript path where I will place the generated file.
     | Note: the path will be prepended to point to the App directory.
     |
-    */
+     */
     'jsPath' => '/resources/lang/',
     'jsFile' => '/resources/js/vue-i18n-locales.generated.js',
 
@@ -66,7 +68,7 @@ return [
     | Specify the library you use for localization.
     | Options are vue-i18n or vuex-i18n.
     |
-    */
+     */
     'i18nLib' => 'vue-i18n',
 
     /*
@@ -77,7 +79,7 @@ return [
     | Specify if the library should show "written to" messages
     | after generating json files.
     |
-    */
+     */
     'showOutputMessages' => false,
 
     /*
@@ -88,6 +90,6 @@ return [
    | Allows to escape translations strings that should not be treated as a
    | variable
    |
-   */
+     */
     'escape_char' => '!',
 ];

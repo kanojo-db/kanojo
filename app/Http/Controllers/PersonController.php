@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App;
+use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,8 +13,6 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Models\Movie;
-use App;
 
 class PersonController extends Controller
 {
@@ -81,9 +83,9 @@ class PersonController extends Controller
             },
             'hipCounts' => function () {
                 return  Person::select(
-                        DB::raw('hip as value'),
-                        DB::raw('COUNT(*) AS count')
-                    )
+                    DB::raw('hip as value'),
+                    DB::raw('COUNT(*) AS count')
+                )
                     ->where('hip', '!=', null)
                     ->groupBy('value')
                     ->orderBy('value')
@@ -95,7 +97,7 @@ class PersonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Person  $person
+     * @param  \App\Models\Person  $person
      */
     public function show(Person $model): \Inertia\Response
     {
@@ -106,11 +108,11 @@ class PersonController extends Controller
         $model->visit();
 
         // Get all movies with this person, and count them, without going through the relation
-        $movieCount = Movie::whereHas('models', function($query) use ($model) {
+        $movieCount = Movie::whereHas('models', function ($query) use ($model) {
             $query->where('person_id', $model->id);
         })->withoutGlobalScope('filterHidden')->count();
 
-        $movies = Movie::whereHas('models', function($query) use ($model) {
+        $movies = Movie::whereHas('models', function ($query) use ($model) {
             $query->where('person_id', $model->id);
         })->with([
             'media',
@@ -118,7 +120,7 @@ class PersonController extends Controller
             'loveReactant.reactions.reacter.reacterable',
             'loveReactant.reactions.type',
             'loveReactant.reactionCounters',
-            'loveReactant.reactionTotal'
+            'loveReactant.reactionTotal',
         ])->orderBy('release_date', 'desc')->paginate(25);
 
         return Inertia::render('Person/Show', ['person' => $model, 'movieCount' => $movieCount, 'movies' => $movies]);
@@ -127,7 +129,7 @@ class PersonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Person  $person
+     * @param  \App\Models\Person  $person
      */
     public function edit($id): \Inertia\Response
     {
@@ -141,7 +143,7 @@ class PersonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Models\Movie  $movie
+     * @param  \App\Models\Movie  $movie
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {

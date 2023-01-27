@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -35,6 +37,7 @@ class SettingsTokensController extends Controller
     public function destroy(Request $request, $tokenId)
     {
         $request->user()->tokens()->where('id', $tokenId)->delete();
+
         return back();
     }
 }

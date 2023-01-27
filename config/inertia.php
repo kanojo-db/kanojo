@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -14,7 +16,7 @@ return [
     | as a separate rendering service needs to be available. To learn more,
     | please visit https://inertiajs.com/server-side-rendering
     |
-    */
+     */
 
     'ssr' => [
 
@@ -34,7 +36,7 @@ return [
     | attempts to locate the component as a file relative to any of the
     | paths AND with any of the extensions specified here.
     |
-    */
+     */
 
     'testing' => [
 

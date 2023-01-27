@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -14,9 +16,11 @@ class SearchMovieController extends Controller
      * Search for movies.
      *
      * @group Search
+     *
      * @queryParam query string required Pass a text query to search. Can be a title or a product code. Example: ABC-123
      * @queryParam language string Pass a locale value to display translated data for the fields that support it. Defaults to en. Example: jp
      * @queryParam page integer Specify which page to query. Defaults to 1. Example: 2
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)

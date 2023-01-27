@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
+use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
+use DarkGhostHunter\Laraconfig\HasConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
-use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
-use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
-use DarkGhostHunter\Laraconfig\HasConfig;
-use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Models\Audit;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements ReacterableInterface
 {
