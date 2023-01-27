@@ -137,13 +137,19 @@ const groupedTags = computed(() => {
 </script>
 
 <template>
-    <AppLayout :title="title">
+    <AppLayout
+        itemscope
+        itemtype="https://schema.org/Movie"
+        :title="title"
+    >
         <div class="col bg-grey-3">
             <MovieTabBar :movie="movie" />
             <div class="row q-py-lg q-px-md">
                 <q-img
                     v-if="posterUrl"
                     :src="posterUrl"
+                    itemprop="image"
+                    :content="posterUrl"
                     height="450px"
                     width="300px"
                     :fit="isVrMovie ? 'contain' : 'cover'"
@@ -162,7 +168,10 @@ const groupedTags = computed(() => {
                 </div>
                 <div class="col">
                     <div class="row q-mb-sm">
-                        <h1 class="text-h4 q-mt-none q-mb-sm ellipsis-2-lines">
+                        <h1
+                            itemprop="name"
+                            class="text-h4 q-mt-none q-mb-sm ellipsis-2-lines"
+                        >
                             {{ title }}
                         </h1>
                         <div
@@ -178,12 +187,15 @@ const groupedTags = computed(() => {
                             </q-chip>
                             <span
                                 v-if="movie.release_date"
+                                itemprop="datePublished"
+                                :content="movie.release_date"
                                 class="text-body1 q-mx-md q-mt-none"
                             >
                                 {{ movieReleaseDate }}
                             </span>
                             <span
                                 v-if="movie.length > 0"
+                                itemprop="duration"
                                 class="text-body1 q-mt-none"
                             >
                                 {{
@@ -195,7 +207,27 @@ const groupedTags = computed(() => {
                         </div>
                     </div>
                     <div class="row justify-start items-center">
-                        <div class="row justify-start items-center">
+                        <div
+                            itemprop="aggregateRating"
+                            itemscope
+                            itemtype="https://schema.org/AggregateRating"
+                            class="row justify-start items-center"
+                        >
+                            <meta
+                                itemprop="ratingCount"
+                                :content="
+                                    props.movie.love_reactant.reaction_total
+                                        ?.count ?? 0
+                                "
+                            />
+                            <meta
+                                itemprop="bestRating"
+                                content="100"
+                            />
+                            <meta
+                                itemprop="worstRating"
+                                content="0"
+                            />
                             <q-knob
                                 :value="averageScore"
                                 readonly
@@ -207,6 +239,8 @@ const groupedTags = computed(() => {
                                 color="primary"
                                 center-color="grey-5"
                                 track-color="grey-5"
+                                itemprop="ratingValue"
+                                :content="averageScore"
                             >
                                 <div
                                     class="row justify-center items-start text-overline"
@@ -396,7 +430,14 @@ const groupedTags = computed(() => {
                             v-for="model in movie.models"
                             :key="`movie-model-${model.id}`"
                             class="col-4"
+                            itemprop="actor"
+                            itemscope
+                            itemtype="https://schema.org/Person"
                         >
+                            <meta
+                                itemprop="gender"
+                                content="https://schema.org/Female"
+                            />
                             <Link :href="route('models.show', model)">
                                 <div
                                     class="row bg-pink-1 q-pa-md rounded-borders"
@@ -421,7 +462,10 @@ const groupedTags = computed(() => {
                                         </q-avatar>
                                     </div>
                                     <div class="col">
-                                        <div class="text-h6 q-my-none">
+                                        <div
+                                            itemprop="name"
+                                            class="text-h6 q-my-none"
+                                        >
                                             {{ getName(model) }}
                                         </div>
                                         <div
@@ -429,12 +473,22 @@ const groupedTags = computed(() => {
                                             class="text-body1 q-mt-none"
                                         >
                                             {{ $t('web.movie.show.born') }}
-                                            {{
-                                                getHumanReadableDate(
-                                                    model.birthdate,
-                                                )
-                                            }}
-                                            <span v-if="model.birthdate">
+                                            <span
+                                                itemprop="birthDate"
+                                                :content="model.birthdate"
+                                            >
+                                                {{
+                                                    getHumanReadableDate(
+                                                        model.birthdate,
+                                                    )
+                                                }}
+                                            </span>
+                                            <span
+                                                v-if="
+                                                    model.birthdate &&
+                                                    movie.release_date
+                                                "
+                                            >
                                                 <i18n-t
                                                     keypath="web.movie.show.age"
                                                 >
@@ -478,11 +532,19 @@ const groupedTags = computed(() => {
                         </strong>
                         {{ movie.title['ja-JP'] }}
                     </p>
-                    <p v-if="movie.studio">
+                    <p
+                        v-if="movie.studio"
+                        itemprop="productionCompany"
+                        itemscope
+                        itemtype="https://schema.org/Organization"
+                    >
                         <strong class="block">
                             {{ $t('web.movie.show.studio') }}
                         </strong>
-                        <Link :href="route('studios.show', movie.studio)">
+                        <Link
+                            :href="route('studios.show', movie.studio)"
+                            itemprop="name"
+                        >
                             {{ studioName }}
                         </Link>
                     </p>

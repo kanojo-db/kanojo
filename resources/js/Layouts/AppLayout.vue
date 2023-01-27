@@ -5,8 +5,18 @@ import { ref } from 'vue';
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
-defineProps({
+const props = defineProps({
     title: {
+        type: String,
+        required: false,
+        default: '',
+    },
+    itemscope: {
+        type: Boolean,
+        required: false,
+        default: null,
+    },
+    itemtype: {
         type: String,
         required: false,
         default: '',
@@ -49,7 +59,7 @@ const websiteSchema = ref({
 </script>
 
 <template>
-    <Head :title="title">
+    <Head :title="props.title">
         <component
             :is="'script'"
             type="application/ld+json"
@@ -190,7 +200,12 @@ const websiteSchema = ref({
                         </template>
                     </q-input>
                 </q-form>
-                <slot />
+                <div
+                    :itemscope="props.itemscope"
+                    :itemtype="props.itemtype"
+                >
+                    <slot />
+                </div>
             </q-page>
         </q-page-container>
 
