@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 import CardSwiper from '@/Components/CardSwiper.vue';
@@ -130,38 +130,53 @@ const orderedTopUsers = computed(() => {
                 <div
                     class="col fit column justify-center items-center content-center text-white q-mx-md"
                 >
-                    <span
-                        class="text-weight-bold text-uppercase text-h6 text-center"
+                    <Link
+                        :href="route('movies.index')"
+                        class="column justify-center items-center content-center"
                     >
-                        {{ $t('web.welcome.countMovies') }}
-                    </span>
-                    <span class="text-weight-bolder text-h4">
-                        {{ props.movieCount.toLocaleString() }}
-                    </span>
+                        <span
+                            class="text-weight-bold text-uppercase text-h6 text-center"
+                        >
+                            {{ $t('web.welcome.countMovies') }}
+                        </span>
+                        <span class="text-weight-bolder text-h4">
+                            {{ props.movieCount.toLocaleString() }}
+                        </span>
+                    </Link>
                 </div>
                 <div
                     class="col fit column justify-center items-center content-center text-white q-mx-md"
                 >
-                    <span
-                        class="text-weight-bold text-uppercase text-h6 text-center"
+                    <Link
+                        :href="route('models.index')"
+                        class="column justify-center items-center content-center"
                     >
-                        {{ $t('web.welcome.countModels') }}
-                    </span>
-                    <span class="text-weight-bolder text-h4">
-                        {{ props.modelCount.toLocaleString() }}
-                    </span>
+                        <span
+                            class="text-weight-bold text-uppercase text-h6 text-center"
+                        >
+                            {{ $t('web.welcome.countModels') }}
+                        </span>
+                        <span class="text-weight-bolder text-h4">
+                            {{ props.modelCount.toLocaleString() }}
+                        </span>
+                    </Link>
                 </div>
                 <div
                     class="col fit column justify-center items-center content-center text-white q-mx-md"
                 >
-                    <span
-                        class="text-weight-bold text-uppercase text-h6 text-center"
+                    <Link
+                        :href="route('movies.index')"
+                        class="column justify-center items-center content-center"
                     >
-                        {{ $t('web.welcome.countCategories') }}
-                    </span>
-                    <span class="text-weight-bolder text-h4">
-                        {{ props.tagCount.toLocaleString() }}
-                    </span>
+                        <span
+                            class="text-weight-bold text-uppercase text-h6 text-center"
+                        >
+                            {{ $t('web.welcome.countCategories') }}
+                        </span>
+                        <span class="text-weight-bolder text-h4">
+                            {{ props.tagCount.toLocaleString() }}
+                        </span>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -173,31 +188,31 @@ const orderedTopUsers = computed(() => {
                 <CardSwiper :movies="props.recentlyReleasedMovies" />
             </section>
             <section>
-                <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
+                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                     {{ $t('web.welcome.popularModels') }}
                 </h1>
                 <ModelCardSwiper :models="props.popularModels" />
             </section>
             <section>
-                <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
+                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                     {{ $t('web.welcome.popularMovies') }}
                 </h1>
                 <CardSwiper :movies="props.popularMovies" />
             </section>
             <section>
-                <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
+                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                     {{ $t('web.welcome.recentlyAddedMovies') }}
                 </h1>
                 <CardSwiper :movies="props.latestMovies" />
             </section>
             <section>
-                <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
+                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                     {{ $t('web.welcome.recentlyUpdatedMovies') }}
                 </h1>
                 <CardSwiper :movies="props.recentlyUpdatedMovies" />
             </section>
             <section>
-                <div class="row q-mt-sm q-mb-xs">
+                <div class="row q-mb-xs">
                     <h1 class="text-h4 text-weight-bold">
                         {{ $t('web.welcome.leaderboard') }}
                     </h1>

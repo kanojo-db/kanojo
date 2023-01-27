@@ -55,7 +55,7 @@ class Person extends Model implements AuditableContract, HasMedia
      */
     public function movies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Movie::class);
+        return $this->belongsToMany(Movie::class)->withPivot('age')->withTimestamps();
     }
 
     /**

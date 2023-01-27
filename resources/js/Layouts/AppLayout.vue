@@ -74,6 +74,7 @@ const websiteSchema = ref({
 
                 <q-btn
                     round
+                    flat
                     dense
                     :icon="mdiPlus"
                     class="q-mr-lg"
@@ -154,6 +155,7 @@ const websiteSchema = ref({
                 <q-btn
                     class="q-ml-lg"
                     round
+                    flat
                     dense
                     :icon="mdiMagnify"
                     @click="() => (showSearch = !showSearch)"

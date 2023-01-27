@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Studio;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreMovieRequest;
 use App\Models\MovieType;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,6 +15,9 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Tags\Tag;
 use App;
+use App\Filters\FiltersFeaturedModelAge;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MovieController extends Controller
 {
@@ -22,9 +26,41 @@ class MovieController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $movies = Movie::with('media')->latest()->paginate(25);
-
-        return Inertia::render('Movie/Index', ['movies' => $movies]);
+        return Inertia::render('Movie/Index', [
+            'movies' => function () {
+                return QueryBuilder::for(Movie::class)
+                    ->with([
+                        'media',
+                        'models',
+                        'type',
+                        'loveReactant.reactions.reacter.reacterable',
+                        'loveReactant.reactions.type',
+                        'loveReactant.reactionCounters',
+                        'loveReactant.reactionTotal',
+                    ])
+                    ->defaultSort('-created_at')
+                    ->allowedSorts(['created_at', 'product_code'])
+                    ->allowedFilters([
+                        AllowedFilter::custom('age', new FiltersFeaturedModelAge)
+                    ])
+                    ->paginate(25)
+                    ->appends(request()->query());
+            },
+            'ageCounts' => function () {
+                return DB::table('movie_person')->select(
+                    DB::raw('age AS value'),
+                    DB::raw('COUNT(*) AS count')
+                )
+                ->where('age', '!=', null)
+                ->groupBy(
+                    DB::raw('value')
+                )
+                ->orderBy(
+                    DB::raw('value')
+                )
+                ->get();
+            },
+        ]);
     }
 
     /**

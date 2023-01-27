@@ -118,16 +118,20 @@ function applyFilters() {
         params['filter[hip]'] = `${hipRange.value.min},${hipRange.value.max}`;
     }
 
-    router.visit(route('models.index'), params, {
-        only: ['models'],
-        preserveState: true,
-        preserveScroll: true,
-    });
+    router.visit(
+        route('models.index'),
+        { data: params },
+        {
+            only: ['models'],
+            preserveState: true,
+            preserveScroll: true,
+        },
+    );
 }
 </script>
 
 <template>
-    <AppLayout title="Recently Added Movies">
+    <AppLayout title="Browse Models">
         <div class="q-pa-md">
             <div class="row q-col-gutter-lg full-width">
                 <div class="col-2 q-pl-none">
@@ -243,7 +247,7 @@ function applyFilters() {
                         />
                     </div>
                     <div
-                        class="fit row wrap justify-start items-start content-start q-gutter-md"
+                        class="row wrap justify-start items-start content-start q-gutter-md"
                     >
                         <ModelCard
                             v-for="model in models.data"

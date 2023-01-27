@@ -123,7 +123,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     public function models(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Person::class);
+        return $this->belongsToMany(Person::class)->withPivot('age')->withTimestamps();
     }
 
     /**

@@ -12,6 +12,8 @@ const props = defineProps({
     },
 });
 
+console.dir(props.movie);
+
 const isVrMovie = computed(() => {
     return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
