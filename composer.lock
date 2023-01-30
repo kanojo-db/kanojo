@@ -4452,16 +4452,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.65.0",
+            "version": "2.66.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "09acf64155c16dc6f580f36569ae89344e9734a3"
+                "reference": "496712849902241f04902033b0441b269effe001"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/09acf64155c16dc6f580f36569ae89344e9734a3",
-                "reference": "09acf64155c16dc6f580f36569ae89344e9734a3",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/496712849902241f04902033b0441b269effe001",
+                "reference": "496712849902241f04902033b0441b269effe001",
                 "shasum": ""
             },
             "require": {
@@ -4550,7 +4550,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-06T15:55:01+00:00"
+            "time": "2023-01-29T18:53:47+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
@@ -6657,16 +6657,16 @@
         },
         {
             "name": "psalm/plugin-laravel",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-laravel.git",
-                "reference": "e6eaed7d935663acce940fc70ca2c7bd2ddb2d8e"
+                "reference": "70e9f16c5b35c1f3404914532f23a792159fa369"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-laravel/zipball/e6eaed7d935663acce940fc70ca2c7bd2ddb2d8e",
-                "reference": "e6eaed7d935663acce940fc70ca2c7bd2ddb2d8e",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-laravel/zipball/70e9f16c5b35c1f3404914532f23a792159fa369",
+                "reference": "70e9f16c5b35c1f3404914532f23a792159fa369",
                 "shasum": ""
             },
             "require": {
@@ -6691,6 +6691,7 @@
                 "codeception/module-cli": "^2.0",
                 "codeception/module-filesystem": "^3.0",
                 "codeception/module-phpbrowser": "^3.0",
+                "phpunit/phpunit": "^9.5",
                 "ramsey/collection": "^1.3",
                 "slevomat/coding-standard": "^8.8",
                 "squizlabs/php_codesniffer": "*",
@@ -6721,9 +6722,9 @@
             "homepage": "https://github.com/psalm/psalm-plugin-laravel",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-laravel/issues",
-                "source": "https://github.com/psalm/psalm-plugin-laravel/tree/v2.4.0"
+                "source": "https://github.com/psalm/psalm-plugin-laravel/tree/v2.5.0"
             },
-            "time": "2023-01-23T16:54:33+00:00"
+            "time": "2023-01-27T08:35:04+00:00"
         },
         {
             "name": "psr/cache",
