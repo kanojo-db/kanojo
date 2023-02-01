@@ -37,8 +37,8 @@ class U15dvdinfoMovieSeeder extends Seeder
 
                 $movieRecord = Movie::create([
                     'title' => [
-                        'jp' => $movie->title_jp,
-                        'en' => $movie->title_en,
+                        'ja-JP' => $movie->title_jp,
+                        'en-US' => $movie->title_en,
                     ],
                     'product_code' => $movie->product_code,
                     'release_date' => $movie->release_date,

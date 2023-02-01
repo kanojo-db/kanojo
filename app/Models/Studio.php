@@ -40,9 +40,6 @@ class Studio extends Model implements AuditableContract, HasMedia
      */
     public $translatable = ['name'];
 
-    /**
-     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Movie>
-     */
     public function movies(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Movie::class);

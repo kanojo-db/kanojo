@@ -27,9 +27,6 @@ class MovieType extends Model
         'name',
     ];
 
-    /**
-     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Movie>
-     */
     public function movies(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Movie::class);

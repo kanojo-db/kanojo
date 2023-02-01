@@ -70,7 +70,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     protected static function booted(): void
     {
         // Filter out hidden movies globally, since we don't want to show them anywhere
-        static::addGlobalScope('filterHidden', function (Builder $builder) {
+        static::addGlobalScope('filterHidden', function (Builder $builder): mixed {
             return $builder->filterHidden();
         });
     }
@@ -87,25 +87,17 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Get the route key for the model.
-     *
-     * @return string
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    /**
-     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Studio>
-     */
     public function studio(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Studio::class);
     }
 
-    /**
-     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<MovieType>
-     */
     public function type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MovieType::class);
@@ -119,9 +111,6 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
         $this->addMediaCollection('poster')->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
-    /**
-     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Person>
-     */
     public function models(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Person::class)->withPivot('age')->withTimestamps();
@@ -134,14 +123,12 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     public function toSearchableArray()
     {
-        $array = [
-            'id' => $this->id,
+        return [
+            'id' => (int) $this->id,
             'title_en' => $this->getTranslation('title', 'en'),
             'title_jp' => $this->getTranslation('title', 'jp'),
             'product_code' => $this->product_code,
         ];
-
-        return $array;
     }
 
     /**
@@ -157,32 +144,34 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     public function scopeFilterHidden(Builder $query): Builder
     {
-        if (Auth::check()) {
-            $shouldShowJav = Auth::user()->settings->get('show_jav');
-            $shouldShowVr = Auth::user()->settings->get('show_vr');
-            $shouldShowGravure = Auth::user()->settings->get('show_gravure');
-            $shouldShowMinors = Auth::user()->settings->get('show_minors');
+        $user = Auth::user();
 
-            $IdsToHide = [];
+        if (Auth::check() && $user != null && $user instanceof User) {
+            $shouldShowJav = (boolean) $user->settings->get('show_jav')->value;
+            $shouldShowVr = (boolean) $user->settings->get('show_vr')->value;
+            $shouldShowGravure = (boolean) $user->settings->get('show_gravure')->value;
+            $shouldShowMinors = (boolean) $user->settings->get('show_minors')->value;
 
-            if (! $shouldShowJav->value) {
-                $IdsToHide[] = 1;
+            $idsToHide = [];
+
+            if (! $shouldShowJav) {
+                $idsToHide[] = 1;
             }
 
-            if (! $shouldShowVr->value) {
-                $IdsToHide[] = 4;
+            if (! $shouldShowVr) {
+                $idsToHide[] = 4;
             }
 
-            if (! $shouldShowGravure->value) {
-                $IdsToHide[] = 2;
+            if (! $shouldShowGravure) {
+                $idsToHide[] = 2;
             }
 
-            if (! $shouldShowMinors->value) {
-                $IdsToHide[] = 3;
+            if (! $shouldShowMinors) {
+                $idsToHide[] = 3;
             }
 
-            if (! empty($IdsToHide)) {
-                return $query->whereNotIn('type_id', $IdsToHide);
+            if (! empty($idsToHide)) {
+                return $query->whereNotIn('type_id', $idsToHide);
             }
 
             return $query;

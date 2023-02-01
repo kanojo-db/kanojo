@@ -52,9 +52,6 @@ class Person extends Model implements AuditableContract, HasMedia
         return $this->morphMany(ContentReport::class, 'reportable');
     }
 
-    /**
-     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Movie>
-     */
     public function movies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Movie::class)->withPivot('age')->withTimestamps();

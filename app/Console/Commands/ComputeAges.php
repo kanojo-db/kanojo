@@ -35,8 +35,8 @@ class ComputeAges extends Command
             $query->whereNot('birthdate', null);
         })->whereNot('release_date', null)->withoutGlobalScope('filterHidden')->get();
 
-        $movies->each(function ($movie, $key) {
-            $movie->models()->each(function ($model, $key) use ($movie) {
+        $movies->each(function ($movie) {
+            $movie->models()->each(function ($model) use ($movie) {
                 try {
                     $age = Carbon::parse($movie->release_date)->diff(Carbon::parse($model->birthdate))->format('%y');
 
@@ -44,7 +44,7 @@ class ComputeAges extends Command
 
                     $movie->models()->updateExistingPivot($model->id, ['age' => $age]);
                 } catch (\Throwable $th) {
-                    $this->error($movie->title->jp.': error when setting age for '.$model->name->jp);
+                    $this->error('Error when setting age');
                 }
             });
         });
