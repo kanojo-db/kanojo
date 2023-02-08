@@ -41,6 +41,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Localization::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \Statikbe\CookieConsent\CookieConsentMiddleware::class,
         ],
 
         'api' => [

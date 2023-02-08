@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85ff66579487be71b0b39e00570011e3",
+    "content-hash": "3942b1877bdd5d757741d6a2c630b530",
     "packages": [
         {
             "name": "amphp/amp",
@@ -9946,6 +9946,61 @@
                 }
             ],
             "time": "2023-02-01T13:01:24+00:00"
+        },
+        {
+            "name": "statikbe/laravel-cookie-consent",
+            "version": "1.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/statikbe/laravel-cookie-consent.git",
+                "reference": "f5e5c1f3f3476c242948ba7ec10035324de7b32f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/statikbe/laravel-cookie-consent/zipball/f5e5c1f3f3476c242948ba7ec10035324de7b32f",
+                "reference": "f5e5c1f3f3476c242948ba7ec10035324de7b32f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^8.0|^9.0",
+                "php": "^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Statikbe\\CookieConsent\\CookieConsentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Statikbe\\CookieConsent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kristof Serré",
+                    "email": "kristof@statik.be",
+                    "homepage": "https://www.statik.be"
+                }
+            ],
+            "description": "Cookie consent modal for EU",
+            "homepage": "https://github.com/statikbe/laravel-cookie-consent",
+            "keywords": [
+                "cookie",
+                "gdpr",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/statikbe/laravel-cookie-consent/issues",
+                "source": "https://github.com/statikbe/laravel-cookie-consent/tree/1.4.3"
+            },
+            "time": "2022-12-27T15:24:24+00:00"
         },
         {
             "name": "symfony/console",

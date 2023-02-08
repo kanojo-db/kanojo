@@ -10,6 +10,7 @@ import 'quasar/src/css/index.sass';
 import { createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
 
+import '../../public/vendor/cookie-consent/css/cookie-consent.css';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import '../css/app.scss';
 import localeMessages from './vue-i18n-locales.generated';

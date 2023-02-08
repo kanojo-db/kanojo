@@ -19,7 +19,8 @@ class MovieDetailsController extends Controller
      *
      * @urlParam movie_slug required The slug of the movie, usually a product code. Example: abc-123
      *
-     * @queryParam language string Pass a locale value to display translated data for the fields that support it. Defaults to en. Example: jp
+     * @queryParam language string Pass a locale value to display translated data for the fields that
+     * support it. Defaults to en. Example: jp
      *
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\JsonResponse
@@ -55,7 +56,9 @@ class MovieDetailsController extends Controller
             $studio = [
                 [
                     'id' => $movie->studio->id,
-                    'name' => $movie->studio->getTranslation('name', $language, true) === '' ? $movie->studio->getTranslation('name', 'ja-JP', false) : $movie->studio->getTranslation('name', $language, false),
+                    'name' => $movie->studio->getTranslation('name', $language, true) === '' ?
+                                $movie->studio->getTranslation('name', 'ja-JP', false) :
+                                $movie->studio->getTranslation('name', $language, false),
                 ],
             ];
         } else {
@@ -65,7 +68,8 @@ class MovieDetailsController extends Controller
         // Load the movie's cast
         $movie->load(['models', 'models.media']);
         $cast = $movie->models->map(function ($model) use ($movie, $language) {
-            // If the model has a birthdate and the movie has a release date, calculate the age of the model at the time of the movie's release
+            // If the model has a birthdate and the movie has a release date, calculate the age of the
+            // model at the time of the movie's release
             if ($model->birthdate !== null && $movie->release_date !== null) {
                 $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
             } else {
@@ -74,10 +78,14 @@ class MovieDetailsController extends Controller
 
             return [
                 'id' => $model->id,
-                'name' => $model->getTranslation('name', $language, true) === '' ? $model->getTranslation('name', 'ja-JP', false) : $model->getTranslation('name', $language, false),
+                'name' => $model->getTranslation('name', $language, true) === '' ?
+                            $model->getTranslation('name', 'ja-JP', false) :
+                            $model->getTranslation('name', $language, false),
                 'age' => $age,
                 'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
-                'profile_path' => $model->getFirstMedia('profile') !== null ? $model->getFirstMedia('profile')->getFullUrl() : null,
+                'profile_path' => $model->getFirstMedia('profile') !== null ?
+                                    $model->getFirstMedia('profile')->getFullUrl() :
+                                    null,
             ];
         });
 
