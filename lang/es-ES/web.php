@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 return [
     'about' => [
         'community' => 'Comunidad',
@@ -192,5 +189,27 @@ return [
     ],
     'studio' => [
         'known_for' => 'Conocido por',
+    ],
+    'consent' => [
+        'alert_settings' => 'Ajusta tus preferencias',
+        'alert_title' => 'Este sitio utiliza cookies',
+        'alert_essential_only' => 'Aceptar sólo las cookies necesarias',
+        'setting_analytics' => 'Cookies analíticas',
+        'setting_analytics_text' => 'Nos permiten analizar el uso del sitio web y mejorar la experiencia del visitante.',
+        'setting_essential' => 'Cookies imprescindibles',
+        'setting_essential_text' => 'Son necesarias por razones técnicas. Sin ellas, este sitio web podría no funcionar correctamente.',
+        'setting_functional' => 'Cookies funcionales',
+        'setting_functional_text' => 'Son necesarios para determinadas funciones del sitio web. Sin ellas, algunas funciones pueden quedar inhabilitadas.',
+        'setting_marketing' => 'Cookies comerciales',
+        'settings_accept_all' => 'Aceptar todas las cookies',
+        'settings_cancel' => 'Cancelar',
+        'settings_close' => 'Cerrar',
+        'settings_title' => 'Ajustes de las cookies',
+        'alert_essentials_only' => 'Aceptar sólo las cookies necesarias',
+        'alert_accept' => 'Aceptar todas las cookies',
+        'settings_text' => 'Nuestro sitio web almacena cuatro tipos de cookies. En cualquier momento puede elegir qué cookies acepta y cuáles rechaza. Puede obtener más información sobre qué son las cookies y qué tipos de cookies almacenamos en nuestra <a href=":policyUrl" target="_blank" class="underline hover:no-underline">Política de las cookies</a>.',
+        'settings_save' => 'Guardar mi selección',
+        'alert_text' => 'Al elegir "Aceptar todas las cookies", acepta el uso de las cookies para ayudarnos a ofrecerle una mejor experiencia de usuario y analizar el uso del sitio web. Haciendo clic en "Ajustar sus preferencias" puede elegir qué cookies desea permitir. Sólo las cookies esenciales son necesarias para el correcto funcionamiento de nuestro sitio web y no pueden ser rechazadas',
+        'setting_marketing_text' => 'Nos permiten personalizar su experiencia y enviarle contenidos y ofertas relevantes, tanto en este sitio web como en otros.',
     ],
 ];
