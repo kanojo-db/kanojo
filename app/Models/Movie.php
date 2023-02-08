@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\DataTransferObjects\ModelData;
+use App\DataTransferObjects\MovieTypeData;
+use App\Enums\MediaCollectionType;
 use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
 use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +18,7 @@ use JordanMiguel\LaravelPopular\Traits\Visitable;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Spatie\LaravelData\DataCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -42,13 +46,38 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     protected $fillable = [
         'title',
-        'original_title',
         'product_code',
         'release_date',
         'length',
-        'studio_id',
-        'type_id',
     ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['type'];
+
+    /**
+     * The attributes that should be automatically cast to specific types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'release_date' => 'date',
+        'type' => MovieTypeData::class,
+        'models' => DataCollection::class.':'.ModelData::class,
+        'created_at' => 'immutable_datetime',
+        'updated_at' => 'immutable_datetime',
+        'deleted_at' => 'immutable_datetime',
+    ];
+
+    /**
+     * The attributes that are translatable.
+     *
+     * @var string[]
+     */
+    public $translatable = ['title'];
 
     /**
      * The attributes that should be cast.
@@ -59,13 +88,6 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     {
         return $this->morphMany(ContentReport::class, 'reportable');
     }
-
-    /**
-     * The attributes that are translatable.
-     *
-     * @var string[]
-     */
-    public $translatable = ['title'];
 
     protected static function booted(): void
     {
@@ -108,7 +130,8 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('poster')->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+        $this->addMediaCollection(MediaCollectionType::FrontCover->value)->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+        $this->addMediaCollection(MediaCollectionType::FullCover->value)->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
     public function models(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -125,8 +148,8 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     {
         return [
             'id' => (int) $this->id,
-            'title_en' => $this->getTranslation('title', 'en'),
-            'title_jp' => $this->getTranslation('title', 'jp'),
+            'title_en' => $this->getTranslation('title', 'en-US'),
+            'title_jp' => $this->getTranslation('title', 'ja-JP'),
             'product_code' => $this->product_code,
         ];
     }
@@ -147,10 +170,10 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
         $user = Auth::user();
 
         if (Auth::check() && $user != null && $user instanceof User) {
-            $shouldShowJav = (boolean) $user->settings->get('show_jav')->value;
-            $shouldShowVr = (boolean) $user->settings->get('show_vr')->value;
-            $shouldShowGravure = (boolean) $user->settings->get('show_gravure')->value;
-            $shouldShowMinors = (boolean) $user->settings->get('show_minors')->value;
+            $shouldShowJav = (bool) $user->settings->get('show_jav')->value;
+            $shouldShowVr = (bool) $user->settings->get('show_vr')->value;
+            $shouldShowGravure = (bool) $user->settings->get('show_gravure')->value;
+            $shouldShowMinors = (bool) $user->settings->get('show_minors')->value;
 
             $idsToHide = [];
 

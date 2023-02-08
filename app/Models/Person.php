@@ -73,8 +73,8 @@ class Person extends Model implements AuditableContract, HasMedia
     {
         return [
             'id' => $this->id,
-            'name_en' => $this->getTranslation('name', 'en'),
-            'name_jp' => $this->getTranslation('name', 'jp'),
+            'name_en' => $this->getTranslation('name', 'en-US'),
+            'name_jp' => $this->getTranslation('name', 'ja-JP'),
         ];
     }
 

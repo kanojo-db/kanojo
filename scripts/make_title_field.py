@@ -21,8 +21,8 @@ with open('people.json', 'r', encoding="utf-8") as f:
 for movie in movies_u18:
     # Make title field with title_en and title_jp
     movie['title'] = {
-        'en': movie['title_en'],
-        'jp': movie['title_jp']
+        'en-US': movie['title_en'],
+        'ja-JP': movie['title_jp']
     }
     # Delete title_en and title_jp
     del movie['title_en']
@@ -32,8 +32,8 @@ for movie in movies_u18:
 for movie in movies_iv:
     # Make title field with title_en and title_jp
     movie['title'] = {
-        'en': movie['title_en'],
-        'jp': movie['title_jp']
+        'en-US': movie['title_en'],
+        'ja-JP': movie['title_jp']
     }
     # Delete title_en and title_jp
     del movie['title_en']
@@ -43,8 +43,8 @@ for movie in movies_iv:
 for movie in movies_jav:
     # Make title field with title_en and title_jp
     movie['title'] = {
-        'en': movie['title_en'],
-        'jp': movie['title_jp']
+        'en-US': movie['title_en'],
+        'ja-JP': movie['title_jp']
     }
     # Delete title_en and title_jp
     del movie['title_en']
@@ -54,8 +54,8 @@ for movie in movies_jav:
 for person in people:
     # Make title field with title_en and title_jp
     person['name'] = {
-        'en': person['name_en'],
-        'jp': person['name_jp']
+        'en-US': person['name_en'],
+        'ja-JP': person['name_jp']
     }
     # Delete title_en and title_jp
     del person['name_en']

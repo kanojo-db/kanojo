@@ -171,7 +171,7 @@ import json
 
 url = 'http://localhost/api/movie/abc-123'
 params = {
-  'language': 'jp',
+  'language': 'ja-JP',
 }
 headers = {
   'Authorization': 'Bearer {YOUR_AUTH_KEY}',

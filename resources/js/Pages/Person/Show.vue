@@ -1,6 +1,5 @@
 <script setup>
 import { router } from '@inertiajs/vue3';
-import { definePerson, useSchemaOrg } from '@vueuse/schema-org';
 import { ref } from 'vue';
 
 import MovieCard from '@/Components/MovieCard.vue';
@@ -40,12 +39,6 @@ const goToPage = (page) => {
         });
     }
 };
-
-useSchemaOrg(
-    definePerson({
-        name: name,
-    }),
-);
 </script>
 
 <template>

@@ -23,8 +23,8 @@ class PersonSeeder extends Seeder
         foreach ($people as $person) {
             Person::create([
                 'name' => [
-                    'jp' => $person['name_jp'],
-                    'en' => $person['name_en'],
+                    'ja-JP' => $person['name_jp'],
+                    'en-US' => $person['name_en'],
                 ],
                 'birthdate' => $person['birthdate'],
                 'created_at' => now()->toDateString(),

@@ -26,8 +26,8 @@ class U18MovieSeeder extends Seeder
             try {
                 $movieRecord = Movie::create([
                     'title' => [
-                        'jp' => $movie['title_jp'],
-                        'en' => $movie['title_en'],
+                        'ja-JP' => $movie['title_jp'],
+                        'en-US' => $movie['title_en'],
                     ],
                     'product_code' => $movie['product_code'],
                     'release_date' => $movie['release_date'],
@@ -41,7 +41,7 @@ class U18MovieSeeder extends Seeder
                         if ($modelRecord == null) {
                             $modelRecord = Person::create([
                                 'name' => [
-                                    'jp' => $model,
+                                    'ja-JP' => $model,
                                 ],
                             ]);
                         }
@@ -63,7 +63,7 @@ class U18MovieSeeder extends Seeder
                     if ($studio == null) {
                         $studio = Studio::create([
                             'name' => [
-                                'jp' => $movie['studio'],
+                                'ja-JP' => $movie['studio'],
                             ],
                         ]);
                     }

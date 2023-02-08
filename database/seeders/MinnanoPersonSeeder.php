@@ -27,8 +27,8 @@ class MinnanoPersonSeeder extends Seeder
                 'name->jp' => $person->name_jp,
             ], [
                 'name' => [
-                    'jp' => $person->name_jp,
-                    'en' => $person->name_en,
+                    'ja-JP' => $person->name_jp,
+                    'en-US' => $person->name_en,
                 ],
                 'birthdate' => $person->birthdate,
                 'blood_type' => $person->blood_type,

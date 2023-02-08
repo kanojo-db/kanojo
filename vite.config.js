@@ -12,7 +12,7 @@ export default defineConfig({
     },
     server: {
         hmr: {
-            host: 'localhost',
+            host: '192.168.0.44',
         },
     },
     plugins: [

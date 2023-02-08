@@ -6,6 +6,8 @@ namespace App\Enums;
 
 /**
  * Represents the type of the content report.
+ * 
+ * @typescript
  */
 enum ReportType: string
 {

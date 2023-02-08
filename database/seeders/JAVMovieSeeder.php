@@ -54,7 +54,7 @@ class JAVMovieSeeder extends Seeder
                         if ($modelRecord == null) {
                             $modelRecord = Person::create([
                                 'name' => [
-                                    'jp' => $model,
+                                    'ja-JP' => $model,
                                 ],
                             ]);
                         }
@@ -69,7 +69,7 @@ class JAVMovieSeeder extends Seeder
                     if ($studio == null) {
                         $studio = Studio::create([
                             'name' => [
-                                'jp' => $movie->studio,
+                                'ja-JP' => $movie->studio,
                             ],
                         ]);
                     }

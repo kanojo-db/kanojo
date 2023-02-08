@@ -39,7 +39,7 @@ class DMMPersonSeeder extends Seeder
                 // Create a new person
                 Person::create([
                     'name' => [
-                        'jp' => $person->name_jp,
+                        'ja-JP' => $person->name_jp,
                     ],
                     'birthdate' => $person->birthdate,
                     'blood_type' => $person->blood_type,
