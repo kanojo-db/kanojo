@@ -71,7 +71,7 @@ return [
      * Moves media on updating to keep path consistent. Enable it only with a custom
      * PathGenerator that uses, for example, the media UUID.
      */
-    'moves_media_on_update' => false,
+    'moves_media_on_update' => true,
 
     /*
      * Whether to activate versioning when urls to files get generated.

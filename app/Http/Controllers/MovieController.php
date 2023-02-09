@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App;
+use App\Enums\MediaCollectionType;
 use App\Filters\FiltersFeaturedModelAge;
 use App\Http\Requests\StoreMovieRequest;
 use App\Models\Movie;
@@ -100,13 +101,14 @@ class MovieController extends Controller
         ]);
 
         $movie->type()->associate($movie_type);
-        $movie->save();
 
         if ($request->hasFile('poster') && $request->file('poster')->isValid()) {
-            $movie->addMediaFromRequest('poster')->toMediaCollection('poster');
+            $movie->addMediaFromRequest('poster')->toMediaCollection(MediaCollectionType::FrontCover->value);
         }
 
         $movie->attachTags($request->tags);
+
+        $movie->save();
 
         return Redirect::route('movies.index');
     }

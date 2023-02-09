@@ -146,12 +146,11 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     public function toSearchableArray()
     {
-        return [
-            'id' => (int) $this->id,
-            'title_en' => $this->getTranslation('title', 'en-US'),
-            'title_jp' => $this->getTranslation('title', 'ja-JP'),
-            'product_code' => $this->product_code,
-        ];
+        $array = $this->toArray();
+
+        // TODO: Eventually refine this.
+
+        return $array;
     }
 
     /**

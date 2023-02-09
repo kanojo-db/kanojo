@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\MediaCollectionType;
 use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\Movie;
 use Inertia\Inertia;
+use Ramsey\Uuid\Uuid;
 
 class MovieMediaController extends Controller
 {
@@ -27,10 +29,12 @@ class MovieMediaController extends Controller
      */
     public function store(StoreMovieMediaRequest $request, $id): void
     {
+        // TODO: Use automatic model binding here
         $movie = Movie::find($id);
 
         if ($request->hasFile('media') && $request->file('media')->isValid()) {
-            $movie->addMediaFromRequest('media')->toMediaCollection($request->collection_name);
+            // TODO: Use MediaCollectionType enum instead of passing the request's parameter directly.
+            $movie->addMediaFromRequest('media')->usingFileName(Uuid::uuid4()->toString())->toMediaCollection($request->collection_name);
         }
     }
 }

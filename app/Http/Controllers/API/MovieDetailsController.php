@@ -7,6 +7,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
 use Illuminate\Support\Carbon;
+use Throwable;
 
 class MovieDetailsController extends Controller
 {
@@ -43,14 +44,23 @@ class MovieDetailsController extends Controller
         // Load the movie's media
         $movie->load('media');
         // Get the path to the poster
-        $poster = $movie->getFirstMedia('poster')->getFullUrl();
+        try {
+            $poster = $movie->getFirstMedia('poster')->getFullUrl();
+        } catch (Throwable $t) {
+            $poster = null;
+        }
 
         // Get the vote data
-        $movie->load('loveReactant.reactionCounters', 'loveReactant.reactionTotal');
-        $votes = $movie->loveReactant->reactionCounters->map(function ($vote) {
-            return $vote->count;
-        });
-        $total = $movie->loveReactant->reactionTotal;
+        try {
+            $movie->load('loveReactant.reactionCounters', 'loveReactant.reactionTotal');
+            $votes = $movie->loveReactant->reactionCounters->map(function ($vote) {
+                return $vote->count;
+            });
+            $total = $movie->loveReactant->reactionTotal;
+        } catch (Throwable $t) {
+            $votes = null;
+            $total = null;
+        }
 
         if ($movie->studio !== null) {
             $studio = [
@@ -66,28 +76,32 @@ class MovieDetailsController extends Controller
         }
 
         // Load the movie's cast
+        try {
         $movie->load(['models', 'models.media']);
-        $cast = $movie->models->map(function ($model) use ($movie, $language) {
-            // If the model has a birthdate and the movie has a release date, calculate the age of the
-            // model at the time of the movie's release
-            if ($model->birthdate !== null && $movie->release_date !== null) {
-                $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
-            } else {
-                $age = null;
-            }
+            $cast = $movie->models->map(function ($model) use ($movie, $language) {
+                // If the model has a birthdate and the movie has a release date, calculate the age of the
+                // model at the time of the movie's release
+                if ($model->birthdate !== null && $movie->release_date !== null) {
+                    $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
+                } else {
+                    $age = null;
+                }
 
-            return [
-                'id' => $model->id,
-                'name' => $model->getTranslation('name', $language, true) === '' ?
-                            $model->getTranslation('name', 'ja-JP', false) :
-                            $model->getTranslation('name', $language, false),
-                'age' => $age,
-                'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
-                'profile_path' => $model->getFirstMedia('profile') !== null ?
-                                    $model->getFirstMedia('profile')->getFullUrl() :
-                                    null,
-            ];
-        });
+                return [
+                    'id' => $model->id,
+                    'name' => $model->getTranslation('name', $language, true) === '' ?
+                                $model->getTranslation('name', 'ja-JP', false) :
+                                $model->getTranslation('name', $language, false),
+                    'age' => $age,
+                    'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
+                    'profile_path' => $model->getFirstMedia('profile') !== null ?
+                                        $model->getFirstMedia('profile')->getFullUrl() :
+                                        null,
+                ];
+            });
+        } catch (Throwable $t) {
+            $cast = [];
+        }
 
         // Return the movie details as JSON
         return response()->json([
@@ -107,8 +121,8 @@ class MovieDetailsController extends Controller
             'runtime' => $movie->length,
             'studios' => $studio,
             'title' => $movie->getTranslation('title', $language, true),
-            'vote_average' => $votes->avg() * 100,
-            'vote_count' => $total !== null ? $total->count : 0,
+            'vote_average' => $votes !== null ? $votes->avg() * 100 : null,
+            'vote_count' => $total !== null ? $total->count : null,
         ]);
     }
 }

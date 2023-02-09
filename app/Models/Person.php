@@ -71,11 +71,11 @@ class Person extends Model implements AuditableContract, HasMedia
      */
     public function toSearchableArray()
     {
-        return [
-            'id' => $this->id,
-            'name_en' => $this->getTranslation('name', 'en-US'),
-            'name_jp' => $this->getTranslation('name', 'ja-JP'),
-        ];
+        $array = $this->toArray();
+
+        // TODO: Eventually refine this.
+
+        return $array;
     }
 
     public function scopeBornBetween(Builder $query, string $start_date, string $end_date): Builder

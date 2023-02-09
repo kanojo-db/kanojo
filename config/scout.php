@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Models\Movie;
+use App\Models\Person;
+use App\Models\Studio;
+
 return [
 
     /*
@@ -17,7 +21,7 @@ return [
     |
      */
 
-    'driver' => env('SCOUT_DRIVER', 'tntsearch'),
+    'driver' => env('SCOUT_DRIVER', 'meilisearch'),
 
     /*
     |--------------------------------------------------------------------------
@@ -134,18 +138,19 @@ return [
     'meilisearch' => [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY', null),
-    ],
-
-    'tntsearch' => [
-        'storage' => storage_path(),
-        'fuzziness' => env('TNTSEARCH_FUZZINESS', true),
-        'fuzzy' => [
-            'prefix_length' => 2,
-            'max_expansions' => 50,
-            'distance' => 2,
-        ],
-        'asYouType' => false,
-        'searchBoolean' => env('TNTSEARCH_BOOLEAN', false),
-        'maxDocs' => env('TNTSEARCH_MAX_DOCS', 500),
+        'index-settings' => [
+            Person::class => [
+                'filterableAttributes'=> ['id', 'name', 'birthdate', 'height', 'bust', 'waist', 'hip'],
+                'sortableAttributes' => ['id', 'name', 'created_at', 'deleted_at', 'birthdate', 'height', 'bust', 'waist', 'hip'],
+            ],
+            Movie::class => [
+                'filterableAttributes'=> ['id', 'title', 'product_code', 'type.name'],
+                'sortableAttributes' => ['id', 'title',  'product_code'],
+            ],
+            Studio::class => [
+                'filterableAttributes'=> ['id', 'name', 'founded_date'],
+                'sortableAttributes' => ['id', 'name',  'founded_date'],
+            ]
+        ]
     ],
 ];

@@ -30,6 +30,7 @@ class PersonMediaController extends Controller
         $person = Person::find($id);
 
         if ($request->hasFile('media') && $request->file('media')->isValid()) {
+            // TODO: Use MediaCollectionType enum instead of passing the request's parameter directly.
             $person->addMediaFromRequest('media')->toMediaCollection($request->collection_name);
         }
 

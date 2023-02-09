@@ -189,7 +189,6 @@ return [
          */
         OwenIt\Auditing\AuditingServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         JordanMiguel\LaravelPopular\LaravelPopularServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
