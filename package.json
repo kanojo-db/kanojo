@@ -44,7 +44,7 @@
         "@inertiajs/vue3": "^1.0.0",
         "@quasar/extras": "^1.15.10",
         "@sentry/tracing": "^7.37.0",
-        "@sentry/vue": "^7.36.0",
+        "@sentry/vue": "^7.37.0",
         "chart.js": "^4.2.0",
         "copy-to-clipboard": "^3.3.3",
         "luxon": "^3.2.1",
