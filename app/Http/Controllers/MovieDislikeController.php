@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\User;
 use Cog\Laravel\Love\ReactionType\Models\ReactionType;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,13 +13,13 @@ class MovieDislikeController extends Controller
 {
     /**
      * Store a newly created resource in storage.
-     *
-     * @return void
      */
-    public function store(Movie $movie)
+    public function store(Movie $movie): void
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        /** @var User|null */
+        $user = Auth::user();
+
+        if (Auth::check() && $user !== null) {
             $reacterFacade = $user->viaLoveReacter();
             $dislikeType = ReactionType::fromName('Dislike');
 

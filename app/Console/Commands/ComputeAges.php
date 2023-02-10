@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Movie;
+use App\Models\Person;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Query\Builder;
 
 class ComputeAges extends Command
 {
@@ -26,17 +28,15 @@ class ComputeAges extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $movies = Movie::whereHas('models', function ($query) {
+        $movies = Movie::whereHas('models', function (Builder $query) {
             $query->whereNot('birthdate', null);
         })->whereNot('release_date', null)->withoutGlobalScope('filterHidden')->get();
 
-        $movies->each(function ($movie) {
-            $movie->models()->each(function ($model) use ($movie) {
+        $movies->each(function (Movie $movie) {
+            $movie->models()->each(function (Person $model) use ($movie) {
                 try {
                     $age = Carbon::parse($movie->release_date)->diff(Carbon::parse($model->birthdate))->format('%y');
 

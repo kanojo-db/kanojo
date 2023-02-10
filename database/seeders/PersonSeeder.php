@@ -12,10 +12,8 @@ class PersonSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $json = File::get('database/data/people.json');
         $people = json_decode($json, true);

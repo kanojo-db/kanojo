@@ -7,6 +7,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use JordanMiguel\LaravelPopular\Traits\Visitable;
@@ -47,12 +49,18 @@ class Person extends Model implements AuditableContract, HasMedia
         'country',
     ];
 
-    public function reports()
+    /**
+     * Content reports concerning this person.
+     */
+    public function reports(): MorphMany
     {
         return $this->morphMany(ContentReport::class, 'reportable');
     }
 
-    public function movies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    /**
+     * Movies this person has featured in.
+     */
+    public function movies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class)->withPivot('age')->withTimestamps();
     }
@@ -67,9 +75,9 @@ class Person extends Model implements AuditableContract, HasMedia
     /**
      * Get the indexable data array for the model.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
 
@@ -78,11 +86,14 @@ class Person extends Model implements AuditableContract, HasMedia
         return $array;
     }
 
-    public function scopeBornBetween(Builder $query, string $start_date, string $end_date): Builder
+    /**
+     * Scope to filter persons born between two dates.
+     */
+    public function scopeBornBetween(Builder $query, string $startDate, string $endDate): Builder
     {
         return $query->where([
-            [DB::raw('YEAR(birthdate)'), '>=', $start_date],
-            [DB::raw('YEAR(birthdate)'), '<=', $end_date],
+            [DB::raw('YEAR(birthdate)'), '>=', $startDate],
+            [DB::raw('YEAR(birthdate)'), '<=', $endDate],
         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Movie;
 use App\Models\Person;
 use App\Models\Studio;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class StudioController extends Controller
 {
@@ -37,11 +38,8 @@ class StudioController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\Studio  $studio
-     * @return \Inertia\Response
      */
-    public function show(Studio $studio)
+    public function show(Studio $studio): Response
     {
         return Inertia::render('Studio/Show', [
             'studio' => $studio,
@@ -73,8 +71,6 @@ class StudioController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Studio  $studio
      */
     public function edit(Studio $studio): void
     {
@@ -83,8 +79,6 @@ class StudioController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Models\Studio  $studio
      */
     public function update(Studio $studio): void
     {
@@ -93,8 +87,6 @@ class StudioController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Studio  $studio
      */
     public function destroy(Studio $studio): void
     {

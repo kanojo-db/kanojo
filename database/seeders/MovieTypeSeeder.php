@@ -11,10 +11,8 @@ class MovieTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         /**
          * There's only really three types we want/need to support here:

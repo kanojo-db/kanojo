@@ -48,9 +48,9 @@ class Studio extends Model implements AuditableContract, HasMedia
     /**
      * Get the indexable data array for the model.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
 

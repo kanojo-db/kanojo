@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class MovieLikeController extends Controller
 {
     /**
      * Store a newly created resource in storage.
-     *
-     * @return void
      */
-    public function store(Movie $movie)
+    public function store(Movie $movie): void
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        /** @var User|null */
+        $user = Auth::user();
+
+        if (Auth::check() && $user !== null) {
             $reacterFacade = $user->viaLoveReacter();
 
             $hasLiked = $reacterFacade->hasReactedTo($movie, 'Like');

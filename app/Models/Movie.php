@@ -12,6 +12,9 @@ use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use JordanMiguel\LaravelPopular\Traits\Visitable;
@@ -54,14 +57,14 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     /**
      * The relationships that should always be loaded.
      *
-     * @var array
+     * @var string[]
      */
     protected $with = ['type'];
 
     /**
      * The attributes that should be automatically cast to specific types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'release_date' => 'date',
@@ -84,17 +87,9 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany<ContentReport>
      */
-    public function reports()
+    public function reports(): MorphMany
     {
         return $this->morphMany(ContentReport::class, 'reportable');
-    }
-
-    protected static function booted(): void
-    {
-        // Filter out hidden movies globally, since we don't want to show them anywhere
-        static::addGlobalScope('filterHidden', function (Builder $builder): mixed {
-            return $builder->filterHidden();
-        });
     }
 
     /**
@@ -115,12 +110,18 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
         return 'slug';
     }
 
-    public function studio(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * Production studio for the movie.
+     */
+    public function studio(): BelongsTo
     {
         return $this->belongsTo(Studio::class);
     }
 
-    public function type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * Type of the movie.
+     */
+    public function type(): BelongsTo
     {
         return $this->belongsTo(MovieType::class);
     }
@@ -130,11 +131,17 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(MediaCollectionType::FrontCover->value)->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
-        $this->addMediaCollection(MediaCollectionType::FullCover->value)->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+        $this->addMediaCollection(MediaCollectionType::FrontCover->value)
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
+        $this->addMediaCollection(MediaCollectionType::FullCover->value)
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
-    public function models(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    /**
+     * Models features in the movie.
+     */
+    public function models(): BelongsToMany
     {
         return $this->belongsToMany(Person::class)->withPivot('age')->withTimestamps();
     }
@@ -142,9 +149,9 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     /**
      * Get the indexable data array for the model.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
 
@@ -155,20 +162,21 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function makeAllSearchableUsing($query)
+    protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(['tags', 'studio', 'models']);
+        return $query->with(['type', 'tags', 'studio', 'models']);
     }
 
+    /**
+     * Hides movies of a certain category according to user preferences.
+     */
     public function scopeFilterHidden(Builder $query): Builder
     {
+        /** @var User|null */
         $user = Auth::user();
 
-        if (Auth::check() && $user != null && $user instanceof User) {
+        if (Auth::check() && $user != null) {
             $shouldShowJav = (bool) $user->settings->get('show_jav')->value;
             $shouldShowVr = (bool) $user->settings->get('show_vr')->value;
             $shouldShowGravure = (bool) $user->settings->get('show_gravure')->value;

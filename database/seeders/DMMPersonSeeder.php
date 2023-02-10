@@ -12,10 +12,8 @@ class DMMPersonSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $people = Items::fromFile('database/data/dmm_actress.json');
 

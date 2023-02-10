@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n';
  * @param {*} movie - The movie to get the title from.
  * @returns {string} - The title of the movie.
  */
-export function getTitle(movie) {
+export function getTitle(movie): string {
     const locale = useI18n().locale.value;
 
     return movie.title[locale] ? movie.title[locale] : movie.title['ja-JP'];

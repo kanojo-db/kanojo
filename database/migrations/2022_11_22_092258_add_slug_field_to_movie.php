@@ -10,10 +10,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('movies', function (Blueprint $table) {
             $table->string('slug')->unique()->nullable();
@@ -22,10 +20,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
             $table->dropColumn('slug');

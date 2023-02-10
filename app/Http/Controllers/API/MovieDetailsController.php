@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Throwable;
 
@@ -22,11 +23,8 @@ class MovieDetailsController extends Controller
      *
      * @queryParam language string Pass a locale value to display translated data for the fields that
      * support it. Defaults to en. Example: jp
-     *
-     * @param  \App\Models\Movie  $movie
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Movie $movie)
+    public function show(Movie $movie): JsonResponse
     {
         // Get the language from the query string, default to en-US
         $language = request()->query('language', 'en-US');
@@ -77,7 +75,7 @@ class MovieDetailsController extends Controller
 
         // Load the movie's cast
         try {
-        $movie->load(['models', 'models.media']);
+            $movie->load(['models', 'models.media']);
             $cast = $movie->models->map(function ($model) use ($movie, $language) {
                 // If the model has a birthdate and the movie has a release date, calculate the age of the
                 // model at the time of the movie's release
