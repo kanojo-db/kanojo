@@ -1,0 +1,4 @@
+name: "Kanojo CodeQL Config"
+
+paths:
+  - resources/js
