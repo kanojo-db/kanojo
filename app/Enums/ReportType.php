@@ -9,7 +9,7 @@ namespace App\Enums;
  * 
  * @typescript
  */
-enum ReportType: string
+enum ContentReportType: string
 {
     case BadImage = 'bad_image';
     case Duplicate = 'duplicate';

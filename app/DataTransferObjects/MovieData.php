@@ -63,14 +63,14 @@ class MovieData extends Data
               (string) $movie->getTranslation('title', $locale, true),
               (string) $movie->getTranslation('title', 'ja-JP', false),
               Lazy::create(fn () => $movie->getTranslations('title')),
-              (string) $movie->product_code,
+              $movie->product_code,
               Lazy::create(fn () => $movie->release_date ?? Optional::create()),
               Lazy::create(fn () => $movie->length ?? Optional::create()),
               Lazy::create(fn () => $movie->studio ?? Optional::create()),
               // FIXME: Limitation of laravel-ide-helper. See https://github.com/barryvdh/laravel-ide-helper/pull/1400
               $movie->type,
               // FIXME: Limitation of laravel-ide-helper. See https://github.com/barryvdh/laravel-ide-helper/pull/1400
-              Lazy::create(fn () => $movie->models),
+              Lazy::create(fn (): DataCollection => $movie->models),
               Lazy::create(fn () => $movie->created_at ?? Optional::create()),
               Lazy::create(fn () => $movie->updated_at ?? Optional::create()),
               Lazy::create(fn () => $movie->deleted_at ?? Optional::create()),

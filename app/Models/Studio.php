@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\DataTransferObjects\MovieData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
@@ -40,7 +42,16 @@ class Studio extends Model implements AuditableContract, HasMedia
      */
     public $translatable = ['name'];
 
-    public function movies(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /**
+     * The attributes that should be automatically cast to specific types.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'movies' => DataCollection::class.':'.MovieData::class,
+    ];
+
+    public function movies(): HasMany
     {
         return $this->hasMany(Movie::class);
     }

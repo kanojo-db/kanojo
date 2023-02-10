@@ -21,7 +21,7 @@ declare namespace App.Enums {
         | 'full_cover'
         | 'profile'
         | 'logo';
-    export type ReportType =
+    export type ContentReportType =
         | 'bad_image'
         | 'duplicate'
         | 'incorrect'

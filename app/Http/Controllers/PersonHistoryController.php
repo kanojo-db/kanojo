@@ -6,13 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Person;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PersonHistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($id): \Inertia\Response
+    public function index($id): Response
     {
         $person = Person::with(['media'])->findOrFail($id);
 

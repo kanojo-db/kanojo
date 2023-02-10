@@ -7,10 +7,12 @@ namespace App\Http\Controllers;
 use App;
 use App\Models\Movie;
 use App\Models\Person;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,7 +21,7 @@ class PersonController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         return Inertia::render('Person/Index', [
             'models' => function () {
@@ -99,7 +101,7 @@ class PersonController extends Controller
      *
      * @param  \App\Models\Person  $person
      */
-    public function show(Person $model): \Inertia\Response
+    public function show(Person $model): Response
     {
         $model->load([
             'media',
@@ -131,7 +133,7 @@ class PersonController extends Controller
      *
      * @param  \App\Models\Person  $person
      */
-    public function edit($id): \Inertia\Response
+    public function edit($id): Response
     {
         $person = Person::find($id);
 
@@ -145,7 +147,7 @@ class PersonController extends Controller
      *
      * @param  \App\Models\Movie  $movie
      */
-    public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         $locale = App::getLocale();
 

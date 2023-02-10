@@ -8,6 +8,7 @@ use App\Enums\MediaCollectionType;
 use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\Movie;
 use Inertia\Inertia;
+use Inertia\Response;
 use Ramsey\Uuid\Uuid;
 
 class MovieMediaController extends Controller
@@ -15,7 +16,7 @@ class MovieMediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Movie $movie): \Inertia\Response
+    public function index(Movie $movie): Response
     {
         $movie->load('media');
 

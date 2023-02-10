@@ -12,11 +12,15 @@ use App\Models\Movie;
 use App\Models\MovieType;
 use App\Models\Studio;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\Tags\Tag;
@@ -26,10 +30,10 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         return Inertia::render('Movie/Index', [
-            'movies' => function () {
+            'movies' => function (): LengthAwarePaginator {
                 return QueryBuilder::for(Movie::class)
                     ->with([
                         'media',
@@ -48,18 +52,14 @@ class MovieController extends Controller
                     ->paginate(25)
                     ->appends(request()->query());
             },
-            'ageCounts' => function () {
-                return DB::table('movie_person')->select(
+            'ageCounts' => function (): Collection {
+                return DB::table('movie_person')->select([
                     DB::raw('age AS value'),
-                    DB::raw('COUNT(*) AS count')
-                )
+                    DB::raw('COUNT(*) AS count'),
+                ])
                 ->where('age', '!=', null)
-                ->groupBy(
-                    DB::raw('value')
-                )
-                ->orderBy(
-                    DB::raw('value')
-                )
+                ->groupBy('value')
+                ->orderBy('value')
                 ->get();
             },
         ]);
@@ -68,7 +68,7 @@ class MovieController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Inertia\Response
+    public function create(): Response
     {
         $studios = Studio::all();
         $movie_types = MovieType::all();
@@ -80,7 +80,7 @@ class MovieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMovieRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreMovieRequest $request): RedirectResponse
     {
         $locale = App::getLocale();
 
@@ -90,7 +90,7 @@ class MovieController extends Controller
         $movie_type_id = $request->movie_type_id;
         $movie_type = MovieType::find($movie_type_id);
 
-        $movie = $studio->movies()->create([
+        $movie = Movie::create([
             'title' => [
                 $locale => $request->title,
                 'ja-JP' => $request->original_title,
@@ -100,9 +100,13 @@ class MovieController extends Controller
             'length' => $request->length,
         ]);
 
+        if ($studio !== null) {
+            $studio->movies->associate($movie);
+        }
+
         $movie->type()->associate($movie_type);
 
-        if ($request->hasFile('poster') && $request->file('poster')->isValid()) {
+        if ($request->hasFile('poster') && $request->file('poster') !== null && $request->file('poster')->isValid()) {
             $movie->addMediaFromRequest('poster')->toMediaCollection(MediaCollectionType::FrontCover->value);
         }
 
@@ -116,7 +120,7 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($movie): \Inertia\Response
+    public function show(string $movie): Response
     {
         $movieRecord = Movie::with([
             'studio',
@@ -131,24 +135,21 @@ class MovieController extends Controller
             'loveReactant.reactionTotal',
         ])->where('slug', $movie)->firstOrFail();
 
-        // If it's in the user's favorites, mark it as such
-        if (Auth::check()) {
-            $user = Auth::user();
+        /** @var User|null */
+        $user = Auth::user();
 
+        // If it's in the user's favorites, mark it as such
+        if (Auth::check() && $user !== null) {
             $movieRecord->is_favorite = $user->favorites->contains($movieRecord);
         }
 
         // If it's in the user's wishlist, mark it as such
-        if (Auth::check()) {
-            $user = Auth::user();
-
+        if (Auth::check() && $user !== null) {
             $movieRecord->is_wishlist = $user->wishlist->contains($movieRecord);
         }
 
         // If it's in the user's collection list, mark it as such
-        if (Auth::check()) {
-            $user = Auth::user();
-
+        if (Auth::check() && $user !== null) {
             $movieRecord->is_collection = $user->collection->contains($movieRecord);
         }
 
@@ -162,7 +163,7 @@ class MovieController extends Controller
      *
      * @param  \App\Models\Movie  $movie
      */
-    public function edit(Movie $movie): \Inertia\Response
+    public function edit(Movie $movie): Response
     {
         $movie->load('studio', 'media', 'tags', 'type');
 
@@ -175,7 +176,7 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Movie  $movie
      */
-    public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         // TODO: Allow updating other locales. Maybe through another controller?
         $locale = App::getLocale();
@@ -208,7 +209,7 @@ class MovieController extends Controller
      *
      * @param  \App\Models\Movie  $movie
      */
-    public function destroy(Movie $movie): \Illuminate\Http\RedirectResponse
+    public function destroy(Movie $movie): RedirectResponse
     {
         $movie->delete();
 

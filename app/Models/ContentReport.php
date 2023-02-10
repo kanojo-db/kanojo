@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\ReportType;
+use App\Enums\ContentReportType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +20,7 @@ class ContentReport extends Model
     ];
 
     protected $casts = [
-        'report_type' => ReportType::class,
+        'report_type' => ContentReportType::class,
     ];
 
     public function reportable()

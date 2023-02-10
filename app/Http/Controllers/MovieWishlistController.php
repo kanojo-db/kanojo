@@ -11,9 +11,10 @@ class MovieWishlistController extends Controller
 {
     public function store(Movie $movie)
     {
+        $user = Auth::user();
+
         // If logged in, add to favorites
-        if (Auth::check()) {
-            $user = Auth::user();
+        if (Auth::check() && $user !== null) {
 
             $user->wishlist()->attach($movie);
 
@@ -25,9 +26,11 @@ class MovieWishlistController extends Controller
 
     public function destroy(Movie $movie)
     {
+        /** @var User|null */
+        $user = Auth::user();
+
         // If logged in, remove from favorites
-        if (Auth::check()) {
-            $user = Auth::user();
+        if (Auth::check() && $user !== null) {
 
             $user->wishlist()->detach($movie);
 

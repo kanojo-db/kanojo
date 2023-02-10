@@ -8,7 +8,7 @@ use App\Models\Movie;
 use App\Models\Person;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class ComputeAges extends Command
 {

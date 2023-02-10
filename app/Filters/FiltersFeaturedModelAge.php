@@ -11,7 +11,7 @@ class FiltersFeaturedModelAge implements Filter
 {
     public function __invoke(Builder $query, $value, string $property)
     {
-        return $query->whereHas('models', function ($query) use ($value) {
+        return $query->whereHas('models', function (Builder $query) use ($value) {
             $query->whereBetween('movie_person.age', $value);
         });
     }

@@ -58,7 +58,7 @@ class StudioData extends Data
         (string) $studio->getTranslation('name', 'ja-JP', false),
         Lazy::create(fn () => $studio->getTranslations('title')),
         Lazy::create(fn () => $studio->founded_date ?? Optional::create()),
-        Lazy::create(fn () => $studio->movies),
+        Lazy::create(fn (): DataCollection => $studio->movies),
         Lazy::create(fn () => $studio->created_at ?? Optional::create()),
         Lazy::create(fn () => $studio->updated_at ?? Optional::create()),
         Lazy::create(fn () => $studio->deleted_at ?? Optional::create()),

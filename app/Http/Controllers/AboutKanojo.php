@@ -8,6 +8,7 @@ use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 use Spatie\Tags\Tag;
 
 class AboutKanojo extends Controller
@@ -15,7 +16,7 @@ class AboutKanojo extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $movie_per_year_count = Movie::select(
             DB::raw('YEAR(release_date) AS value'),

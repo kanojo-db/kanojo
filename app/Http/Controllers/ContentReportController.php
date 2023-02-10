@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\ReportType;
+use App\Enums\ContentReportType;
 use App\Models\ContentReport;
 use App\Models\Movie;
 use App\Models\User;
@@ -57,7 +57,7 @@ class ContentReportController extends Controller
 
             /** @var string */
             $type = $request->input('type');
-            $reportType = ReportType::from($type);
+            $reportType = ContentReportType::from($type);
 
             ContentReport::create([
                 'type' => $reportType,
