@@ -27,4 +27,4 @@ jobs:
       - name: Run composer install
         run: composer install -n --no-scripts
       - name: Run psalm
-        run: ./vendor/bin/psalm --output-format=github
+        run: ./vendor/bin/psalm --threads=1 --output-format=github
