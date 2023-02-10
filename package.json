@@ -3,7 +3,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build && vite build --ssr",
-        "lint": "eslint --ext .js,.ts,.vue resources/js"
+        "lint": "eslint --ext .js,.ts,.vue resources/js",
+        "prepare": "husky install"
     },
     "devDependencies": {
         "@babel/types": "^7.20.7",
