@@ -19,6 +19,7 @@
         "jordanmiguel/laravel-popular": "^1.0",
         "laravel/fortify": "^1.14",
         "laravel/framework": "^9.19",
+        "laravel/horizon": "^5.14",
         "laravel/sanctum": "^3.0",
         "laravel/scout": "^9.4",
         "laravel/tinker": "^2.7",
@@ -47,6 +48,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.13",
+        "enlightn/enlightn": "^2.1",
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^4.10",
         "laravel/pint": "^1.4",
@@ -105,7 +107,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",

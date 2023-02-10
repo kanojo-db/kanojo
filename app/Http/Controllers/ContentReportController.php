@@ -26,8 +26,6 @@ class ContentReportController extends Controller
 
         if (Auth::check() && $user !== null) {
             // If the user does not have permission to view the reports, redirect them to the movie page
-           $user->load('roles');
-
             if (! $user->roles->contains('name', 'admin') || ! $user->roles->contains('name', 'moderator')) {
                 return redirect()->route('movies.show', $movie);
             }

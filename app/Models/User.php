@@ -51,6 +51,13 @@ class User extends Authenticatable implements ReacterableInterface
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var string[]
+     */
+    protected $with = ['roles'];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array

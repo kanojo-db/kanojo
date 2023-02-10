@@ -16,9 +16,6 @@ class ContentReport extends Model
 
     protected $fillable = [
         'type',
-        'reporter_id',
-        'reportable_id',
-        'reportable_type',
         'message',
     ];
 

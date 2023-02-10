@@ -1,0 +1,180 @@
+
+    ______      ___       __    __
+   / ____/___  / (_)___ _/ /_  / /_____
+  / __/ / __ |/ / / __  / __ |/ __/ __ |
+ / /___/ / / / / / /_/ / / / / /_/ / / /
+/_____/_/ /_/_/_/\__, /_/ /_/\__/_/ /_/
+                /____/
+
+
+Please wait while Enlightn scans your code base...
+
+|------------------------------------------
+| Running Performance Checks
+|------------------------------------------
+
+Check 1/64: Your application has the Composer autoloader optimization configured in production. Not Applicable
+
+Check 2/64: A proper cache driver is configured. Passed
+
+Check 3/64: Your application caches compiled assets for improved performance. Not Applicable
+
+Check 4/64: Aggregation is done at the database query level rather than at the Laravel Collection level. Passed
+
+Check 5/64: Application config caching is configured properly. Passed
+
+Check 6/64: Your application does not use the debug log level in production. Passed
+
+Check 7/64: Dev dependencies are not installed in production. Passed
+
+Check 8/64: Your application does not contain env function calls outside of your config files. Passed
+
+Check 9/64: Your application uses Horizon when using the Redis queue driver. Passed
+
+Check 10/64: Your application minifies assets in production. Passed
+
+Check 11/64: MySQL is configured properly on single server setups. Passed
+
+Check 12/64: OPcache is enabled. Passed
+
+Check 13/64: A proper queue driver is configured. Passed
+
+Check 14/64: Application route caching is configured properly. Passed
+
+Check 15/64: A proper session driver is configured. Passed
+
+Check 16/64: Your application does not use locks on your default cache store. Not Applicable
+
+Check 17/64: Your application does not contain unused global HTTP middleware. Passed
+
+Check 18/64: View caching is configured properly. Passed
+
+|------------------------------------------
+| Running Reliability Checks
+|------------------------------------------
+
+Check 19/64: Cache prefix is set to avoid collisions with other apps. Passed
+
+Check 20/64: Your application cache is working. Passed
+
+Check 21/64: Your application's composer.json file is valid. Passed
+
+Check 22/64: Your application defines custom error page views. Failed
+Your application does not customize its error pages. This may hamper user experience and also exposes your application to fingerprinting, which means potential attackers can identify Laravel as your framework.
+Documentation URL: https://www.laravel-enlightn.com/docs/reliability/custom-error-page-analyzer.html
+
+Check 23/64: Database is accessible. Passed
+
+Check 24/64: Your application does not contain any dead or unreachable code. Passed
+
+Check 25/64: Your storage and cache directories are writable. Passed
+
+Check 26/64: All env variables used in your .env file are defined in your .env.example file. Passed
+
+Check 27/64: A .env file exists for your application. Passed
+
+Check 28/64: All env variables defined in your example file are set in your .env file. Passed
+
+Check 29/64: Your application only uses iterable types in foreach loops. Passed
+
+Check 30/64: Your application does not contain invalid function calls. Passed
+
+Check 31/64: Your application does not contain invalid imports. Passed
+
+Check 32/64: Your application does not contain invalid method calls. Failed
+Your application seems to contain invalid method calls to methods that either do not exist or do not match the method signature or scope.
+At app/Exceptions/Handler.php: line(s): 67, 68, 70 and 71.
+At app/Http/Controllers/MovieController.php: line(s): 105.
+At app/Http/Controllers/MovieMediaController.php: line(s): 35.
+At app/Http/Controllers/PersonMediaController.php: line(s): 32.
+At app/Http/Controllers/SearchController.php: line(s): 19 and 20.
+And 2 more file(s).
+Documentation URL: https://www.laravel-enlightn.com/docs/reliability/invalid-method-call-analyzer.html
+
+Check 33/64: Your application does not contain invalid method overrides. Passed
+
+Check 34/64: Your application does not use invalid offsets. Passed
+
+Check 35/64: Your application does not access class properties in an invalid manner. Passed
+
+Check 36/64: Your application does not use invalid return types. Passed
+
+Check 37/64: Your application is not currently in maintenance mode. Passed
+
+Check 38/64: Your application does not contain missing return statements. Passed
+
+Check 39/64: An appropriate timeout and retry after is set for queues. Passed
+
+Check 40/64: There are no syntax errors in your application code. Passed
+
+Check 41/64: Your application does not rely on undefined constants. Passed
+
+Check 42/64: Your application does not reference undefined variables. Passed
+
+Check 43/64: Your application does not try to unset undefined variables. Passed
+
+Check 44/64: Migrations are up-to date. Passed
+
+|------------------------------------------
+| Running Security Checks
+|------------------------------------------
+
+Check 45/64: Your application hides technical errors in production. Passed
+
+Check 46/64: Sensitive environment variables are hidden in non-local environments. Passed
+
+Check 47/64: Application key is set. Passed
+
+Check 48/64: Your application includes middleware to protect against CSRF attacks. Passed
+
+Check 49/64: Your application encrypts its cookies. Passed
+
+Check 50/64: Your .env is not publicly accessible. Passed
+
+Check 51/64: Your project files and directories use safe permissions. Passed
+
+Check 52/64: Your application does not expose foreign keys for mass assignment. Passed
+
+Check 53/64: Your application does not rely on frontend dependencies with known security issues. Passed
+
+Check 54/64: Your application includes the HSTS header if it is a HTTPS only app. Not Applicable
+
+Check 55/64: Cookies are secured as HttpOnly. Passed
+
+Check 56/64: Your application does not rely on dependencies you are not legally allowed to use. Failed
+Your application has a total of 1 package(s) that you may not be legally allowed to use. By default, we assume the MIT, Apache-2.0, ISC, BSD Clause 2 & 3 and LGPL licenses to be legally valid for use for proprietary or commercial applications. However, you are free to change this in the Enlightn config. Unsafe packages include [netresearch/jsonmapper: OSL-3.0]
+Documentation URL: https://www.laravel-enlightn.com/docs/security/license-analyzer.html
+
+Check 57/64: Your application includes login throttling for protection against brute force attacks. Passed
+
+Check 58/64: Your application is not exposed to mass assignment vulnerabilities. Passed
+
+Check 59/64: Your PHP configuration is secure. Failed
+Your application does not set secure php.ini configuration values. This may expose your application to security vulnerabilities. Unless there is a very specific use case for your application, it is recommended to set your php.ini configuration as follows: [allow_url_fopen: Off or 0] and [expose_php: Off or 0].
+Documentation URL: https://www.laravel-enlightn.com/docs/security/php-ini-analyzer.html
+
+Check 60/64: Your application uses stable versions of dependencies. Failed
+Your application's dependencies are unstable versions. These may include bug fixes and/or security patches. It is recommended to update to the most stable versions.
+Documentation URL: https://www.laravel-enlightn.com/docs/security/stable-dependency-analyzer.html
+
+Check 61/64: Your application does not un-guard models. Passed
+
+Check 62/64: Dependencies are up-to-date. Passed
+
+Check 63/64: Your application does not rely on backend dependencies with known security issues. Passed
+
+Check 64/64: Your application sets appropriate HTTP headers to protect against XSS attacks. Failed
+Your application is not adequately protected from XSS attacks. The Content-Security-Policy is either not set or not set adequately for XSS. It is recommended to set a "script-src" or "default-src" policy directive without "unsafe-eval" or "unsafe-inline".
+Documentation URL: https://www.laravel-enlightn.com/docs/security/xss-analyzer.html
+
+Report Card
+===========
+
++----------------+-------------+-------------+-----------+-----------+
+| Status         | Performance | Reliability |  Security |     Total |
++----------------+-------------+-------------+-----------+-----------+
+| Passed         |   15  (83%) |   24  (92%) | 15  (75%) | 54  (84%) |
+| Failed         |    0   (0%) |    2   (8%) |  4  (20%) |  6   (9%) |
+| Not Applicable |    3  (17%) |    0   (0%) |  1   (5%) |  4   (6%) |
+| Error          |    0   (0%) |    0   (0%) |  0   (0%) |  0   (0%) |
++----------------+-------------+-------------+-----------+-----------+
