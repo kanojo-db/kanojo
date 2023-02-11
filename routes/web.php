@@ -23,6 +23,7 @@ use App\Http\Controllers\StudioController;
 use App\Models\Movie;
 use App\Models\Person;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -96,14 +97,13 @@ Route::get('/', function () {
             ])
             ->take(25)
             ->get(),
-        'movieCount' => Movie::withoutGlobalScope('filterHidden')->count(),
+        'movieCount' => Movie::count(),
         'modelCount' => Person::count(),
         'tagCount' => \Spatie\Tags\Tag::count(),
-        'topUsers' => User::with(['audits'])->withCount(['audits'])->take(10)->get()->map(function ($user) {
+        'topUsers' => User::with(['audits'])->withCount(['audits'])->take(10)->get()->map(function (User $user): mixed {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
-                'avatar' => $user->avatar,
                 'total_audits' => $user->audits_count,
                 'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
             ];
@@ -162,9 +162,12 @@ Route::resource('models.history', PersonHistoryController::class)->only([
 Route::resource('studios', StudioController::class);
 
 Route::get('/user/{user}', function (User $user) {
+    /** @var User|null */
+    $currentUser = Auth::user();
+
     return Inertia::render('Profile/Show', [
         'user' => $user,
-        'isCurrentUser' => $user->is(auth()->user()),
+        'isCurrentUser' => $user->is($currentUser),
         'editsCount' => \OwenIt\Auditing\Models\Audit::where('user_id', $user->id)->count(),
         'favoritesCount' => $user->favorites()->count(),
         'collectionCount' => $user->collection()->count(),

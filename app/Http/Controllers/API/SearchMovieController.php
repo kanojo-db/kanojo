@@ -24,16 +24,15 @@ class SearchMovieController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $searchQuery = request()->query('query');
+        $request->validate([
+            'query' => ['required', 'string'],
+            // TODO: Validate according to the list of languages we support at a given time.
+            'language' => ['optional', 'string']
+        ]);
 
-        // If there is no query, the request is invalid.
-        if (empty($searchQuery)) {
-            return response()->json([
-                'error' => 'Invalid request.',
-            ], 400);
-        }
+        $validatedData = $request->validated();
 
-        $moviesResults = Movie::search($searchQuery)->paginate(25);
+        $moviesResults = Movie::search($validatedData->query)->paginate(25);
 
         return response()->json(
             $moviesResults

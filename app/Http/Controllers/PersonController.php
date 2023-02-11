@@ -7,10 +7,13 @@ namespace App\Http\Controllers;
 use App;
 use App\Models\Movie;
 use App\Models\Person;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -39,7 +42,7 @@ class PersonController extends Controller
                     ->paginate(25)
                     ->appends(request()->query());
             },
-            'birthCounts' => function () {
+            'birthCounts' => function (): array {
                 return Person::select(
                     DB::raw('YEAR(birthdate) AS value'),
                     DB::raw('COUNT(*) AS count')
@@ -53,7 +56,7 @@ class PersonController extends Controller
                 )
                 ->get();
             },
-            'heightCounts' => function () {
+            'heightCounts' => function (): array {
                 return Person::select(
                     DB::raw('height as value'),
                     DB::raw('COUNT(*) AS count')
@@ -63,7 +66,7 @@ class PersonController extends Controller
                 ->orderBy('value')
                 ->get();
             },
-            'bustCounts' => function () {
+            'bustCounts' => function (): array {
                 return Person::select(
                     DB::raw('bust as value'),
                     DB::raw('COUNT(*) AS count')
@@ -73,7 +76,7 @@ class PersonController extends Controller
                 ->orderBy('value')
                 ->get();
             },
-            'waistCounts' => function () {
+            'waistCounts' => function (): array {
                 return Person::select(
                     DB::raw('waist as value'),
                     DB::raw('COUNT(*) AS count')
@@ -83,7 +86,7 @@ class PersonController extends Controller
                 ->orderBy('value')
                 ->get();
             },
-            'hipCounts' => function () {
+            'hipCounts' => function (): array {
                 return  Person::select(
                     DB::raw('hip as value'),
                     DB::raw('COUNT(*) AS count')
@@ -103,90 +106,89 @@ class PersonController extends Controller
      */
     public function show(Person $model): Response
     {
-        $model->load([
-            'media',
+        return Inertia::render('Person/Show', [
+            'person' => function () use ($model): Person {
+                $model->load([
+                    'media',
+                ]);
+
+                $model->visit();
+
+                return $model;
+            },
+            'movieCount' => function () use ($model): int {
+                return Movie::whereHas('models', function (Builder $query) use ($model) {
+                    $query->where('person_id', $model->id);
+                })->count();
+            },
+            'movies' => function () use ($model): LengthAwarePaginator {
+                return Movie::whereHas('models', function (Builder $query) use ($model) {
+                    $query->where('person_id', $model->id);
+                })->with([
+                    'media',
+                    'type',
+                    'loveReactant.reactions.reacter.reacterable',
+                    'loveReactant.reactions.type',
+                    'loveReactant.reactionCounters',
+                    'loveReactant.reactionTotal',
+                ])->orderBy('release_date', 'desc')->paginate(25);
+            }
         ]);
-
-        $model->visit();
-
-        // Get all movies with this person, and count them, without going through the relation
-        $movieCount = Movie::whereHas('models', function ($query) use ($model) {
-            $query->where('person_id', $model->id);
-        })->withoutGlobalScope('filterHidden')->count();
-
-        $movies = Movie::whereHas('models', function ($query) use ($model) {
-            $query->where('person_id', $model->id);
-        })->with([
-            'media',
-            'type',
-            'loveReactant.reactions.reacter.reacterable',
-            'loveReactant.reactions.type',
-            'loveReactant.reactionCounters',
-            'loveReactant.reactionTotal',
-        ])->orderBy('release_date', 'desc')->paginate(25);
-
-        return Inertia::render('Person/Show', ['person' => $model, 'movieCount' => $movieCount, 'movies' => $movies]);
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Person  $person
      */
-    public function edit($id): Response
+    public function edit(Person $model): Response
     {
-        $person = Person::find($id);
+        $model->load('media');
 
-        $person->load('media');
-
-        return Inertia::render('Person/Edit', ['person' => $person]);
+        return Inertia::render('Person/Edit', ['person' => $model]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Models\Movie  $movie
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, Person $model): RedirectResponse
     {
         $locale = App::getLocale();
 
-        $data = $request->validate([
-            'name' => [],
+        $request->validate([
+            'name' => ['nullable', 'string'],
             'original_name' => ['required'],
-            'birthdate' => [],
-            'country' => [],
-            'career_start' => [],
-            'career_end' => [],
-            'blood_type' => [],
-            'cup_size' => [],
-            'height' => [],
-            'bust' => [],
-            'waist' => [],
-            'hip' => [],
+            'birthdate' => ['nullable', 'date'],
+            'country' => ['nullable', 'string'],
+            'career_start' => ['nullable', 'date'],
+            'career_end' => ['nullable', 'date'],
+            'blood_type' => ['nullable', Rule::in(['AB', 'A', 'B', 'O'])],
+            'cup_size' => ['nullable', Rule::in(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])],
+            'height' => ['nullable', 'integer', 'max:250'],
+            'bust' => ['nullable', 'integer', 'max:250'],
+            'waist' => ['nullable', 'integer', 'max:250'],
+            'hip' => ['nullable', 'integer', 'max:250'],
             'dob_doubt' => ['boolean'],
         ]);
 
-        $person = Person::find($id);
+        $validatedData = $request->validated();
 
-        $person->update([
+        $model->update([
             'name' => [
-                $locale => $data['name'],
-                'ja-JP' => $data['original_name'],
+                $locale => $validatedData->name,
+                'ja-JP' => $validatedData->original_name,
             ],
-            'birthdate' => $data['birthdate'],
-            'country' => $data['country'],
-            'career_start' => $data['career_start'],
-            'career_end' => $data['career_end'],
-            'blood_type' => $data['blood_type'],
-            'cup_size' => $data['cup_size'],
-            'height' => $data['height'],
-            'bust' => $data['bust'],
-            'waist' => $data['waist'],
-            'hip' => $data['hip'],
-            'dob_doubt' => $data['dob_doubt'],
+            'birthdate' => $validatedData->birthdate,
+            'country' => $validatedData->country,
+            'career_start' => $validatedData->career_start,
+            'career_end' => $validatedData->career_end,
+            'blood_type' => $validatedData->blood_type,
+            'cup_size' => $validatedData->cup_size,
+            'height' => $validatedData->height,
+            'bust' => $validatedData->bust,
+            'waist' => $validatedData->waist,
+            'hip' => $validatedData->hip,
+            'dob_doubt' => $validatedData->dob_doubt,
         ]);
 
-        return Redirect::route('models.show', $person);
+        return Redirect::route('models.show', $model);
     }
 }

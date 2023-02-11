@@ -64,7 +64,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     /**
      * The attributes that should be automatically cast to specific types.
      *
-     * @var array<string, string>
+     * @var array<array-key, mixed>
      */
     protected $casts = [
         'release_date' => 'date',

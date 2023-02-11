@@ -5,6 +5,7 @@ import { computed, defineProps, ref } from 'vue';
 
 import { useTitle } from '@/utils/item';
 
+import { useAdmin } from '../utils/user';
 import DialogReportContent from './DialogReportContent.vue';
 import DialogShareLink from './DialogShareLink.vue';
 
@@ -17,15 +18,7 @@ const props = defineProps({
 
 const fullUrl = ref(window.location.href.split('?')[0]);
 
-const page = usePage();
-
-const isAdmin = computed(() => {
-    const adminRoles = page.props.user?.roles.filter(
-        (role) => role.name === 'admin',
-    );
-
-    return adminRoles.length > 0;
-});
+const isAdmin = useAdmin();
 
 const $q = useQuasar();
 

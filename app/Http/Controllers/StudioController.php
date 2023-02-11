@@ -58,14 +58,14 @@ class StudioController extends Controller
             },
             'models' => function () use ($studio) {
                 return Person::whereHas('movies', function ($query) use ($studio) {
-                    $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
+                    $query->where('studio_id', $studio->id);
                 })->withCount([
                     'movies' => function ($query) use ($studio) {
-                        $query->where('studio_id', $studio->id)->withoutGlobalScope('filterHidden');
+                        $query->where('studio_id', $studio->id);
                     },
                 ])->orderBy('movies_count', 'desc')->with(['media'])->take(10)->get();
             },
-            'movieCount' => Movie::where('studio_id', $studio->id)->withoutGlobalScope('filterHidden')->count(),
+            'movieCount' => Movie::where('studio_id', $studio->id)->count(),
         ]);
     }
 

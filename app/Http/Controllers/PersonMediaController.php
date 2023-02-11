@@ -6,34 +6,39 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\Person;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\File;
 use Inertia\Inertia;
 use Inertia\Response;
+use Ramsey\Uuid\Uuid;
 
 class PersonMediaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($id): Response
+    public function index(Person $model): Response
     {
-        $person = Person::with('media')->find($id);
+        $model->load(['media']);
 
-        $posters = $person->getMedia('profile');
+        $posters = $model->getMedia('profile');
 
-        return Inertia::render('Person/Media', ['person' => $person, 'posters' => $posters]);
+        return Inertia::render('Person/Media', ['person' => $model, 'posters' => $posters]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMovieMediaRequest $request, $id): void
+    public function store(StoreMovieMediaRequest $request, Person $model): RedirectResponse
     {
-        $person = Person::find($id);
+        $validatedData = $request->validated();
 
-        if ($request->hasFile('media') && $request->file('media')->isValid()) {
-            // TODO: Use MediaCollectionType enum instead of passing the request's parameter directly.
-            $person->addMediaFromRequest('media')->toMediaCollection($request->collection_name);
-        }
+        $model->addMediaFromRequest('media')
+            ->usingFileName(Uuid::uuid4()->toString())
+            ->toMediaCollection($validatedData->collection_name);
 
+        return back();
     }
 }

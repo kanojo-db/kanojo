@@ -8,6 +8,8 @@ use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
 use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
 use DarkGhostHunter\Laraconfig\HasConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,7 +43,7 @@ class User extends Authenticatable implements ReacterableInterface
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<array-key, string>
      */
     protected $hidden = [
         'password',
@@ -58,9 +60,9 @@ class User extends Authenticatable implements ReacterableInterface
     protected $with = ['roles'];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be automatically cast to specific types.
      *
-     * @var array
+     * @var array<array-key, mixed>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -69,7 +71,7 @@ class User extends Authenticatable implements ReacterableInterface
     /**
      * Get the favorite movies for the user.
      */
-    public function favorites()
+    public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'movie_user_favorite');
     }
@@ -77,7 +79,7 @@ class User extends Authenticatable implements ReacterableInterface
     /**
      * Get the wishlisted movies for the user.
      */
-    public function wishlist()
+    public function wishlist(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'movie_user_wishlist');
     }
@@ -85,12 +87,12 @@ class User extends Authenticatable implements ReacterableInterface
     /**
      * Get the user's movie collection.
      */
-    public function collection()
+    public function collection(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'movie_user_collection');
     }
 
-    public function audits()
+    public function audits(): HasMany
     {
         return $this->hasMany(Audit::class);
     }

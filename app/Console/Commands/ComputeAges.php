@@ -33,7 +33,7 @@ class ComputeAges extends Command
     {
         $movies = Movie::whereHas('models', function (Builder $query) {
             $query->whereNot('birthdate', null);
-        })->whereNot('release_date', null)->withoutGlobalScope('filterHidden')->get();
+        })->whereNot('release_date', null)->get();
 
         $movies->each(function (Movie $movie) {
             $movie->models()->each(function (Person $model) use ($movie) {

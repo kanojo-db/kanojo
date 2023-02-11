@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\MediaCollectionType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\File;
 
 class StoreMovieMediaRequest extends FormRequest
 {
@@ -13,7 +18,7 @@ class StoreMovieMediaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -22,8 +27,13 @@ class StoreMovieMediaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'media' => ['required'],
-            'collection_name' => ['required'],
+            'collection_name' => ['required', new Enum(MediaCollectionType::class)],
+            'media' => [
+                'required',
+                'file',
+                File::types(['jpeg', 'png', 'webp'])->max(14000),
+                Rule::dimensions()->maxHeight(3000)->maxWidth(2000)->minHeight(750)->minWidth(500),
+            ],
         ];
     }
 }

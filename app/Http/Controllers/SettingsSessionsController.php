@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 use Jenssegers\Agent\Agent;
 
 class SettingsSessionsController extends Controller
 {
-    public function show(Request $request)
+    public function show(Request $request): Response
     {
         return Inertia::render('Settings/Sessions', [
             'sessions' => $this->sessions($request)->all(),
         ]);
     }
 
-    public function sessions(Request $request)
+    public function sessions(Request $request): Collection
     {
         if (config('session.driver') !== 'database') {
             return collect();
@@ -30,7 +32,7 @@ class SettingsSessionsController extends Controller
                 ->where('user_id', $request->user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get()
-        )->map(function ($session) use ($request) {
+        )->map(function (Session $session) use ($request) {
             $agent = $this->createAgent($session);
 
             return (object) [
@@ -44,7 +46,7 @@ class SettingsSessionsController extends Controller
         });
     }
 
-    protected function createAgent($session)
+    protected function createAgent(object $session): Agent
     {
         return tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);

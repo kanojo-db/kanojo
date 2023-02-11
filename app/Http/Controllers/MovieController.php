@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App;
-use App\Enums\MediaCollectionType;
 use App\Filters\FiltersFeaturedModelAge;
 use App\Http\Requests\StoreMovieRequest;
 use App\Models\Movie;
@@ -19,6 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -82,35 +82,40 @@ class MovieController extends Controller
      */
     public function store(StoreMovieRequest $request): RedirectResponse
     {
+        $validTypes = MovieType::select('id')->all()->pluck('id');
+
+        $request->validate([
+            'studio_id' => ['nullable', 'integer'],
+            'movie_type_id' => ['required', 'integer', Rule::in($validTypes)],
+            'title' => ['nullable', 'string'],
+            'original_title' => ['required', 'string'],
+            'product_code' => ['required', 'string'],
+            'release_date' => ['nullable', 'date'],
+            'length' => ['nullable', 'integer'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => ['string'],
+        ]);
+        
+        $validatedData = $request->validated();
+
         $locale = App::getLocale();
 
-        $studio_id = $request->studio_id;
-        $studio = Studio::find($studio_id);
-
-        $movie_type_id = $request->movie_type_id;
-        $movie_type = MovieType::find($movie_type_id);
+        /** @var Studio|null */
+        $studio = $validatedData->studio_id !== null ? Studio::firstOrFail($validatedData->studio_id) : null;
 
         $movie = Movie::create([
             'title' => [
-                $locale => $request->title,
-                'ja-JP' => $request->original_title,
+                $locale => $validatedData->title,
+                'ja-JP' => $validatedData->original_title,
             ],
-            'product_code' => $request->product_code,
-            'release_date' => $request->release_date,
-            'length' => $request->length,
+            'product_code' => $validatedData->product_code,
+            'release_date' => $validatedData->release_date,
+            'length' => $validatedData->length,
+            'studio_id' => $studio,
+            'movie_type_id' => $validatedData->movie_type_id,
         ]);
 
-        if ($studio !== null) {
-            $studio->movies->associate($movie);
-        }
-
-        $movie->type()->associate($movie_type);
-
-        if ($request->hasFile('poster') && $request->file('poster') !== null && $request->file('poster')->isValid()) {
-            $movie->addMediaFromRequest('poster')->toMediaCollection(MediaCollectionType::FrontCover->value);
-        }
-
-        $movie->attachTags($request->tags);
+        $movie->attachTags($validatedData->tags);
 
         $movie->save();
 
@@ -165,7 +170,7 @@ class MovieController extends Controller
      */
     public function edit(Movie $movie): Response
     {
-        $movie->load('studio', 'media', 'tags', 'type');
+        $movie->load(['studio', 'media', 'tags']);
 
         return Inertia::render('Movie/Edit', ['movie' => $movie]);
     }
@@ -174,31 +179,32 @@ class MovieController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Movie  $movie
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, string $id): RedirectResponse
     {
         // TODO: Allow updating other locales. Maybe through another controller?
         $locale = App::getLocale();
 
-        $data = $request->validate([
+        $request->validate([
             'title' => [],
             'original_title' => ['required'],
             'product_code' => ['required'],
             'release_date' => [],
             'runtime' => [],
         ]);
+        
+        $validatedData = $request->validated();
 
-        $movie = Movie::find($id);
+        $movie = Movie::findOrFail($id);
 
         $movie->update([
             'title' => [
-                $locale => $data['title'],
-                'ja-JP' => $data['original_title'],
+                $locale => $validatedData->title,
+                'ja-JP' => $validatedData->original_title,
             ],
-            'product_code' => $data['product_code'],
-            'release_date' => $data['release_date'],
-            'runtime' => $data['runtime'] ?? 0,
+            'product_code' => $validatedData->product_code,
+            'release_date' => $validatedData->release_date,
+            'runtime' => $validatedData->runtime ?? 0,
         ]);
 
         return Redirect::route('movies.show', $movie);
