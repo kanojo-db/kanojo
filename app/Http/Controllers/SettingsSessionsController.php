@@ -21,6 +21,11 @@ class SettingsSessionsController extends Controller
         ]);
     }
 
+    /**
+     * Get all the session for the user making the request.
+     *
+     * @return Collection<array-key, mixed>&static
+     */
     public function sessions(Request $request): Collection
     {
         if (config('session.driver') !== 'database') {
@@ -32,7 +37,7 @@ class SettingsSessionsController extends Controller
                 ->where('user_id', $request->user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get()
-        )->map(function (Session $session) use ($request) {
+        )->map(function (object $session) use ($request) {
             $agent = $this->createAgent($session);
 
             return (object) [

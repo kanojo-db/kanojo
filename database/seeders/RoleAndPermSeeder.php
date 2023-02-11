@@ -69,7 +69,7 @@ class RoleAndPermSeeder extends Seeder
 
         $bannedRole->syncPermissions([]);
 
-        $adminUser = User::find(1);
+        $adminUser = User::findOrFail(1);
         $adminUser->assignRole('admin');
     }
 }

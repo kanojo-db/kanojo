@@ -6,8 +6,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
+use App\Models\Person;
+use Cog\Laravel\Love\Reactant\ReactionCounter\Models\ReactionCounter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
+use Spatie\Tags\Tag;
 use Throwable;
 
 class MovieDetailsController extends Controller
@@ -26,13 +29,16 @@ class MovieDetailsController extends Controller
      */
     public function show(Movie $movie): JsonResponse
     {
-        // Get the language from the query string, default to en-US
+        /**
+         * Get the language from the query string, default to en-US
+         * @var string
+         */
         $language = request()->query('language', 'en-US');
 
         // Load tags to use for genres
         $movie->load('tags');
         // We only need the id and name of the tags
-        $genres = $movie->tags->map(function ($tag) use ($language) {
+        $genres = $movie->tags->map(function (Tag $tag) use ($language) {
             return [
                 'id' => $tag->id,
                 'name' => $tag->getTranslation('name', $language, true),
@@ -42,16 +48,14 @@ class MovieDetailsController extends Controller
         // Load the movie's media
         $movie->load('media');
         // Get the path to the poster
-        try {
-            $poster = $movie->getFirstMedia('poster')->getFullUrl();
-        } catch (Throwable $t) {
-            $poster = null;
-        }
+        $poster = $movie->getFirstMedia('poster');
+
+        $posterUrl = $poster !== null ? $poster->getFullUrl() : null;
 
         // Get the vote data
         try {
             $movie->load('loveReactant.reactionCounters', 'loveReactant.reactionTotal');
-            $votes = $movie->loveReactant->reactionCounters->map(function ($vote) {
+            $votes = $movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
                 return $vote->count;
             });
             $total = $movie->loveReactant->reactionTotal;
@@ -76,7 +80,7 @@ class MovieDetailsController extends Controller
         // Load the movie's cast
         try {
             $movie->load(['models', 'models.media']);
-            $cast = $movie->models->map(function ($model) use ($movie, $language) {
+            $cast = $movie->models->map(function (Person $model) use ($movie, $language) {
                 // If the model has a birthdate and the movie has a release date, calculate the age of the
                 // model at the time of the movie's release
                 if ($model->birthdate !== null && $movie->release_date !== null) {
@@ -113,7 +117,7 @@ class MovieDetailsController extends Controller
                 'this_month' => $movie->visitsMonth(),
                 'forever' => $movie->visitsForever(),
             ],
-            'poster_path' => $poster,
+            'poster_path' => $posterUrl,
             'product_code' => $movie->product_code,
             'release_date' => $movie->release_date,
             'runtime' => $movie->length,

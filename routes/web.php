@@ -100,14 +100,21 @@ Route::get('/', function () {
         'movieCount' => Movie::count(),
         'modelCount' => Person::count(),
         'tagCount' => \Spatie\Tags\Tag::count(),
-        'topUsers' => User::with(['audits'])->withCount(['audits'])->take(10)->get()->map(function (User $user): mixed {
-            return [
-                'id' => $user->id,
-                'name' => $user->name,
-                'total_audits' => $user->audits_count,
-                'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
-            ];
-        }),
+        'topUsers' => function (): mixed {
+            $topUsers = User::withCount('audits')
+                ->orderBy('audits_count', 'desc')
+                ->take(10)
+                ->get();
+
+            return $topUsers->mapInto(function (User $user): mixed {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'total_audits' => $user->audits_count,
+                    'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
+                ];
+            });
+        },
     ]);
 });
 

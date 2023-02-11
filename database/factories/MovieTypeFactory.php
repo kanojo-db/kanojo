@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\MovieType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MovieType>
- */
 class MovieTypeFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model|TModel>
+     */
+    protected $model = MovieType::class;
+
     /**
      * Define the model's default state.
      *

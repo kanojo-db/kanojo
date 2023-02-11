@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Person;
 use App\Models\Studio;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -57,10 +58,10 @@ class StudioController extends Controller
                     ->paginate(25);
             },
             'models' => function () use ($studio) {
-                return Person::whereHas('movies', function ($query) use ($studio) {
+                return Person::whereHas('movies', function (Builder $query) use ($studio) {
                     $query->where('studio_id', $studio->id);
                 })->withCount([
-                    'movies' => function ($query) use ($studio) {
+                    'movies' => function (Builder $query) use ($studio) {
                         $query->where('studio_id', $studio->id);
                     },
                 ])->orderBy('movies_count', 'desc')->with(['media'])->take(10)->get();
