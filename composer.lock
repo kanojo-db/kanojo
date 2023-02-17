@@ -3261,16 +3261,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.51.0",
+            "version": "v9.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b81123134349a013a738a9f7f715c6ce99d5a414"
+                "reference": "eb85cd9d72e5bfa54b4d0d9040786f26d6184a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b81123134349a013a738a9f7f715c6ce99d5a414",
-                "reference": "b81123134349a013a738a9f7f715c6ce99d5a414",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/eb85cd9d72e5bfa54b4d0d9040786f26d6184a9e",
+                "reference": "eb85cd9d72e5bfa54b4d0d9040786f26d6184a9e",
                 "shasum": ""
             },
             "require": {
@@ -3455,7 +3455,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-02-07T15:37:18+00:00"
+            "time": "2023-02-14T14:51:14+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -3802,16 +3802,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.3.8",
+            "version": "2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "c493585c130544c4e91d2e0e131e6d35cb0cbc47"
+                "reference": "c1e114f74e518daca2729ea8c4bf1167038fa4b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/c493585c130544c4e91d2e0e131e6d35cb0cbc47",
-                "reference": "c493585c130544c4e91d2e0e131e6d35cb0cbc47",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/c1e114f74e518daca2729ea8c4bf1167038fa4b5",
+                "reference": "c1e114f74e518daca2729ea8c4bf1167038fa4b5",
                 "shasum": ""
             },
             "require": {
@@ -3904,7 +3904,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-10T16:02:17+00:00"
+            "time": "2023-02-15T14:07:24+00:00"
         },
         {
             "name": "league/config",
@@ -14409,16 +14409,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "4.14.0",
+            "version": "4.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "750e949202167a4f25c736ba48a3a9965fb1751a"
+                "reference": "1df972a3f73dd3b98e1dcf038597606ba9bdb01f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/750e949202167a4f25c736ba48a3a9965fb1751a",
-                "reference": "750e949202167a4f25c736ba48a3a9965fb1751a",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/1df972a3f73dd3b98e1dcf038597606ba9bdb01f",
+                "reference": "1df972a3f73dd3b98e1dcf038597606ba9bdb01f",
                 "shasum": ""
             },
             "require": {
@@ -14433,7 +14433,7 @@
                 "league/flysystem": "^1.1.4|^2.1.1|^3.0",
                 "mpociot/reflection-docblock": "^1.0.1",
                 "nikic/php-parser": "^4.10",
-                "nunomaduro/collision": "^5.10|^6.0",
+                "nunomaduro/collision": "^5.10|^6.0|^7.0",
                 "php": ">=8.0",
                 "ramsey/uuid": "^4.2.2",
                 "shalvah/clara": "^3.1.0",
@@ -14492,7 +14492,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/4.14.0"
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.16.0"
             },
             "funding": [
                 {
@@ -14500,7 +14500,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-02-07T19:29:29+00:00"
+            "time": "2023-02-16T18:51:12+00:00"
         },
         {
             "name": "laravel/pint",
@@ -15127,20 +15127,20 @@
         },
         {
             "name": "shalvah/upgrader",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shalvah/upgrader.git",
-                "reference": "2a2b1452bd4a1484784deb2af49fb5e1abbcf420"
+                "reference": "c7f1cca8be5cd0114cd816d8bfff9c80565f7390"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/2a2b1452bd4a1484784deb2af49fb5e1abbcf420",
-                "reference": "2a2b1452bd4a1484784deb2af49fb5e1abbcf420",
+                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/c7f1cca8be5cd0114cd816d8bfff9c80565f7390",
+                "reference": "c7f1cca8be5cd0114cd816d8bfff9c80565f7390",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^8.0|^9.0",
+                "illuminate/support": "^8.0|^9.0|^10.0",
                 "nikic/php-parser": "^4.13",
                 "php": ">=8.0"
             },
@@ -15173,7 +15173,7 @@
             ],
             "support": {
                 "issues": "https://github.com/shalvah/upgrader/issues",
-                "source": "https://github.com/shalvah/upgrader/tree/0.3.0"
+                "source": "https://github.com/shalvah/upgrader/tree/0.3.1"
             },
             "funding": [
                 {
@@ -15181,7 +15181,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-09-10T02:18:15+00:00"
+            "time": "2023-02-06T01:20:37+00:00"
         },
         {
             "name": "spatie/data-transfer-object",
