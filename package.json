@@ -19,7 +19,7 @@
         "@typescript-eslint/parser": "^5.52.0",
         "@vitejs/plugin-vue": "^4.0.0",
         "@vue/server-renderer": "^3.2.47",
-        "@vueuse/head": "^1.0.25",
+        "@vueuse/head": "^1.0.26",
         "autoprefixer": "^10.4.13",
         "axios": "^1.3.3",
         "concurrently": "^7.6.0",
