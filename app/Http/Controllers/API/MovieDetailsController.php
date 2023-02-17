@@ -7,7 +7,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
 use App\Models\Person;
-use Cog\Laravel\Love\Reactant\ReactionCounter\Models\ReactionCounter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Spatie\Tags\Tag;
@@ -54,11 +53,11 @@ class MovieDetailsController extends Controller
 
         // Get the vote data
         try {
-            $movie->load('loveReactant.reactionCounters', 'loveReactant.reactionTotal');
-            $votes = $movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
+            // $movie->load('loveReactant.reactionCounters', 'loveReactant.reactionTotal');
+            $votes = null; /*$movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
                 return $vote->count;
-            });
-            $total = $movie->loveReactant->reactionTotal;
+            });*/
+            $total = null; //$movie->loveReactant->reactionTotal;
         } catch (Throwable $t) {
             $votes = null;
             $total = null;
@@ -113,12 +112,12 @@ class MovieDetailsController extends Controller
             'genres' => $genres,
             'id' => $movie->id,
             'original_title' => $movie->getTranslation('title', 'ja-JP', false),
-            'popularity' => [
+            /*'popularity' => [
                 'today' => $movie->visitsDay(),
                 'this_week' => $movie->visitsWeek(),
                 'this_month' => $movie->visitsMonth(),
                 'forever' => $movie->visitsForever(),
-            ],
+            ],*/
             'poster_path' => $posterUrl,
             'product_code' => $movie->product_code,
             'release_date' => $movie->release_date,

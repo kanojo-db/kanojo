@@ -19,7 +19,7 @@ class MovieLikeController extends Controller
         $user = Auth::user();
 
         if (Auth::check() && $user !== null) {
-            $reacterFacade = $user->viaLoveReacter();
+            /*$reacterFacade = $user->viaLoveReacter();
 
             $hasLiked = $reacterFacade->hasReactedTo($movie, 'Like');
 
@@ -31,7 +31,7 @@ class MovieLikeController extends Controller
                 }
             }
 
-            $reacterFacade->reactTo($movie, 'Like');
+            $reacterFacade->reactTo($movie, 'Like');*/
         }
     }
 }

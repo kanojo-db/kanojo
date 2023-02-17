@@ -30,7 +30,6 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::middleware('api')
-                ->middleware('setEtag')
                 ->middleware('ifMatch')
                 ->middleware('ifNoneMatch')
                 ->prefix('api')

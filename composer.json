@@ -9,25 +9,20 @@
     "license": "MIT",
     "require": {
         "php": "^8.1.0",
-        "cybercog/laravel-love": "^8.9",
-        "darkghosthunter/laraconfig": "master",
         "guzzlehttp/guzzle": "^7.2",
         "halaxa/json-machine": "^1.1",
         "http-interop/http-factory-guzzle": "^1.2",
-        "inertiajs/inertia-laravel": "^0.6.3",
+        "inertiajs/inertia-laravel": "^0.6.9",
         "jenssegers/agent": "^2.6",
-        "jordanmiguel/laravel-popular": "^1.0",
         "laravel/fortify": "^1.14",
-        "laravel/framework": "^9.19",
+        "laravel/framework": "^10.0",
         "laravel/horizon": "^5.14",
-        "laravel/sanctum": "^3.0",
+        "laravel/sanctum": "^3.2",
         "laravel/scout": "^9.4",
         "laravel/tinker": "^2.7",
-        "librenms/laravel-vue-i18n-generator": "^0.1.48",
         "meilisearch/meilisearch-php": "^1.0",
         "owen-it/laravel-auditing": "^13.0",
-        "protonemedia/laravel-cross-eloquent-search": "^3.0",
-        "psalm/plugin-laravel": "^2.0",
+        "psalm/plugin-laravel": "^2.7.1",
         "ramsey/uuid": "4.x-dev",
         "sentry/sentry-laravel": "^3.1",
         "spatie/enum": "^3.13",
@@ -37,18 +32,16 @@
         "spatie/laravel-permission": "^5.5",
         "spatie/laravel-query-builder": "^5.0",
         "spatie/laravel-sluggable": "^3.4",
-        "spatie/laravel-tags": "^4.3",
+        "spatie/laravel-tags": "^4.3.7",
         "spatie/laravel-translatable": "^6.1",
         "spatie/laravel-typescript-transformer": "^2.1",
         "spatie/typescript-transformer": "^2.1",
         "statikbe/laravel-cookie-consent": "^1.4",
-        "tightenco/ziggy": "^1.0",
-        "werk365/etagconditionals": "dev-master"
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.13",
-        "enlightn/enlightn": "^2.1",
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^4.10",
         "laravel/dusk": "^7.6",
@@ -58,8 +51,8 @@
         "nunomaduro/collision": "^6.1",
         "pestphp/pest": "^1.22",
         "pestphp/pest-plugin-laravel": "^1.4",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0",
+        "phpunit/phpunit": "^9.6",
+        "spatie/laravel-ignition": "^2.0",
         "vimeo/psalm": "^4.29"
     },
     "autoload": {
@@ -115,11 +108,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ricventu/Laraconfig.git"
-        }
-    ]
+    "prefer-stable": true
 }

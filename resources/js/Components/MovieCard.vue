@@ -25,14 +25,14 @@ const posterUrl = useFirstImage(props.movie);
 const { t } = useI18n();
 
 const averageScore = computed(() => {
-    if (props.movie.love_reactant.reaction_total?.count) {
-        const likeReactions = props.movie.love_reactant.reactions.filter(
+    if (props.movie?.love_reactant?.reaction_total?.count) {
+        const likeReactions = props.movie?.love_reactant?.reactions?.filter(
             (reaction) => reaction.type.name === 'Like',
         );
 
         return (
             (likeReactions.length /
-                props.movie.love_reactant.reaction_total.count) *
+                props.movie?.love_reactant?.reaction_total?.count) *
             100
         );
     }
@@ -41,7 +41,7 @@ const averageScore = computed(() => {
 });
 
 const userScore = computed(() => {
-    if (props.movie.love_reactant.reaction_total?.count) {
+    if (props.movie?.love_reactant?.reaction_total?.count) {
         return averageScore.value;
     }
 

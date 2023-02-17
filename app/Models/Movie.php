@@ -7,8 +7,6 @@ namespace App\Models;
 use App\DataTransferObjects\ModelData;
 use App\DataTransferObjects\MovieTypeData;
 use App\Enums\MediaCollectionType;
-use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
-use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use JordanMiguel\LaravelPopular\Traits\Visitable;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -29,7 +26,7 @@ use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Spatie\Translatable\HasTranslations;
 
-class Movie extends Model implements HasMedia, AuditableContract, ReactableInterface
+class Movie extends Model implements HasMedia, AuditableContract
 {
     use Auditable;
     use HasFactory;
@@ -37,9 +34,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     use HasTags;
     use HasTranslations;
     use InteractsWithMedia;
-    use Reactable;
     use Searchable;
-    use Visitable;
     use SoftDeletes;
 
     /**

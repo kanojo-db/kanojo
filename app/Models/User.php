@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
-use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
-use DarkGhostHunter\Laraconfig\HasConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,14 +15,12 @@ use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Models\Audit;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements ReacterableInterface
+class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use Reacterable;
-    use HasConfig;
     use HasRoles;
     use SoftDeletes;
 

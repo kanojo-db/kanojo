@@ -39,10 +39,6 @@ class MovieController extends Controller
                         'media',
                         'models',
                         'type',
-                        'loveReactant.reactions.reacter.reacterable',
-                        'loveReactant.reactions.type',
-                        'loveReactant.reactionCounters',
-                        'loveReactant.reactionTotal',
                     ])
                     ->defaultSort('-created_at')
                     ->allowedSorts(['created_at', 'product_code'])
@@ -137,10 +133,6 @@ class MovieController extends Controller
             'media',
             'models',
             'models.media',
-            'loveReactant.reactions.reacter.reacterable',
-            'loveReactant.reactions.type',
-            'loveReactant.reactionCounters',
-            'loveReactant.reactionTotal',
         ])->where('slug', $movie)->firstOrFail();
 
         /** @var User|null */
@@ -160,8 +152,6 @@ class MovieController extends Controller
         if (Auth::check() && $user !== null) {
             $movieRecord->is_collection = $user->collection->contains($movieRecord);
         }
-
-        $movieRecord->visit();
 
         return Inertia::render('Movie/Show', ['movie' => $movieRecord]);
     }

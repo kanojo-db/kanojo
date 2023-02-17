@@ -41,19 +41,14 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'popularModels' => Person::with(['media'])->popularMonth()->take(25)->get(),
+        'popularModels' => Person::with(['media'])->take(25)->get(),
         'popularMovies' => QueryBuilder::for(Movie::class)
             ->defaultSort('-created_at')
             ->allowedSorts('created_at')
             ->with([
                 'media',
-                'loveReactant.reactions.reacter.reacterable',
-                'loveReactant.reactions.type',
-                'loveReactant.reactionCounters',
-                'loveReactant.reactionTotal',
                 'type',
             ])
-            ->popularMonth()
             ->take(25)
             ->get(),
         'latestMovies' => QueryBuilder::for(Movie::class)
@@ -61,10 +56,6 @@ Route::get('/', function () {
             ->allowedSorts('created_at')
             ->with([
                 'media',
-                'loveReactant.reactions.reacter.reacterable',
-                'loveReactant.reactions.type',
-                'loveReactant.reactionCounters',
-                'loveReactant.reactionTotal',
                 'type',
             ])
             ->latest()
@@ -75,10 +66,6 @@ Route::get('/', function () {
             ->allowedSorts('updated_at')
             ->with([
                 'media',
-                'loveReactant.reactions.reacter.reacterable',
-                'loveReactant.reactions.type',
-                'loveReactant.reactionCounters',
-                'loveReactant.reactionTotal',
                 'type',
             ])
             ->take(25)
@@ -89,10 +76,6 @@ Route::get('/', function () {
             ->where('release_date', '<=', now()->toDateString())
             ->with([
                 'media',
-                'loveReactant.reactions.reacter.reacterable',
-                'loveReactant.reactions.type',
-                'loveReactant.reactionCounters',
-                'loveReactant.reactionTotal',
                 'type',
             ])
             ->take(25)

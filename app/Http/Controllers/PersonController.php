@@ -112,8 +112,6 @@ class PersonController extends Controller
                     'media',
                 ]);
 
-                $model->visit();
-
                 return $model;
             },
             'movieCount' => function () use ($model): int {
@@ -127,10 +125,6 @@ class PersonController extends Controller
                 })->with([
                     'media',
                     'type',
-                    'loveReactant.reactions.reacter.reacterable',
-                    'loveReactant.reactions.type',
-                    'loveReactant.reactionCounters',
-                    'loveReactant.reactionTotal',
                 ])->orderBy('release_date', 'desc')->paginate(25);
             }
         ]);

@@ -50,10 +50,6 @@ class StudioController extends Controller
                     ->where('studio_id', $studio->id)
                     ->with([
                         'media',
-                        'loveReactant.reactions.reacter.reacterable',
-                        'loveReactant.reactions.type',
-                        'loveReactant.reactionCounters',
-                        'loveReactant.reactionTotal',
                         'type',
                     ])
                     ->paginate(25);
