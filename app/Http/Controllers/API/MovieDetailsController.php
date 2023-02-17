@@ -89,6 +89,8 @@ class MovieDetailsController extends Controller
                     $age = null;
                 }
 
+                $profileImage = $model->getFirstMedia('profile');
+
                 return [
                     'id' => $model->id,
                     'name' => $model->getTranslation('name', $language, true) === '' ?
@@ -96,8 +98,8 @@ class MovieDetailsController extends Controller
                                 $model->getTranslation('name', $language, false),
                     'age' => $age,
                     'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
-                    'profile_path' => $model->getFirstMedia('profile') !== null ?
-                                        $model->getFirstMedia('profile')->getFullUrl() :
+                    'profile_path' =>  $profileImage !== null ?
+                                        $profileImage->getFullUrl() :
                                         null,
                 ];
             });

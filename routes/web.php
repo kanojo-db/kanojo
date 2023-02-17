@@ -106,7 +106,7 @@ Route::get('/', function () {
                 ->take(10)
                 ->get();
 
-            return $topUsers->mapInto(function (User $user): mixed {
+            return $topUsers->map(function (User $user): mixed {
                 return [
                     'id' => $user->id,
                     'name' => $user->name,

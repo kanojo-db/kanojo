@@ -8,6 +8,7 @@ use App\Models\Movie;
 use App\Models\Person;
 use App\Models\Studio;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -44,7 +45,7 @@ class StudioController extends Controller
     {
         return Inertia::render('Studio/Show', [
             'studio' => $studio,
-            'movies' => function () use ($studio) {
+            'movies' => function () use ($studio): Collection {
                 return Movie::orderBy('release_date', 'desc')
                     ->where('studio_id', $studio->id)
                     ->with([

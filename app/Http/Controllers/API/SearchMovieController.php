@@ -24,15 +24,13 @@ class SearchMovieController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'query' => ['required', 'string'],
             // TODO: Validate according to the list of languages we support at a given time.
             'language' => ['optional', 'string']
         ]);
 
-        $validatedData = $request->validated();
-
-        $moviesResults = Movie::search($validatedData->query)->paginate(25);
+        $moviesResults = Movie::search($validatedData['query'])->paginate(25);
 
         return response()->json(
             $moviesResults

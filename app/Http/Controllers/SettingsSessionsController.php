@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class SettingsSessionsController extends Controller
     /**
      * Get all the session for the user making the request.
      *
-     * @return Collection<array-key, mixed>&static
+     * @return \Illuminate\Support\Collection<array-key, object{id:mixed, platform:bool|string, browser:bool|string, ip_address:mixed, is_current_device:bool, last_active:string}>
      */
     public function sessions(Request $request): Collection
     {
@@ -32,9 +33,12 @@ class SettingsSessionsController extends Controller
             return collect();
         }
 
+        /** @var User */
+        $user = $request->user();
+
         return collect(
-            DB::table(config('session.table', 'sessions'))
-                ->where('user_id', $request->user()->getAuthIdentifier())
+            DB::table((string) config('session.table', 'sessions'))
+                ->where('user_id', $user->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get()
         )->map(function (object $session) use ($request) {
