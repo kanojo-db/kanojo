@@ -2,3 +2,4 @@ resources/js/vue-i18n-locales.generated.js
 .eslintrc.js
 cookie-consent.js
 public/vendor/**/*
+.commitlint.config.js
