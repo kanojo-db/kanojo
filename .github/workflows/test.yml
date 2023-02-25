@@ -55,6 +55,7 @@ jobs:
         run: php artisan test --coverage --coverage-clover coverage-php.xml
 
       - name: Upload coverage reports to Codecov
+        if: always()
         uses: codecov/codecov-action@v3
         with:
           files: coverage-php.xml
@@ -134,6 +135,7 @@ jobs:
         run: npm run test
 
       - name: Upload coverage reports to Codecov
+        if: always()
         uses: codecov/codecov-action@v3
         with:
           files: coverage/coverage.xml
