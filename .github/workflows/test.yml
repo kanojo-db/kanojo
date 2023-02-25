@@ -138,4 +138,4 @@ jobs:
         if: always()
         uses: codecov/codecov-action@v3
         with:
-          files: coverage/coverage.xml
+          files: coverage/clover.xml
