@@ -53,11 +53,13 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test --coverage --coverage-clover coverage-php.xml
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
           files: coverage-php.xml
   dusk:
+    name: Laravel (Dusk)
     runs-on: ubuntu-latest
     env:
       APP_URL: "http://127.0.0.1:8000"
@@ -96,3 +98,42 @@ jobs:
         with:
           name: console
           path: tests/Browser/console
+  jest:
+    name: JavaScript (Jest)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      - name: Set npm Cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install ESLint
+        run: |
+          npm ci
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage/coverage.xml
