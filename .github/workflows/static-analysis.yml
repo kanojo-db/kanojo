@@ -1,10 +1,15 @@
 name: Static Analysis
 
 on:
+  branch_protection_rule:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   codeql:
@@ -33,7 +38,7 @@ jobs:
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
 
-      - name: Perform CodeQL Analysis
+      - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{matrix.language}}"

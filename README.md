@@ -1,8 +1,14 @@
 # Kanojo
 
-![GitHub](https://img.shields.io/github/license/kanojo-db/kanojo) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub branch checks state](https://img.shields.io/github/checks-status/kanojo-db/kanojo/main)
+![GitHub](https://img.shields.io/github/license/kanojo-db/kanojo) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub branch checks state](https://img.shields.io/github/checks-status/kanojo-db/kanojo/main) ![Codecov](https://img.shields.io/codecov/c/gh/kanojo-db/kanojo?token=4P6GCNEJB3) [![Translation status](https://hosted.weblate.org/widgets/kanojo/-/website/svg-badge.svg)](https://hosted.weblate.org/engage/kanojo/) ![OSSF-Scorecard Score](https://img.shields.io/ossf-scorecard/github.com/kanojo-db/kanojo?label=ossf%20score) ![Discord](https://img.shields.io/discord/1065258808642912376)
 
 This repository contains the main code for Kanojo, comprising the API, backend and frontend of the database.
+
+## Contribute
+
+If you are interested in contributing to the project, whether you are a developer or not, read through [CONTRIBUTING.md](https://github.com/kanojo-db/kanojo/blob/main/CONTRIBUTING.md).
+
+Join on [our Discord]() to participate on discussions about features, bugs, translations or content moderation.
 
 ## Requirements
 

@@ -21,12 +21,12 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
-      - name: Get Composer Cache Directory
+      - name: Get Composer cache directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Set Composer Cache
+      - name: Set Composer cache
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -34,21 +34,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Generate key
+      - name: Generate application key
         run: php artisan key:generate
 
-      - name: Directory Permissions
+      - name: Set directory permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: Create Database
+      - name: Create database
         run: |
           mkdir -p database
           touch database/database.sqlite
 
-      - name: Execute tests (Unit and Feature tests)
+      - name: Execute tests (Unit and feature tests)
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
@@ -127,7 +127,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install ESLint
+      - name: Install dependencies
         run: |
           npm ci
 

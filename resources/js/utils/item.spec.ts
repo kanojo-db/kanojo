@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { useI18n } from 'vue-i18n';
 
 import { getTitle, useTitle } from './item';
@@ -16,7 +16,7 @@ describe('getTitle', () => {
             },
         };
 
-        const wrapper = mount({
+        const wrapper = shallowMount({
             template: '<div>{{ title }}</div>',
             setup() {
                 const title = getTitle(movie);
@@ -38,7 +38,7 @@ describe('getTitle', () => {
             },
         };
 
-        const wrapper = mount({
+        const wrapper = shallowMount({
             template: '<div>{{ title }}</div>',
             setup() {
                 const title = getTitle(movie);
@@ -74,7 +74,7 @@ describe('useTitle', () => {
             },
         };
 
-        const wrapper = mount(Component);
+        const wrapper = shallowMount(Component);
 
         expect(wrapper.text()).toBe('The Matrix');
     });
@@ -97,8 +97,73 @@ describe('useTitle', () => {
             },
         };
 
-        const wrapper = mount(Component);
+        const wrapper = shallowMount(Component);
 
         expect(wrapper.text()).toBe('マトリックス');
+    });
+});
+
+describe('getName', () => {
+    test('returns the name in the correct language', () => {
+        const item = {
+            name: {
+                en: 'English Name',
+                es: 'Nombre en Español',
+                'ja-JP': '日本語の名前',
+            },
+        };
+        const locale = 'es';
+
+        const mockUseI18n = {
+            locale: {
+                value: locale,
+            },
+        };
+
+        const wrapper = shallowMount(
+            {
+                template: '<div></div>',
+            },
+            {
+                global: {
+                    plugins: [mockUseI18n],
+                },
+            },
+        );
+
+        const result = getName(item);
+
+        expect(result).toBe(item.name[locale]);
+    });
+
+    test('returns the Japanese name if no localized name exists', () => {
+        const item = {
+            name: {
+                en: 'English Name',
+                fr: 'Nom en français',
+            },
+        };
+        const locale = 'es';
+
+        const mockUseI18n = {
+            locale: {
+                value: locale,
+            },
+        };
+
+        const wrapper = shallowMount(
+            {
+                template: '<div></div>',
+            },
+            {
+                global: {
+                    plugins: [mockUseI18n],
+                },
+            },
+        );
+
+        const result = getName(item);
+
+        expect(result).toBe(item.name['ja-JP']);
     });
 });
