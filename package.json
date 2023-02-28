@@ -61,7 +61,7 @@
     "chart.js": "^4.2.1",
     "copy-to-clipboard": "^3.3.3",
     "luxon": "^3.2.1",
-    "quasar": "^2.11.6",
+    "quasar": "^2.11.7",
     "swiper": "^9.0.5",
     "vue-chartjs": "^5.2.0",
     "vue-i18n": "^9.2.2"
