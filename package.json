@@ -60,7 +60,7 @@
     "@sentry/vue": "^7.39.0",
     "chart.js": "^4.2.1",
     "copy-to-clipboard": "^3.3.3",
-    "luxon": "^3.2.1",
+    "luxon": "^3.3.0",
     "quasar": "^2.11.7",
     "swiper": "^9.1.0",
     "vue-chartjs": "^5.2.0",
