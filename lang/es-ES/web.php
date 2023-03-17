@@ -154,7 +154,7 @@ return [
         'reports' => [
             'opened_at' => 'Abierto el {data}',
             'report_type' => 'Tipo de informe:',
-            'x_reports' => 'Ningún informe | {count} Informe| {count} Informes ',
+            'x_reports' => 'Ningún informe | {count} Informes| {count} Informes ',
         ],
         'tabs' => [
             'overview' => [
