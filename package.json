@@ -56,7 +56,7 @@
   "dependencies": {
     "@inertiajs/vue3": "^1.0.2",
     "@quasar/extras": "^1.15.11",
-    "@sentry/tracing": "^7.41.0",
+    "@sentry/tracing": "^7.45.0",
     "@sentry/vue": "^7.42.0",
     "chart.js": "^4.2.1",
     "copy-to-clipboard": "^3.3.3",
