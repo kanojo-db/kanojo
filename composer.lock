@@ -6084,16 +6084,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.16.1",
+            "version": "1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "e27e92d939e2e3636f0a1f0afaba59692c0bf571"
+                "reference": "22dcdfd725ddf99583bfe398fc624ad6c5004a0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/e27e92d939e2e3636f0a1f0afaba59692c0bf571",
-                "reference": "e27e92d939e2e3636f0a1f0afaba59692c0bf571",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/22dcdfd725ddf99583bfe398fc624ad6c5004a0f",
+                "reference": "22dcdfd725ddf99583bfe398fc624ad6c5004a0f",
                 "shasum": ""
             },
             "require": {
@@ -6123,9 +6123,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.16.1"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.18.1"
             },
-            "time": "2023-02-07T18:11:17+00:00"
+            "time": "2023-04-07T11:51:11+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -10058,16 +10058,16 @@
         },
         {
             "name": "spatie/typescript-transformer",
-            "version": "2.1.13",
+            "version": "2.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/typescript-transformer.git",
-                "reference": "218bd316891605385e6f4c9125d41fb7aa66c630"
+                "reference": "3ee4694e94d2d5865b7272c471be766c323ab3d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/typescript-transformer/zipball/218bd316891605385e6f4c9125d41fb7aa66c630",
-                "reference": "218bd316891605385e6f4c9125d41fb7aa66c630",
+                "url": "https://api.github.com/repos/spatie/typescript-transformer/zipball/3ee4694e94d2d5865b7272c471be766c323ab3d4",
+                "reference": "3ee4694e94d2d5865b7272c471be766c323ab3d4",
                 "shasum": ""
             },
             "require": {
@@ -10114,7 +10114,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/typescript-transformer/issues",
-                "source": "https://github.com/spatie/typescript-transformer/tree/2.1.13"
+                "source": "https://github.com/spatie/typescript-transformer/tree/2.1.14"
             },
             "funding": [
                 {
@@ -10126,7 +10126,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-01T13:01:24+00:00"
+            "time": "2023-04-07T07:42:06+00:00"
         },
         {
             "name": "statikbe/laravel-cookie-consent",
