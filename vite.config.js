@@ -7,6 +7,7 @@ import path from 'path';
 import DefineOptions from 'unplugin-vue-define-options/vite';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 
 export default defineConfig({
     resolve: {
@@ -48,5 +49,12 @@ export default defineConfig({
             ),
         }),
         DefineOptions(),
+        checker({
+            overlay: true,
+            vueTsc: true,
+            eslint: {
+                lintCommand: 'eslint --ext .js,.ts,.vue resources/js',
+            },
+        }),
     ],
 });

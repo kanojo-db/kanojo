@@ -88,7 +88,7 @@ class PersonController extends Controller
                 ->get();
             },
             'hipCounts' => function (): Collection {
-                return  Person::select(
+                return Person::select(
                     DB::raw('hip as value'),
                     DB::raw('COUNT(*) AS count')
                 )
