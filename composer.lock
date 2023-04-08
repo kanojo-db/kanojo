@@ -13943,16 +13943,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "4.17.0",
+            "version": "4.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "edc14a9800f2690b9ac1cbc9305ea6ba360e0d68"
+                "reference": "53faab8433cd099328965d90b79d05eb176cff58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/edc14a9800f2690b9ac1cbc9305ea6ba360e0d68",
-                "reference": "edc14a9800f2690b9ac1cbc9305ea6ba360e0d68",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/53faab8433cd099328965d90b79d05eb176cff58",
+                "reference": "53faab8433cd099328965d90b79d05eb176cff58",
                 "shasum": ""
             },
             "require": {
@@ -14026,7 +14026,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/4.17.0"
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.18.0"
             },
             "funding": [
                 {
@@ -14034,7 +14034,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-03-19T14:53:52+00:00"
+            "time": "2023-04-08T13:04:47+00:00"
         },
         {
             "name": "laravel/dusk",
@@ -15162,16 +15162,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v6.2.7",
+            "version": "v6.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "86062dd0103530e151588c8f60f5b85a139f1442"
+                "reference": "8302bb670204500d492c6b8c595ee9a27da62cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/86062dd0103530e151588c8f60f5b85a139f1442",
-                "reference": "86062dd0103530e151588c8f60f5b85a139f1442",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/8302bb670204500d492c6b8c595ee9a27da62cd6",
+                "reference": "8302bb670204500d492c6b8c595ee9a27da62cd6",
                 "shasum": ""
             },
             "require": {
@@ -15211,12 +15211,12 @@
                 "export",
                 "hydrate",
                 "instantiate",
-                "lazy loading",
+                "lazy-loading",
                 "proxy",
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v6.2.7"
+                "source": "https://github.com/symfony/var-exporter/tree/v6.2.8"
             },
             "funding": [
                 {
@@ -15232,7 +15232,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-24T10:42:00+00:00"
+            "time": "2023-03-14T15:48:45+00:00"
         }
     ],
     "aliases": [],
