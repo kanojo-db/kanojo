@@ -4,29 +4,28 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Models\Movie;
 use App\Models\Person;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class SearchController extends Controller
 {
-    public function __invoke(Request $request): Response
+    public function __invoke(SearchRequest $request): Response
     {
-        $request->validate([
-            'q' => ['required', 'string'],
-        ]);
-
         $validatedData = $request->validated();
 
         return Inertia::render('Search', [
-            'movies_results' => function () use ($validatedData): LengthAwarePaginator {
-                return Person::with(['media'])->search($validatedData->q)->paginate(25);
+            'modelsResults' => function () use ($validatedData): LengthAwarePaginator {
+                return Person::search($validatedData['q'])->query(function (Builder $query): Builder {
+                    return $query->with('media');
+                })->paginate(25);
             },
-            'models_results' => function () use ($validatedData): LengthAwarePaginator {
-                return Movie::with(['media'])->search($validatedData->q)->paginate(25);
+            'moviesResults' => function () use ($validatedData): LengthAwarePaginator {
+                return Movie::search($validatedData['q'])->paginate(25);
             },
         ]);
     }

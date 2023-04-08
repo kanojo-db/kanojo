@@ -7,6 +7,7 @@ module.exports = {
         Ziggy: 'readonly',
         route: 'readonly',
         axios: 'readonly',
+        defineOptions: 'readonly',
     },
     extends: [
         'eslint:recommended',
@@ -16,7 +17,32 @@ module.exports = {
         'plugin:vuejs-accessibility/recommended',
         'plugin:@typescript-eslint/recommended',
     ],
-    overrides: [],
+    overrides: [
+        {
+            files: ['**/*.spec.{j,t}s?(x)'],
+            env: {
+                jest: true,
+            },
+            rules: {
+                'jest/consistent-test-it': [
+                    'error',
+                    { fn: 'test', withinDescribe: 'it' },
+                ],
+                '@typescript-eslint/explicit-function-return-type': 'off',
+            },
+            plugins: ['jest', 'jest-formatting'],
+            extends: [
+                'plugin:jest/recommended',
+                'plugin:jest/style',
+                'plugin:jest-formatting/strict',
+            ],
+            settings: {
+                jest: {
+                    version: 29,
+                },
+            },
+        },
+    ],
     parser: 'vue-eslint-parser',
     parserOptions: {
         parser: '@typescript-eslint/parser',

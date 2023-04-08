@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 
-class ComputeAges extends Command
+class ComputeModelsAges extends Command
 {
     /**
      * The name and signature of the console command.
@@ -24,7 +24,7 @@ class ComputeAges extends Command
      *
      * @var string
      */
-    protected $description = 'Refersh all ages for models starring in movies';
+    protected $description = 'Refresh all ages for models starring in movies';
 
     /**
      * Execute the console command.
@@ -38,13 +38,13 @@ class ComputeAges extends Command
         $movies->each(function (Movie $movie) {
             $movie->models()->each(function (Person $model) use ($movie) {
                 try {
-                    $age = Carbon::parse($movie->release_date)->diff(Carbon::parse($model->birthdate))->format('%y');
+                    $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
 
-                    $this->info('Set age to '.$age);
+                    $this->info('Setting age for '.$model->name.' in '.$movie->product_code.' to '.$age);
 
                     $movie->models()->updateExistingPivot($model->id, ['age' => $age]);
                 } catch (\Throwable $th) {
-                    $this->error('Error when setting age');
+                    $this->error('Error when setting age: '.$th->getMessage());
                 }
             });
         });

@@ -24,11 +24,30 @@ const localeList = ref([
     },
 ]);
 
+const FallbackLocaleList = computed(() => {
+    return [
+        {
+            label: "None (Don't Fallback)",
+            value: 'none',
+        },
+        ...localeList.value,
+    ];
+});
+
 const currentLocale = ref({
     label:
-        localeList.value.find((locale) => locale.value === i18n.locale.value)
-            ?.label ?? 'Unknown',
+        localeList.value.find(
+            (locale) => locale.value === i18n.locale.value.replace('!', ''),
+        )?.label ?? 'Unknown',
     value: i18n.locale.value,
+});
+
+const currenFallbacktLocale = ref({
+    label:
+        localeList.value.find(
+            (locale) => locale.value === i18n.fallbackLocale.value,
+        )?.label ?? 'Unknown',
+    value: i18n.fallbackLocale.value,
 });
 
 const changeLocaleForm = useForm({
@@ -49,6 +68,21 @@ const changeLocale = () => {
         },
     });
 };
+
+const changeFallbackLocale = () => {
+    // Change the locale on the user's side early, to provide a better UX
+    i18n.fallbackLocale.value = currenFallbacktLocale.value.value;
+
+    // If the user does not want fallbacks, use ! at the end of the locale to suppress them.
+    // See https://kazupon.github.io/vue-i18n/guide/fallback.html#implicit-fallback-using-locales
+    if (currenFallbacktLocale.value.value === 'none') {
+        i18n.locale.value = `${i18n.locale.value}!`;
+    } else {
+        i18n.locale.value = i18n.locale.value.replace('!', '');
+    }
+
+    // TODO: Save fallback locale somewhere
+};
 </script>
 
 <template>
@@ -68,10 +102,19 @@ const changeLocale = () => {
             >
                 <q-select
                     v-model="currentLocale"
+                    class="q-mb-sm"
                     :options="localeList"
-                    label="Translations"
+                    label="Default Language"
                     filled
                     @update:model-value="changeLocale"
+                />
+
+                <q-select
+                    v-model="currenFallbacktLocale"
+                    :options="FallbackLocaleList"
+                    label="Fallback Language"
+                    filled
+                    @update:model-value="changeFallbackLocale"
                 />
             </q-list>
         </q-menu>

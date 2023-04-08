@@ -4,7 +4,9 @@
         bordered
     >
         <q-card-section class="bg-primary text-white row items-center">
-            <div class="text-weight-bold text-h6">{{ $t('web.general.pages.settings') }}</div>
+            <div class="text-weight-bold text-h6">
+                {{ $t('web.general.pages.settings') }}
+            </div>
         </q-card-section>
 
         <q-separator />
@@ -17,7 +19,9 @@
                         $page.component === 'Settings/Account',
                 }"
             >
-                <q-item-section>{{ $t('web.settings.account.title') }}</q-item-section>
+                <q-item-section>
+                    {{ $t('web.settings.account.title') }}
+                </q-item-section>
             </q-item>
             <q-item
                 clickable
@@ -26,7 +30,9 @@
                         $page.component === 'Settings/Tokens',
                 }"
             >
-                <q-item-section>{{ $t('web.settings.tokens.title') }}</q-item-section>
+                <q-item-section>
+                    {{ $t('web.settings.tokens.title') }}
+                </q-item-section>
             </q-item>
             <q-item
                 clickable
@@ -35,7 +41,9 @@
                         $page.component === 'Settings/Sessions',
                 }"
             >
-                <q-item-section>{{ $t('web.settings.sessions.title') }}</q-item-section>
+                <q-item-section>
+                    {{ $t('web.settings.sessions.title') }}
+                </q-item-section>
             </q-item>
         </q-list>
     </q-card>

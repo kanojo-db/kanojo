@@ -1,8 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { useForm, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
-import { computed, defineProps, ref } from 'vue';
+import { computed, ref } from 'vue';
+import type { PropType } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+import { Movie } from '@/types/models';
 import { useTitle } from '@/utils/item';
 
 import { useAdmin } from '../utils/user';
@@ -11,18 +14,22 @@ import DialogShareLink from './DialogShareLink.vue';
 
 const props = defineProps({
     movie: {
-        type: Object,
+        type: Object as PropType<Movie>,
         required: true,
     },
 });
+
+const locale = useI18n().locale.value;
+
+const title = useTitle(props.movie, locale);
+
+const component = computed(() => usePage()?.component);
 
 const fullUrl = ref(window.location.href.split('?')[0]);
 
 const isAdmin = useAdmin();
 
 const $q = useQuasar();
-
-const title = useTitle(props.movie);
 
 const openShareLinkDialog = () => {
     $q.dialog({
@@ -99,7 +106,7 @@ const openReportDialog = () => {
             <q-btn
                 flat
                 :class="{
-                    'text-weight-bold': $page.component === 'Movie/Media',
+                    'text-weight-bold': component === 'Movie/Media',
                 }"
                 label="Media"
                 @click="

@@ -4,9 +4,14 @@ import { DateTime, Duration } from 'luxon';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import ModelRoleCard from '@/Components/ModelRoleCard.vue';
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { getName, useFirstImage, useName, useTitle } from '@/utils/item';
+import { useFirstImage, useName, useTitle } from '@/utils/item';
+
+defineOptions({
+    layout: AppLayout,
+});
 
 const props = defineProps({
     movie: {
@@ -15,39 +20,14 @@ const props = defineProps({
     },
 });
 
-const posterUrl = useFirstImage(props.movie);
-
-const getHumanReadableDate = (date) => {
-    return DateTime.fromSQL(date).toLocaleString(DateTime.DATE_SHORT);
-};
-
-const getModelAge = (date) => {
-    if (DateTime.fromSQL(props.movie.release_date)) {
-        const modelDate = DateTime.fromSQL(date)
-            .diff(DateTime.fromISO(props.movie.release_date), 'years')
-            .toObject();
-
-        return Math.floor(Math.abs(modelDate.years));
-    }
-
-    return null;
-};
-
-const getModelImage = (model) => {
-    if (model?.media && model.media.length > 0) {
-        return model.media.filter((m) => m.collection_name === 'profile')?.[0]
-            .original_url;
-    }
-
-    return null;
-};
+const posterUrl = useFirstImage(props.movie, 'front_cover');
 
 const isVrMovie = computed(() => {
     return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
 
 const movieReleaseDate = computed(() => {
-    return DateTime.fromSQL(props.movie.release_date).toLocaleString(
+    return DateTime.fromISO(props.movie.release_date).toLocaleString(
         DateTime.DATE_SHORT,
     );
 });
@@ -56,40 +36,42 @@ const movieDuration = computed(() => {
     return Duration.fromObject({ minutes: props.movie.length });
 });
 
-const page = usePage();
+const page = computed(() => usePage());
 
 const hasLiked = computed(() => {
-    const userLike = props.movie.love_reactant.reactions.filter((reaction) => {
-        return reaction.reacter.reacterable.id === page.props.user.id;
-    });
-
-    return userLike.length > 0 && userLike[0].reaction_type_id === 1;
-});
-
-const hasDisliked = computed(() => {
-    const userDislike = props.movie.love_reactant.reactions.filter(
+    const userLike = props.movie?.love_reactant?.reactions.filter(
         (reaction) => {
-            return reaction.reacter.reacterable.id === page.props.user.id;
+            return reaction.reacter.reacterable.id === page.value.props.user.id;
         },
     );
 
-    return userDislike.length > 0 && userDislike[0].reaction_type_id === 2;
+    return userLike?.length > 0 && userLike?.[0]?.reaction_type_id === 1;
 });
 
-const title = useTitle(props.movie);
-const studioName = useName(props.movie.studio);
+const hasDisliked = computed(() => {
+    const userDislike = props.movie?.love_reactant?.reactions.filter(
+        (reaction) => {
+            return reaction.reacter.reacterable.id === page.value.props.user.id;
+        },
+    );
+
+    return userDislike?.length > 0 && userDislike?.[0]?.reaction_type_id === 2;
+});
 
 const { t, locale } = useI18n();
 
+const title = useTitle(props.movie, locale.value);
+const studioName = useName(props.movie.studio, locale.value);
+
 const averageScore = computed(() => {
-    if (props.movie.love_reactant.reaction_total?.count) {
-        const likeReactions = props.movie.love_reactant.reactions.filter(
+    if (props.movie?.love_reactant?.reaction_total?.count) {
+        const likeReactions = props.movie?.love_reactant?.reactions.filter(
             (reaction) => reaction.type.name === 'Like',
         );
 
         return (
             (likeReactions.length /
-                props.movie.love_reactant.reaction_total.count) *
+                props.movie?.love_reactant?.reaction_total.count) *
             100
         );
     }
@@ -98,7 +80,7 @@ const averageScore = computed(() => {
 });
 
 const userScore = computed(() => {
-    if (props.movie.love_reactant.reaction_total?.count) {
+    if (props.movie?.love_reactant?.reaction_total?.count) {
         return `${averageScore.value}`;
     }
 
@@ -137,7 +119,7 @@ const groupedTags = computed(() => {
 </script>
 
 <template>
-    <AppLayout
+    <div
         itemscope
         itemtype="https://schema.org/Movie"
         :title="title"
@@ -216,7 +198,7 @@ const groupedTags = computed(() => {
                             <meta
                                 itemprop="ratingCount"
                                 :content="
-                                    props.movie.love_reactant.reaction_total
+                                    props.movie?.love_reactant?.reaction_total
                                         ?.count ?? 0
                                 "
                             />
@@ -241,6 +223,7 @@ const groupedTags = computed(() => {
                                 track-color="grey-5"
                                 itemprop="ratingValue"
                                 :content="averageScore"
+                                :model-value="averageScore"
                             >
                                 <div
                                     class="row justify-center items-start text-overline"
@@ -411,7 +394,7 @@ const groupedTags = computed(() => {
                                         :key="`movie-tag-${tag.id}`"
                                         color="grey-4"
                                     >
-                                        {{ getName(tag) }}
+                                        {{ tag }}
                                     </q-chip>
                                 </td>
                             </tr>
@@ -426,97 +409,12 @@ const groupedTags = computed(() => {
                     <div
                         class="fit row wrap justify-start items-start content-start q-col-gutter-md"
                     >
-                        <div
+                        <ModelRoleCard
                             v-for="model in movie.models"
                             :key="`movie-model-${model.id}`"
-                            class="col-4"
-                            itemprop="actor"
-                            itemscope
-                            itemtype="https://schema.org/Person"
-                        >
-                            <meta
-                                itemprop="gender"
-                                content="https://schema.org/Female"
-                            />
-                            <Link :href="route('models.show', model)">
-                                <div
-                                    class="row bg-pink-1 q-pa-md rounded-borders"
-                                >
-                                    <div class="col-2 q-pr-none q-mr-lg">
-                                        <q-avatar
-                                            size="90px"
-                                            color="white"
-                                        >
-                                            <q-img
-                                                v-if="getModelImage(model)"
-                                                :src="getModelImage(model)"
-                                                :ratio="1"
-                                                fit="cover"
-                                            />
-                                            <q-icon
-                                                v-else
-                                                name="mdi-help"
-                                                size="52px"
-                                                color="pink-1"
-                                            />
-                                        </q-avatar>
-                                    </div>
-                                    <div class="col">
-                                        <div
-                                            itemprop="name"
-                                            class="text-h6 q-my-none"
-                                        >
-                                            {{ getName(model) }}
-                                        </div>
-                                        <div
-                                            v-if="model.birthdate"
-                                            class="text-body1 q-mt-none"
-                                        >
-                                            {{ $t('web.movie.show.born') }}
-                                            <span
-                                                itemprop="birthDate"
-                                                :content="model.birthdate"
-                                            >
-                                                {{
-                                                    getHumanReadableDate(
-                                                        model.birthdate,
-                                                    )
-                                                }}
-                                            </span>
-                                            <span
-                                                v-if="
-                                                    model.birthdate &&
-                                                    movie.release_date
-                                                "
-                                            >
-                                                <i18n-t
-                                                    keypath="web.movie.show.age"
-                                                >
-                                                    <template #age>
-                                                        {{
-                                                            getModelAge(
-                                                                model.birthdate,
-                                                            )
-                                                        }}
-                                                    </template>
-                                                </i18n-t>
-                                            </span>
-                                        </div>
-                                        <div
-                                            v-else
-                                            class="text-body1 q-mt-none"
-                                        >
-                                            {{ $t('web.movie.show.born') }}
-                                            {{
-                                                $t(
-                                                    'web.movie.show.unknown_birth_date',
-                                                )
-                                            }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
+                            :movie="movie"
+                            :model="model"
+                        />
                     </div>
                 </div>
                 <div class="col-2">
@@ -551,5 +449,5 @@ const groupedTags = computed(() => {
                 </div>
             </div>
         </div>
-    </AppLayout>
+    </div>
 </template>

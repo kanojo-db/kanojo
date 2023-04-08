@@ -233,7 +233,10 @@ const websiteSchema = ref({
                     >
                         {{ $t('web.general.pages.about') }}
                     </Link>
-                    <Link class="text-white">
+                    <Link
+                        href="#"
+                        class="text-white"
+                    >
                         {{ $t('web.general.pages.contact_us') }}
                     </Link>
                     <Link
@@ -242,6 +245,12 @@ const websiteSchema = ref({
                     >
                         {{ $t('web.general.pages.api') }}
                     </Link>
+                    <a
+                        class="text-white"
+                        href="https://kanojo1.statuspage.io/"
+                    >
+                        {{ $t('web.general.pages.status') }}
+                    </a>
                 </div>
                 <div
                     class="col-1 column justify-start items-start content-start text-white"
@@ -282,16 +291,16 @@ const websiteSchema = ref({
                     </h3>
                     <a
                         class="text-white"
-                        href="#"
+                        href="https://discord.gg/chg5KzTHHp"
                     >
                         {{ $t('web.general.pages.discord') }}
                     </a>
-                    <Link
+                    <a
                         class="text-white"
                         href="https://github.com/kanojo-db"
                     >
                         {{ $t('web.general.pages.github') }}
-                    </Link>
+                    </a>
                 </div>
             </div>
         </q-footer>

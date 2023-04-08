@@ -20,13 +20,11 @@ use App\Http\Controllers\SettingsAccountController;
 use App\Http\Controllers\SettingsSessionsController;
 use App\Http\Controllers\SettingsTokensController;
 use App\Http\Controllers\StudioController;
-use App\Models\Movie;
-use App\Models\Person;
+use App\Http\Controllers\WelcomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Spatie\QueryBuilder\QueryBuilder;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,67 +37,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 |
  */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'popularModels' => Person::with(['media'])->take(25)->get(),
-        'popularMovies' => QueryBuilder::for(Movie::class)
-            ->defaultSort('-created_at')
-            ->allowedSorts('created_at')
-            ->with([
-                'media',
-                'type',
-            ])
-            ->take(25)
-            ->get(),
-        'latestMovies' => QueryBuilder::for(Movie::class)
-            ->defaultSort('-created_at')
-            ->allowedSorts('created_at')
-            ->with([
-                'media',
-                'type',
-            ])
-            ->latest()
-            ->take(25)
-            ->get(),
-        'recentlyUpdatedMovies' => QueryBuilder::for(Movie::class)
-            ->defaultSort('-updated_at')
-            ->allowedSorts('updated_at')
-            ->with([
-                'media',
-                'type',
-            ])
-            ->take(25)
-            ->get(),
-        'recentlyReleasedMovies' => QueryBuilder::for(Movie::class)
-            ->defaultSort('-release_date')
-            ->allowedSorts('release_date')
-            ->where('release_date', '<=', now()->toDateString())
-            ->with([
-                'media',
-                'type',
-            ])
-            ->take(25)
-            ->get(),
-        'movieCount' => Movie::count(),
-        'modelCount' => Person::count(),
-        'tagCount' => \Spatie\Tags\Tag::count(),
-        'topUsers' => function (): mixed {
-            $topUsers = User::withCount('audits')
-                ->orderBy('audits_count', 'desc')
-                ->take(10)
-                ->get();
-
-            return $topUsers->map(function (User $user): mixed {
-                return [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'total_audits' => $user->audits_count,
-                    'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
-                ];
-            });
-        },
-    ]);
-});
+Route::get('/', WelcomeController::class)->name('welcome');
 
 Route::post('/user/locale', function () {
     request()->validate([

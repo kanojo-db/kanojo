@@ -1,6 +1,12 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 
+import { AppLayout } from '@/Layouts/AppLayout';
+
+defineOptions({
+    layout: AppLayout,
+});
+
 defineProps({
     policy: {
         type: String,

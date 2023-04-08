@@ -21,6 +21,9 @@ import os
 # Settings
 debugmode = 1  # Value of 0 = OFF and 1 = ON; Show useful debug messages during processing
 
+# List of non-processed files
+nonprocessed = []
+
 # List all .jpg files with same name as directory
 for dirname, dirnames, filenames in os.walk('.'):
     for filename in filenames:
@@ -82,6 +85,7 @@ for dirname, dirnames, filenames in os.walk('.'):
             case _:
                 print("Failed to detect cover type")
                 # Don't touch this, we don't know what it is
+                nonprocessed.append(filepath)
                 continue
 
         croptupple = [(width - croppedwidth), 0, width, height]
@@ -91,8 +95,19 @@ for dirname, dirnames, filenames in os.walk('.'):
         if debugmode == 1:
             print("  Debug: cropped successfully !")
 
+        basename = os.path.splitext(os.path.basename(filepath))[0]
+        extension = os.path.splitext(os.path.basename(filepath))[1]
+
+        filename = basename + "-front" + extension
+
         croppedimage.save(filename)
         if debugmode == 1:
             print("  Debug: " + filename + " saved !")
 
 print("Process complete")
+
+# Print list of non-processed files
+if len(nonprocessed) > 0:
+    print("The following files were not processed:")
+    for i in nonprocessed:
+        print("  " + i)

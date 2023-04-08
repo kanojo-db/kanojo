@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\MediaCollectionType;
 use App\Models\Movie;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -16,31 +16,58 @@ class JAVPosterSeeder extends Seeder
     {
         Log::info('JAVPosterSeeder started');
 
-        // Get contents from ajvr.txt to an array, each line is a product code
-        $movies = explode("\n", file_get_contents('database/data/ajvr.txt'));
+        // Get all files from the directory
+        $files = scandir('database/data/covers/');
 
-        foreach ($movies as $movie) {
-            Log::info('JAVPosterSeeder processing movie: '.$movie);
+        foreach ($files as $path) {
+            Log::info('JAVPosterSeeder processing file: '.$path);
+
+            $movie = pathinfo($path, PATHINFO_FILENAME);
+            $isFrontCover = str_contains($movie, '-front');
+
+            if ($isFrontCover) {
+                $movie = str_replace('-front', '', $movie);
+            }
+
+            $fullpath = 'database/data/covers/'.$path;
 
             try {
                 $movieRecord = Movie::where('product_code', $movie)->first();
 
-                if ($movieRecord == null) {
-                    Log::info("Movie {$movie} not found");
+                if ($movieRecord === null) {
+                    Log::info('Movie not found: '.$movie);
 
                     continue;
                 }
 
-                Log::info("Adding poster for {$movie}");
-                $posterfile = sprintf('database/data/vr_covers/%s.jpg', $movie);
-                if (File::exists($posterfile)) {
-                    Log::info(sprintf('Found poster for %s', $movie));
-                    $movieRecord->addMedia($posterfile)->preservingOriginal()->toMediaCollection('poster');
-                } else {
-                    Log::info(sprintf('No poster found for %s', $movie));
-                }
+                if (! $isFrontCover) {
+                    // Check if the movie already has a full cover
+                    $fullCover = $movieRecord->getFirstMedia(MediaCollectionType::FullCover->value);
 
-                $movieRecord->save();
+                    if ($fullCover !== null) {
+                        Log::info('Movie already has a full cover: '.$movie);
+
+                        continue;
+                    }
+
+                    $movieRecord
+                        ->addMedia($fullpath)
+                        ->toMediaCollection(MediaCollectionType::FullCover->value);
+                }
+                if ($isFrontCover) {
+                    // Check if the movie already has a front cover
+                    $frontCover = $movieRecord->getFirstMedia(MediaCollectionType::FrontCover->value);
+
+                    if ($frontCover !== null) {
+                        Log::info('Movie already has a front cover: '.$movie);
+
+                        continue;
+                    }
+
+                    $movieRecord
+                        ->addMedia($fullpath)
+                        ->toMediaCollection(MediaCollectionType::FrontCover->value);
+                }
             } catch (Throwable $t) {
                 Log::error($t->getMessage());
                 Log::error($t->getTraceAsString());
@@ -48,6 +75,5 @@ class JAVPosterSeeder extends Seeder
                 continue;
             }
         }
-
     }
 }

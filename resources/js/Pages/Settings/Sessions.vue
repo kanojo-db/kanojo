@@ -1,8 +1,13 @@
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
 
 import MenuCardSettings from '@/Components/MenuCardSettings.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+
+defineOptions({
+    layout: AppLayout,
+});
 
 const props = defineProps({
     sessions: {
@@ -47,36 +52,36 @@ const columns = [
 </script>
 
 <template>
-    <AppLayout
+    <Head
         :title="`${$page.props.user.name} - ${$t(
             'web.settings.sessions.title',
         )}`"
-    >
-        <div class="col bg-grey-3">
-            <div class="row q-py-lg q-px-md">
-                <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                    {{ $page.props.user.name }}
-                </h1>
+    />
+
+    <div class="col bg-grey-3">
+        <div class="row q-py-lg q-px-md">
+            <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
+                {{ $page.props.user.name }}
+            </h1>
+        </div>
+    </div>
+    <div class="q-ma-md">
+        <div class="row q-col-gutter-lg full-width">
+            <div class="col-2 q-pl-none">
+                <MenuCardSettings />
+            </div>
+            <div class="col col-10">
+                <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
+                    {{ $t('web.settings.sessions.title') }}
+                </h2>
+                <q-table
+                    grid
+                    :rows="props.sessions"
+                    :columns="columns"
+                    row-key="id"
+                    hide-header
+                />
             </div>
         </div>
-        <div class="q-ma-md">
-            <div class="row q-col-gutter-lg full-width">
-                <div class="col-2 q-pl-none">
-                    <MenuCardSettings />
-                </div>
-                <div class="col col-10">
-                    <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
-                        {{ $t('web.settings.sessions.title') }}
-                    </h2>
-                    <q-table
-                        grid
-                        :rows="props.sessions"
-                        :columns="columns"
-                        row-key="id"
-                        hide-header
-                    />
-                </div>
-            </div>
-        </div>
-    </AppLayout>
+    </div>
 </template>

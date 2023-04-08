@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\DataTransferObjects\ModelData;
-use App\DataTransferObjects\MovieTypeData;
 use App\Enums\MediaCollectionType;
+use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
+use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Spatie\LaravelData\DataCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -26,7 +25,7 @@ use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Spatie\Translatable\HasTranslations;
 
-class Movie extends Model implements HasMedia, AuditableContract
+class Movie extends Model implements HasMedia, AuditableContract, ReactableInterface
 {
     use Auditable;
     use HasFactory;
@@ -34,6 +33,7 @@ class Movie extends Model implements HasMedia, AuditableContract
     use HasTags;
     use HasTranslations;
     use InteractsWithMedia;
+    use Reactable;
     use Searchable;
     use SoftDeletes;
 
@@ -62,12 +62,6 @@ class Movie extends Model implements HasMedia, AuditableContract
      * @var array<array-key, mixed>
      */
     protected $casts = [
-        'release_date' => 'date',
-        'type' => MovieTypeData::class,
-        'models' => DataCollection::class.':'.ModelData::class,
-        'created_at' => 'immutable_datetime',
-        'updated_at' => 'immutable_datetime',
-        'deleted_at' => 'immutable_datetime',
     ];
 
     /**

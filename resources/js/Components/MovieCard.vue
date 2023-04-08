@@ -1,24 +1,25 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { PropType, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { Movie } from '@/types/models';
 import { useFirstImage, useTitle } from '@/utils/item';
 
 const props = defineProps({
     movie: {
-        type: Object,
+        type: Object as PropType<Movie>,
         required: true,
     },
 });
-
-console.dir(props.movie);
 
 const isVrMovie = computed(() => {
     return props.movie.type.name === 'VR' || props.movie.type_id === 4;
 });
 
-const title = useTitle(props.movie);
+const locale = useI18n().locale.value;
+
+const title = useTitle(props.movie, locale);
 
 const posterUrl = useFirstImage(props.movie);
 
@@ -91,6 +92,7 @@ const userScore = computed(() => {
                     track-color="grey-2"
                     class="absolute"
                     style="top: -25px"
+                    :model-value="averageScore"
                 >
                     <div
                         class="row justify-center items-start text-overline text-grey-7"

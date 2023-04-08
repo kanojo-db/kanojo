@@ -8,7 +8,7 @@ use App\Models\Movie;
 use App\Models\Person;
 use App\Models\Studio;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,7 +19,6 @@ class StudioController extends Controller
      */
     public function index(): void
     {
-
     }
 
     /**
@@ -27,7 +26,6 @@ class StudioController extends Controller
      */
     public function create(): void
     {
-
     }
 
     /**
@@ -35,7 +33,6 @@ class StudioController extends Controller
      */
     public function store(): void
     {
-
     }
 
     /**
@@ -45,12 +42,16 @@ class StudioController extends Controller
     {
         return Inertia::render('Studio/Show', [
             'studio' => $studio,
-            'movies' => function () use ($studio): Collection {
+            'movies' => function () use ($studio): LengthAwarePaginator {
                 return Movie::orderBy('release_date', 'desc')
                     ->where('studio_id', $studio->id)
                     ->with([
                         'media',
                         'type',
+                        'loveReactant.reactions.reacter.reacterable',
+                        'loveReactant.reactions.type',
+                        'loveReactant.reactionCounters',
+                        'loveReactant.reactionTotal',
                     ])
                     ->paginate(25);
             },
@@ -72,7 +73,6 @@ class StudioController extends Controller
      */
     public function edit(Studio $studio): void
     {
-
     }
 
     /**
@@ -80,7 +80,6 @@ class StudioController extends Controller
      */
     public function update(Studio $studio): void
     {
-
     }
 
     /**
@@ -88,6 +87,5 @@ class StudioController extends Controller
      */
     public function destroy(Studio $studio): void
     {
-
     }
 }

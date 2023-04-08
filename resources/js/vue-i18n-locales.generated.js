@@ -211,7 +211,8 @@ export default {
                     "fill_missing": "Fill Missing Data",
                     "help_translate": "Help Translate Kanojo",
                     "search": "Search",
-                    "settings": "Settings"
+                    "settings": "Settings",
+                    "status": "Status",
                 },
                 "not_rated": "NR",
                 "x_percent": "{number}%",
@@ -223,6 +224,18 @@ export default {
             },
             "personShow": {
                 "moviesCount": "{number} Movies"
+            },
+            "login": {
+                "welcomeBack": "Welcome back!",
+                "submit": "Log in",
+            },
+            "media" : {
+                "types": {
+                    "front_cover": "Front Cover",
+                    "full_cover": "Full Cover",
+                    "profile": "Profile",
+                    "logo": "Logo",
+                }
             },
             "profile": {
                 "edits": "Total Edits",

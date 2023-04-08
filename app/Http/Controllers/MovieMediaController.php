@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\MediaCollectionType;
 use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\Movie;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use Ramsey\Uuid\Uuid;
 
 class MovieMediaController extends Controller
 {
@@ -19,20 +20,26 @@ class MovieMediaController extends Controller
     {
         $movie->load('media');
 
-        $posters = $movie->getMedia('poster');
+        $collectionName = request()->query('type', MediaCollectionType::FrontCover->value);
 
-        return Inertia::render('Movie/Media', ['movie' => $movie, 'posters' => $posters]);
+        $images = $movie->getMedia($collectionName);
+
+        // Get the count of every media collection
+        $mediaCollectionCount = $movie->media->groupBy('collection_name')->map(fn ($collection) => $collection->count());
+
+        return Inertia::render('Movie/Media', ['movie' => $movie, 'images' => $images, 'mediaCollectionCount' => $mediaCollectionCount]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMovieMediaRequest $request, Movie $movie): void
+    public function store(StoreMovieMediaRequest $request, Movie $movie): RedirectResponse
     {
         $validatedData = $request->validated();
 
         $movie->addMediaFromRequest('media')
-            ->usingFileName(Uuid::uuid4()->toString())
-            ->toMediaCollection($validatedData->collection_name);
+            ->toMediaCollection($validatedData['collection_name']);
+
+        return back();
     }
 }

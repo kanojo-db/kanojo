@@ -116,6 +116,7 @@ function updateValue($event) {
 
 <template>
     <Bar
+        class="fit"
         :data="chartData"
         :options="chartOptions"
         :width="345"

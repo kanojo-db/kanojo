@@ -1,6 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useFirstImage, useName } from '@/utils/item';
 
@@ -13,7 +13,9 @@ const props = defineProps({
 
 const posterUrl = useFirstImage(props.model, 'profile');
 
-const name = useName(props.model);
+const locale = useI18n().locale.value;
+
+const name = useName(props.model, locale);
 </script>
 
 <template>

@@ -10,6 +10,11 @@ return [
         'point1' => 'An extensive database of information on movies, studios and models, complete with images. It includes everything you need to find your next favorite title, from content tags to detailed model information.',
         'point2' => 'No more need to scrape online stores or evade IP bans to get the information you need. We provide a comprehensive and easy-to-use API for developers, to integrate our data with your tool or service.',
         'point3' => 'Built by people like you. We made Kanojo to solve some of the issues we have had with other sites and tools over the past 10 years.',
+        'statsHeader' => 'Some Stats',
+        'statsIntro' => 'Cool people like to see numbers and charts. Here are a few we think you\'ll find interesting.',
+        'averageMoviesPerModel' => 'Average number of movies per model',
+        'distributionMoviesPerYear' => 'Distribution of movies per year of production*',
+        'distributionMoviesPerYearInfo' => '* Data only includes movies with a known production year.',
     ],
     'consent' => [
         'alert_accept' => 'Accept all cookies',
@@ -31,7 +36,7 @@ return [
         'settings_close' => 'Close',
         'settings_save' => 'Save my selection',
         'settings_title' => 'Cookie settings',
-        'settings_text' => 'Our website stores four types of cookies. At any time you can choose which cookies you accept and which you refuse. You can read more about what cookies are and what types of cookies we store in our  <a href=":policyUrl" target="_blank" class="underline hover:no-underline">Cookie Policy</a>.'
+        'settings_text' => 'Our website stores four types of cookies. At any time you can choose which cookies you accept and which you refuse. You can read more about what cookies are and what types of cookies we store in our  <a href=":policyUrl" target="_blank" class="underline hover:no-underline">Cookie Policy</a>.',
     ],
     'dialogs' => [
         'create_token' => [
@@ -94,6 +99,10 @@ return [
         'logout' => 'Logout',
         'register' => 'Register',
         'search_placeholder' => 'Search a title, product code or model…',
+    ],
+    'login' => [
+        'welcomeBack' => 'Welcome Back!',
+        'submit' => 'Log in',
     ],
     'personShow' => [
         'moviesCount' => '{number} Movies',

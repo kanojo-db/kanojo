@@ -55,7 +55,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['discord', 'daily', 'stderr'],
             'ignore_exceptions' => false,
         ],
 
@@ -70,6 +70,13 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
+        ],
+
+        'discord' => [
+            'driver' => 'slack',
+            'url' => rtrim(env('LOG_DISCORD_WEBHOOK', '/')) . '/slack',
+            'username' => 'Laravel Log',
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'slack' => [

@@ -1,7 +1,8 @@
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
-import { computed, defineProps, ref } from 'vue';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useName } from '@/utils/item';
 
@@ -22,7 +23,9 @@ const isAdmin = useAdmin();
 
 const $q = useQuasar();
 
-const name = useName(props.studio);
+const locale = useI18n().locale.value;
+
+const name = useName(props.studio, locale);
 
 const openShareLinkDialog = () => {
     $q.dialog({

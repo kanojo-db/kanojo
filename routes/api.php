@@ -18,4 +18,4 @@ use Illuminate\Support\Facades\Route;
  */
 // middleware('auth:sanctum')->
 Route::get('/search/movie', [SearchMovieController::class, 'index']);
-Route::get('/movie/{movie}', [MovieDetailsController::class, 'show']);
+Route::get('/movie/{slug}', [MovieDetailsController::class, 'show']);

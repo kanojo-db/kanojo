@@ -1,0 +1,14 @@
+{
+    "i18n-ally.localesPaths": ["lang"],
+    "editor.formatOnSave": true,
+    "laravel-pint.enable": true,
+    "laravel-pint.preset": "laravel",
+    "laravel-pint.runInLaravelSail": true,
+    "jest.jestCommandLine": "npx run test",
+    "i18n-ally.sourceLanguage": "en-US",
+    "editor.formatOnPaste": true,
+    "eslint.lintTask.enable": true,
+    "eslint.lintTask.options": "--ext .js,.ts,.vue resources/js",
+    "i18n-ally.enabledFrameworks": ["laravel", "vue"],
+    "i18n-ally.enabledParsers": ["js", "php"]
+}

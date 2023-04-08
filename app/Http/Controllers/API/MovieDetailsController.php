@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\MediaCollectionType;
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
 use App\Models\Person;
+use Carbon\Carbon;
+use Cog\Laravel\Love\Reactant\ReactionCounter\Models\ReactionCounter;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Spatie\Tags\Tag;
 use Throwable;
 
@@ -26,16 +29,26 @@ class MovieDetailsController extends Controller
      * @queryParam language string Pass a locale value to display translated data for the fields that
      * support it. Defaults to en. Example: jp
      */
-    public function show(Movie $movie): JsonResponse
+    public function show(string $slug): JsonResponse
     {
+        Log::debug('MovieDetailsController::show() called with: '.$slug);
+
+        $movie = Movie::where('slug', $slug)->with([
+            'media',
+            'models',
+            'models.media',
+            'tags',
+            'loveReactant.reactionCounters',
+            'loveReactant.reactionTotal',
+        ])->firstOrFail();
+
         /**
          * Get the language from the query string, default to en-US
+         *
          * @var string
          */
         $language = request()->query('language', 'en-US');
 
-        // Load tags to use for genres
-        $movie->load('tags');
         // We only need the id and name of the tags
         $genres = $movie->tags->map(function (Tag $tag) use ($language) {
             return [
@@ -44,20 +57,21 @@ class MovieDetailsController extends Controller
             ];
         });
 
-        // Load the movie's media
-        $movie->load('media');
         // Get the path to the poster
-        $poster = $movie->getFirstMedia('poster');
+        $poster = $movie->getFirstMedia(MediaCollectionType::FrontCover->value);
 
         $posterUrl = $poster !== null ? $poster->getFullUrl() : null;
 
+        $backdrop = $movie->getFirstMedia(MediaCollectionType::FullCover->value);
+
+        $backdropUrl = $backdrop !== null ? $backdrop->getFullUrl() : null;
+
         // Get the vote data
         try {
-            // $movie->load('loveReactant.reactionCounters', 'loveReactant.reactionTotal');
-            $votes = null; /*$movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
+            $votes = $movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
                 return $vote->count;
-            });*/
-            $total = null; //$movie->loveReactant->reactionTotal;
+            });
+            $total = $movie->loveReactant->reactionTotal;
         } catch (Throwable $t) {
             $votes = null;
             $total = null;
@@ -78,7 +92,6 @@ class MovieDetailsController extends Controller
 
         // Load the movie's cast
         try {
-            $movie->load(['models', 'models.media']);
             $cast = $movie->models->map(function (Person $model) use ($movie, $language) {
                 // If the model has a birthdate and the movie has a release date, calculate the age of the
                 // model at the time of the movie's release
@@ -97,27 +110,25 @@ class MovieDetailsController extends Controller
                                 $model->getTranslation('name', $language, false),
                     'age' => $age,
                     'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
-                    'profile_path' =>  $profileImage !== null ?
+                    'profile_path' => $profileImage !== null ?
                                         $profileImage->getFullUrl() :
                                         null,
                 ];
             });
         } catch (Throwable $t) {
+            Log::error($t->getMessage());
+            Log::error($t->getTraceAsString());
+
             $cast = [];
         }
 
         // Return the movie details as JSON
         return response()->json([
+            'backdrop_path' => $backdropUrl,
             'cast' => $cast,
             'genres' => $genres,
             'id' => $movie->id,
             'original_title' => $movie->getTranslation('title', 'ja-JP', false),
-            /*'popularity' => [
-                'today' => $movie->visitsDay(),
-                'this_week' => $movie->visitsWeek(),
-                'this_month' => $movie->visitsMonth(),
-                'forever' => $movie->visitsForever(),
-            ],*/
             'poster_path' => $posterUrl,
             'product_code' => $movie->product_code,
             'release_date' => $movie->release_date,

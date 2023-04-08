@@ -6,6 +6,10 @@ import CardSwiper from '@/Components/CardSwiper.vue';
 import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+defineOptions({
+    layout: AppLayout,
+});
+
 const props = defineProps({
     popularModels: {
         type: Object,
@@ -95,216 +99,213 @@ const orderedTopUsers = computed(() => {
 </script>
 
 <template>
-    <AppLayout>
-        <div
-            class="bg-grey-8 full-width column justify-center items-center q-py-xl"
+    <div
+        class="bg-grey-8 full-width column justify-center items-center q-py-xl"
+    >
+        <h1
+            class="text-white text-h3 text-center text-weight-bolder text-uppercase q-mt-none q-mb-xl"
         >
-            <h1
-                class="text-white text-h3 text-center text-weight-bolder text-uppercase q-mt-none q-mb-xl"
+            {{ $t('web.welcome.slogan') }}
+        </h1>
+        <q-form @submit.prevent="submit">
+            <q-input
+                v-model="searchForm.q"
+                rounded
+                outlined
+                placeholder="Search a title, product code or model..."
+                bg-color="grey-1"
+                class="q-mb-xl"
+                style="width: 650px"
             >
-                {{ $t('web.welcome.slogan') }}
-            </h1>
-            <q-form @submit.prevent="submit">
-                <q-input
-                    v-model="searchForm.q"
-                    rounded
-                    outlined
-                    placeholder="Search a title, product code or model..."
-                    bg-color="grey-1"
-                    class="q-mb-xl"
-                    style="width: 650px"
-                >
-                    <template #append>
-                        <q-btn
-                            type="submit"
-                            rounded
-                            color="primary"
-                            @click="submit"
-                        >
-                            {{ $t('web.general.search') }}
-                        </q-btn>
-                    </template>
-                </q-input>
-            </q-form>
-            <div class="row full-width">
-                <div
-                    class="col fit column justify-center items-center content-center text-white q-mx-md"
-                >
-                    <Link
-                        :href="route('movies.index')"
-                        class="column justify-center items-center content-center"
+                <template #append>
+                    <q-btn
+                        type="submit"
+                        rounded
+                        color="primary"
+                        @click="submit"
                     >
-                        <span
-                            class="text-weight-bold text-uppercase text-h6 text-center"
-                        >
-                            {{ $t('web.welcome.countMovies') }}
-                        </span>
-                        <span class="text-weight-bolder text-h4">
-                            {{ props.movieCount.toLocaleString() }}
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    class="col fit column justify-center items-center content-center text-white q-mx-md"
+                        {{ $t('web.general.search') }}
+                    </q-btn>
+                </template>
+            </q-input>
+        </q-form>
+        <div class="row full-width">
+            <div
+                class="col fit column justify-center items-center content-center text-white q-mx-md"
+            >
+                <Link
+                    :href="route('movies.index')"
+                    class="column justify-center items-center content-center"
                 >
-                    <Link
-                        :href="route('models.index')"
-                        class="column justify-center items-center content-center"
+                    <span
+                        class="text-weight-bold text-uppercase text-h6 text-center"
                     >
-                        <span
-                            class="text-weight-bold text-uppercase text-h6 text-center"
-                        >
-                            {{ $t('web.welcome.countModels') }}
-                        </span>
-                        <span class="text-weight-bolder text-h4">
-                            {{ props.modelCount.toLocaleString() }}
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    class="col fit column justify-center items-center content-center text-white q-mx-md"
+                        {{ $t('web.welcome.countMovies') }}
+                    </span>
+                    <span class="text-weight-bolder text-h4">
+                        {{ props.movieCount.toLocaleString() }}
+                    </span>
+                </Link>
+            </div>
+            <div
+                class="col fit column justify-center items-center content-center text-white q-mx-md"
+            >
+                <Link
+                    :href="route('models.index')"
+                    class="column justify-center items-center content-center"
                 >
-                    <Link
-                        :href="route('movies.index')"
-                        class="column justify-center items-center content-center"
+                    <span
+                        class="text-weight-bold text-uppercase text-h6 text-center"
                     >
-                        <span
-                            class="text-weight-bold text-uppercase text-h6 text-center"
-                        >
-                            {{ $t('web.welcome.countCategories') }}
-                        </span>
-                        <span class="text-weight-bolder text-h4">
-                            {{ props.tagCount.toLocaleString() }}
-                        </span>
-                    </Link>
-                </div>
+                        {{ $t('web.welcome.countModels') }}
+                    </span>
+                    <span class="text-weight-bolder text-h4">
+                        {{ props.modelCount.toLocaleString() }}
+                    </span>
+                </Link>
+            </div>
+            <div
+                class="col fit column justify-center items-center content-center text-white q-mx-md"
+            >
+                <Link
+                    :href="route('movies.index')"
+                    class="column justify-center items-center content-center"
+                >
+                    <span
+                        class="text-weight-bold text-uppercase text-h6 text-center"
+                    >
+                        {{ $t('web.welcome.countCategories') }}
+                    </span>
+                    <span class="text-weight-bolder text-h4">
+                        {{ props.tagCount.toLocaleString() }}
+                    </span>
+                </Link>
             </div>
         </div>
-        <div class="q-pa-md">
-            <section>
-                <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
-                    {{ $t('web.welcome.recentlyReleasedMovies') }}
+    </div>
+    <div class="q-pa-md">
+        <section>
+            <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
+                {{ $t('web.welcome.recentlyReleasedMovies') }}
+            </h1>
+            <CardSwiper :movies="props.recentlyReleasedMovies" />
+        </section>
+        <section>
+            <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
+                {{ $t('web.welcome.popularModels') }}
+            </h1>
+            <ModelCardSwiper :models="props.popularModels" />
+        </section>
+        <section>
+            <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
+                {{ $t('web.welcome.popularMovies') }}
+            </h1>
+            <CardSwiper :movies="props.popularMovies" />
+        </section>
+        <section>
+            <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
+                {{ $t('web.welcome.recentlyAddedMovies') }}
+            </h1>
+            <CardSwiper :movies="props.latestMovies" />
+        </section>
+        <section>
+            <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
+                {{ $t('web.welcome.recentlyUpdatedMovies') }}
+            </h1>
+            <CardSwiper :movies="props.recentlyUpdatedMovies" />
+        </section>
+        <section>
+            <div class="row q-mb-xs">
+                <h1 class="text-h4 text-weight-bold">
+                    {{ $t('web.welcome.leaderboard') }}
                 </h1>
-                <CardSwiper :movies="props.recentlyReleasedMovies" />
-            </section>
-            <section>
-                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
-                    {{ $t('web.welcome.popularModels') }}
-                </h1>
-                <ModelCardSwiper :models="props.popularModels" />
-            </section>
-            <section>
-                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
-                    {{ $t('web.welcome.popularMovies') }}
-                </h1>
-                <CardSwiper :movies="props.popularMovies" />
-            </section>
-            <section>
-                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
-                    {{ $t('web.welcome.recentlyAddedMovies') }}
-                </h1>
-                <CardSwiper :movies="props.latestMovies" />
-            </section>
-            <section>
-                <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
-                    {{ $t('web.welcome.recentlyUpdatedMovies') }}
-                </h1>
-                <CardSwiper :movies="props.recentlyUpdatedMovies" />
-            </section>
-            <section>
-                <div class="row q-mb-xs">
-                    <h1 class="text-h4 text-weight-bold">
-                        {{ $t('web.welcome.leaderboard') }}
-                    </h1>
-                    <div class="column justify-center items-start q-ml-lg">
-                        <div class="row justify-start items-center">
+                <div class="column justify-center items-start q-ml-lg">
+                    <div class="row justify-start items-center">
+                        <div
+                            class="bg-primary rounded-borders"
+                            style="width: 10px; height: 10px"
+                        />
+                        <div
+                            class="col-auto q-ml-md text-caption text-weight-bolder"
+                        >
+                            {{ $t('web.welcome.leaderboardTotalEdits') }}
+                        </div>
+                    </div>
+                    <div class="row justify-start items-center">
+                        <div
+                            class="bg-secondary rounded-borders"
+                            style="width: 10px; height: 10px"
+                        />
+                        <div
+                            class="col-auto q-ml-md text-caption text-weight-bolder"
+                        >
+                            {{ $t('web.welcome.leaderboardEditsThisWeek') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fit grid-2 q-mb-xl">
+                <div
+                    v-for="user in orderedTopUsers"
+                    :key="`top-user-${user.id}`"
+                    class="row items-center"
+                >
+                    <Link :href="route('profile.show', user)">
+                        <q-avatar
+                            size="90px"
+                            class="bg-grey-1"
+                        >
+                            <q-icon
+                                name="mdi-account"
+                                size="48px"
+                                color="grey-2"
+                            />
+                        </q-avatar>
+                    </Link>
+                    <div class="col-grow column q-ml-md">
+                        <Link :href="route('profile.show', user)">
+                            <h3
+                                class="text-h5 text-weight-bold q-mt-none q-mb-xs"
+                            >
+                                {{ user.name }}
+                            </h3>
+                        </Link>
+                        <div class="row no-wrap items-center">
                             <div
                                 class="bg-primary rounded-borders"
-                                style="width: 10px; height: 10px"
+                                :style="`width: ${
+                                    maxAudits === 0
+                                        ? 0
+                                        : (user.total_audits / maxTotalAudits) *
+                                          100
+                                }%; height: 10px`"
                             />
                             <div
-                                class="col-auto q-ml-md text-caption text-weight-bolder"
+                                class="col-auto q-ml-md text-subtitle1 text-weight-bolder"
                             >
-                                {{ $t('web.welcome.leaderboardTotalEdits') }}
+                                {{ user.total_audits.toLocaleString() }}
                             </div>
                         </div>
-                        <div class="row justify-start items-center">
+                        <div class="row no-wrap items-center">
                             <div
                                 class="bg-secondary rounded-borders"
-                                style="width: 10px; height: 10px"
+                                :style="`width: ${
+                                    maxAuditsThisWeek === 0
+                                        ? 0
+                                        : (user.audits_this_week /
+                                              maxAuditsThisWeek) *
+                                          100
+                                }%; height: 10px`"
                             />
                             <div
-                                class="col-auto q-ml-md text-caption text-weight-bolder"
+                                class="col-auto q-ml-md text-subtitle1 text-weight-bolder"
                             >
-                                {{ $t('web.welcome.leaderboardEditsThisWeek') }}
+                                {{ user.audits_this_week.toLocaleString() }}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="fit grid-2 q-mb-xl">
-                    <div
-                        v-for="user in orderedTopUsers"
-                        :key="`top-user-${user.id}`"
-                        class="row items-center"
-                    >
-                        <Link :href="route('profile.show', user)">
-                            <q-avatar
-                                size="90px"
-                                class="bg-grey-1"
-                            >
-                                <q-icon
-                                    name="mdi-account"
-                                    size="48px"
-                                    color="grey-2"
-                                />
-                            </q-avatar>
-                        </Link>
-                        <div class="col-grow column q-ml-md">
-                            <Link :href="route('profile.show', user)">
-                                <h3
-                                    class="text-h5 text-weight-bold q-mt-none q-mb-xs"
-                                >
-                                    {{ user.name }}
-                                </h3>
-                            </Link>
-                            <div class="row no-wrap items-center">
-                                <div
-                                    class="bg-primary rounded-borders"
-                                    :style="`width: ${
-                                        maxAudits === 0
-                                            ? 0
-                                            : (user.total_audits /
-                                                  maxTotalAudits) *
-                                              100
-                                    }%; height: 10px`"
-                                />
-                                <div
-                                    class="col-auto q-ml-md text-subtitle1 text-weight-bolder"
-                                >
-                                    {{ user.total_audits.toLocaleString() }}
-                                </div>
-                            </div>
-                            <div class="row no-wrap items-center">
-                                <div
-                                    class="bg-secondary rounded-borders"
-                                    :style="`width: ${
-                                        maxAuditsThisWeek === 0
-                                            ? 0
-                                            : (user.audits_this_week /
-                                                  maxAuditsThisWeek) *
-                                              100
-                                    }%; height: 10px`"
-                                />
-                                <div
-                                    class="col-auto q-ml-md text-subtitle1 text-weight-bolder"
-                                >
-                                    {{ user.audits_this_week.toLocaleString() }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </AppLayout>
+            </div>
+        </section>
+    </div>
 </template>

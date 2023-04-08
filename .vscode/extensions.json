@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "vue.volar",
+        "bmewburn.vscode-intelephense-client",
+        "esbenp.prettier-vscode",
+        "sonarsource.sonarlint-vscode",
+        "ryannaddy.laravel-artisan",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "mikestead.dotenv",
+        "onecentlin.laravel5-snippets",
+        "lokalise.i18n-ally",
+        "getpsalm.psalm-vscode-plugin",
+        "open-southeners.laravel-pint"
+    ]
+}

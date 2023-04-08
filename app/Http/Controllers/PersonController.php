@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App;
+use App\Http\Requests\UpdatePersonRequest;
 use App\Models\Movie;
 use App\Models\Person;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -42,7 +43,7 @@ class PersonController extends Controller
                     ->paginate(25)
                     ->appends(request()->query());
             },
-            'birthCounts' => function (): array {
+            'birthCounts' => function (): Collection {
                 return Person::select(
                     DB::raw('YEAR(birthdate) AS value'),
                     DB::raw('COUNT(*) AS count')
@@ -56,7 +57,7 @@ class PersonController extends Controller
                 )
                 ->get();
             },
-            'heightCounts' => function (): array {
+            'heightCounts' => function (): Collection {
                 return Person::select(
                     DB::raw('height as value'),
                     DB::raw('COUNT(*) AS count')
@@ -66,7 +67,7 @@ class PersonController extends Controller
                 ->orderBy('value')
                 ->get();
             },
-            'bustCounts' => function (): array {
+            'bustCounts' => function (): Collection {
                 return Person::select(
                     DB::raw('bust as value'),
                     DB::raw('COUNT(*) AS count')
@@ -76,7 +77,7 @@ class PersonController extends Controller
                 ->orderBy('value')
                 ->get();
             },
-            'waistCounts' => function (): array {
+            'waistCounts' => function (): Collection {
                 return Person::select(
                     DB::raw('waist as value'),
                     DB::raw('COUNT(*) AS count')
@@ -86,7 +87,7 @@ class PersonController extends Controller
                 ->orderBy('value')
                 ->get();
             },
-            'hipCounts' => function (): array {
+            'hipCounts' => function (): Collection {
                 return  Person::select(
                     DB::raw('hip as value'),
                     DB::raw('COUNT(*) AS count')
@@ -125,8 +126,12 @@ class PersonController extends Controller
                 })->with([
                     'media',
                     'type',
+                    'loveReactant.reactions.reacter.reacterable',
+                    'loveReactant.reactions.type',
+                    'loveReactant.reactionCounters',
+                    'loveReactant.reactionTotal',
                 ])->orderBy('release_date', 'desc')->paginate(25);
-            }
+            },
         ]);
     }
 
@@ -143,45 +148,48 @@ class PersonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Person $model): RedirectResponse
+    public function update(UpdatePersonRequest $request, Person $model): RedirectResponse
     {
-        $locale = App::getLocale();
-
-        $request->validate([
-            'name' => ['nullable', 'string'],
-            'original_name' => ['required'],
-            'birthdate' => ['nullable', 'date'],
-            'country' => ['nullable', 'string'],
-            'career_start' => ['nullable', 'date'],
-            'career_end' => ['nullable', 'date'],
-            'blood_type' => ['nullable', Rule::in(['AB', 'A', 'B', 'O'])],
-            'cup_size' => ['nullable', Rule::in(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])],
-            'height' => ['nullable', 'integer', 'max:250'],
-            'bust' => ['nullable', 'integer', 'max:250'],
-            'waist' => ['nullable', 'integer', 'max:250'],
-            'hip' => ['nullable', 'integer', 'max:250'],
-            'dob_doubt' => ['boolean'],
-        ]);
-
         $validatedData = $request->validated();
+
+        $locale = App::getLocale();
 
         $model->update([
             'name' => [
-                $locale => $validatedData->name,
-                'ja-JP' => $validatedData->original_name,
+                $locale => $validatedData['name'],
+                'ja-JP' => $validatedData['original_name'],
             ],
-            'birthdate' => $validatedData->birthdate,
-            'country' => $validatedData->country,
-            'career_start' => $validatedData->career_start,
-            'career_end' => $validatedData->career_end,
-            'blood_type' => $validatedData->blood_type,
-            'cup_size' => $validatedData->cup_size,
-            'height' => $validatedData->height,
-            'bust' => $validatedData->bust,
-            'waist' => $validatedData->waist,
-            'hip' => $validatedData->hip,
-            'dob_doubt' => $validatedData->dob_doubt,
+            'birthdate' => $validatedData['birthdate'],
+            'country' => $validatedData['country'],
+            'career_start' => $validatedData['career_start'],
+            'career_end' => $validatedData['career_end'],
+            'blood_type' => $validatedData['blood_type'],
+            'cup_size' => $validatedData['cup_size'],
+            'height' => $validatedData['height'],
+            'bust' => $validatedData['bust'],
+            'waist' => $validatedData['waist'],
+            'hip' => $validatedData['hip'],
         ]);
+
+        // If birthdate was changed, update all movies with this person
+        if ($model->wasChanged('birthdate')) {
+            $model->load('movies');
+
+            foreach ($model->movies as $movie) {
+                // If the release date is not set, skip
+                if (! $movie->release_date) {
+                    continue;
+                }
+
+                // If the release date is before the birthdate, skip
+                if (Carbon::parse($movie->release_date)->isBefore(Carbon::parse($model->birthdate))) {
+                    continue;
+                }
+
+                $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
+                $model->movies()->updateExistingPivot($movie->id, ['age' => $age]);
+            }
+        }
 
         return Redirect::route('models.show', $model);
     }

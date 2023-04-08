@@ -6,6 +6,10 @@ import ModelCard from '@/Components/ModelCard.vue';
 import RangeSlider from '@/Components/RangeSlider.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+defineOptions({
+    layout: AppLayout,
+});
+
 const props = defineProps({
     models: {
         type: Object,
@@ -131,141 +135,139 @@ function applyFilters() {
 </script>
 
 <template>
-    <AppLayout title="Browse Models">
-        <div class="q-pa-md">
-            <div class="row q-col-gutter-lg full-width">
-                <div class="col-2 q-pl-none">
-                    <q-card
-                        class="my-card"
-                        flat
-                        bordered
+    <div class="q-pa-md">
+        <div class="row q-col-gutter-lg full-width">
+            <div class="col-2 q-pl-none">
+                <q-card
+                    class="my-card"
+                    flat
+                    bordered
+                >
+                    <q-card-section
+                        class="bg-primary text-white row items-center"
                     >
-                        <q-card-section
-                            class="bg-primary text-white row items-center"
-                        >
-                            <div class="text-weight-bold text-h6">Filter</div>
-                        </q-card-section>
+                        <div class="text-weight-bold text-h6">Filter</div>
+                    </q-card-section>
 
-                        <q-separator />
+                    <q-separator />
 
-                        <div class="q-pa-md">
-                            <div class="column">
-                                <span class="text-body1 text-weight-bold"
-                                    >Year of birth</span
-                                >
-                                <RangeSlider
-                                    v-model="dateRange"
-                                    :counts="birthCounts"
-                                />
-                            </div>
-                        </div>
-
-                        <q-separator />
-
-                        <div class="q-pa-md">
-                            <div class="col">
-                                <span class="text-body1 text-weight-bold"
-                                    >Height</span
-                                >
-                                <RangeSlider
-                                    v-model="heightRange"
-                                    :counts="heightCounts"
-                                    left-label-value="cm"
-                                    right-label-value="cm"
-                                />
-                            </div>
-                        </div>
-
-                        <q-separator />
-
-                        <div class="q-pa-md">
-                            <div class="col">
-                                <span class="text-body1 text-weight-bold"
-                                    >Bust Size</span
-                                >
-                                <RangeSlider
-                                    v-model="bustRange"
-                                    :counts="bustCounts"
-                                    left-label-value="cm"
-                                    right-label-value="cm"
-                                />
-                            </div>
-                        </div>
-
-                        <q-separator />
-
-                        <div class="q-pa-md">
-                            <div class="col">
-                                <span class="text-body1 text-weight-bold"
-                                    >Waist Size</span
-                                >
-                                <RangeSlider
-                                    v-model="waistRange"
-                                    :counts="waistCounts"
-                                    left-label-value="cm"
-                                    right-label-value="cm"
-                                />
-                            </div>
-                        </div>
-
-                        <q-separator />
-
-                        <div class="q-pa-md">
-                            <div class="col">
-                                <span class="text-body1 text-weight-bold"
-                                    >Hip Size</span
-                                >
-                                <RangeSlider
-                                    v-model="hipRange"
-                                    :counts="hipCounts"
-                                    left-label-value="cm"
-                                    right-label-value="cm"
-                                />
-                            </div>
-                        </div>
-
-                        <q-separator />
-
-                        <div class="q-pa-md">
-                            <q-btn
-                                class="full-width"
-                                color="primary"
-                                label="Apply"
-                                @click="applyFilters"
+                    <div class="q-pa-md">
+                        <div class="column">
+                            <span class="text-body1 text-weight-bold"
+                                >Year of birth</span
+                            >
+                            <RangeSlider
+                                v-model="dateRange"
+                                :counts="birthCounts"
                             />
                         </div>
-                    </q-card>
+                    </div>
+
+                    <q-separator />
+
+                    <div class="q-pa-md">
+                        <div class="col">
+                            <span class="text-body1 text-weight-bold"
+                                >Height</span
+                            >
+                            <RangeSlider
+                                v-model="heightRange"
+                                :counts="heightCounts"
+                                left-label-value="cm"
+                                right-label-value="cm"
+                            />
+                        </div>
+                    </div>
+
+                    <q-separator />
+
+                    <div class="q-pa-md">
+                        <div class="col">
+                            <span class="text-body1 text-weight-bold"
+                                >Bust Size</span
+                            >
+                            <RangeSlider
+                                v-model="bustRange"
+                                :counts="bustCounts"
+                                left-label-value="cm"
+                                right-label-value="cm"
+                            />
+                        </div>
+                    </div>
+
+                    <q-separator />
+
+                    <div class="q-pa-md">
+                        <div class="col">
+                            <span class="text-body1 text-weight-bold"
+                                >Waist Size</span
+                            >
+                            <RangeSlider
+                                v-model="waistRange"
+                                :counts="waistCounts"
+                                left-label-value="cm"
+                                right-label-value="cm"
+                            />
+                        </div>
+                    </div>
+
+                    <q-separator />
+
+                    <div class="q-pa-md">
+                        <div class="col">
+                            <span class="text-body1 text-weight-bold"
+                                >Hip Size</span
+                            >
+                            <RangeSlider
+                                v-model="hipRange"
+                                :counts="hipCounts"
+                                left-label-value="cm"
+                                right-label-value="cm"
+                            />
+                        </div>
+                    </div>
+
+                    <q-separator />
+
+                    <div class="q-pa-md">
+                        <q-btn
+                            class="full-width"
+                            color="primary"
+                            label="Apply"
+                            @click="applyFilters"
+                        />
+                    </div>
+                </q-card>
+            </div>
+            <div class="col col-10">
+                <div class="row justify-center q-mb-md">
+                    <q-pagination
+                        v-model="currentPage"
+                        :max="models.last_page"
+                        :max-pages="6"
+                        boundary-numbers
+                        @update:model-value="goToPage"
+                    />
                 </div>
-                <div class="col col-10">
-                    <div class="row justify-center q-mb-md">
-                        <q-pagination
-                            v-model="currentPage"
-                            :max="models.last_page"
-                            :max-pages="6"
-                            boundary-numbers
-                            @update:model-value="goToPage"
-                        />
-                    </div>
-                    <div
-                        class="row wrap justify-start items-start content-start q-gutter-md"
-                    >
-                        <ModelCard
-                            v-for="model in models.data"
-                            :key="model.id"
-                            :model="model"
-                        />
-                    </div>
-                    <div class="row justify-center q-mt-md">
-                        <q-pagination
-                            v-model="currentPage"
-                            :max="models.last_page"
-                            :max-pages="6"
-                            boundary-numbers
-                            @update:model-value="goToPage"
-                        />
-                    </div>
+                <div
+                    class="row wrap justify-start items-start content-start q-gutter-md"
+                >
+                    <ModelCard
+                        v-for="model in models.data"
+                        :key="model.id"
+                        :model="model"
+                    />
+                </div>
+                <div class="row justify-center q-mt-md">
+                    <q-pagination
+                        v-model="currentPage"
+                        :max="models.last_page"
+                        :max-pages="6"
+                        boundary-numbers
+                        @update:model-value="goToPage"
+                    />
                 </div>
             </div>
         </div>
-    </AppLayout>
+    </div>
 </template>

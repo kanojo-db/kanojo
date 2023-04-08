@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAccountSettingsRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,10 +18,10 @@ class SettingsAccountController extends Controller
         if (! Auth::check()) {
             abort(401, 'Unauthorized');
         }
-        
+
         /** @var User|null */
         $user = Auth::user();
-        
+
         if ($user === null) {
             abort(401, 'Unauthorized');
         }
@@ -36,18 +36,11 @@ class SettingsAccountController extends Controller
         ]);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateAccountSettingsRequest $request): RedirectResponse
     {
         if (! Auth::check()) {
             abort(401, 'Unauthorized');
         }
-
-        $request->validate([
-            'show_jav' => ['required', 'boolean'],
-            'show_vr' => ['required', 'boolean'],
-            'show_gravure' => ['required', 'boolean'],
-            'show_minors' => ['required', 'boolean'],
-        ]);
 
         /** @var User|null */
         $user = Auth::user();

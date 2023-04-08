@@ -7,18 +7,18 @@ namespace App\Http\Controllers;
 use App;
 use App\Filters\FiltersFeaturedModelAge;
 use App\Http\Requests\StoreMovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
 use App\Models\MovieType;
 use App\Models\Studio;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -39,6 +39,10 @@ class MovieController extends Controller
                         'media',
                         'models',
                         'type',
+                        'loveReactant.reactions.reacter.reacterable',
+                        'loveReactant.reactions.type',
+                        'loveReactant.reactionCounters',
+                        'loveReactant.reactionTotal',
                     ])
                     ->defaultSort('-created_at')
                     ->allowedSorts(['created_at', 'product_code'])
@@ -81,26 +85,9 @@ class MovieController extends Controller
      */
     public function store(StoreMovieRequest $request): RedirectResponse
     {
-        $validTypes = MovieType::select('id')->all()->pluck('id');
-
-        $request->validate([
-            'studio_id' => ['nullable', 'integer'],
-            'movie_type_id' => ['required', 'integer', Rule::in($validTypes)],
-            'title' => ['nullable', 'string'],
-            'original_title' => ['required', 'string'],
-            'product_code' => ['required', 'string'],
-            'release_date' => ['nullable', 'date'],
-            'length' => ['nullable', 'integer'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['string'],
-        ]);
-        
         $validatedData = $request->validated();
 
         $locale = App::getLocale();
-
-        /** @var Studio|null */
-        $studio = $validatedData->studio_id !== null ? Studio::firstOrFail($validatedData->studio_id) : null;
 
         $movie = Movie::create([
             'title' => [
@@ -110,7 +97,7 @@ class MovieController extends Controller
             'product_code' => $validatedData->product_code,
             'release_date' => $validatedData->release_date,
             'length' => $validatedData->length,
-            'studio_id' => $studio,
+            'studio_id' => $validatedData->studio_id,
             'movie_type_id' => $validatedData->movie_type_id,
         ]);
 
@@ -133,6 +120,10 @@ class MovieController extends Controller
             'media',
             'models',
             'models.media',
+            'loveReactant.reactions.reacter.reacterable',
+            'loveReactant.reactions.type',
+            'loveReactant.reactionCounters',
+            'loveReactant.reactionTotal',
         ])->where('slug', $movie)->firstOrFail();
 
         /** @var User|null */
@@ -158,8 +149,6 @@ class MovieController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Movie  $movie
      */
     public function edit(Movie $movie): Response
     {
@@ -170,25 +159,13 @@ class MovieController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(UpdateMovieRequest $request, Movie $movie): RedirectResponse
     {
-        // TODO: Allow updating other locales. Maybe through another controller?
-        $locale = App::getLocale();
-
-        $request->validate([
-            'title' => [],
-            'original_title' => ['required'],
-            'product_code' => ['required'],
-            'release_date' => [],
-            'runtime' => [],
-        ]);
-        
         $validatedData = $request->validated();
 
-        $movie = Movie::findOrFail($id);
+        // TODO: Allow updating other locales. Maybe through another controller?
+        $locale = App::getLocale();
 
         $movie->update([
             'title' => [
@@ -200,13 +177,24 @@ class MovieController extends Controller
             'runtime' => $validatedData->runtime ?? 0,
         ]);
 
+        // If release_date was changed and we have models linked, update the ages
+        if ($movie->wasChanged('release_date') && $movie->models()->count() > 0) {
+            foreach ($movie->models as $model) {
+                if ($model->birthday === null) {
+                    continue;
+                }
+
+                $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
+
+                $movie->models()->updateExistingPivot($model->id, ['age' => $age]);
+            }
+        }
+
         return Redirect::route('movies.show', $movie);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Movie  $movie
      */
     public function destroy(Movie $movie): RedirectResponse
     {

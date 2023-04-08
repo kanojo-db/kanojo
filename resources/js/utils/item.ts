@@ -1,5 +1,10 @@
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+
+import type { Movie, Person } from '@/types/models';
+
+export function cleanLocale(locale: string) {
+    return locale.replace('!', '');
+}
 
 /**
  * Returns the title of the movie in the correct language.
@@ -9,9 +14,7 @@ import { useI18n } from 'vue-i18n';
  * @param {*} movie - The movie to get the title from.
  * @returns {string} - The title of the movie.
  */
-export function getTitle(movie): string {
-    const locale = useI18n().locale.value;
-
+function getTitle(movie: Movie, locale: string): string {
     return movie.title[locale] ? movie.title[locale] : movie.title['ja-JP'];
 }
 
@@ -23,9 +26,12 @@ export function getTitle(movie): string {
  * @param {*} movie - The movie to get the title from.
  * @returns {string} - The title of the movie.
  */
-export function useTitle(movie) {
+export function useTitle(movie: Movie, locale: string) {
+    // In case this has fallback suppression, clean the locale
+    locale = cleanLocale(locale);
+
     return computed(() => {
-        return getTitle(movie);
+        return getTitle(movie, locale);
     });
 }
 
@@ -37,9 +43,7 @@ export function useTitle(movie) {
  * @param {*} item - The item to get the name from.
  * @returns {string} - The name of the item.
  */
-export function getName(item) {
-    const locale = useI18n().locale.value;
-
+export function getName(item: Person, locale: string): string {
     return item.name[locale] ? item.name[locale] : item.name['ja-JP'];
 }
 
@@ -51,9 +55,12 @@ export function getName(item) {
  * @param {*} item - The item to get the name from.
  * @returns {string} - The name of the item.
  */
-export function useName(item) {
+export function useName(item: Person, locale: string) {
+    // In case this has fallback suppression, clean the locale
+    locale = cleanLocale(locale);
+
     return computed(() => {
-        return getName(item);
+        return getName(item, locale);
     });
 }
 
@@ -65,12 +72,21 @@ export function useName(item) {
  * @param {string} [collection='poster'] - The media collection to get the image from.
  * @returns {string} - The URL to the first image of the item for the given collection.
  */
-export function useFirstImage(item, collection = 'poster') {
+export function useFirstImage(
+    item: Movie | Person,
+    collection = 'front_cover',
+) {
     return computed(() => {
         if (item?.media && item.media.length > 0) {
-            return item.media.filter(
+            const images = item.media.filter(
                 (m) => m.collection_name === collection,
-            )?.[0]?.original_url;
+            );
+
+            console.dir(images);
+
+            if (images.length > 0) {
+                return images[0].original_url;
+            }
         }
 
         return null;
