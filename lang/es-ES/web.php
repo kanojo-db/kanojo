@@ -7,6 +7,11 @@ return [
         'subtitle' => 'Todos los datos son enviados y seleccionados por los usuarios,{0} con el objetivo de proveer una información de alta calidad.',
         'point2' => 'Se acabo el screpear tiendas en línea o evadir baneos de IP para obtener la información que necesitas. Nosotros proveemos un API comprensivo y fácil de usar para los desarrolladores, para integrar nuestros datos con tus herramientas o servicios.',
         'point1' => 'Una extensa base de datos con información de películas, estudios y modelos, complementada con imágenes. Incluye todo lo que necesitas para encontrar tu siguiente título favorito, desde etiquetas detalladas hasta información de la modelo.',
+        'statsHeader' => 'Algunas estadísticas',
+        'averageMoviesPerModel' => 'Promedio de películas por modelo',
+        'statsIntro' => 'A la gente guay le gusta ver cifras y gráficos. Aquí tienes algunos que creemos que te interesarán.',
+        'distributionMoviesPerYear' => 'Distribución de las películas por año de producción*',
+        'distributionMoviesPerYearInfo' => '* Los datos sólo incluyen películas con un año de producción conocido.',
     ],
     'dialogs' => [
         'create_token' => [
@@ -154,7 +159,7 @@ return [
         'reports' => [
             'opened_at' => 'Abierto el {data}',
             'report_type' => 'Tipo de informe:',
-            'x_reports' => 'Ningún Informe | {count} Informes| {count} Informes ',
+            'x_reports' => 'Sin informes | {count} Informes| {count} Informes ',
         ],
         'tabs' => [
             'overview' => [
@@ -211,5 +216,9 @@ return [
         'settings_save' => 'Guardar mi selección',
         'alert_text' => 'Al elegir "Aceptar todas las cookies", acepta el uso de las cookies para ayudarnos a ofrecerle una mejor experiencia de usuario y analizar el uso del sitio web. Haciendo clic en "Ajustar sus preferencias" puede elegir qué cookies desea permitir. Sólo las cookies esenciales son necesarias para el correcto funcionamiento de nuestro sitio web y no pueden ser rechazadas',
         'setting_marketing_text' => 'Nos permiten personalizar su experiencia y enviarle contenidos y ofertas relevantes, tanto en este sitio web como en otros.',
+    ],
+    'login' => [
+        'submit' => 'Iniciar sesión',
+        'welcomeBack' => '¡Bienvenido de nuevo!',
     ],
 ];
