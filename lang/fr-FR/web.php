@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 return [
     'about' => [
         'title' => 'Kanojo est une base de données {0} de films pour adultes japonais et de vidéos de gravure',
@@ -10,6 +7,10 @@ return [
         'point1' => "Une vaste base de données d'informations sur les films, les studios et les modèles, avec images. Elle comprend tout ce dont vous avez besoin pour trouver votre prochain titre préféré, d'une liste du contenu aux informations détaillées sur les modèles.",
         'point2' => "Plus besoin de scraper les boutiques en ligne ou de contourner les interdictions d'IP pour obtenir les informations dont vous avez besoin. Nous fournissons une API complète et facile à utiliser pour les développeurs, afin d'intégrer nos données à votre outil ou service.",
         'point3' => "Développé par des gens comme vous. Nous avons créé Kanojo pour résoudre certains des problèmes que nous avons rencontrés avec d'autres sites et outils au cours des 10 dernières années.",
+        'statsHeader' => 'Quelques statistiques',
+        'distributionMoviesPerYear' => 'Distribution des films par année de production*',
+        'averageMoviesPerModel' => 'Nombre moyen de films par modèle',
+        'distributionMoviesPerYearInfo' => '* Ces données comprennent uniquement les films avec une année de production connue.',
     ],
     'general' => [
         'search' => 'Rechercher',
@@ -56,6 +57,12 @@ return [
         'create_token' => [
             'title' => "Créer un jeton d'API",
             'description' => "Donnez un nom unique à votre jeton d'API afin de vous aider à l'identifier ultérieurement.",
+        ],
+        'media_upload' => [
+            'title' => 'Téléverser des médias',
+        ],
+        'share_link' => [
+            'title' => 'Partager {pageName}',
         ],
     ],
 ];
