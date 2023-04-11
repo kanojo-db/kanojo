@@ -60,6 +60,11 @@ return [
         ],
         'media_upload' => [
             'title' => 'Téléverser des médias',
+            'requirements_1' => 'Une résolution maximum de 2000x3000',
+            'requirements_2' => 'Une résolution minimum de 300x450',
+            'instructions' => 'Sélectionnez une photo de profil en cliquant sur le boutton ci-dessous et en sélectionnant une image de votre ordinateur.',
+            'requirements_heading' => 'Les images de profile doivent suivre les critères suivants:',
+            'requirements_3' => 'Format d\'image de 1:1.5 (2:3)',
         ],
         'share_link' => [
             'title' => 'Partager {pageName}',
