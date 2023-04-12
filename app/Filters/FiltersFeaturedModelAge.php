@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filters;
 
-use App\Models\Movie;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\Filter;
 
 /**
- * @template-implements Spatie\QueryBuilder\Filters\Filter<Movie>
+ * @template-implements Filter<\App\Models\Movie>
  */
 class FiltersFeaturedModelAge implements Filter
 {

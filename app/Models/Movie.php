@@ -166,6 +166,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
         $user = Auth::user();
 
         if (Auth::check() && $user != null) {
+            /*
             $shouldShowJav = (bool) $user->settings->get('show_jav')->value;
             $shouldShowVr = (bool) $user->settings->get('show_vr')->value;
             $shouldShowGravure = (bool) $user->settings->get('show_gravure')->value;
@@ -192,6 +193,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
             if (! empty($idsToHide)) {
                 return $query->whereNotIn('type_id', $idsToHide);
             }
+             */
 
             return $query;
         }
