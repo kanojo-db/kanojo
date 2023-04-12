@@ -8,13 +8,22 @@ defineOptions({
     layout: AppLayout,
 });
 
-const { studios } = defineProps({
-    studios: Object,
-    movie_types: Object,
-    tags: Object,
+const props = defineProps({
+    studios: {
+        type: Array,
+        required: true,
+    },
+    movieTypes: {
+        type: Array,
+        required: true,
+    },
+    tags: {
+        type: Array,
+        required: true,
+    },
 });
 
-const options = ref(studios);
+const options = ref(props.studios);
 
 const studio = ref(null);
 const movie_type = ref(null);
@@ -38,10 +47,10 @@ const submit = () => {
     })).post(route('movies.store'));
 };
 
-const filterFn = (val, update, abort) => {
+const filterFn = (val, update) => {
     update(() => {
         const needle = val.toLowerCase();
-        options.value = studios.filter(
+        options.value = props.studios.filter(
             (v) => v.name.toLowerCase().indexOf(needle) > -1,
         );
     });
@@ -59,7 +68,6 @@ const filterFn = (val, update, abort) => {
                         label="Title"
                         filled
                         required
-                        autofocus
                         :error="!!form?.errors?.title"
                         :error-message="form.errors.title"
                     />
@@ -113,7 +121,7 @@ const filterFn = (val, update, abort) => {
                         <template #no-option>
                             <q-item>
                                 <q-item-section class="text-grey">
-                                    No results
+                                    {{ $t('web.search.no_results') }}
                                 </q-item-section>
                             </q-item>
                         </template>
@@ -137,7 +145,7 @@ const filterFn = (val, update, abort) => {
                         <template #no-option>
                             <q-item>
                                 <q-item-section class="text-grey">
-                                    No results
+                                    {{ $t('web.search.no_results') }}
                                 </q-item-section>
                             </q-item>
                         </template>

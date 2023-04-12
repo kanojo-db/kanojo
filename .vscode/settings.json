@@ -4,7 +4,7 @@
     "laravel-pint.enable": true,
     "laravel-pint.preset": "laravel",
     "laravel-pint.runInLaravelSail": true,
-    "jest.jestCommandLine": "npx run test",
+    "jest.jestCommandLine": "sh vendor/bin/sail npm run test",
     "i18n-ally.sourceLanguage": "en-US",
     "editor.formatOnPaste": true,
     "eslint.lintTask.enable": true,

@@ -77,7 +77,7 @@ class MovieController extends Controller
         $movie_types = MovieType::all();
         $tags = Tag::getWithType('movie');
 
-        return Inertia::render('Movie/Create', ['studios' => $studios, 'movie_types' => $movie_types, 'tags' => $tags]);
+        return Inertia::render('Movie/Create', ['studios' => $studios, 'movieTypes' => $movie_types, 'tags' => $tags]);
     }
 
     /**

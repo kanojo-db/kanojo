@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
     env: {
         browser: true,
@@ -67,6 +68,7 @@ module.exports = {
             },
         ],
         'vue/multi-word-component-names': 'off',
+        'no-console': 'error',
     },
     settings: {
         'vue-i18n': {

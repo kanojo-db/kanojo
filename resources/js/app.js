@@ -1,7 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import '@quasar/extras/mdi-v6/mdi-v6.css';
 import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css';
-import { BrowserTracing } from '@sentry/tracing';
 import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { Dialog, Notify, Quasar } from 'quasar';
@@ -10,10 +9,10 @@ import 'quasar/src/css/index.sass';
 import { createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
 
-import '../../public/vendor/cookie-consent/css/cookie-consent.css';
+import localeMessages from '@/vue-i18n-locales.generated';
+
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import '../css/app.scss';
-import localeMessages from './vue-i18n-locales.generated';
 
 const appName =
     window.document.getElementsByTagName('title')[0]?.innerText || 'Kanojo';
@@ -47,17 +46,15 @@ createInertiaApp({
             app: vueApp,
             dsn: 'https://5fce5990e0e6417e8855d803341140cd@o4504320317259776.ingest.sentry.io/4504320373620736',
             integrations: [
-                new BrowserTracing({
+                new Sentry.BrowserTracing({
                     tracePropagationTargets: [
                         'localhost',
-                        'my-site-url.com',
+                        'kanojodb.com',
                         /^\//,
                     ],
                 }),
-                new Sentry.Replay(),
             ],
             tracesSampleRate: 0.1,
-            replaysOnErrorSampleRate: 1.0,
             logErrors: true,
         });
 

@@ -104,6 +104,9 @@ return [
         'welcomeBack' => 'Welcome Back!',
         'submit' => 'Log in',
     ],
+    'register' => [
+        'already' => 'Already have an account?',
+    ],
     'personShow' => [
         'moviesCount' => '{number} Movies',
     ],

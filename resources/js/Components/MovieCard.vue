@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
+import { RouteParams } from '@ziggy-js';
 import { PropType, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -28,7 +29,7 @@ const { t } = useI18n();
 const averageScore = computed(() => {
     if (props.movie?.love_reactant?.reaction_total?.count) {
         const likeReactions = props.movie?.love_reactant?.reactions?.filter(
-            (reaction) => reaction.type.name === 'Like',
+            (reaction: any) => reaction.type.name === 'Like',
         );
 
         return (
@@ -53,7 +54,7 @@ const userScore = computed(() => {
 <template>
     <Link
         class="block"
-        :href="route('movies.show', { movie: movie.slug })"
+        :href="route('movies.show', { movie: movie.slug } as RouteParams)"
         style="width: 200px"
     >
         <div class="fit column no-wrap justify-start items-start content-start">

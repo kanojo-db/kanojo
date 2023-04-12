@@ -44,7 +44,6 @@ const submit = () => {
                                     type="text"
                                     required
                                     filled
-                                    autofocus
                                     bottom-slots
                                     autocomplete="name"
                                     label="Username"
@@ -99,7 +98,7 @@ const submit = () => {
                                         :href="route('login')"
                                         class="underline text-sm text-gray-600 hover:text-gray-900"
                                     >
-                                        Already registered?
+                                        {{ $t('web.register.already') }}
                                     </Link>
 
                                     <q-space />

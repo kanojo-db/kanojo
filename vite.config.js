@@ -1,3 +1,4 @@
+/* eslint-env node */
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import { quasar } from '@quasar/vite-plugin';
 import vue from '@vitejs/plugin-vue';
@@ -49,12 +50,14 @@ export default defineConfig({
             ),
         }),
         DefineOptions(),
-        checker({
-            overlay: true,
-            vueTsc: true,
-            eslint: {
-                lintCommand: 'eslint --ext .js,.ts,.vue resources/js',
-            },
-        }),
+        !process.env.VITEST
+            ? checker({
+                  overlay: true,
+                  vueTsc: true,
+                  eslint: {
+                      lintCommand: 'eslint --ext .js,.ts,.vue resources/js',
+                  },
+              })
+            : undefined,
     ],
 });

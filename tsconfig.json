@@ -13,7 +13,8 @@
         "types": [
             "@types/node",
             "@types/ziggy-js",
-            "unplugin-vue-define-options/macros-global"
+            "unplugin-vue-define-options/macros-global",
+            "vitest/globals"
         ],
         "paths": {
             "@/*": ["./resources/js/*"]

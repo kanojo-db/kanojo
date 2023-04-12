@@ -79,10 +79,8 @@ export function useFirstImage(
     return computed(() => {
         if (item?.media && item.media.length > 0) {
             const images = item.media.filter(
-                (m) => m.collection_name === collection,
+                (m: any) => m.collection_name === collection,
             );
-
-            console.dir(images);
 
             if (images.length > 0) {
                 return images[0].original_url;
