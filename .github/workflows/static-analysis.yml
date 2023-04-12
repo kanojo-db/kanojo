@@ -49,13 +49,53 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
       - name: Checkout code
         uses: actions/checkout@v3.3.0
 
-      - name: Psalm
-        uses: docker://vimeo/psalm-github-actions
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Set Composer cache
+        uses: actions/cache@v3
         with:
-          composer_ignore_platform_reqs: true
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Set directory permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Create database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+          php artisan migrate
+
+      - name: Generate IDE helper files
+        run: |
+          php artisan ide-helper:eloquent
+          php artisan ide-helper:generate
+          php artisan ide-helper:meta
+          php artisan ide-helper:models
+
+      - name: Run psalm
+        run: ./vendor/bin/psalm --output-format=github --no-cache --no-diff
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
