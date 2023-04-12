@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { PageProps } from '@inertiajs/core';
+import { usePage } from '@inertiajs/vue3';
+
+const page = usePage<PageProps>();
+</script>
+
 <template>
     <q-card
         flat
@@ -16,8 +23,9 @@
                 clickable
                 :class="{
                     'text-weight-bold text-primary':
-                        $page.component === 'Settings/Account',
+                        page?.component === 'Settings/Account',
                 }"
+                :href="route('settings.account')"
             >
                 <q-item-section>
                     {{ $t('web.settings.account.title') }}
@@ -27,8 +35,9 @@
                 clickable
                 :class="{
                     'text-weight-bold text-primary':
-                        $page.component === 'Settings/Tokens',
+                        page?.component === 'Settings/Tokens',
                 }"
+                :href="route('settings.tokens')"
             >
                 <q-item-section>
                     {{ $t('web.settings.tokens.title') }}
@@ -38,8 +47,9 @@
                 clickable
                 :class="{
                     'text-weight-bold text-primary':
-                        $page.component === 'Settings/Sessions',
+                        page?.component === 'Settings/Sessions',
                 }"
+                :href="route('settings.sessions')"
             >
                 <q-item-section>
                     {{ $t('web.settings.sessions.title') }}

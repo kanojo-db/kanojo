@@ -1,5 +1,5 @@
-<script setup>
-import { Head, router, useForm } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import copy from 'copy-to-clipboard';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
@@ -7,6 +7,7 @@ import { useQuasar } from 'quasar';
 import DialogCreateToken from '@/Components/DialogCreateToken.vue';
 import MenuCardSettings from '@/Components/MenuCardSettings.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { PageProps } from '@/types/inertia';
 
 defineOptions({
     layout: AppLayout,
@@ -18,6 +19,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const page = usePage<PageProps>();
 
 const tokenCreateForm = useForm({
     name: '',
@@ -41,10 +44,14 @@ const openTokenCreateDialog = () => {
             tokenForm: tokenCreateForm,
             onSubmit: tokenCreateFormSubmit,
         },
+    }).onOk((data: typeof tokenCreateForm) => {
+        tokenCreateForm.name = data.name;
+
+        tokenCreateFormSubmit();
     });
 };
 
-const copyToken = (token) => {
+const copyToken = (token: string) => {
     copy(token, {
         onCopy: () => {
             $q.notify({
@@ -68,7 +75,7 @@ const columns = [
         label: 'Last Used',
         field: 'last_used_at',
         align: 'left',
-        format: (val) => {
+        format: (val: string) => {
             if (!val) {
                 return 'Never';
             }
@@ -81,7 +88,7 @@ const columns = [
         label: 'Created',
         field: 'created_at',
         align: 'left',
-        format: (val) =>
+        format: (val: string) =>
             DateTime.fromISO(val).toLocaleString(DateTime.DATETIME_SHORT),
     },
     {
@@ -91,7 +98,7 @@ const columns = [
     },
 ];
 
-const deleteToken = (rowId) => {
+const deleteToken = (rowId: number) => {
     router.delete(route('settings.tokens.destroy', rowId), {
         preserveScroll: true,
     });
@@ -100,13 +107,15 @@ const deleteToken = (rowId) => {
 
 <template>
     <Head
-        :title="`${$page.props.user.name} - ${$t('web.settings.tokens.title')}`"
+        :title="`${page?.props?.user?.name} - ${$t(
+            'web.settings.tokens.title',
+        )}`"
     />
 
     <div class="col bg-grey-3">
         <div class="row q-py-lg q-px-md">
             <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                {{ $page.props.user.name }}
+                {{ page?.props?.user?.name }}
             </h1>
         </div>
     </div>
@@ -116,9 +125,17 @@ const deleteToken = (rowId) => {
                 <MenuCardSettings />
             </div>
             <div class="col col-10">
-                <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
-                    {{ $t('web.settings.tokens.title') }}
-                </h2>
+                <div class="row items-center justify-between q-mb-md">
+                    <h2 class="text-h5 text-weight-bold q-mt-none">
+                        {{ $t('web.settings.tokens.title') }}
+                    </h2>
+                    <q-btn
+                        icon="mdi-help-circle-outline"
+                        color="primary"
+                        :label="$t('web.general.help')"
+                        disable
+                    />
+                </div>
                 <q-banner
                     v-if="props.tokens.length === 0"
                     inline-actions
@@ -136,25 +153,27 @@ const deleteToken = (rowId) => {
                 </q-banner>
                 <template v-else>
                     <q-banner
-                        v-if="$page.props._session?._flash?.token"
+                        v-if="$attrs._session?._flash?.token"
                         inline-actions
                         class="bg-grey-1 q-mb-md"
                     >
                         {{ $t('web.settings.tokens.success') }}
                         <template #action>
-                            <q-btn
-                                icon="mdi-content-copy"
-                                flat
-                                color="primary"
-                                :label="$t('web.settings.tokens.copy_token')"
-                                @click="
-                                    () =>
-                                        copyToken(
-                                            Inertia.page.props._session._flash
-                                                .token,
-                                        )
-                                "
-                            />
+                            <code class="q-py-sm q-px-md bg-grey-2">
+                                {{ $attrs._session?._flash?.token }}
+                                <q-btn
+                                    icon="mdi-content-copy"
+                                    size="sm"
+                                    flat
+                                    color="primary"
+                                    @click="
+                                        () =>
+                                            copyToken(
+                                                $attrs._session?._flash?.token,
+                                            )
+                                    "
+                                />
+                            </code>
                         </template>
                     </q-banner>
 

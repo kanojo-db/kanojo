@@ -1,9 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
+import { PropType } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Movie } from '@/types/models';
 import { useFirstImage, useTitle } from '@/utils/item';
 
 defineOptions({
@@ -12,14 +15,16 @@ defineOptions({
 
 const props = defineProps({
     movie: {
-        type: Object,
+        type: Object as PropType<Movie>,
         required: true,
     },
 });
 
+const locale = useI18n().locale;
+
 const posterUrl = useFirstImage(props.movie);
 
-const title = useTitle(props.movie);
+const title = useTitle(props.movie, locale.value);
 </script>
 
 <template>

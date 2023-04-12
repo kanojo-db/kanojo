@@ -69,6 +69,12 @@ module.exports = {
         ],
         'vue/multi-word-component-names': 'off',
         'no-console': 'error',
+        'vue/component-tags-order': [
+            'error',
+            {
+                order: ['script', 'template', 'style'],
+            },
+        ],
     },
     settings: {
         'vue-i18n': {

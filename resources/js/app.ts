@@ -6,7 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { Dialog, Notify, Quasar } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
 import 'quasar/src/css/index.sass';
-import { createApp, h } from 'vue';
+import { DefineComponent, createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 import localeMessages from '@/vue-i18n-locales.generated';
@@ -20,15 +20,15 @@ const appName =
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     resolve: (name) =>
-        resolvePageComponent(
+        resolvePageComponent<DefineComponent>(
             `./Pages/${name}.vue`,
-            import.meta.glob('./Pages/**/*.vue'),
+            import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
         ),
     progress: { color: '#69306D', includeCSS: true },
     setup({ el, App, props, plugin }) {
         const i18n = createI18n({
             legacy: false,
-            locale: props.initialPage.props.locale,
+            locale: props.initialPage.props.locale as string,
             fallbackLocale: 'en-US',
             messages: localeMessages,
         });
@@ -60,6 +60,6 @@ createInertiaApp({
 
         vueApp.mount(el);
 
-        return App;
+        return vueApp;
     },
 });

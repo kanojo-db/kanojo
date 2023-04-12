@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { User } from '@sentry/types';
+import { PropType, computed } from 'vue';
 
 import CardSwiper from '@/Components/CardSwiper.vue';
 import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Movies, People } from '@/types/models';
 
 defineOptions({
     layout: AppLayout,
@@ -12,23 +14,23 @@ defineOptions({
 
 const props = defineProps({
     popularModels: {
-        type: Object,
+        type: Object as PropType<People>,
         required: true,
     },
     popularMovies: {
-        type: Object,
+        type: Object as PropType<Movies>,
         required: true,
     },
     latestMovies: {
-        type: Object,
+        type: Object as PropType<Movies>,
         required: true,
     },
     recentlyUpdatedMovies: {
-        type: Object,
+        type: Object as PropType<Movies>,
         required: true,
     },
     recentlyReleasedMovies: {
-        type: Object,
+        type: Object as PropType<Movies>,
         required: true,
     },
     movieCount: {
@@ -44,7 +46,7 @@ const props = defineProps({
         required: true,
     },
     topUsers: {
-        type: Object,
+        type: Object as PropType<User[]>,
         required: true,
     },
 });
@@ -274,7 +276,7 @@ const orderedTopUsers = computed(() => {
                             <div
                                 class="bg-primary rounded-borders"
                                 :style="`width: ${
-                                    maxAudits === 0
+                                    maxTotalAudits === 0
                                         ? 0
                                         : (user.total_audits / maxTotalAudits) *
                                           100

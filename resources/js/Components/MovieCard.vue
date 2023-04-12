@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { RouteParams } from '@ziggy-js';
 import { PropType, computed } from 'vue';
@@ -29,7 +29,7 @@ const { t } = useI18n();
 const averageScore = computed(() => {
     if (props.movie?.love_reactant?.reaction_total?.count) {
         const likeReactions = props.movie?.love_reactant?.reactions?.filter(
-            (reaction: any) => reaction.type.name === 'Like',
+            (reaction) => reaction.type.name === 'Like',
         );
 
         return (

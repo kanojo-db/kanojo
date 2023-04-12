@@ -1,9 +1,10 @@
-<script setup>
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
 import { ref } from 'vue';
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
+import { PageProps } from '@/types/inertia';
 
 const props = defineProps({
     title: {
@@ -23,14 +24,18 @@ const props = defineProps({
     },
 });
 
+const page = usePage<PageProps>();
+
 const showSearch = ref(false);
 
 const logout = () => {
     router.post(route('logout'));
 };
 
+const currentRouteParams = ref(route().params);
+
 const searchForm = useForm({
-    q: route().params.q || '',
+    q: currentRouteParams.value.q || '',
 });
 
 const submit = () => {
@@ -92,7 +97,7 @@ const websiteSchema = ref({
                 />
                 <LanguageSwitcher />
                 <q-avatar
-                    v-if="$page.props.user"
+                    v-if="page.props.user"
                     size="32px"
                     color="white"
                 >
@@ -114,13 +119,15 @@ const websiteSchema = ref({
                                 clickable
                                 @click="
                                     $inertia.get(
-                                        route('profile.show', $page.props.user),
+                                        route('profile.show', {
+                                            user: page.props.user?.id ?? 0,
+                                        }),
                                     )
                                 "
                             >
                                 <q-item-section class="q-py-md">
                                     <q-item-label class="text-weight-bold">
-                                        {{ $page.props.user.name }}
+                                        {{ page.props.user.name }}
                                     </q-item-label>
                                     <q-item-label caption>
                                         {{ $t('web.general.view_profile') }}

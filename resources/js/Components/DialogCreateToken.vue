@@ -1,23 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar';
+import { reactive } from 'vue';
 
 const props = defineProps({
     tokenForm: {
         type: Object,
         required: true,
     },
-    onSubmit: {
-        type: Function,
-        required: true,
-    },
 });
 
-defineEmits([...useDialogPluginComponent.emits]);
+// Make a local copy of tokenForm so we can change it without mutating the prop
+const tokenForm = reactive(props.tokenForm);
+
+const emit = defineEmits([...useDialogPluginComponent.emits]);
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 
 function onOKClick() {
-    props.onSubmit();
+    emit('ok', props.tokenForm);
+
     onDialogOK();
 }
 </script>

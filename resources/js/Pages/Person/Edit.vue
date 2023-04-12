@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
+import { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Person } from '@/types/models';
 import { useName } from '@/utils/item';
 import { useFirstImage } from '@/utils/item';
 
@@ -13,7 +15,7 @@ defineOptions({
 
 const props = defineProps({
     person: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
 });

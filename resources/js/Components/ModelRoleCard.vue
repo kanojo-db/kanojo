@@ -1,44 +1,44 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
+import { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useName } from '@/utils/item';
+import { Movie, Person } from '@/types/models';
+import { useFirstImage, useName } from '@/utils/item';
 
 const props = defineProps({
     movie: {
-        type: Object,
+        type: Object as PropType<Movie>,
         required: true,
     },
     model: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
 });
 
-const getHumanReadableDate = (date) => {
+const getHumanReadableDate = (date: string) => {
     return DateTime.fromISO(date).toLocaleString(DateTime.DATE_SHORT);
 };
 
-const getModelAge = (date) => {
-    if (DateTime.fromSQL(props.movie.release_date)) {
+const getModelAge = (date: string) => {
+    if (
+        props.movie.release_date &&
+        DateTime.fromSQL(props.movie.release_date)
+    ) {
         const modelDate = DateTime.fromSQL(date)
             .diff(DateTime.fromISO(props.movie.release_date), 'years')
             .toObject();
 
-        return Math.floor(Math.abs(modelDate.years));
+        return Math.floor(Math.abs(modelDate.years ?? 0));
     }
 
     return null;
 };
 
-const getModelImage = (model) => {
-    if (model?.media && model.media.length > 0) {
-        return model.media.filter((m) => m.collection_name === 'profile')?.[0]
-            .original_url;
-    }
-
-    return null;
+const getModelImage = (model: Person) => {
+    return useFirstImage(model, 'profile');
 };
 
 const locale = useI18n().locale.value;
@@ -68,8 +68,8 @@ const name = useName(props.model, locale);
                         color="white"
                     >
                         <q-img
-                            v-if="getModelImage(model)"
-                            :src="getModelImage(model)"
+                            v-if="getModelImage(model).value"
+                            :src="getModelImage(model).value"
                             :ratio="1"
                             fit="cover"
                         />

@@ -70,10 +70,10 @@ class ZiggyTypescriptCommand extends Command
             };
             
             declare global {
-                type Ziggy = Routes;
+                const Ziggy: Routes;
                 function route(): Router;
                 function route(
-                    name: keyof Ziggy,
+                    name: keyof Routes,
                     params?: RouteParamsWithQueryOverload | RouteParam,
                     absolute?: boolean,
                     config?: Config,
@@ -83,7 +83,7 @@ class ZiggyTypescriptCommand extends Command
             declare module '@vue/runtime-core' {
                 interface ComponentCustomProperties {
                     route(
-                        name: keyof Ziggy,
+                        name: keyof Routes,
                         params?: RouteParamsWithQueryOverload | RouteParam,
                         absolute?: boolean,
                         config?: Config,

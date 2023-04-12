@@ -1,23 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar';
+import { reactive } from 'vue';
 
 const props = defineProps({
     uploadForm: {
         type: Object,
         required: true,
     },
-    onSubmit: {
-        type: Function,
-        required: true,
-    },
 });
 
-defineEmits([...useDialogPluginComponent.emits]);
+// Make a local copy of the upload form so we can modify it without mutating the original
+const uploadForm = reactive(props.uploadForm);
+
+const emit = defineEmits([...useDialogPluginComponent.emits]);
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 
 function onOKClick() {
-    props.onSubmit();
+    emit('ok', uploadForm);
+
     onDialogOK();
 }
 </script>

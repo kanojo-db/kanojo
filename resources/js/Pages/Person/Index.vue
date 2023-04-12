@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 
 import ModelCard from '@/Components/ModelCard.vue';
 import RangeSlider from '@/Components/RangeSlider.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Count } from '@/types/internal';
+import { Paginated, People, Person } from '@/types/models';
 
 defineOptions({
     layout: AppLayout,
@@ -12,27 +14,27 @@ defineOptions({
 
 const props = defineProps({
     models: {
-        type: Object,
+        type: Object as PropType<Paginated<Person>>,
         required: true,
     },
     birthCounts: {
-        type: Object,
+        type: Object as PropType<Count>,
         required: true,
     },
     heightCounts: {
-        type: Object,
+        type: Object as PropType<Count>,
         required: true,
     },
     bustCounts: {
-        type: Object,
+        type: Object as PropType<Count>,
         required: true,
     },
     waistCounts: {
-        type: Object,
+        type: Object as PropType<Count>,
         required: true,
     },
     hipCounts: {
-        type: Object,
+        type: Object as PropType<Count>,
         required: true,
     },
 });
@@ -81,11 +83,18 @@ const hipRange = ref({
     max: filterHipBetween.value[1],
 });
 
-const goToPage = (page) => {
-    const pageLink = props.models.links.find((link) => link.label == page);
+// TODO: Move this and all duplicates to dedicated pagination component.
+const goToPage = (page: number) => {
+    const pageLink = props.models.links.find(
+        (link) => link.label === page.toString(),
+    );
 
     if (pageLink && pageLink.url) {
-        router.get(pageLink.url);
+        router.get(pageLink.url, undefined, {
+            only: ['models'],
+            preserveState: true,
+            preserveScroll: true,
+        });
     }
 };
 
@@ -122,7 +131,7 @@ function applyFilters() {
         params['filter[hip]'] = `${hipRange.value.min},${hipRange.value.max}`;
     }
 
-    router.visit(
+    router.get(
         route('models.index'),
         { data: params },
         {

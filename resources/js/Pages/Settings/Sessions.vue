@@ -1,9 +1,10 @@
-<script setup>
-import { Head } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, usePage } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
 
 import MenuCardSettings from '@/Components/MenuCardSettings.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { PageProps } from '@/types/inertia';
 
 defineOptions({
     layout: AppLayout,
@@ -15,6 +16,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const page = usePage<PageProps>();
 
 const columns = [
     {
@@ -44,7 +47,7 @@ const columns = [
         field: 'last_active',
         required: true,
         align: 'left',
-        format: (val) => {
+        format: (val: string) => {
             return DateTime.fromISO(val).toRelative();
         },
     },
@@ -53,7 +56,7 @@ const columns = [
 
 <template>
     <Head
-        :title="`${$page.props.user.name} - ${$t(
+        :title="`${page?.props?.user?.name} - ${$t(
             'web.settings.sessions.title',
         )}`"
     />
@@ -61,7 +64,7 @@ const columns = [
     <div class="col bg-grey-3">
         <div class="row q-py-lg q-px-md">
             <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                {{ $page.props.user.name }}
+                {{ page?.props?.user?.name }}
             </h1>
         </div>
     </div>

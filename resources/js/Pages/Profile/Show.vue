@@ -1,8 +1,11 @@
-<script setup>
-import { Head } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, usePage } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
+import { PropType } from 'vue';
 
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { PageProps } from '@/types/inertia';
+import { User } from '@/types/models';
 
 defineOptions({
     layout: AppLayout,
@@ -10,7 +13,7 @@ defineOptions({
 
 const props = defineProps({
     user: {
-        type: Object,
+        type: Object as PropType<User>,
         required: true,
     },
     isCurrentUser: {
@@ -34,11 +37,13 @@ const props = defineProps({
         required: true,
     },
 });
+
+const page = usePage<PageProps>();
 </script>
 
 <template>
     <Head
-        :title="`${$page.props.user.name} - ${$t(
+        :title="`${page?.props?.user?.name} - ${$t(
             'web.settings.account.title',
         )}`"
     />
@@ -48,13 +53,16 @@ const props = defineProps({
             <h1
                 class="text-h3 text-grey-8 text-weight-bold q-mt-none q-mb-none ellipsis-2-lines"
             >
-                {{ $page.props.user.name }}
+                {{ page?.props?.user?.name }}
             </h1>
-            <span class="text-h6 q-ml-md text-grey-7">
+            <span
+                v-if="page?.props?.user"
+                class="text-h6 q-ml-md text-grey-7"
+            >
                 {{
                     $t('web.profile.member_since', {
                         date: DateTime.fromISO(
-                            $page.props.user.created_at,
+                            page?.props?.user?.created_at,
                         ).toLocaleString(DateTime.DATE_FULL),
                     })
                 }}

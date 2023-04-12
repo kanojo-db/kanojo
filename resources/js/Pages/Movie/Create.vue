@@ -1,8 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Studio, Studios } from '@/types/models';
 
 defineOptions({
     layout: AppLayout,
@@ -10,7 +11,7 @@ defineOptions({
 
 const props = defineProps({
     studios: {
-        type: Array,
+        type: Array as PropType<Studios>,
         required: true,
     },
     movieTypes: {
@@ -25,17 +26,19 @@ const props = defineProps({
 
 const options = ref(props.studios);
 
-const studio = ref(null);
+const studio = ref<Studio>();
 const movie_type = ref(null);
 
 const form = useForm({
     title: '',
-    original_title: '',
-    product_code: '',
-    release_date: new Date(0),
+    originalTitle: '',
+    productCode: '',
+    releaseDate: new Date(0).toISOString(),
     length: 0,
     poster: null,
     tags: null,
+    studioId: null,
+    movieTypeId: null,
 });
 
 const submit = () => {
@@ -78,7 +81,7 @@ const filterFn = (val, update) => {
                 <div class="col">
                     <q-input
                         id="original_title"
-                        v-model="form.original_title"
+                        v-model="form.originalTitle"
                         label="Original Title"
                         filled
                         required
@@ -92,7 +95,7 @@ const filterFn = (val, update) => {
                 <div class="col">
                     <q-input
                         id="product_code"
-                        v-model="form.product_code"
+                        v-model="form.productCode"
                         label="Product Code"
                         filled
                         required
@@ -135,11 +138,11 @@ const filterFn = (val, update) => {
                         use-input
                         input-debounce="0"
                         label="Movie Type"
-                        :options="movie_types"
+                        :options="movieTypes"
                         option-value="id"
                         option-label="name"
-                        :error="!!form?.errors?.movie_type"
-                        :error-message="form.errors.movie_type"
+                        :error="!!form?.errors?.movieType"
+                        :error-message="form.errors.movieType"
                         @filter="filterFn"
                     >
                         <template #no-option>
@@ -156,7 +159,7 @@ const filterFn = (val, update) => {
             <div class="row q-col-gutter-md">
                 <div class="col">
                     <q-input
-                        v-model="form.release_date"
+                        v-model="form.releaseDate"
                         filled
                         mask="date"
                         :rules="['date']"
@@ -172,7 +175,7 @@ const filterFn = (val, update) => {
                                     transition-show="scale"
                                     transition-hide="scale"
                                 >
-                                    <q-date v-model="form.release_date">
+                                    <q-date v-model="form.releaseDate">
                                         <div
                                             class="row items-center justify-end"
                                         >

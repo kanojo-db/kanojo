@@ -1,8 +1,9 @@
-<script setup>
-import { Head, useForm } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 
 import MenuCardSettings from '@/Components/MenuCardSettings.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { PageProps } from '@/types/inertia';
 
 defineOptions({
     layout: AppLayout,
@@ -14,6 +15,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const page = usePage<PageProps>();
 
 const accountSettingsFoirm = useForm({
     show_jav: props.settings.show_jav.value,
@@ -29,7 +32,7 @@ function submit() {
 
 <template>
     <Head
-        :title="`${$page.props.user.name} - ${$t(
+        :title="`${page?.props?.user?.name} - ${$t(
             'web.settings.account.title',
         )}`"
     />
@@ -37,7 +40,7 @@ function submit() {
     <div class="col bg-grey-3">
         <div class="row q-py-lg q-px-md">
             <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                {{ $page.props.user.name }}
+                {{ page?.props?.user?.name }}
             </h1>
         </div>
     </div>

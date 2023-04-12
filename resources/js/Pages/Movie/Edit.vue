@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
+import { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Movie } from '@/types/models';
 import { useFirstImage, useTitle } from '@/utils/item';
 
 defineOptions({
@@ -12,23 +14,23 @@ defineOptions({
 
 const props = defineProps({
     movie: {
-        type: Object,
+        type: Object as PropType<Movie>,
         required: true,
     },
 });
 
-const title = useTitle(props.movie);
+const locale = useI18n().locale;
+
+const title = useTitle(props.movie, locale.value);
 
 const posterUrl = useFirstImage(props.movie);
 
-const locale = useI18n().locale.value;
-
 const movieEditForm = useForm({
-    title: props.movie.title[locale],
+    title: props.movie.title[locale.value],
     original_title: props.movie.title['ja-JP'],
     product_code: props.movie.product_code,
     release_date: props.movie.release_date,
-    runtime: props.movie.runtime,
+    runtime: props.movie.length,
     type: props.movie.type,
 });
 

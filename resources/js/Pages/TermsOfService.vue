@@ -1,10 +1,15 @@
-<script setup>
+<script setup lang="ts">
+import AppLayout from '@/Layouts/AppLayout.vue';
+
 defineOptions({
     layout: AppLayout,
 });
 
 defineProps({
-    terms: String,
+    terms: {
+        type: String,
+        required: true,
+    },
 });
 </script>
 

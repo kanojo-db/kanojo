@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
+import { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Person } from '@/types/models';
 import { useFirstImage, useName } from '@/utils/item';
 
 defineOptions({
@@ -15,7 +17,7 @@ defineOptions({
 
 const props = defineProps({
     person: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
     posters: {
@@ -35,15 +37,6 @@ const mediaUploadForm = useForm({
     collection_name: 'profile',
 });
 
-const mediaFormSubmit = () => {
-    mediaUploadForm.post(route('models.media.store', props.person), {
-        preserveScroll: true,
-        onSuccess: () => {
-            mediaUploadForm.reset();
-        },
-    });
-};
-
 const $q = useQuasar();
 
 const openMediaUploadDialog = () => {
@@ -51,8 +44,17 @@ const openMediaUploadDialog = () => {
         component: DialogMediaUpload,
         componentProps: {
             uploadForm: mediaUploadForm,
-            onSubmit: mediaFormSubmit,
         },
+    }).onOk((data: typeof mediaUploadForm) => {
+        mediaUploadForm.media = data.media;
+        mediaUploadForm.collection_name = data.collection_name;
+
+        mediaUploadForm.post(route('models.media.store', props.person), {
+            preserveScroll: true,
+            onSuccess: () => {
+                mediaUploadForm.reset();
+            },
+        });
     });
 };
 </script>

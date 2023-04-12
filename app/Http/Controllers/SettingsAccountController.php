@@ -28,10 +28,10 @@ class SettingsAccountController extends Controller
 
         return Inertia::render('Settings/Account', [
             'settings' => [
-                'show_jav' => $user->settings->get('show_jav'),
-                'show_vr' => $user->settings->get('show_vr'),
-                'show_gravure' => $user->settings->get('show_gravure'),
-                'show_minors' => $user->settings->get('show_minors'),
+                'show_jav' => true,
+                'show_vr' => true,
+                'show_gravure' => true,
+                'show_minors' => true,
             ],
         ]);
     }
@@ -51,10 +51,12 @@ class SettingsAccountController extends Controller
 
         $validatedData = $request->validated();
 
+        /*
         $user->settings->set('show_jav', $validatedData->show_jav);
         $user->settings->set('show_vr', $validatedData->show_vr);
         $user->settings->set('show_gravure', $validatedData->show_gravure);
         $user->settings->set('show_minors', $validatedData->show_minors);
+         */
 
         return back();
     }

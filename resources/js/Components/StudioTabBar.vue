@@ -1,9 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { PageProps } from '@/types/inertia';
+import { Studio } from '@/types/models';
 import { useName } from '@/utils/item';
 
 import { useAdmin } from '../utils/user';
@@ -12,14 +15,16 @@ import DialogShareLink from './DialogShareLink.vue';
 
 const props = defineProps({
     studio: {
-        type: Object,
+        type: Object as PropType<Studio>,
         required: true,
     },
 });
 
+const page = usePage<PageProps>();
+
 const fullUrl = ref(window.location.href.split('?')[0]);
 
-const isAdmin = useAdmin();
+const isAdmin = useAdmin(page?.props?.user);
 
 const $q = useQuasar();
 
@@ -49,16 +54,19 @@ const openReportDialog = () => {
         componentProps: {
             title: name,
             reportForm: reportForm,
-            onSubmit: () => {
-                reportForm.post(
-                    route('movies.reports.store', {
-                        movie: props.studio.slug,
-                    }),
-                );
-
-                reportForm.reset();
-            },
         },
+    }).onOk((data: typeof reportForm) => {
+        reportForm.type = data.type;
+        reportForm.message = data.message;
+        reportForm.public = data.public;
+
+        reportForm.post(
+            route('studios.reports.store', {
+                studio: props.studio,
+            }),
+        );
+
+        reportForm.reset();
     });
 };
 </script>
@@ -79,8 +87,8 @@ const openReportDialog = () => {
                         clickable
                         @click="
                             $inertia.get(
-                                route('movies.show', {
-                                    movie: props.studio.slug,
+                                route('studios.show', {
+                                    studio: props.studio,
                                 }),
                             )
                         "
@@ -102,13 +110,13 @@ const openReportDialog = () => {
             <q-btn
                 flat
                 :class="{
-                    'text-weight-bold': $page.component === 'Movie/Media',
+                    'text-weight-bold': page?.component === 'Movie/Media',
                 }"
                 label="Media"
                 @click="
                     $inertia.get(
-                        route('movies.media.index', {
-                            movie: props.studio.slug,
+                        route('studios.media.index', {
+                            studio: props.studio,
                         }),
                     )
                 "
@@ -118,8 +126,8 @@ const openReportDialog = () => {
                 label="History"
                 @click="
                     $inertia.get(
-                        route('movies.history.index', {
-                            movie: props.studio.slug,
+                        route('studios.history.index', {
+                            studio: props.studio,
                         }),
                     )
                 "
@@ -129,7 +137,7 @@ const openReportDialog = () => {
                 label="Edit"
                 @click="
                     $inertia.get(
-                        route('movies.edit', { movie: props.studio.slug }),
+                        route('studios.edit', { studio: props.studio }),
                     )
                 "
             />
@@ -183,8 +191,8 @@ const openReportDialog = () => {
                         clickable
                         @click="
                             $inertia.get(
-                                route('movies.reports.index', {
-                                    movie: props.studio.slug,
+                                route('studios.reports.index', {
+                                    studio: props.studio,
                                 }),
                             )
                         "

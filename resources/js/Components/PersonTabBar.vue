@@ -1,7 +1,11 @@
-<script setup>
+<script setup lang="ts">
+import { PropType } from 'vue';
+
+import { Person } from '@/types/models';
+
 const props = defineProps({
     person: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
 });

@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { PropType, computed, reactive, ref } from 'vue';
 
 import ModelCard from '@/Components/ModelCard.vue';
 import MovieCard from '@/Components/MovieCard.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Movie, Paginated } from '@/types/models';
+import { Person } from '@/types/models';
 
 defineOptions({
     layout: AppLayout,
@@ -12,33 +14,43 @@ defineOptions({
 
 const props = defineProps({
     moviesResults: {
-        type: Object,
+        type: Object as PropType<Paginated<Movie>>,
         required: true,
     },
     modelsResults: {
-        type: Object,
+        type: Object as PropType<Paginated<Person>>,
         required: true,
     },
 });
 
-let results = {};
+let results = {} as Paginated<Movie | Person>;
 
-if (route().params?.type === 'person') {
-    // eslint-disable-next-line vue/no-setup-props-destructure -- Intentional
-    results = props.modelsResults;
+const routeParams = route().params;
+
+const resultType = computed(() => {
+    if (routeParams.type === 'person') {
+        return 'models';
+    }
+
+    return 'movies';
+});
+
+if (resultType.value === 'models') {
+    results = reactive(props.modelsResults);
 } else {
-    // eslint-disable-next-line vue/no-setup-props-destructure -- Intentional
-    results = props.moviesResults;
+    results = reactive(props.moviesResults);
 }
 
 const currentPage = ref(results.current_page);
 
-const goToType = (type) => {
+const goToType = (type: string) => {
     router.get('search', { type, q: route().params.q });
 };
 
-const goToPage = (page) => {
-    const pageLink = results.links.find((link) => link.label == page);
+const goToPage = (page: number) => {
+    const pageLink = results.links.find(
+        (link) => link.label === page.toString(),
+    );
 
     if (pageLink && pageLink.url) {
         router.get(pageLink.url);
@@ -74,7 +86,7 @@ const goToPage = (page) => {
                             clickable
                             :class="{
                                 'text-primary text-weight-bold':
-                                    route().params.type !== 'person',
+                                    routeParams.type !== 'person',
                             }"
                             @click="() => goToType('movie')"
                         >
@@ -96,8 +108,9 @@ const goToPage = (page) => {
                             clickable
                             :class="{
                                 'text-primary text-weight-bold':
-                                    route().params.type === 'person',
+                                    routeParams.type === 'person',
                             }"
+                            @click="() => goToType('person')"
                         >
                             <q-item-section>
                                 {{ $t('web.search.result_types.models') }}
@@ -138,13 +151,13 @@ const goToPage = (page) => {
                 <div v-else>
                     <div class="q-pa-md">
                         <div
-                            v-if="route().params.type === 'person'"
+                            v-if="routeParams.type === 'person'"
                             class="fit row wrap justify-start items-start content-start q-gutter-md"
                         >
                             <ModelCard
                                 v-for="model in results.data"
                                 :key="model.id"
-                                :model="model"
+                                :model="model as Person"
                             />
                         </div>
                         <div
@@ -154,7 +167,7 @@ const goToPage = (page) => {
                             <MovieCard
                                 v-for="movie in results.data"
                                 :key="movie.id"
-                                :movie="movie"
+                                :movie="movie as Movie"
                             />
                         </div>
                     </div>

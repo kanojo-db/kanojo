@@ -1,12 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
 import MovieCard from '@/Components/MovieCard.vue';
 import StudioTabBar from '@/Components/StudioTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Movie, Paginated, People, Studio } from '@/types/models';
 import { useName } from '@/utils/item';
 
 defineOptions({
@@ -15,15 +16,15 @@ defineOptions({
 
 const props = defineProps({
     studio: {
-        type: Object,
+        type: Object as PropType<Studio>,
         required: true,
     },
     movies: {
-        type: Array,
+        type: Object as PropType<Paginated<Movie>>,
         required: true,
     },
     models: {
-        type: Array,
+        type: Array as PropType<People>,
         required: true,
     },
     movieCount: {
@@ -38,11 +39,17 @@ const name = useName(props.studio, locale);
 
 const currentPage = ref(props.movies.current_page);
 
-const goToPage = (page) => {
-    const pageLink = props.movies.links.find((link) => link.label == page);
+const goToPage = (page: number) => {
+    const pageLink = props.movies.links.find(
+        (link) => link.label === page.toString(),
+    );
 
     if (pageLink && pageLink.url) {
-        router.visit(pageLink.url, { preserveScroll: true, only: ['movies'] });
+        router.get(pageLink.url, undefined, {
+            only: ['movies'],
+            preserveScroll: true,
+            preserveState: true,
+        });
     }
 };
 </script>

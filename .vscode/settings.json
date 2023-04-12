@@ -10,5 +10,6 @@
     "eslint.lintTask.enable": true,
     "eslint.lintTask.options": "--ext .js,.ts,.vue resources/js",
     "i18n-ally.enabledFrameworks": ["laravel", "vue"],
-    "i18n-ally.enabledParsers": ["js", "php"]
+    "i18n-ally.enabledParsers": ["js", "php"],
+    "i18n-ally.keystyle": "nested"
 }

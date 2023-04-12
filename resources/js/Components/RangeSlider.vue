@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import {
     BarElement,
     CategoryScale,
     Chart as ChartJS,
     LinearScale,
 } from 'chart.js';
-import { computed, ref } from 'vue';
+import { PropType, computed, ref } from 'vue';
 import { Bar } from 'vue-chartjs';
+
+import { Counts } from '@/types/internal';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
@@ -16,7 +18,7 @@ const props = defineProps({
         required: true,
     },
     counts: {
-        type: Array,
+        type: Array as PropType<Counts>,
         required: true,
     },
     leftLabelValue: {
@@ -108,7 +110,7 @@ const chartOptions = {
     },
 };
 
-function updateValue($event) {
+function updateValue($event: { min: number; max: number }) {
     value.value = $event;
     emit('update:modelValue', $event);
 }

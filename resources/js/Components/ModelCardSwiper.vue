@@ -1,12 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { PropType } from 'vue';
+
+import { People } from '@/types/models';
 
 import ModelCard from './ModelCard.vue';
 
 const props = defineProps({
     models: {
-        type: Array,
+        type: Array as PropType<People>,
         required: true,
     },
 });

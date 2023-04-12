@@ -1,18 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import {
     BarElement,
     CategoryScale,
     Chart as ChartJS,
     LinearScale,
 } from 'chart.js';
-import { computed } from 'vue';
+import { PropType, computed } from 'vue';
 import { Bar } from 'vue-chartjs';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
+interface Count {
+    value: number;
+    count: number;
+}
+
+type Counts = Count[];
+
 const props = defineProps({
     counts: {
-        type: Array,
+        type: Array as PropType<Counts>,
         required: true,
     },
     customValues: {

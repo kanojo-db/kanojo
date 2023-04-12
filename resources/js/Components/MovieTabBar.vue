@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useForm, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { PageProps } from '@/types/inertia';
 import { Movie } from '@/types/models';
 import { useTitle } from '@/utils/item';
 
@@ -19,15 +20,15 @@ const props = defineProps({
     },
 });
 
+const page = usePage<PageProps>();
+
 const locale = useI18n().locale.value;
 
 const title = useTitle(props.movie, locale);
 
-const component = computed(() => usePage()?.component);
-
 const fullUrl = ref(window.location.href.split('?')[0]);
 
-const isAdmin = useAdmin();
+const isAdmin = useAdmin(page?.props?.user);
 
 const $q = useQuasar();
 
@@ -53,16 +54,19 @@ const openReportDialog = () => {
         componentProps: {
             title: title,
             reportForm: reportForm,
-            onSubmit: () => {
-                reportForm.post(
-                    route('movies.reports.store', {
-                        movie: props.movie.slug,
-                    }),
-                );
-
-                reportForm.reset();
-            },
         },
+    }).onOk((data: typeof reportForm) => {
+        reportForm.type = data.type;
+        reportForm.message = data.message;
+        reportForm.public = data.public;
+
+        reportForm.post(
+            route('movies.reports.store', {
+                movie: props.movie.slug,
+            }),
+        );
+
+        reportForm.reset();
     });
 };
 </script>
@@ -106,7 +110,7 @@ const openReportDialog = () => {
             <q-btn
                 flat
                 :class="{
-                    'text-weight-bold': component === 'Movie/Media',
+                    'text-weight-bold': page?.component === 'Movie/Media',
                 }"
                 label="Media"
                 @click="

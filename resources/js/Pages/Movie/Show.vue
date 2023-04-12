@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { DateTime, Duration } from 'luxon';
-import { computed } from 'vue';
+import { PropType, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import ModelRoleCard from '@/Components/ModelRoleCard.vue';
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { PageProps } from '@/types/inertia';
+import { Movie } from '@/types/models';
 import { useFirstImage, useName, useTitle } from '@/utils/item';
 
 defineOptions({
@@ -15,7 +17,7 @@ defineOptions({
 
 const props = defineProps({
     movie: {
-        type: Object,
+        type: Object as PropType<Movie>,
         required: true,
     },
 });
@@ -27,21 +29,29 @@ const isVrMovie = computed(() => {
 });
 
 const movieReleaseDate = computed(() => {
+    if (!props.movie.release_date) {
+        return null;
+    }
+
     return DateTime.fromISO(props.movie.release_date).toLocaleString(
         DateTime.DATE_SHORT,
     );
 });
 
 const movieDuration = computed(() => {
+    if (!props.movie.length) {
+        return null;
+    }
+
     return Duration.fromObject({ minutes: props.movie.length });
 });
 
-const page = computed(() => usePage());
+const page = usePage<PageProps>();
 
 const hasLiked = computed(() => {
     const userLike = props.movie?.love_reactant?.reactions.filter(
         (reaction) => {
-            return reaction.reacter.reacterable.id === page.value.props.user.id;
+            return reaction.reacter.reacterable.id === page?.props?.user?.id;
         },
     );
 
@@ -51,7 +61,7 @@ const hasLiked = computed(() => {
 const hasDisliked = computed(() => {
     const userDislike = props.movie?.love_reactant?.reactions.filter(
         (reaction) => {
-            return reaction.reacter.reacterable.id === page.value.props.user.id;
+            return reaction.reacter.reacterable.id === page?.props?.user?.id;
         },
     );
 
@@ -176,12 +186,12 @@ const groupedTags = computed(() => {
                                 {{ movieReleaseDate }}
                             </span>
                             <span
-                                v-if="movie.length > 0"
+                                v-if="movie.length"
                                 itemprop="duration"
                                 class="text-body1 q-mt-none"
                             >
                                 {{
-                                    movieDuration.toHuman({
+                                    movieDuration?.toHuman({
                                         unitDisplay: 'short',
                                     })
                                 }}

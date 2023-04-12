@@ -1,12 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { PropType } from 'vue';
+
+import { Movies } from '@/types/models';
 
 import MovieCard from './MovieCard.vue';
 
 const props = defineProps({
     movies: {
-        type: Array,
+        type: Array as PropType<Movies>,
         required: true,
     },
 });

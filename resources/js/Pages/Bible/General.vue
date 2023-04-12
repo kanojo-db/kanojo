@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import SidemenuBibleGeneral from '@/Components/SidemenuBibleGeneral.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 

@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
+import { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Person } from '@/types/models';
 import { useFirstImage, useName } from '@/utils/item';
 
 defineOptions({
@@ -13,7 +15,7 @@ defineOptions({
 
 const props = defineProps({
     model: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
     history: {

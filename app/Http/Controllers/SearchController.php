@@ -22,10 +22,14 @@ class SearchController extends Controller
             'modelsResults' => function () use ($validatedData): LengthAwarePaginator {
                 return Person::search($validatedData['q'])->query(function (Builder $query): Builder {
                     return $query->with('media');
-                })->paginate(25);
+                })
+                ->paginate(25)
+                ->appends(request()->query());
             },
             'moviesResults' => function () use ($validatedData): LengthAwarePaginator {
-                return Movie::search($validatedData['q'])->paginate(25);
+                return Movie::search($validatedData['q'])
+                    ->paginate(25)
+                    ->appends(request()->query());
             },
         ]);
     }

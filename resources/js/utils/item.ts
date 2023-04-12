@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 
-import type { Movie, Person } from '@/types/models';
+import type { Movie, Person, Studio } from '@/types/models';
 
 export function cleanLocale(locale: string) {
     return locale.replace('!', '');
@@ -43,7 +43,7 @@ export function useTitle(movie: Movie, locale: string) {
  * @param {*} item - The item to get the name from.
  * @returns {string} - The name of the item.
  */
-export function getName(item: Person, locale: string): string {
+export function getName(item: Person | Studio, locale: string): string {
     return item.name[locale] ? item.name[locale] : item.name['ja-JP'];
 }
 
@@ -55,7 +55,7 @@ export function getName(item: Person, locale: string): string {
  * @param {*} item - The item to get the name from.
  * @returns {string} - The name of the item.
  */
-export function useName(item: Person, locale: string) {
+export function useName(item: Person | Studio, locale: string) {
     // In case this has fallback suppression, clean the locale
     locale = cleanLocale(locale);
 

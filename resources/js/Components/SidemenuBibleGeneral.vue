@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
+
+import { PageProps } from '@/types/inertia';
+
+const page = usePage<PageProps>();
+</script>
+
 <template>
     <q-card
         flat
@@ -16,7 +24,7 @@
                 clickable
                 :class="{
                     'text-weight-bold text-primary':
-                        $page.component === 'Bible/Generalt',
+                        page?.component === 'Bible/Generalt',
                 }"
             >
                 <q-item-section>

@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import { PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { Person } from '@/types/models';
 import { useFirstImage, useName } from '@/utils/item';
 
 const props = defineProps({
     model: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
 });

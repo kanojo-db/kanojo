@@ -51,15 +51,6 @@ const mediaUploadForm = useForm({
     collection_name: currentCollectionName.value,
 });
 
-const mediaFormSubmit = () => {
-    mediaUploadForm.post(route('movies.media.store', { movie: props.movie }), {
-        preserveScroll: true,
-        onSuccess: () => {
-            router.reload();
-        },
-    });
-};
-
 const $q = useQuasar();
 
 const openMediaUploadDialog = () => {
@@ -67,8 +58,20 @@ const openMediaUploadDialog = () => {
         component: DialogMediaUpload,
         componentProps: {
             uploadForm: mediaUploadForm,
-            onSubmit: mediaFormSubmit,
         },
+    }).onOk((data: typeof mediaUploadForm) => {
+        mediaUploadForm.media = data.media;
+        mediaUploadForm.collection_name = data.collection_name;
+
+        mediaUploadForm.post(
+            route('movies.media.store', { movie: props.movie }),
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    router.reload();
+                },
+            },
+        );
     });
 };
 </script>
@@ -165,9 +168,9 @@ const openMediaUploadDialog = () => {
                                 })
                             "
                         >
-                            <q-item-section>{{
-                                $t(`web.media.types.${collectionType}`)
-                            }}</q-item-section>
+                            <q-item-section>
+                                {{ $t(`web.media.types.${collectionType}`) }}
+                            </q-item-section>
                             <q-item-section side>
                                 <q-chip class="bg-grey-6 text-white">
                                     {{

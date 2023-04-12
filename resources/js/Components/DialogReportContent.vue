@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar';
+import { reactive } from 'vue';
 
 const props = defineProps({
     title: {
@@ -10,18 +11,17 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    onSubmit: {
-        type: Function,
-        required: true,
-    },
 });
 
-defineEmits([...useDialogPluginComponent.emits]);
+const emit = defineEmits([...useDialogPluginComponent.emits]);
+
+const reportForm = reactive(props.reportForm);
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 
 function onOKClick() {
-    props.onSubmit();
+    emit('ok', reportForm);
+
     onDialogOK();
 }
 </script>

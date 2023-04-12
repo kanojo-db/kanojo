@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ValueCountGraph from '@/Components/ValueCountGraph.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 

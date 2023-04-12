@@ -1,3 +1,7 @@
+interface sluggable {
+    slug: string;
+}
+
 export interface ContentReport {
     // columns
     id: number;
@@ -8,9 +12,9 @@ export interface ContentReport {
     message: string;
     public: boolean;
     resolved: boolean;
-    created_at: Date | null;
-    updated_at: Date | null;
-    deleted_at: Date | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
     // relations
     reportable: ContentReport;
     reporter: User;
@@ -21,20 +25,19 @@ interface TranslatableString {
     [index: string]: string;
 }
 
-export interface Movie {
+export interface Movie extends sluggable {
     // columns
     id: number;
     title: TranslatableString;
     product_code: string;
-    release_date: Date | null;
+    release_date: string | null;
     length: number | null;
     studio_id: number | null;
     type_id: number | null;
-    created_at: Date | null;
-    updated_at: Date | null;
+    created_at: string;
+    updated_at: string;
     love_reactant_id: number | null;
-    slug: string | null;
-    deleted_at: Date | null;
+    deleted_at: string;
     // mutators
     translations: unknown;
     // relations
@@ -54,32 +57,32 @@ export interface MovieType {
     // columns
     id: number;
     name: string;
-    created_at: Date | null;
-    updated_at: Date | null;
+    created_at: string;
+    updated_at: string;
     // relations
     movies: Movies;
 }
 export type MovieTypes = MovieType[];
 
-export interface Person {
+export interface Person extends sluggable {
     // columns
     id: number;
     name: TranslatableString;
-    birthdate: Date | null;
-    career_start: Date | null;
-    career_end: Date | null;
-    height: boolean | null;
-    bust: boolean | null;
-    waist: boolean | null;
-    hip: boolean | null;
+    birthdate: string | null;
+    career_start: string | null;
+    career_end: string | null;
+    height: number | null;
+    bust: number | null;
+    waist: number | null;
+    hip: number | null;
     blood_type: string | null;
     cup_size: string | null;
     breast_implants: boolean | null;
     country: string | null;
-    created_at: Date | null;
-    updated_at: Date | null;
+    created_at: string;
+    updated_at: string;
     dob_doubt: boolean;
-    deleted_at: Date | null;
+    deleted_at: string;
     // mutators
     translations: unknown;
     // relations
@@ -90,14 +93,14 @@ export interface Person {
 }
 export type People = Person[];
 
-export interface Studio {
+export interface Studio extends sluggable {
     // columns
     id: number;
     name: TranslatableString;
-    founded_date: Date | null;
-    created_at: Date | null;
-    updated_at: Date | null;
-    deleted_at: Date | null;
+    founded_date: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
     // mutators
     translations: unknown;
     // relations
@@ -112,18 +115,18 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    email_verified_at: Date | null;
+    email_verified_at: string | null;
     password?: string;
     two_factor_secret?: string | null;
     two_factor_recovery_codes?: string | null;
-    two_factor_confirmed_at: Date | null;
+    two_factor_confirmed_at: string | null;
     remember_token?: string | null;
     current_team_id: number | null;
     profile_photo_path: string | null;
-    created_at: Date | null;
-    updated_at: Date | null;
+    created_at: string;
+    updated_at: string;
     love_reacter_id: number | null;
-    deleted_at: Date | null;
+    deleted_at: string;
     // relations
     favorites: Movies;
     wishlist: Movies;
@@ -150,3 +153,25 @@ export interface UserRole {
     updated_at: string;
 }
 export type UserRoles = UserRole[];
+
+export interface PaginationLink {
+    active: boolean;
+    label: string;
+    url?: string;
+}
+
+export interface Paginated<T = unknown> {
+    current_page: number;
+    data: T[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: PaginationLink[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}

@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 
 import MovieCard from '@/Components/MovieCard.vue';
 import RangeSlider from '@/Components/RangeSlider.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Counts } from '@/types/internal';
+import { Movie, Paginated } from '@/types/models';
 
 defineOptions({
     layout: AppLayout,
@@ -12,11 +14,11 @@ defineOptions({
 
 const props = defineProps({
     movies: {
-        type: Object,
+        type: Object as PropType<Paginated<Movie>>,
         required: true,
     },
     ageCounts: {
-        type: Object,
+        type: Array as PropType<Counts>,
         required: true,
     },
 });
@@ -33,11 +35,17 @@ const ageRange = ref({
 
 const currentPage = ref(props.movies.current_page);
 
-const goToPage = (page) => {
-    const pageLink = props.movies.links.find((link) => link.label == page);
+const goToPage = (page: number) => {
+    const pageLink = props.movies.links.find(
+        (link) => link.label === page.toString(),
+    );
 
     if (pageLink && pageLink.url) {
-        router.get(pageLink.url);
+        router.get(pageLink.url, undefined, {
+            only: ['movies'],
+            preserveState: true,
+            preserveScroll: true,
+        });
     }
 };
 
@@ -50,7 +58,7 @@ function applyFilters() {
         params['filter[age]'] = `${ageRange.value.min},${ageRange.value.max}`;
     }
 
-    router.visit(
+    router.get(
         route('movies.index'),
         { data: params },
         {

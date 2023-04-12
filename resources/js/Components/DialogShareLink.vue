@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar';
+import { ref } from 'vue';
 
 const props = defineProps({
     url: {
@@ -12,9 +13,11 @@ const props = defineProps({
     },
 });
 
+const url = ref(props.url);
+
 defineEmits([...useDialogPluginComponent.emits]);
 
-const { dialogRef, onDialogHide } = useDialogPluginComponent();
+const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 </script>
 
 <template>
@@ -44,10 +47,10 @@ const { dialogRef, onDialogHide } = useDialogPluginComponent();
             <q-card-section>
                 <q-form
                     class="row"
-                    @submit.prevent="onOKClick"
+                    @submit.prevent="onDialogOK"
                 >
                     <q-input
-                        v-model="props.url"
+                        v-model="url"
                         readonly
                         :label="$t('web.dialogs.share_link.url')"
                         class="col-12"

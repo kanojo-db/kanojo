@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import MovieCard from '@/Components/MovieCard.vue';
 import PersonTabBar from '@/Components/PersonTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Movie, Paginated, Person } from '@/types/models';
 import { useFirstImage, useName } from '@/utils/item';
 
 defineOptions({
@@ -14,7 +15,7 @@ defineOptions({
 
 const props = defineProps({
     person: {
-        type: Object,
+        type: Object as PropType<Person>,
         required: true,
     },
     movieCount: {
@@ -22,7 +23,7 @@ const props = defineProps({
         required: true,
     },
     movies: {
-        type: Array,
+        type: Object as PropType<Paginated<Movie>>,
         required: true,
     },
 });
@@ -35,11 +36,13 @@ const locale = useI18n().locale.value;
 
 const name = useName(props.person, locale);
 
-const goToPage = (page) => {
-    const pageLink = props.movies.links.find((link) => link.label == page);
+const goToPage = (page: number) => {
+    const pageLink = props.movies.links.find(
+        (link) => link.label === page.toString(),
+    );
 
     if (pageLink && pageLink.url) {
-        router.visit(pageLink.url, {
+        router.get(pageLink.url, undefined, {
             preserveScroll: true,
             preserveState: true,
             only: ['movies'],

@@ -14,7 +14,8 @@
             "@types/node",
             "@types/ziggy-js",
             "unplugin-vue-define-options/macros-global",
-            "vitest/globals"
+            "vitest/globals",
+            "vite/client"
         ],
         "paths": {
             "@/*": ["./resources/js/*"]
