@@ -18,10 +18,10 @@ class AboutKanojo extends Controller
      */
     public function index(): Response
     {
-        $movie_per_year_count = Movie::select(
+        $movie_per_year_count = Movie::select([
             DB::raw('YEAR(release_date) AS value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('release_date', '!=', null)
         ->groupBy(
             DB::raw('value')
@@ -31,10 +31,10 @@ class AboutKanojo extends Controller
         )
         ->get();
 
-        $birth_counts = Person::select(
+        $birth_counts = Person::select([
             DB::raw('YEAR(birthdate) AS value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('birthdate', '!=', null)
         ->groupBy(
             DB::raw('value')
@@ -44,46 +44,46 @@ class AboutKanojo extends Controller
         )
         ->get();
 
-        $height_counts = Person::select(
+        $height_counts = Person::select([
             DB::raw('height as value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('height', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
         ->get();
 
-        $bust_counts = Person::select(
+        $bust_counts = Person::select([
             DB::raw('bust as value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('bust', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
         ->get();
 
-        $waist_counts = Person::select(
+        $waist_counts = Person::select([
             DB::raw('waist as value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('waist', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
         ->get();
 
-        $hip_counts = Person::select(
+        $hip_counts = Person::select([
             DB::raw('hip as value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('hip', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
         ->get();
 
-        $cup_counts = Person::select(
+        $cup_counts = Person::select([
             DB::raw('cup_size as value'),
             DB::raw('COUNT(*) AS count')
-        )
+        ])
         ->where('cup_size', '!=', null)
         ->groupBy('value')
         ->orderBy('value')

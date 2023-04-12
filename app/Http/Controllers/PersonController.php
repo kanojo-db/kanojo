@@ -44,10 +44,10 @@ class PersonController extends Controller
                     ->appends(request()->query());
             },
             'birthCounts' => function (): Collection {
-                return Person::select(
+                return Person::select([
                     DB::raw('YEAR(birthdate) AS value'),
                     DB::raw('COUNT(*) AS count')
-                )
+                ])
                 ->where('birthdate', '!=', null)
                 ->groupBy(
                     DB::raw('value')
@@ -58,40 +58,40 @@ class PersonController extends Controller
                 ->get();
             },
             'heightCounts' => function (): Collection {
-                return Person::select(
+                return Person::select([
                     DB::raw('height as value'),
                     DB::raw('COUNT(*) AS count')
-                )
+                ])
                 ->where('height', '!=', null)
                 ->groupBy('value')
                 ->orderBy('value')
                 ->get();
             },
             'bustCounts' => function (): Collection {
-                return Person::select(
+                return Person::select([
                     DB::raw('bust as value'),
                     DB::raw('COUNT(*) AS count')
-                )
+                ])
                 ->where('bust', '!=', null)
                 ->groupBy('value')
                 ->orderBy('value')
                 ->get();
             },
             'waistCounts' => function (): Collection {
-                return Person::select(
+                return Person::select([
                     DB::raw('waist as value'),
                     DB::raw('COUNT(*) AS count')
-                )
+                ])
                 ->where('waist', '!=', null)
                 ->groupBy('value')
                 ->orderBy('value')
                 ->get();
             },
             'hipCounts' => function (): Collection {
-                return Person::select(
+                return Person::select([
                     DB::raw('hip as value'),
                     DB::raw('COUNT(*) AS count')
-                )
+                ])
                     ->where('hip', '!=', null)
                     ->groupBy('value')
                     ->orderBy('value')

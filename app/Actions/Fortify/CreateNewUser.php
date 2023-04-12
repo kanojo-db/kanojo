@@ -15,9 +15,6 @@ class CreateNewUser implements CreatesNewUsers
 
     /**
      * Validate and create a newly registered user.
-     * 
-     * @param  array<string, string>  $input
-     * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function create(array $input): User
     {
