@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\Filter;
 
 /**
- * @template-implements Filter<Movie>
+ * @template-implements Spatie\QueryBuilder\Filters\Filter<Movie>
  */
 class FiltersFeaturedModelAge implements Filter
 {

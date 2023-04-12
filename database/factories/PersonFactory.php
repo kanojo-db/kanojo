@@ -7,12 +7,15 @@ namespace Database\Factories;
 use App\Models\Person;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<\App\Models\Person>
+ */
 class PersonFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Illuminate\Database\Eloquent\Model|TModel>
+     * @var mixed
      */
     protected $model = Person::class;
 

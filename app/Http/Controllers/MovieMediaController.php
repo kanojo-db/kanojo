@@ -20,6 +20,7 @@ class MovieMediaController extends Controller
     {
         $movie->load('media');
 
+        /** @var string $collectionName */
         $collectionName = request()->query('type', MediaCollectionType::FrontCover->value);
 
         $images = $movie->getMedia($collectionName);

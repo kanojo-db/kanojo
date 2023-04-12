@@ -50,8 +50,8 @@ class WelcomeController extends Controller
             'modelCount' => Person::count(),
             'tagCount' => \Spatie\Tags\Tag::count(),
             'topUsers' => function (): mixed {
-                $topUsers = User::withCount('audits')
-                    ->orderBy('audits_count', 'desc')
+                $topUsers = User::orderBy('audits_count', 'desc')
+                    ->withCount('audits')
                     ->take(10)
                     ->get();
 

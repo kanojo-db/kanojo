@@ -40,8 +40,6 @@ class ComputeModelsAges extends Command
                 try {
                     $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
 
-                    $this->info('Setting age for '.$model->name.' in '.$movie->product_code.' to '.$age);
-
                     $movie->models()->updateExistingPivot($model->id, ['age' => $age]);
                 } catch (\Throwable $th) {
                     $this->error('Error when setting age: '.$th->getMessage());

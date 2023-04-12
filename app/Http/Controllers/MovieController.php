@@ -47,9 +47,6 @@ class MovieController extends Controller
                     ->defaultSort('-created_at')
                     ->allowedSorts(['created_at', 'product_code'])
                     ->allowedFilters([
-                        /**
-                         * @psalm-suppress InvalidArgument -- FiltersFeaturedModelAge implements Filter
-                         */
                         AllowedFilter::custom('age', new FiltersFeaturedModelAge),
                     ])
                     ->paginate(25)

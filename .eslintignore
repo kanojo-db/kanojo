@@ -1,4 +1,5 @@
 resources/js/vue-i18n-locales.generated.js
+resources/js/ziggy.js
 .eslintrc.js
 cookie-consent.js
 public/vendor/**/*

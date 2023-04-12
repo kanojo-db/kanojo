@@ -7,12 +7,15 @@ namespace Database\Factories;
 use App\Models\Movie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<\App\Models\Movie>
+ */
 class MovieFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Illuminate\Database\Eloquent\Model|TModel>
+     * @var mixed
      */
     protected $model = Movie::class;
 
