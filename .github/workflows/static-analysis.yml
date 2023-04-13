@@ -42,8 +42,8 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{matrix.language}}"
-  psalm:
-    name: Psalm
+  phpstan:
+    name: PHPStan
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -55,9 +55,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v3.3.0
-
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -75,18 +72,6 @@ jobs:
       - name: Install dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Generate application key
-        run: php artisan key:generate
-
-      - name: Set directory permissions
-        run: chmod -R 777 storage bootstrap/cache
-
-      - name: Create database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
-          php artisan migrate
-
       - name: Generate IDE helper files
         run: |
           php artisan ide-helper:eloquent
@@ -94,8 +79,9 @@ jobs:
           php artisan ide-helper:meta
           php artisan ide-helper:models
 
-      - name: Run psalm
-        run: ./vendor/bin/psalm --output-format=github --no-cache --no-diff
+      - name: Run PHPStan
+        run: |
+          ./vendor/bin/phpstan analyse --memory-limit=2G --error-format=github
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
