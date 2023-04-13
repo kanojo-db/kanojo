@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\MovieType;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StoreMovieRequest extends FormRequest
@@ -21,11 +20,13 @@ class StoreMovieRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<int, \Illuminate\Contracts\Validation\ValidationRule|string>>
      */
     public function rules(): array
     {
         /** @var int[] */
-        $validTypes = MovieType::all(['id'])->pluck('id');
+        $validTypes = MovieType::all(['id'])->toArray();
 
         return [
             'studio_id' => ['nullable', 'integer', 'exists:studios,id'],

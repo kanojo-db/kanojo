@@ -49,6 +49,8 @@ class Person extends Model implements AuditableContract, HasMedia
 
     /**
      * Content reports concerning this person.
+     *
+     * @return MorphMany<ContentReport>
      */
     public function reports(): MorphMany
     {
@@ -57,6 +59,8 @@ class Person extends Model implements AuditableContract, HasMedia
 
     /**
      * Movies this person has featured in.
+     *
+     * @return BelongsToMany<Movie>
      */
     public function movies(): BelongsToMany
     {
@@ -86,6 +90,9 @@ class Person extends Model implements AuditableContract, HasMedia
 
     /**
      * Scope to filter persons born between two dates.
+     *
+     * @param  Builder<Person>  $query
+     * @return Builder<Person>
      */
     public function scopeBornBetween(Builder $query, string $startDate, string $endDate): Builder
     {

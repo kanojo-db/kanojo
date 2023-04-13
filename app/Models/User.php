@@ -40,8 +40,6 @@ class User extends Authenticatable implements ReacterableInterface
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var array<array-key, string>
      */
     protected $hidden = [
         'password',
@@ -58,9 +56,7 @@ class User extends Authenticatable implements ReacterableInterface
     protected $with = ['roles'];
 
     /**
-     * The attributes that should be automatically cast to specific types.
-     *
-     * @var array<array-key, mixed>
+     * {@inheritDoc}
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -68,6 +64,8 @@ class User extends Authenticatable implements ReacterableInterface
 
     /**
      * Get the favorite movies for the user.
+     *
+     * @return BelongsToMany<Movie>
      */
     public function favorites(): BelongsToMany
     {
@@ -76,6 +74,8 @@ class User extends Authenticatable implements ReacterableInterface
 
     /**
      * Get the wishlisted movies for the user.
+     *
+     * @return BelongsToMany<Movie>
      */
     public function wishlist(): BelongsToMany
     {
@@ -84,12 +84,19 @@ class User extends Authenticatable implements ReacterableInterface
 
     /**
      * Get the user's movie collection.
+     *
+     * @return BelongsToMany<Movie>
      */
     public function collection(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'movie_user_collection');
     }
 
+    /**
+     * Get the user's edit history.
+     *
+     * @return HasMany<Audit>
+     */
     public function audits(): HasMany
     {
         return $this->hasMany(Audit::class);

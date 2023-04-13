@@ -59,7 +59,7 @@ class WelcomeController extends Controller
                     return [
                         'id' => $user->id,
                         'name' => $user->name,
-                        'total_audits' => $user->audits_count,
+                        'total_audits' => $user->getAttribute('audits_count'),
                         'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
                     ];
                 });

@@ -35,6 +35,11 @@ class MovieController extends Controller
         return Inertia::render('Movie/Index', [
             'movies' => function (): LengthAwarePaginator {
                 return QueryBuilder::for(Movie::class)
+                    ->defaultSort('-created_at')
+                    ->allowedSorts(['created_at', 'product_code'])
+                    ->allowedFilters([
+                        AllowedFilter::custom('age', new FiltersFeaturedModelAge),
+                    ])
                     ->with([
                         'media',
                         'models',
@@ -43,11 +48,6 @@ class MovieController extends Controller
                         'loveReactant.reactions.type',
                         'loveReactant.reactionCounters',
                         'loveReactant.reactionTotal',
-                    ])
-                    ->defaultSort('-created_at')
-                    ->allowedSorts(['created_at', 'product_code'])
-                    ->allowedFilters([
-                        AllowedFilter::custom('age', new FiltersFeaturedModelAge),
                     ])
                     ->paginate(25)
                     ->appends(request()->query());
@@ -128,20 +128,25 @@ class MovieController extends Controller
 
         // If it's in the user's favorites, mark it as such
         if (Auth::check() && $user !== null) {
-            $movieRecord->is_favorite = $user->favorites->contains($movieRecord);
+            $inFavorites = $user->favorites->contains($movieRecord);
         }
 
         // If it's in the user's wishlist, mark it as such
         if (Auth::check() && $user !== null) {
-            $movieRecord->is_wishlist = $user->wishlist->contains($movieRecord);
+            $inWishlist = $user->wishlist->contains($movieRecord);
         }
 
         // If it's in the user's collection list, mark it as such
         if (Auth::check() && $user !== null) {
-            $movieRecord->is_collection = $user->collection->contains($movieRecord);
+            $inCollection = $user->collection->contains($movieRecord);
         }
 
-        return Inertia::render('Movie/Show', ['movie' => $movieRecord]);
+        return Inertia::render('Movie/Show', [
+            'movie' => $movieRecord,
+            'inFavorites' => $inFavorites ?? false,
+            'inWishlist' => $inWishlist ?? false,
+            'inCollection' => $inCollection ?? false,
+        ]);
     }
 
     /**
@@ -177,7 +182,7 @@ class MovieController extends Controller
         // If release_date was changed and we have models linked, update the ages
         if ($movie->wasChanged('release_date') && $movie->models()->count() > 0) {
             foreach ($movie->models as $model) {
-                if ($model->birthday === null) {
+                if ($model->birthdate === null) {
                     continue;
                 }
 

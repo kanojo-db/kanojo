@@ -37,7 +37,11 @@ class ZiggyTypescriptCommand extends Command
     private function generate(): string
     {
         $ziggy = (new Ziggy(false, null));
-        $routes = collect($ziggy->toArray()['routes'])
+
+        /** @var array<string, array<string, string>> */
+        $ziggyRoutes = $ziggy->toArray()['routes'];
+
+        $routes = collect($ziggyRoutes)
             ->map(function ($route, $key) {
                 $methods = json_encode($route['methods'] ?? []);
 

@@ -9,7 +9,7 @@
         "mikestead.dotenv",
         "onecentlin.laravel5-snippets",
         "lokalise.i18n-ally",
-        "getpsalm.psalm-vscode-plugin",
+        "SanderRonde.phpstan-vscode",
         "open-southeners.laravel-pint"
     ]
 }

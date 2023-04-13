@@ -44,14 +44,17 @@ class Studio extends Model implements AuditableContract, HasMedia
     public $translatable = ['name'];
 
     /**
-     * The attributes that should be automatically cast to specific types.
-     *
-     * @var array<array-key, mixed>
+     * {@inheritDoc}
      */
     protected $casts = [
         'movies' => DataCollection::class.':'.MovieData::class,
     ];
 
+    /**
+     * Get the movies for the studio.
+     *
+     * @return HasMany<Movie>
+     */
     public function movies(): HasMany
     {
         return $this->hasMany(Movie::class);

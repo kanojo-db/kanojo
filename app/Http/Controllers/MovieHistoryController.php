@@ -15,8 +15,12 @@ class MovieHistoryController extends Controller
      */
     public function index(Movie $movie): Response
     {
-        $movie->load(['media', 'audits']);
+        $movie->load(['media']);
 
-        return Inertia::render('Movie/History', ['movie' => $movie, 'history' => $movie->audits()->orderBy('updated_at', 'DESC')->get()]);
+        $movie->load(['audits' => function ($query) {
+            $query->latest()->paginate(10);
+        }]);
+
+        return Inertia::render('Movie/History', ['movie' => $movie]);
     }
 }

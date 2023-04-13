@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Cog\Laravel\Love\Reactant\ReactionCounter\Models\ReactionCounter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Spatie\Tags\Tag;
 use Throwable;
 
 class MovieDetailsController extends Controller
@@ -50,10 +49,10 @@ class MovieDetailsController extends Controller
         $language = request()->query('language', 'en-US');
 
         // We only need the id and name of the tags
-        $genres = $movie->tags->map(function (Tag $tag) use ($language) {
+        $genres = $movie->tags->map(function ($tag) use ($language) {
             return [
-                'id' => $tag->id,
-                'name' => $tag->getTranslation('name', $language, true),
+                'id' => $tag->getAttribute('id'),
+                'name' => $tag->getAttribute('name')->getTranslation($language, true),
             ];
         });
 
@@ -69,7 +68,7 @@ class MovieDetailsController extends Controller
         // Get the vote data
         try {
             $votes = $movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
-                return $vote->count;
+                return $vote->getAttribute('count');
             });
             $total = $movie->loveReactant->reactionTotal;
         } catch (Throwable $t) {
@@ -136,7 +135,7 @@ class MovieDetailsController extends Controller
             'studios' => $studio,
             'title' => $movie->getTranslation('title', $language, true),
             'vote_average' => $votes !== null ? $votes->avg() * 100 : null,
-            'vote_count' => $total !== null ? $total->count : null,
+            'vote_count' => $total !== null ? $total->getAttribute('count') : null,
         ]);
     }
 }

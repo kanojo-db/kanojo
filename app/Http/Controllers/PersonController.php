@@ -46,7 +46,7 @@ class PersonController extends Controller
             'birthCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('YEAR(birthdate) AS value'),
-                    DB::raw('COUNT(*) AS count')
+                    DB::raw('COUNT(*) AS count'),
                 ])
                 ->where('birthdate', '!=', null)
                 ->groupBy(
@@ -60,7 +60,7 @@ class PersonController extends Controller
             'heightCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('height as value'),
-                    DB::raw('COUNT(*) AS count')
+                    DB::raw('COUNT(*) AS count'),
                 ])
                 ->where('height', '!=', null)
                 ->groupBy('value')
@@ -70,7 +70,7 @@ class PersonController extends Controller
             'bustCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('bust as value'),
-                    DB::raw('COUNT(*) AS count')
+                    DB::raw('COUNT(*) AS count'),
                 ])
                 ->where('bust', '!=', null)
                 ->groupBy('value')
@@ -80,7 +80,7 @@ class PersonController extends Controller
             'waistCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('waist as value'),
-                    DB::raw('COUNT(*) AS count')
+                    DB::raw('COUNT(*) AS count'),
                 ])
                 ->where('waist', '!=', null)
                 ->groupBy('value')
@@ -90,7 +90,7 @@ class PersonController extends Controller
             'hipCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('hip as value'),
-                    DB::raw('COUNT(*) AS count')
+                    DB::raw('COUNT(*) AS count'),
                 ])
                     ->where('hip', '!=', null)
                     ->groupBy('value')
@@ -102,8 +102,6 @@ class PersonController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\Person  $person
      */
     public function show(Person $model): Response
     {

@@ -10,6 +10,8 @@ trait PasswordValidationRules
 {
     /**
      * Get the validation rules used to validate passwords.
+     *
+     * @return array<array-key, \Illuminate\Contracts\Validation\ValidationRule|string>
      */
     protected function passwordRules(): array
     {

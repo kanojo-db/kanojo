@@ -21,47 +21,49 @@ use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 class StudioData extends Data
 {
     public function __construct(
-      public ?int $id,
-      public string|Optional $name,
-      public string|Optional $originalName,
-      public array|Optional|Lazy $allNames,
+        public ?int $id,
+        public string|Optional $name,
+        public string|Optional $originalName,
+        /** @var array<string, string>|Optional|Lazy */
+        public array|Optional|Lazy $allNames,
 
-      #[WithCast(DateTimeInterfaceCast::class)]
-      #[WithTransformer(DateTimeInterfaceTransformer::class)]
-      public Carbon|Optional|Lazy $founded,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public Carbon|Optional|Lazy $founded,
 
-      #[DataCollectionOf(MovieData::class)]
-      public DataCollection|Lazy $movies,
+        /** @var DataCollection<array-key, MovieData>|Lazy */
+        #[DataCollectionOf(MovieData::class)]
+        public DataCollection|Lazy $movies,
 
-      #[WithCast(DateTimeInterfaceCast::class)]
-      #[WithTransformer(DateTimeInterfaceTransformer::class)]
-      public CarbonImmutable|Optional|Lazy $createdAt,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public CarbonImmutable|Optional|Lazy $createdAt,
 
-      #[WithCast(DateTimeInterfaceCast::class)]
-      #[WithTransformer(DateTimeInterfaceTransformer::class)]
-      public CarbonImmutable|Optional|Lazy $updatedAt,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public CarbonImmutable|Optional|Lazy $updatedAt,
 
-      #[WithCast(DateTimeInterfaceCast::class)]
-      #[WithTransformer(DateTimeInterfaceTransformer::class)]
-      public CarbonImmutable|Optional|Lazy $deletedAt,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public CarbonImmutable|Optional|Lazy $deletedAt,
 
     ) {
     }
 
     public static function fromModel(Studio $studio): self
     {
-      $locale = App::getLocale();
-      
-      return new self(
-        $studio->id,
-        (string) $studio->getTranslation('name', $locale, true),
-        (string) $studio->getTranslation('name', 'ja-JP', false),
-        Lazy::create(fn () => $studio->getTranslations('title')),
-        Lazy::create(fn () => $studio->founded_date ?? Optional::create()),
-        Lazy::create(fn (): DataCollection => $studio->movies),
-        Lazy::create(fn () => $studio->created_at ?? Optional::create()),
-        Lazy::create(fn () => $studio->updated_at ?? Optional::create()),
-        Lazy::create(fn () => $studio->deleted_at ?? Optional::create()),
-      );
+        $locale = App::getLocale();
+
+        return new self(
+            $studio->id,
+            (string) $studio->getTranslation('name', $locale, true),
+            (string) $studio->getTranslation('name', 'ja-JP', false),
+            Lazy::create(fn () => $studio->getTranslations('title')),
+            Lazy::create(fn () => $studio->founded_date ?? Optional::create()),
+            Lazy::create(fn (): DataCollection => ModelData::collection($studio->movies)),
+            Lazy::create(fn () => $studio->created_at ?? Optional::create()),
+            Lazy::create(fn () => $studio->updated_at ?? Optional::create()),
+            Lazy::create(fn () => $studio->deleted_at ?? Optional::create()),
+        );
     }
 }

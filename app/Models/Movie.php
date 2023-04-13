@@ -57,9 +57,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     protected $with = ['type'];
 
     /**
-     * The attributes that should be automatically cast to specific types.
-     *
-     * @var array<array-key, mixed>
+     * {@inheritDoc}
      */
     protected $casts = [
     ];
@@ -101,6 +99,8 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Production studio for the movie.
+     *
+     * @return BelongsTo<Studio, Movie>
      */
     public function studio(): BelongsTo
     {
@@ -109,6 +109,8 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Type of the movie.
+     *
+     * @return BelongsTo<MovieType, Movie>
      */
     public function type(): BelongsTo
     {
@@ -129,6 +131,8 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Models features in the movie.
+     *
+     * @return BelongsToMany<Person>
      */
     public function models(): BelongsToMany
     {
@@ -151,6 +155,9 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  Builder<Movie>  $query
+     * @return Builder<Movie>
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -159,6 +166,9 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
 
     /**
      * Hides movies of a certain category according to user preferences.
+     *
+     * @param  Builder<Movie>  $query
+     * @return Builder<Movie>
      */
     public function scopeFilterHidden(Builder $query): Builder
     {

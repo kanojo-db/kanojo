@@ -28,6 +28,11 @@ class MovieType extends Model
         'name',
     ];
 
+    /**
+     * Get the movies of this type.
+     *
+     * @return HasMany<Movie>
+     */
     public function movies(): HasMany
     {
         return $this->hasMany(Movie::class);

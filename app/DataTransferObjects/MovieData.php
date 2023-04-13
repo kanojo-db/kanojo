@@ -23,35 +23,37 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class MovieData extends Data
 {
     public function __construct(
-    public ?int $id,
-    public string|Optional $title,
-    public string|Optional $originalTitle,
-    public array|Optional|Lazy $allTitles,
-    public string $productCode,
+        public ?int $id,
+        public string|Optional $title,
+        public string|Optional $originalTitle,
+        /** @var array<string, string>|Optional|Lazy */
+        public array|Optional|Lazy $allTitles,
+        public string $productCode,
 
-    #[WithCast(DateTimeInterfaceCast::class)]
-    #[WithTransformer(DateTimeInterfaceTransformer::class)]
-    public Carbon|Optional|Lazy $releaseDate,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public Carbon|Optional|Lazy $releaseDate,
 
-    public int|Optional|Lazy $duration,
-    public StudioData|Optional|Lazy $studio,
-    public MovieTypeData $type,
+        public int|Optional|Lazy $duration,
+        public StudioData|Optional|Lazy $studio,
+        public MovieTypeData $type,
 
-    #[DataCollectionOf(ModelData::class)]
-    public DataCollection|Lazy $cast,
+        /** @var DataCollection<array-key, ModelData>|Lazy */
+        #[DataCollectionOf(ModelData::class)]
+        public DataCollection|Lazy $cast,
 
-    #[WithCast(DateTimeInterfaceCast::class)]
-    #[WithTransformer(DateTimeInterfaceTransformer::class)]
-    public CarbonImmutable|Optional|Lazy $createdAt,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public CarbonImmutable|Optional|Lazy $createdAt,
 
-    #[WithCast(DateTimeInterfaceCast::class)]
-    #[WithTransformer(DateTimeInterfaceTransformer::class)]
-    public CarbonImmutable|Optional|Lazy $updatedAt,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public CarbonImmutable|Optional|Lazy $updatedAt,
 
-    #[WithCast(DateTimeInterfaceCast::class)]
-    #[WithTransformer(DateTimeInterfaceTransformer::class)]
-    public CarbonImmutable|Optional|Lazy $deletedAt,
-  ) {
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public CarbonImmutable|Optional|Lazy $deletedAt,
+    ) {
     }
 
       public static function fromModel(Movie $movie): self
@@ -67,10 +69,8 @@ class MovieData extends Data
               Lazy::create(fn () => $movie->release_date ?? Optional::create()),
               Lazy::create(fn () => $movie->length ?? Optional::create()),
               Lazy::create(fn () => $movie->studio ?? Optional::create()),
-              // FIXME: Limitation of laravel-ide-helper. See https://github.com/barryvdh/laravel-ide-helper/pull/1400
-              $movie->type,
-              // FIXME: Limitation of laravel-ide-helper. See https://github.com/barryvdh/laravel-ide-helper/pull/1400
-              Lazy::create(fn (): DataCollection => $movie->models),
+              MovieTypeData::from($movie->type),
+              Lazy::create(fn (): DataCollection => ModelData::collection($movie->models)),
               Lazy::create(fn () => $movie->created_at ?? Optional::create()),
               Lazy::create(fn () => $movie->updated_at ?? Optional::create()),
               Lazy::create(fn () => $movie->deleted_at ?? Optional::create()),

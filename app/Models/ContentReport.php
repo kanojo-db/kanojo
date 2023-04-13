@@ -27,19 +27,27 @@ class ContentReport extends Model
     ];
 
     /**
-     * The attributes that should be automatically cast to specific types.
-     *
-     * @var array<array-key, mixed>
+     * {@inheritDoc}
      */
     protected $casts = [
         'report_type' => ContentReportType::class,
     ];
 
+    /**
+     * Get the reportable model.
+     *
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model, ContentReport>
+     */
     public function reportable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * Get the reporter.
+     *
+     * @return BelongsTo<User, ContentReport>
+     */
     public function reporter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reporter_id');
