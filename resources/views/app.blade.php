@@ -7,6 +7,7 @@
         <title inertia>{{ config('app.name', 'Kanojo') }}</title>
 
         <!-- Scripts -->
+        @routes
         @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
