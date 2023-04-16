@@ -422,7 +422,7 @@ type Routes = {
 };
 
 declare global {
-    const Ziggy: Routes;
+    const ziggy: Routes;
     function route(): Router;
     function route(
         name: keyof Routes,

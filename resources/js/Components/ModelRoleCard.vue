@@ -57,7 +57,7 @@ const name = useName(props.model, locale);
             itemprop="gender"
             content="https://schema.org/Female"
         />
-        <Link :href="$route('models.show', model)">
+        <Link :href="route('models.show', model)">
             <div
                 class="row q-pa-md rounded-borders"
                 :class="true ? 'bg-pink-1' : 'bg-blue-1'"

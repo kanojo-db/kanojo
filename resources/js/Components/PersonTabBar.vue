@@ -20,7 +20,7 @@ const props = defineProps({
                     'text-weight-bold': $page.component === 'Model/Show',
                 }"
                 label="Overview"
-                @click="$inertia.get($route('models.show', props.person))"
+                @click="$inertia.get(route('models.show', props.person))"
             />
             <q-btn
                 flat
@@ -28,9 +28,7 @@ const props = defineProps({
                     'text-weight-bold': $page.component === 'Model/Media',
                 }"
                 label="Media"
-                @click="
-                    $inertia.get($route('models.media.index', props.person))
-                "
+                @click="$inertia.get(route('models.media.index', props.person))"
             />
             <q-btn
                 flat
@@ -39,7 +37,7 @@ const props = defineProps({
                 }"
                 label="History"
                 @click="
-                    $inertia.get($route('models.history.index', props.person))
+                    $inertia.get(route('models.history.index', props.person))
                 "
             />
             <q-btn
@@ -48,7 +46,7 @@ const props = defineProps({
                     'text-weight-bold': $page.component === 'Model/Edit',
                 }"
                 label="Edit"
-                @click="$inertia.get($route('models.edit', props.person))"
+                @click="$inertia.get(route('models.edit', props.person))"
             />
         </q-btn-group>
     </div>

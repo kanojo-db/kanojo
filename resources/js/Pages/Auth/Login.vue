@@ -22,7 +22,7 @@ const submit = () => {
     form.transform((data) => ({
         ...data,
         remember: form.remember ? 'on' : '',
-    })).post($route('login'), {
+    })).post(route('login'), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -100,7 +100,7 @@ const submit = () => {
 
                                     <Link
                                         v-if="props.canResetPassword"
-                                        :href="$route('password.request')"
+                                        :href="route('password.request')"
                                         class="underline text-sm text-gray-600 hover:text-gray-900"
                                     >
                                         Forgot your password?

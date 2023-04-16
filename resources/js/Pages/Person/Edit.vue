@@ -47,7 +47,7 @@ const submit = () => {
         .transform((data) => ({
             ...data,
         }))
-        .patch($route('models.update', props.person.id));
+        .patch(route('models.update', props.person.id));
 };
 </script>
 
@@ -87,7 +87,7 @@ const submit = () => {
                         {{ name }}
                     </h1>
                     <Link
-                        :href="$route('models.show', person)"
+                        :href="route('models.show', person)"
                         class="text-subtitle1"
                     >
                         <q-icon

@@ -61,7 +61,7 @@ const openReportDialog = () => {
         reportForm.public = data.public;
 
         reportForm.post(
-            $route('studios.reports.store', {
+            route('studios.reports.store', {
                 studio: props.studio,
             }),
         );
@@ -87,7 +87,7 @@ const openReportDialog = () => {
                         clickable
                         @click="
                             $inertia.get(
-                                $route('studios.show', {
+                                route('studios.show', {
                                     studio: props.studio,
                                 }),
                             )
@@ -115,7 +115,7 @@ const openReportDialog = () => {
                 label="Media"
                 @click="
                     $inertia.get(
-                        $route('studios.media.index', {
+                        route('studios.media.index', {
                             studio: props.studio,
                         }),
                     )
@@ -126,7 +126,7 @@ const openReportDialog = () => {
                 label="History"
                 @click="
                     $inertia.get(
-                        $route('studios.history.index', {
+                        route('studios.history.index', {
                             studio: props.studio,
                         }),
                     )
@@ -137,7 +137,7 @@ const openReportDialog = () => {
                 label="Edit"
                 @click="
                     $inertia.get(
-                        $route('studios.edit', { studio: props.studio }),
+                        route('studios.edit', { studio: props.studio }),
                     )
                 "
             />
@@ -191,7 +191,7 @@ const openReportDialog = () => {
                         clickable
                         @click="
                             $inertia.get(
-                                $route('studios.reports.index', {
+                                route('studios.reports.index', {
                                     studio: props.studio,
                                 }),
                             )

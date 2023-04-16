@@ -61,7 +61,7 @@ const openReportDialog = () => {
         reportForm.public = data.public;
 
         reportForm.post(
-            $route('movies.reports.store', {
+            route('movies.reports.store', {
                 movie: props.movie.slug,
             }),
         );
@@ -87,7 +87,7 @@ const openReportDialog = () => {
                         clickable
                         @click="
                             $inertia.get(
-                                $route('movies.show', {
+                                route('movies.show', {
                                     movie: props.movie.slug,
                                 }),
                             )
@@ -115,7 +115,7 @@ const openReportDialog = () => {
                 label="Media"
                 @click="
                     $inertia.get(
-                        $route('movies.media.index', {
+                        route('movies.media.index', {
                             movie: props.movie.slug,
                         }),
                     )
@@ -126,7 +126,7 @@ const openReportDialog = () => {
                 label="History"
                 @click="
                     $inertia.get(
-                        $route('movies.history.index', {
+                        route('movies.history.index', {
                             movie: props.movie.slug,
                         }),
                     )
@@ -137,7 +137,7 @@ const openReportDialog = () => {
                 label="Edit"
                 @click="
                     $inertia.get(
-                        $route('movies.edit', { movie: props.movie.slug }),
+                        route('movies.edit', { movie: props.movie.slug }),
                     )
                 "
             />
@@ -191,7 +191,7 @@ const openReportDialog = () => {
                         clickable
                         @click="
                             $inertia.get(
-                                $route('movies.reports.index', {
+                                route('movies.reports.index', {
                                     movie: props.movie.slug,
                                 }),
                             )

@@ -83,7 +83,7 @@ const getChangeIcon = (change) => {
                     </h1>
                     <Link
                         :href="
-                            $route('movies.show', {
+                            route('movies.show', {
                                 movie: props.movie.slug,
                             })
                         "

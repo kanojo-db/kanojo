@@ -47,7 +47,7 @@ const submit = () => {
         studio_id: studio.value?.id,
         movie_type_id: movie_type.value?.id,
         tags: data.tags.map((v) => v.name.en),
-    })).post($route('movies.store'));
+    })).post(route('movies.store'));
 };
 
 const filterFn = (val, update) => {

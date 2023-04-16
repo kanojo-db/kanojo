@@ -9,7 +9,7 @@ const props = defineProps({
 const form = useForm();
 
 const submit = () => {
-    form.post($route('verification.send'));
+    form.post(route('verification.send'));
 };
 
 const verificationLinkSent = computed(
@@ -51,14 +51,14 @@ const verificationLinkSent = computed(
 
                 <div>
                     <Link
-                        :href="$route('profile.show')"
+                        :href="route('profile.show')"
                         class="underline text-sm text-gray-600 hover:text-gray-900"
                     >
                         Edit Profile
                     </Link>
 
                     <Link
-                        :href="$route('logout')"
+                        :href="route('logout')"
                         method="post"
                         as="button"
                         class="underline text-sm text-gray-600 hover:text-gray-900 ml-2"

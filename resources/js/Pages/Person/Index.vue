@@ -39,7 +39,7 @@ const props = defineProps({
     },
 });
 
-const route_params = $route().params;
+const route_params = route().params;
 const filterBornBetween = ref(
     route_params?.filter?.born?.split(',') || [null, null],
 );
@@ -132,7 +132,7 @@ function applyFilters() {
     }
 
     router.get(
-        $route('models.index'),
+        route('models.index'),
         { data: params },
         {
             only: ['models'],
