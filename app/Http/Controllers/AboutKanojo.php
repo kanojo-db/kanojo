@@ -18,35 +18,38 @@ class AboutKanojo extends Controller
      */
     public function index(): Response
     {
+        /** @var \Illuminate\Database\Query\Expression */
+        $expression = DB::raw('value');
+
         $movie_per_year_count = Movie::select([
             DB::raw('YEAR(release_date) AS value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('release_date', '!=', null)
         ->groupBy(
-            DB::raw('value')
+            $expression
         )
         ->orderBy(
-            DB::raw('value')
+            $expression
         )
         ->get();
 
         $birth_counts = Person::select([
             DB::raw('YEAR(birthdate) AS value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('birthdate', '!=', null)
         ->groupBy(
-            DB::raw('value')
+            $expression
         )
         ->orderBy(
-            DB::raw('value')
+            $expression
         )
         ->get();
 
         $height_counts = Person::select([
             DB::raw('height as value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('height', '!=', null)
         ->groupBy('value')
@@ -55,7 +58,7 @@ class AboutKanojo extends Controller
 
         $bust_counts = Person::select([
             DB::raw('bust as value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('bust', '!=', null)
         ->groupBy('value')
@@ -64,7 +67,7 @@ class AboutKanojo extends Controller
 
         $waist_counts = Person::select([
             DB::raw('waist as value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('waist', '!=', null)
         ->groupBy('value')
@@ -73,7 +76,7 @@ class AboutKanojo extends Controller
 
         $hip_counts = Person::select([
             DB::raw('hip as value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('hip', '!=', null)
         ->groupBy('value')
@@ -82,7 +85,7 @@ class AboutKanojo extends Controller
 
         $cup_counts = Person::select([
             DB::raw('cup_size as value'),
-            DB::raw('COUNT(*) AS count')
+            DB::raw('COUNT(*) AS count'),
         ])
         ->where('cup_size', '!=', null)
         ->groupBy('value')

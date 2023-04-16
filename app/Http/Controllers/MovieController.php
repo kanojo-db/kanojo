@@ -82,23 +82,26 @@ class MovieController extends Controller
      */
     public function store(StoreMovieRequest $request): RedirectResponse
     {
+        /** @var array{title: string|null, original_title: string, product_code: string, release_date: Carbon|null, length: int|null, studio_id: int|null, movie_type_id: int, tags: array<int>|null} */
         $validatedData = $request->validated();
 
         $locale = App::getLocale();
 
         $movie = Movie::create([
             'title' => [
-                $locale => $validatedData->title,
-                'ja-JP' => $validatedData->original_title,
+                $locale => $validatedData['title'],
+                'ja-JP' => $validatedData['original_title'],
             ],
-            'product_code' => $validatedData->product_code,
-            'release_date' => $validatedData->release_date,
-            'length' => $validatedData->length,
-            'studio_id' => $validatedData->studio_id,
-            'movie_type_id' => $validatedData->movie_type_id,
+            'product_code' => $validatedData['product_code'],
+            'release_date' => $validatedData['release_date'],
+            'length' => $validatedData['length'],
+            'studio_id' => $validatedData['studio_id'],
+            'movie_type_id' => $validatedData['movie_type_id'],
         ]);
 
-        $movie->attachTags($validatedData->tags);
+        if ($validatedData['tags'] !== null) {
+            $movie->attachTags($validatedData['tags']);
+        }
 
         $movie->save();
 
@@ -164,6 +167,7 @@ class MovieController extends Controller
      */
     public function update(UpdateMovieRequest $request, Movie $movie): RedirectResponse
     {
+        /** @var array{title: string|null, original_title: string, product_code: string, release_date: Carbon|null, runtime: int|null} */
         $validatedData = $request->validated();
 
         // TODO: Allow updating other locales. Maybe through another controller?
@@ -171,12 +175,12 @@ class MovieController extends Controller
 
         $movie->update([
             'title' => [
-                $locale => $validatedData->title,
-                'ja-JP' => $validatedData->original_title,
+                $locale => $validatedData['title'],
+                'ja-JP' => $validatedData['original_title'],
             ],
-            'product_code' => $validatedData->product_code,
-            'release_date' => $validatedData->release_date,
-            'runtime' => $validatedData->runtime ?? 0,
+            'product_code' => $validatedData['product_code'],
+            'release_date' => $validatedData['release_date'],
+            'runtime' => $validatedData['runtime'],
         ]);
 
         // If release_date was changed and we have models linked, update the ages

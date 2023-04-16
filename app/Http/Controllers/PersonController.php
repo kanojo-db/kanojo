@@ -44,16 +44,19 @@ class PersonController extends Controller
                     ->appends(request()->query());
             },
             'birthCounts' => function (): Collection {
+                /** @var \Illuminate\Database\Query\Expression */
+                $expression = DB::raw('value');
+
                 return Person::select([
                     DB::raw('YEAR(birthdate) AS value'),
                     DB::raw('COUNT(*) AS count'),
                 ])
                 ->where('birthdate', '!=', null)
                 ->groupBy(
-                    DB::raw('value')
+                    $expression
                 )
                 ->orderBy(
-                    DB::raw('value')
+                    $expression
                 )
                 ->get();
             },
@@ -148,6 +151,7 @@ class PersonController extends Controller
      */
     public function update(UpdatePersonRequest $request, Person $model): RedirectResponse
     {
+        /** @var array{birthdate: string|null, blood_type: string|null, career_end: string|null, career_start: string|null, country: string|null, cup_size: string|null, height: string|null, hip: string|null, name: string|null, original_name: string, blood_type: string, bust: string|null, waist: string|null} */
         $validatedData = $request->validated();
 
         $locale = App::getLocale();

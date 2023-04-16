@@ -6,4 +6,4 @@ parameters:
         - app/
     excludePaths:
         - vendor/
-    level: 6
+    level: 8

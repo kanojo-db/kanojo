@@ -45,6 +45,10 @@ class ZiggyTypescriptCommand extends Command
             ->map(function ($route, $key) {
                 $methods = json_encode($route['methods'] ?? []);
 
+                if ($methods === false) {
+                    throw new \RuntimeException('Could not encode methods');
+                }
+
                 // These are needed for Prettier compliance
                 $methods = str_replace('"', "'", $methods);
                 $methods = str_replace(',', ', ', $methods);

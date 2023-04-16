@@ -13,9 +13,9 @@ use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\PaginatedDataCollection;
 use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -38,9 +38,9 @@ class MovieData extends Data
         public StudioData|Optional|Lazy $studio,
         public MovieTypeData $type,
 
-        /** @var DataCollection<array-key, ModelData>|Lazy */
+        /** @var PaginatedDataCollection<array-key, ModelData>|Lazy */
         #[DataCollectionOf(ModelData::class)]
-        public DataCollection|Lazy $cast,
+        public PaginatedDataCollection|Lazy $cast,
 
         #[WithCast(DateTimeInterfaceCast::class)]
         #[WithTransformer(DateTimeInterfaceTransformer::class)]
@@ -56,24 +56,30 @@ class MovieData extends Data
     ) {
     }
 
-      public static function fromModel(Movie $movie): self
-      {
-          $locale = App::getLocale();
+    public static function fromModel(Movie $movie): self
+    {
+        /** @var string */
+        $locale = App::getLocale();
 
-          return new self(
-              $movie->id,
-              (string) $movie->getTranslation('title', $locale, true),
-              (string) $movie->getTranslation('title', 'ja-JP', false),
-              Lazy::create(fn () => $movie->getTranslations('title')),
-              $movie->product_code,
-              Lazy::create(fn () => $movie->release_date ?? Optional::create()),
-              Lazy::create(fn () => $movie->length ?? Optional::create()),
-              Lazy::create(fn () => $movie->studio ?? Optional::create()),
-              MovieTypeData::from($movie->type),
-              Lazy::create(fn (): DataCollection => ModelData::collection($movie->models)),
-              Lazy::create(fn () => $movie->created_at ?? Optional::create()),
-              Lazy::create(fn () => $movie->updated_at ?? Optional::create()),
-              Lazy::create(fn () => $movie->deleted_at ?? Optional::create()),
-          );
-      }
+        /** @var string */
+        $localizedTitle = $movie->getTranslation('title', $locale, true);
+        /** @var string */
+        $japaneseTitle = $movie->getTranslation('title', 'ja-JP', false);
+
+        return new self(
+            $movie->id,
+            $localizedTitle,
+            $japaneseTitle,
+            Lazy::create(fn () => $movie->getTranslations('title')),
+            $movie->product_code,
+            Lazy::create(fn () => $movie->release_date ?? Optional::create()),
+            Lazy::create(fn () => $movie->length ?? Optional::create()),
+            Lazy::create(fn () => $movie->studio ?? Optional::create()),
+            MovieTypeData::from($movie->type),
+            Lazy::create(fn (): PaginatedDataCollection => ModelData::collection($movie->models()->paginate())),
+            Lazy::create(fn () => $movie->created_at ?? Optional::create()),
+            Lazy::create(fn () => $movie->updated_at ?? Optional::create()),
+            Lazy::create(fn () => $movie->deleted_at ?? Optional::create()),
+        );
+    }
 }

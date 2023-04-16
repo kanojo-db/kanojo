@@ -11,7 +11,7 @@ trait PasswordValidationRules
     /**
      * Get the validation rules used to validate passwords.
      *
-     * @return array<array-key, \Illuminate\Contracts\Validation\ValidationRule|string>
+     * @return array<array-key, \Laravel\Fortify\Rules\Password|string>
      */
     protected function passwordRules(): array
     {

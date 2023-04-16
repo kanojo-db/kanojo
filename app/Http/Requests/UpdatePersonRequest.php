@@ -20,7 +20,7 @@ class UpdatePersonRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, array<int, \Illuminate\Contracts\Validation\ValidationRule|string>>
+     * @return array<string, array<int, \Illuminate\Validation\Rules\In|string>>
      */
     public function rules(): array
     {
@@ -32,7 +32,9 @@ class UpdatePersonRequest extends FormRequest
             'country' => ['nullable', 'string'],
             'career_start' => ['nullable', 'date'],
             'career_end' => ['nullable', 'date'],
+            // TODO: Replace blood type with an enum
             'blood_type' => ['nullable', Rule::in(['AB', 'A', 'B', 'O'])],
+            // TODO: Replace cup size with an enum
             'cup_size' => ['nullable', Rule::in([
                 'A',
                 'B',

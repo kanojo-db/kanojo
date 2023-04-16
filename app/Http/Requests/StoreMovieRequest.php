@@ -21,7 +21,7 @@ class StoreMovieRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, array<int, \Illuminate\Contracts\Validation\ValidationRule|string>>
+     * @return array<string, array<int, \Illuminate\Validation\Rules\In|string>>
      */
     public function rules(): array
     {

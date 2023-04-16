@@ -14,8 +14,15 @@ class SettingsTokensController extends Controller
 {
     public function index(Request $request): Response
     {
+        /** @var \App\Models\User|null */
+        $user = $request->user();
+
+        if ($user === null) {
+            abort(403);
+        }
+
         return Inertia::render('Settings/Tokens', [
-            'tokens' => $request->user()->tokens,
+            'tokens' => $user->tokens,
         ]);
     }
 
@@ -27,8 +34,18 @@ class SettingsTokensController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ])->validateWithBag('createApiToken');
 
-        $token = $request->user()->createToken(
-            $request->name, ['read']
+        /** @var \App\Models\User|null */
+        $user = $request->user();
+
+        if ($user === null) {
+            abort(403);
+        }
+
+        /** @var string */
+        $tokenName = $request->name;
+
+        $token = $user->createToken(
+            $tokenName, ['read']
         );
 
         return back()->with('_flash', [
@@ -38,7 +55,14 @@ class SettingsTokensController extends Controller
 
     public function destroy(Request $request, int $tokenId): RedirectResponse
     {
-        $request->user()->tokens()->where('id', $tokenId)->delete();
+        /** @var \App\Models\User|null */
+        $user = $request->user();
+
+        if ($user === null) {
+            abort(403);
+        }
+
+        $user->tokens()->where('id', $tokenId)->delete();
 
         return back();
     }

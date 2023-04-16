@@ -13,9 +13,9 @@ use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\PaginatedDataCollection;
 use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 
 class StudioData extends Data
@@ -31,9 +31,9 @@ class StudioData extends Data
         #[WithTransformer(DateTimeInterfaceTransformer::class)]
         public Carbon|Optional|Lazy $founded,
 
-        /** @var DataCollection<array-key, MovieData>|Lazy */
+        /** @var PaginatedDataCollection<array-key, MovieData>|Lazy */
         #[DataCollectionOf(MovieData::class)]
-        public DataCollection|Lazy $movies,
+        public PaginatedDataCollection|Lazy $movies,
 
         #[WithCast(DateTimeInterfaceCast::class)]
         #[WithTransformer(DateTimeInterfaceTransformer::class)]
@@ -52,15 +52,21 @@ class StudioData extends Data
 
     public static function fromModel(Studio $studio): self
     {
+        /** @var string */
         $locale = App::getLocale();
+
+        /** @var string */
+        $localizedName = $studio->getTranslation('name', $locale, true);
+        /** @var string */
+        $japaneseName = $studio->getTranslation('name', 'ja-JP', false);
 
         return new self(
             $studio->id,
-            (string) $studio->getTranslation('name', $locale, true),
-            (string) $studio->getTranslation('name', 'ja-JP', false),
+            $localizedName,
+            $japaneseName,
             Lazy::create(fn () => $studio->getTranslations('title')),
             Lazy::create(fn () => $studio->founded_date ?? Optional::create()),
-            Lazy::create(fn (): DataCollection => ModelData::collection($studio->movies)),
+            Lazy::create(fn (): PaginatedDataCollection => ModelData::collection($studio->movies()->paginate())),
             Lazy::create(fn () => $studio->created_at ?? Optional::create()),
             Lazy::create(fn () => $studio->updated_at ?? Optional::create()),
             Lazy::create(fn () => $studio->deleted_at ?? Optional::create()),

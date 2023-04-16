@@ -26,7 +26,7 @@ class SettingsSessionsController extends Controller
     /**
      * Get all the session for the user making the request.
      *
-     * @return \Illuminate\Support\Collection<(int|string), array{id: mixed, platform: bool|string, browser: bool|string, ip_address: mixed, is_current_device: bool, last_active: string}>
+     * @return \Illuminate\Support\Collection<array-key, array{id: mixed, platform: bool|string, browser: bool|string, ip_address: string, is_current_device: bool, last_active: string}>
      */
     public function sessions(Request $request): Collection
     {
@@ -37,7 +37,11 @@ class SettingsSessionsController extends Controller
         /** @var User */
         $user = $request->user();
 
-        $sessions = DB::table((string) config('session.table', 'sessions'))
+        /** @var string */
+        $sessionTable = config('session.table', 'sessions');
+
+        /** @var array<array-key, array{id: mixed, user_id: mixed, ip_address: string, user_agent: mixed, payload: mixed, last_activity: mixed}> */
+        $sessions = DB::table($sessionTable)
                 ->where('user_id', $user->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get();
@@ -58,7 +62,7 @@ class SettingsSessionsController extends Controller
                 });
     }
 
-    protected function createAgent(object $session): Agent
+    protected function createAgent(mixed $session): Agent
     {
         return tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);

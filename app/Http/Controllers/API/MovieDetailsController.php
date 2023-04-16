@@ -48,11 +48,14 @@ class MovieDetailsController extends Controller
          */
         $language = request()->query('language', 'en-US');
 
+        /** @var \Illuminate\Support\Collection<int, \Spatie\Tags\Tag> */
+        $tags = $movie->tags;
+
         // We only need the id and name of the tags
-        $genres = $movie->tags->map(function ($tag) use ($language) {
+        $genres = $tags->map(function (\Spatie\Tags\Tag $tag) use ($language) {
             return [
-                'id' => $tag->getAttribute('id'),
-                'name' => $tag->getAttribute('name')->getTranslation($language, true),
+                'id' => $tag->id,
+                'name' => $tag->getTranslation('name', $language, true),
             ];
         });
 
@@ -67,10 +70,18 @@ class MovieDetailsController extends Controller
 
         // Get the vote data
         try {
-            $votes = $movie->loveReactant->reactionCounters->map(function (ReactionCounter $vote): int {
-                return $vote->getAttribute('count');
+            /** @var \Cog\Laravel\Love\Reactant\Models\Reactant|null */
+            $reactant = $movie->loveReactant;
+
+            if ($reactant === null) {
+                throw new \Exception('Reactant not found');
+            }
+
+            $votes = $reactant->reactionCounters->map(function (ReactionCounter $vote): int {
+                // @phpstan-ignore-next-line
+                return $vote->count;
             });
-            $total = $movie->loveReactant->reactionTotal;
+            $total = $reactant->reactionTotal;
         } catch (Throwable $t) {
             $votes = null;
             $total = null;

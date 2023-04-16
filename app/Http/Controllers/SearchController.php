@@ -16,6 +16,7 @@ class SearchController extends Controller
 {
     public function __invoke(SearchRequest $request): Response
     {
+        /** @var array{q: string} */
         $validatedData = $request->validated();
 
         return Inertia::render('Search', [

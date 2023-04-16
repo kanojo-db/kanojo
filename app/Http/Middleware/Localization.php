@@ -13,13 +13,16 @@ class Localization
 {
     /**
      * Handle an incoming request.
-     * 
+     *
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         if (Session::has('locale')) {
-            app()->setLocale(Session::get('locale'));
+            /** @var string */
+            $locale = Session::get('locale');
+
+            app()->setLocale($locale);
         }
 
         return $next($request);

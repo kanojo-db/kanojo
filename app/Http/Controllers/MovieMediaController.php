@@ -36,6 +36,7 @@ class MovieMediaController extends Controller
      */
     public function store(StoreMovieMediaRequest $request, Movie $movie): RedirectResponse
     {
+        /** @var array{collection_name: string, media: \Illuminate\Http\UploadedFile} */
         $validatedData = $request->validated();
 
         $movie->addMediaFromRequest('media')
