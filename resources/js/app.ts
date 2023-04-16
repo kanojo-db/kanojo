@@ -14,6 +14,7 @@ import localeMessages from '@/vue-i18n-locales.generated';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import '../css/app.scss';
+import { Ziggy } from './ziggy';
 
 const appName =
     window.document.getElementsByTagName('title')[0]?.innerText || 'Kanojo';
@@ -36,7 +37,7 @@ createInertiaApp({
 
         const vueApp = createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(ZiggyVue, ziggy)
+            .use(ZiggyVue, Ziggy)
             .use(i18n)
             .use(Quasar, {
                 plugins: { Dialog, Notify },
