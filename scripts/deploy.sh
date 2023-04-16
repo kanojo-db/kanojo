@@ -25,6 +25,9 @@ php artisan config:cache
 # Cache events
 php artisan event:cache
 
+# Generate API docs
+php artisan scribe:generate
+
 # Generate routes
 php artisan ziggy:generate
 
