@@ -10,7 +10,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('register'), {
+    form.post($route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
@@ -95,7 +95,7 @@ const submit = () => {
 
                                 <q-card-actions>
                                     <Link
-                                        :href="route('login')"
+                                        :href="$route('login')"
                                         class="underline text-sm text-gray-600 hover:text-gray-900"
                                     >
                                         {{ $t('web.register.already') }}

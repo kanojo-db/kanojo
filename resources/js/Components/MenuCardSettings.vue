@@ -25,7 +25,7 @@ const page = usePage<PageProps>();
                     'text-weight-bold text-primary':
                         page?.component === 'Settings/Account',
                 }"
-                :href="route('settings.account')"
+                :href="$route('settings.account')"
             >
                 <q-item-section>
                     {{ $t('web.settings.account.title') }}
@@ -37,7 +37,7 @@ const page = usePage<PageProps>();
                     'text-weight-bold text-primary':
                         page?.component === 'Settings/Tokens',
                 }"
-                :href="route('settings.tokens')"
+                :href="$route('settings.tokens')"
             >
                 <q-item-section>
                     {{ $t('web.settings.tokens.title') }}
@@ -49,7 +49,7 @@ const page = usePage<PageProps>();
                     'text-weight-bold text-primary':
                         page?.component === 'Settings/Sessions',
                 }"
-                :href="route('settings.sessions')"
+                :href="$route('settings.sessions')"
             >
                 <q-item-section>
                     {{ $t('web.settings.sessions.title') }}

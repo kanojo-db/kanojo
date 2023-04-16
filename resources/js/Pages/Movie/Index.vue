@@ -23,7 +23,7 @@ const props = defineProps({
     },
 });
 
-const route_params = route().params;
+const route_params = $route().params;
 const filterAgeBetween = ref(
     route_params?.filter?.age?.split(',') || [null, null],
 );
@@ -59,7 +59,7 @@ function applyFilters() {
     }
 
     router.get(
-        route('movies.index'),
+        $route('movies.index'),
         { data: params },
         {
             only: ['movies'],

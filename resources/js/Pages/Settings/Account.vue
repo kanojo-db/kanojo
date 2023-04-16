@@ -26,7 +26,7 @@ const accountSettingsFoirm = useForm({
 });
 
 function submit() {
-    accountSettingsFoirm.post(route('settings.account.update'));
+    accountSettingsFoirm.post($route('settings.account.update'));
 }
 </script>
 

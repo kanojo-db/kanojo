@@ -56,7 +56,7 @@ const searchForm = useForm({
 });
 
 const submit = () => {
-    searchForm.get(route('search'));
+    searchForm.get($route('search'));
 };
 
 const maxTotalAudits = computed(() => {
@@ -136,7 +136,7 @@ const orderedTopUsers = computed(() => {
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
             >
                 <Link
-                    :href="route('movies.index')"
+                    :href="$route('movies.index')"
                     class="column justify-center items-center content-center"
                 >
                     <span
@@ -153,7 +153,7 @@ const orderedTopUsers = computed(() => {
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
             >
                 <Link
-                    :href="route('models.index')"
+                    :href="$route('models.index')"
                     class="column justify-center items-center content-center"
                 >
                     <span
@@ -170,7 +170,7 @@ const orderedTopUsers = computed(() => {
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
             >
                 <Link
-                    :href="route('movies.index')"
+                    :href="$route('movies.index')"
                     class="column justify-center items-center content-center"
                 >
                     <span
@@ -252,7 +252,7 @@ const orderedTopUsers = computed(() => {
                     :key="`top-user-${user.id}`"
                     class="row items-center"
                 >
-                    <Link :href="route('profile.show', user)">
+                    <Link :href="$route('profile.show', user)">
                         <q-avatar
                             size="90px"
                             class="bg-grey-1"
@@ -265,7 +265,7 @@ const orderedTopUsers = computed(() => {
                         </q-avatar>
                     </Link>
                     <div class="col-grow column q-ml-md">
-                        <Link :href="route('profile.show', user)">
+                        <Link :href="$route('profile.show', user)">
                             <h3
                                 class="text-h5 text-weight-bold q-mt-none q-mb-xs"
                             >

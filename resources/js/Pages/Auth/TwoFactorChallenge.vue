@@ -27,7 +27,7 @@ const toggleRecovery = async () => {
 };
 
 const submit = () => {
-    form.post(route('two-factor.login'));
+    form.post($route('two-factor.login'));
 };
 </script>
 

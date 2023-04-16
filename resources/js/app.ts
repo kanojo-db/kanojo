@@ -42,6 +42,8 @@ createInertiaApp({
                 iconSet: quasarIconSet,
             });
 
+        vueApp.config.globalProperties.$route = route;
+
         if (!import.meta.env.VITE_LOCAL_DEVELOPMENT) {
             Sentry.init({
                 app: vueApp,

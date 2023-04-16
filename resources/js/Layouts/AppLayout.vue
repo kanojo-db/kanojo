@@ -29,10 +29,10 @@ const page = usePage<PageProps>();
 const showSearch = ref(false);
 
 const logout = () => {
-    router.post(route('logout'));
+    router.post($route('logout'));
 };
 
-const currentRouteParams = ref(route().params);
+const currentRouteParams = ref($route().params);
 
 const searchForm = useForm({
     q: currentRouteParams.value.q || '',
@@ -41,13 +41,13 @@ const searchForm = useForm({
 const submit = () => {
     searchForm
         .transform(({ q }) => {
-            if (route().params.type) {
-                return { q, type: route().params.type };
+            if ($route().params.type) {
+                return { q, type: $route().params.type };
             }
 
             return { q: q.trim() };
         })
-        .get(route('search'));
+        .get($route('search'));
 };
 
 const websiteSchema = ref({
@@ -93,7 +93,7 @@ const websiteSchema = ref({
                     dense
                     :icon="mdiPlus"
                     class="q-mr-lg"
-                    @click="$inertia.get(route('movies.create'))"
+                    @click="$inertia.get($route('movies.create'))"
                 />
                 <LanguageSwitcher />
                 <q-avatar
@@ -119,7 +119,7 @@ const websiteSchema = ref({
                                 clickable
                                 @click="
                                     $inertia.get(
-                                        route('profile.show', {
+                                        $route('profile.show', {
                                             user: page.props.user?.id ?? 0,
                                         }),
                                     )
@@ -137,7 +137,9 @@ const websiteSchema = ref({
                             <q-separator class="q-my-xs" />
                             <q-item
                                 clickable
-                                @click="$inertia.get(route('settings.account'))"
+                                @click="
+                                    $inertia.get($route('settings.account'))
+                                "
                             >
                                 <q-item-section>
                                     {{ $t('web.general.pages.settings') }}
@@ -158,13 +160,13 @@ const websiteSchema = ref({
                 <template v-else>
                     <q-btn
                         flat
-                        @click="$inertia.get(route('login'))"
+                        @click="$inertia.get($route('login'))"
                     >
                         {{ $t('web.general.login') }}
                     </q-btn>
                     <q-btn
                         flat
-                        @click="$inertia.get(route('register'))"
+                        @click="$inertia.get($route('register'))"
                     >
                         {{ $t('web.general.register') }}
                     </q-btn>
@@ -235,7 +237,7 @@ const websiteSchema = ref({
                         {{ $t('web.general.pages.general') }}
                     </h3>
                     <Link
-                        :href="route('about.index')"
+                        :href="$route('about.index')"
                         class="text-white"
                     >
                         {{ $t('web.general.pages.about') }}
@@ -248,7 +250,7 @@ const websiteSchema = ref({
                     </Link>
                     <Link
                         class="text-white"
-                        :href="route('scribe')"
+                        :href="$route('scribe')"
                     >
                         {{ $t('web.general.pages.api') }}
                     </Link>
@@ -267,19 +269,19 @@ const websiteSchema = ref({
                     </h3>
                     <Link
                         class="text-white"
-                        :href="route('bible.general')"
+                        :href="$route('bible.general')"
                     >
                         {{ $t('web.general.pages.bible') }}
                     </Link>
                     <Link
                         class="text-white"
-                        :href="route('movies.create')"
+                        :href="$route('movies.create')"
                     >
                         {{ $t('web.general.pages.add_movie') }}
                     </Link>
                     <Link
                         class="text-white"
-                        :href="route('movies.create')"
+                        :href="$route('movies.create')"
                     >
                         {{ $t('web.general.pages.fill_missing') }}
                     </Link>

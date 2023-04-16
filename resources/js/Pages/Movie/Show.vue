@@ -100,13 +100,13 @@ const userScore = computed(() => {
 const likeForm = useForm({});
 
 const likeMovie = () => {
-    likeForm.post(route('movies.like.store', [props.movie]), {
+    likeForm.post($route('movies.like.store', [props.movie]), {
         onSuccess: () => likeForm.reset(),
     });
 };
 
 const dislikeMovie = () => {
-    likeForm.post(route('movies.dislike.store', [props.movie]), {
+    likeForm.post($route('movies.dislike.store', [props.movie]), {
         onSuccess: () => likeForm.reset(),
     });
 };
@@ -313,12 +313,12 @@ const groupedTags = computed(() => {
                             @click="
                                 props.movie.is_collection
                                     ? $inertia.delete(
-                                          route('movies.collection.destroy', [
+                                          $route('movies.collection.destroy', [
                                               movie,
                                           ]),
                                       )
                                     : $inertia.post(
-                                          route('movies.collection.store', [
+                                          $route('movies.collection.store', [
                                               movie,
                                           ]),
                                       )
@@ -341,12 +341,12 @@ const groupedTags = computed(() => {
                             @click="
                                 props.movie.is_favorite
                                     ? $inertia.delete(
-                                          route('movies.favorite.destroy', [
+                                          $route('movies.favorite.destroy', [
                                               movie,
                                           ]),
                                       )
                                     : $inertia.post(
-                                          route('movies.favorite.store', [
+                                          $route('movies.favorite.store', [
                                               movie,
                                           ]),
                                       )
@@ -369,12 +369,12 @@ const groupedTags = computed(() => {
                             @click="
                                 props.movie.is_wishlist
                                     ? $inertia.delete(
-                                          route('movies.wishlist.destroy', [
+                                          $route('movies.wishlist.destroy', [
                                               movie,
                                           ]),
                                       )
                                     : $inertia.post(
-                                          route('movies.wishlist.store', [
+                                          $route('movies.wishlist.store', [
                                               movie,
                                           ]),
                                       )
@@ -450,7 +450,7 @@ const groupedTags = computed(() => {
                             {{ $t('web.movie.show.studio') }}
                         </strong>
                         <Link
-                            :href="route('studios.show', movie.studio)"
+                            :href="$route('studios.show', movie.studio)"
                             itemprop="name"
                         >
                             {{ studioName }}

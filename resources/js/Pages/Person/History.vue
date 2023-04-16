@@ -85,7 +85,7 @@ const getChangeIcon = (change) => {
                         {{ name }}
                     </h1>
                     <Link
-                        :href="route('movies.show', props.model)"
+                        :href="$route('movies.show', props.model)"
                         class="text-subtitle1"
                     >
                         <q-icon

@@ -23,7 +23,7 @@ const name = useName(props.model, locale);
 <template>
     <Link
         class="block"
-        :href="route('models.show', model)"
+        :href="$route('models.show', model)"
         style="width: 200px"
     >
         <div class="fit column no-wrap justify-start items-start content-start">

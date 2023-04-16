@@ -39,7 +39,7 @@ const submit = () => {
         .transform((data) => ({
             ...data,
         }))
-        .patch(route('movies.update', props.movie.id));
+        .patch($route('movies.update', props.movie.id));
 };
 </script>
 
@@ -79,7 +79,7 @@ const submit = () => {
                         {{ title }}
                     </h1>
                     <Link
-                        :href="route('movies.show', movie)"
+                        :href="$route('movies.show', movie)"
                         class="text-subtitle1"
                     >
                         <q-icon

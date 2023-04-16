@@ -49,7 +49,7 @@ const openMediaUploadDialog = () => {
         mediaUploadForm.media = data.media;
         mediaUploadForm.collection_name = data.collection_name;
 
-        mediaUploadForm.post(route('models.media.store', props.person), {
+        mediaUploadForm.post($route('models.media.store', props.person), {
             preserveScroll: true,
             onSuccess: () => {
                 mediaUploadForm.reset();
@@ -95,7 +95,7 @@ const openMediaUploadDialog = () => {
                         {{ name }}
                     </h1>
                     <Link
-                        :href="route('models.show', props.person)"
+                        :href="$route('models.show', props.person)"
                         class="text-subtitle1"
                     >
                         <q-icon

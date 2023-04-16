@@ -64,7 +64,7 @@ const title = useTitle(props.movie, locale.value);
                     </h1>
                     <Link
                         :href="
-                            route('movies.show', {
+                            $route('movies.show', {
                                 movie: props.movie.slug,
                             })
                         "

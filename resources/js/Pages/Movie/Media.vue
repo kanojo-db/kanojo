@@ -36,7 +36,7 @@ const props = defineProps({
     },
 });
 
-const currentRoute = route();
+const currentRoute = $route();
 
 const currentCollectionName = ref(currentRoute.params?.type ?? 'front_cover');
 
@@ -64,7 +64,7 @@ const openMediaUploadDialog = () => {
         mediaUploadForm.collection_name = data.collection_name;
 
         mediaUploadForm.post(
-            route('movies.media.store', { movie: props.movie }),
+            $route('movies.media.store', { movie: props.movie }),
             {
                 preserveScroll: true,
                 onSuccess: () => {
@@ -113,7 +113,7 @@ const openMediaUploadDialog = () => {
                     </h1>
                     <Link
                         :href="
-                            route('movies.show', {
+                            $route('movies.show', {
                                 movie: props.movie.slug,
                             })
                         "
@@ -162,7 +162,7 @@ const openMediaUploadDialog = () => {
                             :key="collectionType"
                             clickable
                             :href="
-                                route('movies.media.index', {
+                                $route('movies.media.index', {
                                     movie: props.movie.slug,
                                     type: collectionType,
                                 })

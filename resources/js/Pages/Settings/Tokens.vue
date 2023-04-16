@@ -27,7 +27,7 @@ const tokenCreateForm = useForm({
 });
 
 const tokenCreateFormSubmit = () => {
-    tokenCreateForm.post(route('settings.tokens.create'), {
+    tokenCreateForm.post($route('settings.tokens.create'), {
         preserveScroll: true,
         onSuccess: () => {
             tokenCreateForm.reset();
@@ -99,7 +99,7 @@ const columns = [
 ];
 
 const deleteToken = (rowId: number) => {
-    router.delete(route('settings.tokens.destroy', rowId), {
+    router.delete($route('settings.tokens.destroy', rowId), {
         preserveScroll: true,
     });
 };

@@ -60,7 +60,7 @@ const changeLocale = () => {
 
     changeLocaleForm.locale = currentLocale.value.value;
 
-    changeLocaleForm.post(route('user.locale.store'), {
+    changeLocaleForm.post($route('user.locale.store'), {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {

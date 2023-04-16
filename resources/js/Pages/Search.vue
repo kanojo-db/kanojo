@@ -25,7 +25,7 @@ const props = defineProps({
 
 let results = {} as Paginated<Movie | Person>;
 
-const routeParams = route().params;
+const routeParams = $route().params;
 
 const resultType = computed(() => {
     if (routeParams.type === 'person') {
@@ -44,7 +44,7 @@ if (resultType.value === 'models') {
 const currentPage = ref(results.current_page);
 
 const goToType = (type: string) => {
-    router.get('search', { type, q: route().params.q });
+    router.get('search', { type, q: $route().params.q });
 };
 
 const goToPage = (page: number) => {
