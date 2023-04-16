@@ -60,7 +60,7 @@
         "vue-tsc": "^1.2.0"
     },
     "dependencies": {
-        "@inertiajs/vue3": "^1.0.2",
+        "@inertiajs/vue3": "^1.0.3",
         "@quasar/extras": "^1.16.2",
         "@sentry/tracing": "^7.48.0",
         "@sentry/vue": "^7.48.0",
