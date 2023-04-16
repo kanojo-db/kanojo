@@ -45,7 +45,7 @@ createInertiaApp({
 
         vueApp.config.globalProperties.$route = route;
 
-        if (!import.meta.env.VITE_LOCAL_DEVELOPMENT) {
+        if (import.meta.env.PROD) {
             Sentry.init({
                 app: vueApp,
                 dsn: 'https://5fce5990e0e6417e8855d803341140cd@o4504320317259776.ingest.sentry.io/4504320373620736',
