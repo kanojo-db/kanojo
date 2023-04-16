@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { RouteParams } from '@ziggy-js';
 import { PropType, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -54,7 +53,7 @@ const userScore = computed(() => {
 <template>
     <Link
         class="block"
-        :href="route('movies.show', { movie: movie.slug } as RouteParams)"
+        :href="route('movies.show', { movie: movie.slug })"
         style="width: 200px"
     >
         <div class="fit column no-wrap justify-start items-start content-start">

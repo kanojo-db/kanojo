@@ -14,6 +14,7 @@
         "halaxa/json-machine": "^1.1",
         "http-interop/http-factory-guzzle": "^1.2",
         "inertiajs/inertia-laravel": "^0.6.9",
+        "jackwh/laravel-new-relic": "^1.0",
         "jaybizzle/crawler-detect": "*",
         "jenssegers/agent": "^2.6",
         "laravel/fortify": "^1.14",

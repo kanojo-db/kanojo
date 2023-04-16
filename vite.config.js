@@ -10,14 +10,6 @@ import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    resolve: {
-        alias: {
-            '@ziggy-js': path.resolve('vendor/tightenco/ziggy/dist'),
-        },
-    },
-    ssr: {
-        noExternal: ['@inertiajs/server'],
-    },
     server: {
         hmr: {
             host: '192.168.0.44',
@@ -26,7 +18,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: 'resources/js/app.ts',
-            ssr: 'resources/js/ssr.ts',
             refresh: true,
         }),
         vue({
