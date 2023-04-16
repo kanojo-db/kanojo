@@ -41,7 +41,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Localization::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-            \Spatie\Csp\AddCspHeaders::class,
         ],
 
         'api' => [

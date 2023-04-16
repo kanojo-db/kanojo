@@ -4,7 +4,6 @@ import { quasar } from '@quasar/vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 import { dirname, resolve } from 'node:path';
-import path from 'path';
 import DefineOptions from 'unplugin-vue-define-options/vite';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';

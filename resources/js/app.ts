@@ -13,7 +13,6 @@ import localeMessages from '@/vue-i18n-locales.generated';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import '../css/app.scss';
-import { Ziggy } from './ziggy';
 
 const appName =
     window.document.getElementsByTagName('title')[0]?.innerText || 'Kanojo';
@@ -36,28 +35,30 @@ createInertiaApp({
 
         const vueApp = createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(ZiggyVue, ziggy)
             .use(i18n)
-            .use(ZiggyVue, Ziggy)
             .use(Quasar, {
                 plugins: { Dialog, Notify },
                 iconSet: quasarIconSet,
             });
 
-        Sentry.init({
-            app: vueApp,
-            dsn: 'https://5fce5990e0e6417e8855d803341140cd@o4504320317259776.ingest.sentry.io/4504320373620736',
-            integrations: [
-                new Sentry.BrowserTracing({
-                    tracePropagationTargets: [
-                        'localhost',
-                        'kanojodb.com',
-                        /^\//,
-                    ],
-                }),
-            ],
-            tracesSampleRate: 0.1,
-            logErrors: true,
-        });
+        if (!import.meta.env.VITE_LOCAL_DEVELOPMENT) {
+            Sentry.init({
+                app: vueApp,
+                dsn: 'https://5fce5990e0e6417e8855d803341140cd@o4504320317259776.ingest.sentry.io/4504320373620736',
+                integrations: [
+                    new Sentry.BrowserTracing({
+                        tracePropagationTargets: [
+                            'localhost',
+                            'kanojodb.com',
+                            /^\//,
+                        ],
+                    }),
+                ],
+                tracesSampleRate: 0.1,
+                logErrors: true,
+            });
+        }
 
         vueApp.mount(el);
 

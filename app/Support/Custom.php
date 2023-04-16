@@ -21,6 +21,6 @@ class Custom extends Basic
         // Allow fonts using data: URIs
         $this->addDirective(Directive::FONT, [Keyword::SELF, 'data:']);
         // Allow Sentry
-        $this->addDirective(Directive::CONNECT, "'o4504320317259776.ingest.sentry.io'");
+        $this->addDirective(Directive::CONNECT, 'o4504320317259776.ingest.sentry.io');
     }
 }
