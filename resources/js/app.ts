@@ -8,6 +8,7 @@ import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
 import 'quasar/src/css/index.sass';
 import { DefineComponent, createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
+import route from 'ziggy-js';
 
 import localeMessages from '@/vue-i18n-locales.generated';
 
