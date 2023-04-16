@@ -13,6 +13,7 @@ import localeMessages from '@/vue-i18n-locales.generated';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import '../css/app.scss';
+import { Ziggy } from './ziggy';
 
 const appName =
     window.document.getElementsByTagName('title')[0]?.innerText || 'Kanojo';
