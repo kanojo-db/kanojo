@@ -19,7 +19,9 @@ export default defineConfig(({ command, mode }) => {
         },
         resolve: {
             alias: {
-                'ziggy-js': path.resolve('vendor/tightenco/ziggy/dist'),
+                'ziggy-js': path.resolve(
+                    'vendor/tightenco/ziggy/dist/index.m.js',
+                ),
             },
         },
         ssr: {
