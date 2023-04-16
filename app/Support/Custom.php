@@ -12,15 +12,17 @@ class Custom extends Basic
 {
     public function configure(): void
     {
-        parent::configure();
-
-        // Allow inline scripts
-        $this->addDirective(Directive::SCRIPT, [Keyword::UNSAFE_INLINE]);
-        // Allow all inline styles
-        $this->addDirective(Directive::STYLE, [Keyword::UNSAFE_INLINE]);
-        // Allow fonts using data: URIs
-        $this->addDirective(Directive::FONT, [Keyword::SELF, 'data:']);
-        // Allow Sentry
-        $this->addDirective(Directive::CONNECT, 'o4504320317259776.ingest.sentry.io');
+        $this
+            ->addDirective(Directive::BASE, Keyword::SELF)
+            ->addDirective(Directive::CONNECT, Keyword::SELF)
+            ->addDirective(Directive::DEFAULT, Keyword::SELF)
+            ->addDirective(Directive::FORM_ACTION, Keyword::SELF)
+            ->addDirective(Directive::IMG, Keyword::SELF)
+            ->addDirective(Directive::MEDIA, Keyword::SELF)
+            ->addDirective(Directive::OBJECT, Keyword::NONE)
+            ->addDirective(Directive::SCRIPT, [Keyword::SELF, Keyword::UNSAFE_INLINE])
+            ->addDirective(Directive::STYLE, [Keyword::SELF, Keyword::UNSAFE_INLINE])
+            ->addDirective(Directive::FONT, [Keyword::SELF, 'data:'])
+            ->addDirective(Directive::CONNECT, 'o4504320317259776.ingest.sentry.io');
     }
 }
