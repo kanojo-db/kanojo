@@ -58,12 +58,14 @@ export default defineConfig(({ command, mode }) => {
                 ),
             }),
             DefineOptions(),
-            sentryVitePlugin({
-                org: 'kanojo',
-                project: 'javascript-vue',
-                include: './dist',
-                authToken: env.SENTRY_AUTH_TOKEN,
-            }),
+            command === 'build'
+                ? sentryVitePlugin({
+                      org: 'kanojo',
+                      project: 'javascript-vue',
+                      include: './dist',
+                      authToken: env.SENTRY_AUTH_TOKEN,
+                  })
+                : null,
         ],
     };
 });

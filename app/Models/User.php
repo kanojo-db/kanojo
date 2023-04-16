@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
 use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
+use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,6 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements ReacterableInterface
 {
     use HasApiTokens;
+    use MustVerifyEmail;
     use HasFactory;
     use Notifiable;
     use TwoFactorAuthenticatable;

@@ -74,9 +74,9 @@ return [
 
         'discord' => [
             'driver' => 'slack',
-            'url' => rtrim(env('LOG_DISCORD_WEBHOOK', '/')) . '/slack',
+            'url' => rtrim(env('LOG_DISCORD_WEBHOOK', '/')).'/slack',
             'username' => 'Laravel Log',
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => 'critical',
         ],
 
         'slack' => [
