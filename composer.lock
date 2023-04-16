@@ -6770,21 +6770,21 @@
         },
         {
             "name": "spatie/laravel-typescript-transformer",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-typescript-transformer.git",
-                "reference": "70e49fd46a87a8a6e540547031c31effcfc0c176"
+                "reference": "66e699150679a151877d8070b8d2c9b27a7ef82f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-typescript-transformer/zipball/70e49fd46a87a8a6e540547031c31effcfc0c176",
-                "reference": "70e49fd46a87a8a6e540547031c31effcfc0c176",
+                "url": "https://api.github.com/repos/spatie/laravel-typescript-transformer/zipball/66e699150679a151877d8070b8d2c9b27a7ef82f",
+                "reference": "66e699150679a151877d8070b8d2c9b27a7ef82f",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "^8.83|^9.30|^10.0",
-                "php": "^8.0",
+                "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.12",
                 "spatie/typescript-transformer": "^2.1.13"
             },
@@ -6836,7 +6836,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-typescript-transformer/issues",
-                "source": "https://github.com/spatie/laravel-typescript-transformer/tree/2.2.0"
+                "source": "https://github.com/spatie/laravel-typescript-transformer/tree/2.3.0"
             },
             "funding": [
                 {
@@ -6848,7 +6848,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-24T09:57:55+00:00"
+            "time": "2023-04-14T08:14:48+00:00"
         },
         {
             "name": "spatie/temporary-directory",
