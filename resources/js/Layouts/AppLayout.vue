@@ -246,12 +246,12 @@ const websiteSchema = ref({
                     >
                         {{ $t('web.general.pages.contact_us') }}
                     </Link>
-                    <Link
+                    <a
                         class="text-white"
                         :href="route('scribe')"
                     >
                         {{ $t('web.general.pages.api') }}
-                    </Link>
+                    </a>
                     <a
                         class="text-white"
                         href="https://kanojo1.statuspage.io/"

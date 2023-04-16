@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
  */
-// middleware('auth:sanctum')->
-Route::get('/search/movie', [SearchMovieController::class, 'index']);
-Route::get('/movie/{slug}', [MovieDetailsController::class, 'show']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/search/movie', [SearchMovieController::class, 'index']);
+    Route::get('/movie/{slug}', [MovieDetailsController::class, 'show']);
+});
