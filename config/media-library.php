@@ -30,14 +30,7 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
-
-    /*
-     * The fully qualified class name of the model used for temporary uploads.
-     *
-     * This model is only used in Media Library Pro (https://medialibrary.pro)
-     */
-    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+    'media_model' => App\Models\KanojoMedia::class,
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads there were uploaded

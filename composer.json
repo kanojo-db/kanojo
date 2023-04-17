@@ -29,6 +29,7 @@
         "meilisearch/meilisearch-php": "^1.0",
         "owen-it/laravel-auditing": "^13.0",
         "ramsey/uuid": "4.x-dev",
+        "rennokki/laravel-eloquent-query-cache": "^3.4",
         "sentry/sentry-laravel": "^3.1",
         "spatie/enum": "^3.13",
         "spatie/laravel-csp": "^2.8",

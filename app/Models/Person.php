@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
@@ -26,6 +27,7 @@ class Person extends Model implements AuditableContract, HasMedia
     use InteractsWithMedia;
     use HasTranslations;
     use SoftDeletes;
+    use QueryCacheable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +48,13 @@ class Person extends Model implements AuditableContract, HasMedia
         'breast_implants',
         'country',
     ];
+
+    /**
+     * The default time to cache queries.
+     *
+     * @var int|\DateTime
+     */
+    public $cacheFor = 3600;
 
     /**
      * Content reports concerning this person.

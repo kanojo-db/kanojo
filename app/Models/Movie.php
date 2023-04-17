@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -36,6 +37,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     use Reactable;
     use Searchable;
     use SoftDeletes;
+    use QueryCacheable;
 
     /**
      * The attributes that are mass assignable.
@@ -68,6 +70,13 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      * @var string[]
      */
     public $translatable = ['title'];
+
+    /**
+     * The default time to cache queries.
+     *
+     * @var int|\DateTime
+     */
+    public $cacheFor = 3600;
 
     /**
      * The attributes that should be cast.

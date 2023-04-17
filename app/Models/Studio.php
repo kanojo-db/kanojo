@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\LaravelData\DataCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -25,6 +26,7 @@ class Studio extends Model implements AuditableContract, HasMedia
     use InteractsWithMedia;
     use HasTranslations;
     use SoftDeletes;
+    use QueryCacheable;
 
     /**
      * The attributes that are mass assignable.

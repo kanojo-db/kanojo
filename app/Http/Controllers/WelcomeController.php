@@ -15,13 +15,14 @@ class WelcomeController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('Welcome', [
-            'popularModels' => Person::with(['media'])->take(25)->get(),
+            'popularModels' => Person::with(['media'])->take(25)->cacheFor(now()->addDay())->get(),
             'popularMovies' => Movie::latest()
                 ->with([
                     'media',
                     'type',
                 ])
                 ->take(25)
+                ->cacheFor(now()->addDay())
                 ->get(),
             'latestMovies' => Movie::latest()
                 ->with([
