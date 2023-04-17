@@ -55,7 +55,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['discord', 'daily', 'stderr'],
+            'channels' => ['discord', 'daily'],
             'ignore_exceptions' => false,
         ],
 
@@ -73,10 +73,11 @@ return [
         ],
 
         'discord' => [
-            'driver' => 'slack',
-            'url' => rtrim(env('LOG_DISCORD_WEBHOOK'), '/').'/slack',
-            'username' => 'Laravel Log',
+            'driver' => 'custom',
+            'via' => MarvinLabs\DiscordLogger\Logger::class,
             'level' => 'critical',
+            'url' => env('LOG_DISCORD_WEBHOOK'),
+            'ignore_exceptions' => env('LOG_DISCORD_IGNORE_EXCEPTIONS', false),
         ],
 
         'slack' => [
