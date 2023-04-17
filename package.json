@@ -70,7 +70,7 @@
         "luxon": "^3.3.0",
         "quasar": "^2.11.10",
         "simple-icons": "^8.10.0",
-        "swiper": "^9.2.2",
+        "swiper": "^9.2.3",
         "vue-chartjs": "^5.2.0",
         "vue-i18n": "^9.2.2"
     },
