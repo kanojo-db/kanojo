@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 import { PageProps } from '@/types/inertia';
@@ -61,6 +61,14 @@ const websiteSchema = ref({
         'query-input': 'required name=search_term_string',
     },
 });
+
+const form = useForm({});
+
+const resendEmail = () => {
+    form.post(route('verification.send'));
+};
+
+const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
 </script>
 
 <template>
@@ -75,6 +83,22 @@ const websiteSchema = ref({
 
     <q-layout>
         <q-header height-hint="64">
+            <q-banner
+                v-if="!isEmailVerified && page.props.user !== null"
+                inline-actions
+                class="bg-primary text-white"
+            >
+                Please verify your email address by clicking on the link we sent
+                to your email address.
+                <template v-slot:action>
+                    <q-btn
+                        flat
+                        color="white"
+                        label="Resend Email"
+                        @click="resendEmail"
+                    />
+                </template>
+            </q-banner>
             <q-toolbar class="bg-grey-8 q-py-sm q-px-md">
                 <Link href="/">
                     <img
@@ -241,6 +265,12 @@ const websiteSchema = ref({
                         {{ $t('web.general.pages.about') }}
                     </Link>
                     <Link
+                        :href="route('privacy')"
+                        class="text-white"
+                    >
+                        {{ $t('web.general.pages.privacyPolicy') }}
+                    </Link>
+                    <Link
                         href="#"
                         class="text-white"
                     >
@@ -298,6 +328,12 @@ const websiteSchema = ref({
                     </h3>
                     <a
                         class="text-white"
+                        href="https://kanojo.sleekplan.app"
+                    >
+                        {{ $t('web.general.pages.requestFeatures') }}
+                    </a>
+                    <a
+                        class="text-white"
                         href="https://discord.gg/chg5KzTHHp"
                     >
                         {{ $t('web.general.pages.discord') }}
@@ -307,6 +343,12 @@ const websiteSchema = ref({
                         href="https://github.com/kanojo-db"
                     >
                         {{ $t('web.general.pages.github') }}
+                    </a>
+                    <a
+                        class="text-white"
+                        href="https://twitter.com/kanojodb"
+                    >
+                        {{ $t('web.general.pages.twitter') }}
                     </a>
                 </div>
             </div>

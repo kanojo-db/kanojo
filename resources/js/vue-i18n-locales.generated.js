@@ -210,9 +210,12 @@ export default {
                     "github": "GitHub",
                     "fill_missing": "Fill Missing Data",
                     "help_translate": "Help Translate Kanojo",
+                    "privacyPolicy": "Privacy Policy",
+                    "requestFeatures": "Request Features",
                     "search": "Search",
                     "settings": "Settings",
                     "status": "Status",
+                    "twitter": "Twitter",
                 },
                 "not_rated": "NR",
                 "x_percent": "{number}%",
@@ -226,8 +229,14 @@ export default {
                 "moviesCount": "{number} Movies"
             },
             "login": {
-                "welcomeBack": "Welcome back!",
+                "welcomeBack": "Welcome back to Kanojo - largest database of Japanese adult video and gravure movies!",
                 "submit": "Log in",
+                "marketingHeader": "Already a member? Sign in to explore our comprehensive database of titles and models.",
+                "needAccount": "Need an account?",
+            },
+            "register": {
+                "joinHeader": "Join the largest database of Japanese adult video and gravure movies.",
+                "alreadyUser": "Already a user?",
             },
             "media" : {
                 "types": {

@@ -47,11 +47,15 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
-            return Inertia::render('Auth/Login');
+            return Inertia::render('Auth/Login', [
+                'status' => session('status'),
+            ]);
         });
 
         Fortify::requestPasswordResetLinkView(function () {
-            return Inertia::render('Auth/ForgotPassword');
+            return Inertia::render('Auth/ForgotPassword', [
+                'status' => session('status'),
+            ]);
         });
 
         Fortify::resetPasswordView(function (Request $request) {
@@ -66,7 +70,9 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::verifyEmailView(function () {
-            return Inertia::render('Auth/VerifyEmail');
+            return Inertia::render('Auth/VerifyEmail', [
+                'status' => session('status'),
+            ]);
         });
 
         Fortify::twoFactorChallengeView(function () {

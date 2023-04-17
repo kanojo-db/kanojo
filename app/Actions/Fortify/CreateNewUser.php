@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Laravel\Fortify\Rules\Password;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -31,5 +32,15 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+    }
+
+    /**
+     * Get the validation rules used to validate passwords.
+     *
+     * @return array<array-key, \Laravel\Fortify\Rules\Password|string>
+     */
+    protected function passwordRules(): array
+    {
+        return ['required', 'string', new Password];
     }
 }

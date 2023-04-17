@@ -15,10 +15,12 @@ use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonHistoryController;
 use App\Http\Controllers\PersonMediaController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsAccountController;
 use App\Http\Controllers\SettingsSessionsController;
 use App\Http\Controllers\SettingsTokensController;
+use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\StudioController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\User;
@@ -37,19 +39,26 @@ use Inertia\Inertia;
 |
  */
 
+/**
+ * General routes.
+ */
 Route::get('/', WelcomeController::class)->name('welcome');
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('privacy');
 
-Route::post('/user/locale', function () {
-    request()->validate([
-        'locale' => ['required', 'string', 'in:en-US,fr-FR,es-ES'],
-    ]);
+/**
+ * Social login routes.
+ */
+Route::get('/login/{provider}', [SocialLoginController::class, 'redirect'])->name('login.provider');
+Route::get('/login/{provider}/callback', [SocialLoginController::class, 'callback'])->name('login.provider.callback');
 
-    app()->setLocale(request('locale'));
-    session()->put('locale', request('locale'));
+/**
+ * Marketing pages.
+ */
+Route::resource('about', AboutKanojo::class)->only(['index'])->shallow();
 
-    return redirect()->back();
-})->name('user.locale.store');
-
+/**
+ * Protected general routes.
+ */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/settings/account', [SettingsAccountController::class, 'show'])->name('settings.account');
     Route::post('/settings/account', [SettingsAccountController::class, 'update'])->name('settings.account.update');
@@ -61,10 +70,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/settings/tokens/{token}', [SettingsTokensController::class, 'destroy'])->name('settings.tokens.destroy');
 });
 
+/**
+ * Search routes.
+ */
 Route::get('search', SearchController::class)->name('search');
 
-Route::resource('about', AboutKanojo::class)->only(['index'])->shallow();
-
+/**
+ * Movie routes.
+ */
 Route::resource('movies', MovieController::class);
 Route::resource('movies.media', MovieMediaController::class)->only([
     'index', 'store', 'destroy',
@@ -79,6 +92,9 @@ Route::resource('movies.wishlist', MovieWishlistController::class)->only(['store
 Route::resource('movies.collection', MovieCollectionController::class)->only(['store', 'destroy'])->shallow();
 Route::resource('movies.reports', ContentReportController::class)->shallow();
 
+/**
+ * Person routes.
+ */
 Route::resource('models', PersonController::class);
 Route::resource('models.media', PersonMediaController::class)->only([
     'index', 'store', 'destroy',
@@ -87,8 +103,14 @@ Route::resource('models.history', PersonHistoryController::class)->only([
     'index',
 ])->shallow();
 
+/**
+ * Studio routes.
+ */
 Route::resource('studios', StudioController::class);
 
+/**
+ * User profile routes.
+ */
 Route::get('/user/{user}', function (User $user) {
     /** @var User|null */
     $currentUser = Auth::user();
@@ -103,6 +125,23 @@ Route::get('/user/{user}', function (User $user) {
     ]);
 })->name('profile.show');
 
+/**
+ * Contribution bible routes.
+ */
 Route::get('bible/general', function () {
     return Inertia::render('Bible/General');
 })->name('bible.general');
+
+/**
+ * User locale switching.
+ */
+Route::post('/user/locale', function () {
+    request()->validate([
+        'locale' => ['required', 'string', 'in:en-US,fr-FR,es-ES'],
+    ]);
+
+    app()->setLocale(request('locale'));
+    session()->put('locale', request('locale'));
+
+    return redirect()->back();
+})->name('user.locale.store');
