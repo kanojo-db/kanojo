@@ -5,7 +5,7 @@ echo "Deployment started ..."
 
 # Enter maintenance mode or return true
 # if already is in maintenance mode
-(php artisan down) || true
+(php artisan down --refresh=60) || true
 
 # For safety, stash any changes
 git stash
