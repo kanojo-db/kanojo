@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
+import { mdiAlert, mdiExclamation } from '@quasar/extras/mdi-v6';
 import { User } from '@sentry/types';
 import { PropType, computed } from 'vue';
 
@@ -131,6 +132,20 @@ const orderedTopUsers = computed(() => {
                 </template>
             </q-input>
         </q-form>
+        <q-chip
+            class="q-mb-xl"
+            size="lg"
+            color="red"
+            text-color="white"
+            :icon="mdiAlert"
+        >
+            This version of the site is still in development. Please report any
+            bugs.
+            <b
+                >The database will be reset for the launch, all changes will be
+                lost.</b
+            >
+        </q-chip>
         <div class="row full-width">
             <div
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
