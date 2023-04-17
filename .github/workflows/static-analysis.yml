@@ -54,7 +54,7 @@ jobs:
           php-version: "8.2"
 
       - name: Checkout code
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3
 
       - name: Get Composer cache directory
         id: composer-cache
