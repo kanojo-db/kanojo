@@ -112,64 +112,94 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                     />
                 </Link>
 
-                <q-btn-dropdown
-                    stretch
+                <q-btn
                     flat
                     label="Movies"
                 >
-                    <q-list>
-                        <q-item
-                            :href="route('movies.index')"
-                            v-close-popup
-                            clickable
-                        >
-                            <q-item-section>
-                                <q-item-label>Recently released</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item v-close-popup>
-                            <q-item-section>
-                                <q-item-label>Upcoming</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item v-close-popup>
-                            <q-item-section>
-                                <q-item-label>Popular</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                </q-btn-dropdown>
+                    <q-menu
+                        anchor="bottom middle"
+                        self="top middle"
+                        :offset="[0, 15]"
+                        auto-close
+                    >
+                        <q-list>
+                            <q-item
+                                v-close-popup
+                                :href="route('movies.index')"
+                                clickable
+                            >
+                                <q-item-section>
+                                    <q-item-label
+                                        >Recently released</q-item-label
+                                    >
+                                </q-item-section>
+                            </q-item>
+                            <q-item v-close-popup>
+                                <q-item-section>
+                                    <q-item-label>Upcoming</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item v-close-popup>
+                                <q-item-section>
+                                    <q-item-label>Popular</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-menu>
+                </q-btn>
 
-                <q-btn-dropdown
-                    stretch
+                <q-btn
                     flat
                     label="Models"
                 >
-                    <q-list>
-                        <q-item
-                            :href="route('models.index')"
-                            v-close-popup
-                            clickable
-                        >
-                            <q-item-section>
-                                <q-item-label>Recently added</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item v-close-popup>
-                            <q-item-section>
-                                <q-item-label>Popular</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                </q-btn-dropdown>
+                    <q-menu
+                        anchor="bottom middle"
+                        self="top middle"
+                        :offset="[0, 15]"
+                        auto-close
+                    >
+                        <q-list>
+                            <q-item
+                                v-close-popup
+                                :href="route('models.index')"
+                                clickable
+                            >
+                                <q-item-section>
+                                    <q-item-label>Recently added</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item v-close-popup>
+                                <q-item-section>
+                                    <q-item-label>Popular</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-menu>
+                </q-btn>
 
-                <q-btn-dropdown
+                <q-btn
                     disable
-                    stretch
                     flat
                     label="Studios"
                 >
-                </q-btn-dropdown>
+                    <q-menu
+                        anchor="bottom middle"
+                        self="top middle"
+                        :offset="[0, 15]"
+                        auto-close
+                    >
+                        <q-list>
+                            <q-item
+                                v-close-popup
+                                clickable
+                            >
+                                <q-item-section>
+                                    <q-item-label>Recently added</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-menu>
+                </q-btn>
 
                 <q-btn
                     disable
@@ -177,7 +207,6 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                     flat
                     label="Categories"
                 />
-
                 <q-space />
 
                 <q-btn
@@ -186,8 +215,36 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                     dense
                     :icon="mdiPlus"
                     class="q-mr-lg"
-                    @click="$inertia.get(route('movies.create'))"
-                />
+                >
+                    <q-menu
+                        anchor="bottom middle"
+                        self="top middle"
+                        :offset="[0, 15]"
+                        auto-close
+                    >
+                        <q-list>
+                            <q-item
+                                v-close-popup
+                                :href="route('movies.create')"
+                                clickable
+                            >
+                                <q-item-section>
+                                    <q-item-label>Movie</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item v-close-popup>
+                                <q-item-section>
+                                    <q-item-label>Model</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item v-close-popup>
+                                <q-item-section>
+                                    <q-item-label>Studio</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-menu>
+                </q-btn>
                 <LanguageSwitcher />
                 <q-avatar
                     v-if="page.props.user"
