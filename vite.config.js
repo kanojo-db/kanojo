@@ -56,6 +56,7 @@ export default defineConfig(({ command, mode }) => {
                     dirname(fileURLToPath(import.meta.url)),
                     './resources/js/vue-i18n-locales.generated.js',
                 ),
+                runtimeOnly: false,
             }),
             DefineOptions(),
             command === 'build'
