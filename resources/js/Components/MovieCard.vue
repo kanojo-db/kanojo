@@ -53,7 +53,7 @@ const userScore = computed(() => {
 <template>
     <Link
         class="block"
-        :href="route('movies.show', { movie: movie.slug })"
+        :href="route('movies.show', { movie: movie.slug ?? movie.id })"
         style="width: 200px"
     >
         <div class="fit column no-wrap justify-start items-start content-start">
