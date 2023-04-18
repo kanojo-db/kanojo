@@ -15,6 +15,16 @@ a:hover {
 }
 
 // Utilities
+.content-wrapper {
+    max-width: 1400px;
+    width: 100%;
+    margin-left: map-get($map: $space-md, $key: 'x');
+    margin-right: map-get($map: $space-md, $key: 'x');
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .pointer {
     cursor: pointer;
@@ -28,7 +38,6 @@ a:hover {
 // Grids
 .card-grid-container {
     display: grid;
-    // Fixed width and height, automatic number of columns and rows
     grid-template-columns: repeat(auto-fill, 200px);
     grid-template-rows: repeat(auto-fill, 403px);
     grid-gap: map-get($map: $space-md, $key: 'x') map-get($map: $space-md, $key: 'y');

@@ -1,82 +1,168 @@
 <script setup lang="ts">
-import SidemenuBibleGeneral from '@/Components/SidemenuBibleGeneral.vue';
+import { Link } from '@inertiajs/vue3';
+
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 defineOptions({
     layout: AppLayout,
 });
+
+const featuredArticles = [
+    {
+        category: 'Movies',
+        title: 'List of banned titles',
+        link: '#',
+    },
+    {
+        category: 'General',
+        title: 'Content guidelines',
+        link: '#',
+    },
+    {
+        category: 'General',
+        title: 'Translating content',
+        link: '#',
+    },
+    {
+        category: 'Movies',
+        title: 'Adding new movies',
+        link: '#',
+    },
+    {
+        category: 'Models',
+        title: 'Handling aliases',
+        link: '#',
+    },
+    {
+        category: 'Studios',
+        title: 'Studios, labels and distributors',
+        link: '#',
+    },
+    {
+        category: 'Movies',
+        title: 'Special product codes',
+        link: '#',
+    },
+    {
+        category: 'Images',
+        title: 'Image guidelines',
+        link: '#',
+    },
+];
+
+const categoryColors = {
+    General: 'bg-primary',
+    Images: 'bg-secondary',
+    Movies: 'bg-accent',
+    Models: 'bg-green',
+    Studios: 'bg-blue',
+};
 </script>
 
 <template>
-    <div class="col bg-grey-3">
-        <div class="row q-py-lg q-px-md">
-            <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                General Bible
-            </h1>
-        </div>
-    </div>
-    <div class="q-ma-md">
-        <div class="row q-col-gutter-lg full-width">
-            <div class="col-2 q-pl-none">
-                <SidemenuBibleGeneral />
+    <div class="flex column items-center justify-center q-py-xl no-wrap">
+        <h1 class="text-h1 text-weight-bolder q-mb-xl">Contribution Bible</h1>
+        <div class="content-wrapper q-mt-xl">
+            <div class="row full-width">
+                <Link
+                    class="col col-6"
+                    :href="route('bible.general')"
+                >
+                    <q-card class="bg-primary q-px-xl q-py-xl q-ma-md">
+                        <p
+                            class="text-h1 text-white text-weight-bolder q-mt-xl"
+                        >
+                            General
+                        </p>
+                        <hr
+                            class="q-mb-xl"
+                            style="border: 6px solid white"
+                        />
+                    </q-card>
+                </Link>
+
+                <Link
+                    class="col col-6"
+                    href="#"
+                >
+                    <q-card class="bg-secondary q-px-xl q-py-xl q-ma-md">
+                        <p
+                            class="text-h1 text-white text-weight-bolder q-mt-xl"
+                        >
+                            Images
+                        </p>
+                        <hr
+                            class="q-mb-xl"
+                            style="border: 6px solid white"
+                        />
+                    </q-card>
+                </Link>
             </div>
-            <div class="col col-10">
-                <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
-                    General Tips
-                </h2>
-                <p class="text-body1">
-                    Our data is a mix of user-contributed and scraped data. We
-                    scrape multiple online stores every day for new releases. We
-                    encourage you to provide additional information and add
-                    missing titles to the database, or edit any incorrect data
-                    you may come across. Click "Edit" on any movie, model,
-                    series or studio to access the editing interface.
-                </p>
-                <p class="text-body1">
-                    Please refrain from engaging in editing wars with other
-                    contributors.
-                </p>
+            <div class="row full-width">
+                <Link
+                    class="col col-4"
+                    href="#"
+                >
+                    <q-card class="bg-accent q-px-xl q-py-xl q-ma-md">
+                        <p class="text-h2 text-white text-weight-bolder">
+                            Movies
+                        </p>
+                        <hr style="border: 6px solid white" />
+                    </q-card>
+                </Link>
 
-                <h3 class="text-h6 text-weight-bold q-mt-none q-mb-md">
-                    Reporting Issues
-                </h3>
-                <p class="text-body1">
-                    Content issue reports are mostly handled by a team of
-                    <strong>volunteer</strong> moderators. They can help you
-                    perform many tasks such as deleting entries and images,
-                    refreshing URLs or forcing a primary image. Use the
-                    <strong>Report</strong> button to ask a moderator to
-                    intervene and lock fields during an editing war or make a
-                    final decision about reccuring issues.
-                </p>
-                <p class="text-body1">
-                    Proving a source for your report is not required, but it can
-                    help moderators to reach a decision faster.
-                </p>
-                <p class="text-body1">Reports should be written in English.</p>
-                <p class="text-body1">
-                    Do not erase data manually before submitting a report, as
-                    moderators need to check the validity of the original data
-                    to reach a decision.
-                </p>
+                <Link
+                    class="col col-4"
+                    href="#"
+                >
+                    <q-card class="bg-green q-px-xl q-py-xl q-ma-md">
+                        <p class="text-h2 text-white text-weight-bolder">
+                            Models
+                        </p>
+                        <hr style="border: 6px solid white" />
+                    </q-card>
+                </Link>
 
-                <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
-                    Incorrect Entries
-                </h2>
-                <p class="text-body1">
-                    We do not recycle entries. Please avoid repurposing existing
-                    entries for new content.
-                </p>
-                <p class="text-body1">
-                    Entries with incorrect data should be fixed, not deleted.
-                </p>
-                <p class="text-body1">
-                    In case of duplicates, use the report function to ask a
-                    moderator to merge the entries or remove the duplicate
-                    entry. Do note that some movies exist in multiple versions
-                    (For example a DVD and a Blu-ray version). Such entries can
-                    coexist, since they feature a different product code.
-                </p>
+                <Link
+                    class="col col-4"
+                    href="#"
+                >
+                    <q-card class="bg-blue q-px-xl q-py-xl q-ma-md">
+                        <p class="text-h2 text-white text-weight-bolder">
+                            Studios
+                        </p>
+                        <hr style="border: 6px solid white" />
+                    </q-card>
+                </Link>
+            </div>
+            <div class="row full-width">
+                <div class="col">
+                    <h2 class="text-h2 text-weight-bolder q-mx-md q-mt-xl">
+                        Featured Articles
+                    </h2>
+                    <div class="grid-2">
+                        <div
+                            v-for="article in featuredArticles"
+                            :key="article.title"
+                            class="row items-center col col-6"
+                            style="border-bottom: 1px solid #d1d4d2"
+                        >
+                            <q-chip
+                                class="q-ma-md"
+                                :class="categoryColors[article.category]"
+                                text-color="white text-overline font-weight-bold"
+                                size="lg"
+                            >
+                                {{ article.category }}
+                            </q-chip>
+                            <Link :href="article.link">
+                                <h3 class="text-h5 text-weight-bolder">
+                                    {{ article.title }}
+                                </h3>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

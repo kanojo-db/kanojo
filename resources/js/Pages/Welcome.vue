@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
-import { mdiAlert, mdiExclamation } from '@quasar/extras/mdi-v6';
+import { mdiAlert } from '@quasar/extras/mdi-v6';
 import { User } from '@sentry/types';
 import { PropType, computed } from 'vue';
 
@@ -135,7 +135,7 @@ const orderedTopUsers = computed(() => {
         <q-chip
             class="q-mb-xl"
             size="lg"
-            color="red"
+            color="secondary"
             text-color="white"
             :icon="mdiAlert"
         >

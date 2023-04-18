@@ -30,6 +30,7 @@ const showSearch = ref(false);
 
 const logout = () => {
     router.post(route('logout'));
+    router.get(route('welcome'));
 };
 
 const currentRouteParams = ref(route().params);
@@ -314,13 +315,13 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                 <template v-else>
                     <q-btn
                         flat
-                        @click="$inertia.get(route('login'))"
+                        :0href="route('login')"
                     >
                         {{ $t('web.general.login') }}
                     </q-btn>
                     <q-btn
                         flat
-                        @click="$inertia.get(route('register'))"
+                        :href="route('register')"
                     >
                         {{ $t('web.general.register') }}
                     </q-btn>
@@ -429,7 +430,7 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                     </h3>
                     <Link
                         class="text-white"
-                        :href="route('bible.general')"
+                        :href="route('bible.index')"
                     >
                         {{ $t('web.general.pages.bible') }}
                     </Link>
