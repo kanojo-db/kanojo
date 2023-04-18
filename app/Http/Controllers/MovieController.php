@@ -35,8 +35,8 @@ class MovieController extends Controller
         return Inertia::render('Movie/Index', [
             'movies' => function (): LengthAwarePaginator {
                 return QueryBuilder::for(Movie::class)
-                    ->defaultSort('-created_at')
-                    ->allowedSorts(['created_at', 'product_code'])
+                    ->defaultSort('-release_date')
+                    ->allowedSorts(['created_at', 'product_code', 'release_date'])
                     ->allowedFilters([
                         AllowedFilter::custom('age', new FiltersFeaturedModelAge),
                     ])

@@ -151,10 +151,7 @@ const orderedTopUsers = computed(() => {
             <div
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
             >
-                <Link
-                    :href="route('movies.index')"
-                    class="column justify-center items-center content-center"
-                >
+                <div class="column justify-center items-center content-center">
                     <span
                         class="text-weight-bold text-uppercase text-h6 text-center"
                     >
@@ -163,15 +160,12 @@ const orderedTopUsers = computed(() => {
                     <span class="text-weight-bolder text-h4">
                         {{ props.movieCount.toLocaleString() }}
                     </span>
-                </Link>
+                </div>
             </div>
             <div
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
             >
-                <Link
-                    :href="route('models.index')"
-                    class="column justify-center items-center content-center"
-                >
+                <div class="column justify-center items-center content-center">
                     <span
                         class="text-weight-bold text-uppercase text-h6 text-center"
                     >
@@ -180,15 +174,12 @@ const orderedTopUsers = computed(() => {
                     <span class="text-weight-bolder text-h4">
                         {{ props.modelCount.toLocaleString() }}
                     </span>
-                </Link>
+                </div>
             </div>
             <div
                 class="col fit column justify-center items-center content-center text-white q-mx-md"
             >
-                <Link
-                    :href="route('movies.index')"
-                    class="column justify-center items-center content-center"
-                >
+                <div class="column justify-center items-center content-center">
                     <span
                         class="text-weight-bold text-uppercase text-h6 text-center"
                     >
@@ -197,7 +188,7 @@ const orderedTopUsers = computed(() => {
                     <span class="text-weight-bolder text-h4">
                         {{ props.tagCount.toLocaleString() }}
                     </span>
-                </Link>
+                </div>
             </div>
         </div>
     </div>

@@ -100,7 +100,10 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                 </template>
             </q-banner>
             <q-toolbar class="bg-grey-8 q-py-sm q-px-md">
-                <Link href="/">
+                <Link
+                    href="/"
+                    class="column items-center q-mr-md"
+                >
                     <img
                         alt="Kanojo Logo"
                         src="/images/logo-dark.svg"
@@ -108,6 +111,72 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                         fit="contain"
                     />
                 </Link>
+
+                <q-btn-dropdown
+                    stretch
+                    flat
+                    label="Movies"
+                >
+                    <q-list>
+                        <q-item
+                            :href="route('movies.index')"
+                            v-close-popup
+                            clickable
+                        >
+                            <q-item-section>
+                                <q-item-label>Recently released</q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup>
+                            <q-item-section>
+                                <q-item-label>Upcoming</q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup>
+                            <q-item-section>
+                                <q-item-label>Popular</q-item-label>
+                            </q-item-section>
+                        </q-item>
+                    </q-list>
+                </q-btn-dropdown>
+
+                <q-btn-dropdown
+                    stretch
+                    flat
+                    label="Models"
+                >
+                    <q-list>
+                        <q-item
+                            :href="route('models.index')"
+                            v-close-popup
+                            clickable
+                        >
+                            <q-item-section>
+                                <q-item-label>Recently added</q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup>
+                            <q-item-section>
+                                <q-item-label>Popular</q-item-label>
+                            </q-item-section>
+                        </q-item>
+                    </q-list>
+                </q-btn-dropdown>
+
+                <q-btn-dropdown
+                    disable
+                    stretch
+                    flat
+                    label="Studios"
+                >
+                </q-btn-dropdown>
+
+                <q-btn
+                    disable
+                    stretch
+                    flat
+                    label="Categories"
+                />
 
                 <q-space />
 
