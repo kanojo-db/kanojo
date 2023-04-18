@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\AboutKanojo;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContentReportController;
 use App\Http\Controllers\MovieCollectionController;
 use App\Http\Controllers\MovieController;
@@ -57,7 +57,7 @@ Route::get('/login/{provider}/callback', [SocialLoginController::class, 'callbac
 /**
  * Marketing pages.
  */
-Route::resource('about', AboutKanojo::class)->only(['index'])->shallow();
+Route::resource('about', AboutController::class)->only(['index'])->shallow();
 
 /**
  * Protected general routes.

@@ -22,15 +22,24 @@ class SearchController extends Controller
         return Inertia::render('Search', [
             'modelsResults' => function () use ($validatedData): LengthAwarePaginator {
                 return Person::search($validatedData['q'])->query(function (Builder $query): Builder {
-                    return $query->with('media');
+                    return $query->with([
+                        'media'
+                    ]);
                 })
                 ->paginate(25)
                 ->appends(request()->query());
             },
             'moviesResults' => function () use ($validatedData): LengthAwarePaginator {
-                return Movie::search($validatedData['q'])
-                    ->paginate(25)
-                    ->appends(request()->query());
+                return Movie::search($validatedData['q'])->query(function (Builder $query): Builder {
+                    return $query->with([
+                        'media',
+                        'type',
+                        'loveReactant.reactionTotal',
+                        'loveReactant.reactions.type',
+                    ]);
+                })
+                ->paginate(25)
+                ->appends(request()->query());
             },
         ]);
     }

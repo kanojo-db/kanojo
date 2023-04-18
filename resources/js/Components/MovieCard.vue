@@ -95,21 +95,22 @@ const userScore = computed(() => {
                     :model-value="averageScore"
                 >
                     <div
-                        class="row justify-center items-start text-overline text-grey-7"
+                        class="row justify-center items-center text-overline text-grey-7"
                     >
                         <i18n-t
                             v-if="averageScore > 0"
                             keypath="web.general.x_percent"
                         >
                             <template #number>
-                                <span class="text-weight-bolder text-h6">{{
-                                    userScore
-                                }}</span>
+                                <span
+                                    class="text-weight-bolder text-body1 q-mt-none"
+                                    >{{ userScore }}</span
+                                >
                             </template>
                         </i18n-t>
                         <span
                             v-else
-                            class="text-weight-bolder text-h6"
+                            class="text-weight-bolder text-body1 q-ma-none"
                         >
                             {{ $t('web.general.not_rated') }}
                         </span>

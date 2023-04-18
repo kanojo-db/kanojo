@@ -20,6 +20,8 @@ class WelcomeController extends Controller
                 ->with([
                     'media',
                     'type',
+                    'loveReactant.reactionTotal',
+                    'loveReactant.reactions.type',
                 ])
                 ->take(25)
                 ->cacheFor(now()->addDay())
@@ -28,6 +30,8 @@ class WelcomeController extends Controller
                 ->with([
                     'media',
                     'type',
+                    'loveReactant.reactionTotal',
+                    'loveReactant.reactions.type',
                 ])
                 ->latest()
                 ->take(25)
@@ -36,6 +40,8 @@ class WelcomeController extends Controller
                 ->with([
                     'media',
                     'type',
+                    'loveReactant.reactionTotal',
+                    'loveReactant.reactions.type',
                 ])
                 ->take(25)
                 ->get(),
@@ -44,6 +50,8 @@ class WelcomeController extends Controller
                 ->with([
                     'media',
                     'type',
+                    'loveReactant.reactionTotal',
+                    'loveReactant.reactions.type',
                 ])
                 ->take(25)
                 ->get(),

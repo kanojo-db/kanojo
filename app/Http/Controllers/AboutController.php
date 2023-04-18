@@ -11,7 +11,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Tags\Tag;
 
-class AboutKanojo extends Controller
+class AboutController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,6 +32,7 @@ class AboutKanojo extends Controller
         ->orderBy(
             $expression
         )
+        ->cacheFor(2592000 /* 1 month */)
         ->get();
 
         $birth_counts = Person::select([
@@ -45,6 +46,7 @@ class AboutKanojo extends Controller
         ->orderBy(
             $expression
         )
+        ->cacheFor(2592000 /* 1 month */)
         ->get();
 
         $height_counts = Person::select([
@@ -63,6 +65,7 @@ class AboutKanojo extends Controller
         ->where('bust', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
+        ->cacheFor(2592000 /* 1 month */)
         ->get();
 
         $waist_counts = Person::select([
@@ -72,6 +75,7 @@ class AboutKanojo extends Controller
         ->where('waist', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
+        ->cacheFor(2592000 /* 1 month */)
         ->get();
 
         $hip_counts = Person::select([
@@ -81,6 +85,7 @@ class AboutKanojo extends Controller
         ->where('hip', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
+        ->cacheFor(2592000 /* 1 month */)
         ->get();
 
         $cup_counts = Person::select([
@@ -90,9 +95,14 @@ class AboutKanojo extends Controller
         ->where('cup_size', '!=', null)
         ->groupBy('value')
         ->orderBy('value')
+        ->cacheFor(2592000 /* 1 month */)
         ->get();
 
-        $average_movies_per_model = Person::has('movies')->withCount('movies')->get()->avg('movies_count');
+        $average_movies_per_model = Person::has('movies')
+                                        ->withCount('movies')
+                                        ->cacheFor(2592000 /* 1 month */)
+                                        ->get()
+                                        ->avg('movies_count');
 
         return Inertia::render('About', [
             'movieCount' => Movie::count(),

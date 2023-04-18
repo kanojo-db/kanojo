@@ -49,6 +49,7 @@ class MovieController extends Controller
                         'loveReactant.reactionCounters',
                         'loveReactant.reactionTotal',
                     ])
+                    ->cacheFor(86400 /* 1 day */)
                     ->paginate(25)
                     ->appends(request()->query());
             },
