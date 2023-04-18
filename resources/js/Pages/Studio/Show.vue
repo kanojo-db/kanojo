@@ -3,7 +3,7 @@ import { router } from '@inertiajs/vue3';
 import { PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
+import CardSwiper from '@/Components/CardSwiper.vue';
 import MovieCard from '@/Components/MovieCard.vue';
 import StudioTabBar from '@/Components/StudioTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
@@ -79,16 +79,16 @@ const goToPage = (page: number) => {
         </div>
         <div
             v-if="props.models.length > 0"
-            class="column q-px-md"
+            class="q-px-md"
         >
             <div class="row">
                 <h2 class="text-h5 q-mt-none">
                     {{ $t('web.studio.known_for') }}
                 </h2>
             </div>
-            <div class="row">
-                <ModelCardSwiper :models="props.models" />
-            </div>
+            <section>
+                <CardSwiper :items="props.models" />
+            </section>
         </div>
     </div>
     <div class="q-pa-md">
@@ -101,14 +101,13 @@ const goToPage = (page: number) => {
                 @update:model-value="goToPage"
             />
         </div>
-        <div
-            class="fit row wrap justify-start items-start content-start q-gutter-md"
-        >
-            <MovieCard
+        <div class="card-grid-container">
+            <div
                 v-for="movie in props.movies.data"
                 :key="movie.id"
-                :movie="movie"
-            />
+            >
+                <MovieCard :movie="movie" />
+            </div>
         </div>
         <div class="row justify-center q-mb-md">
             <q-pagination

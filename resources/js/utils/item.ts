@@ -90,3 +90,23 @@ export function useFirstImage(
         return null;
     });
 }
+
+/**
+ * Determines whether the provided item is a Movie object.
+ *
+ * @param {Movie | Person | Studio} item - The item to check.
+ * @returns {boolean} - True if the item is a Movie object, false otherwise.
+ */
+export function isMovie(item: Movie | Person | Studio): item is Movie {
+    return (item as Movie).title !== undefined;
+}
+
+/**
+ * Determines whether the provided item is a Person object.
+ *
+ * @param {Movie | Person | Studio} item - The item to check.
+ * @returns {boolean} - True if the item is a Person object, false otherwise.
+ */
+export function isPerson(item: Movie | Person | Studio): item is Person {
+    return (item as Person).name !== undefined;
+}

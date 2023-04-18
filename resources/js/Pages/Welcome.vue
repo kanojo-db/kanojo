@@ -5,7 +5,6 @@ import { User } from '@sentry/types';
 import { PropType, computed } from 'vue';
 
 import CardSwiper from '@/Components/CardSwiper.vue';
-import ModelCardSwiper from '@/Components/ModelCardSwiper.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Movies, People } from '@/types/models';
 
@@ -197,31 +196,31 @@ const orderedTopUsers = computed(() => {
             <h1 class="text-h4 q-mt-sm q-mb-lg text-weight-bold">
                 {{ $t('web.welcome.recentlyReleasedMovies') }}
             </h1>
-            <CardSwiper :movies="props.recentlyReleasedMovies" />
+            <CardSwiper :items="props.recentlyReleasedMovies" />
         </section>
         <section>
             <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                 {{ $t('web.welcome.popularModels') }}
             </h1>
-            <ModelCardSwiper :models="props.popularModels" />
+            <CardSwiper :items="props.popularModels" />
         </section>
         <section>
             <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                 {{ $t('web.welcome.popularMovies') }}
             </h1>
-            <CardSwiper :movies="props.popularMovies" />
+            <CardSwiper :items="props.popularMovies" />
         </section>
         <section>
             <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                 {{ $t('web.welcome.recentlyAddedMovies') }}
             </h1>
-            <CardSwiper :movies="props.latestMovies" />
+            <CardSwiper :items="props.latestMovies" />
         </section>
         <section>
             <h1 class="text-h4 q-mt-md q-mb-lg text-weight-bold">
                 {{ $t('web.welcome.recentlyUpdatedMovies') }}
             </h1>
-            <CardSwiper :movies="props.recentlyUpdatedMovies" />
+            <CardSwiper :items="props.recentlyUpdatedMovies" />
         </section>
         <section>
             <div class="row q-mb-xs">

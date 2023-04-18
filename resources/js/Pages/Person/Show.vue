@@ -229,14 +229,13 @@ const goToPage = (page: number) => {
                 @update:model-value="goToPage"
             />
         </div>
-        <div
-            class="fit row wrap justify-start items-start content-start q-gutter-md"
-        >
-            <MovieCard
+        <div class="card-grid-container">
+            <div
                 v-for="movie in movies.data"
                 :key="movie.id"
-                :movie="movie"
-            />
+            >
+                <MovieCard :movie="movie" />
+            </div>
         </div>
         <div class="row justify-center q-mb-md">
             <q-pagination
