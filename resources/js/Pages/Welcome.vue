@@ -123,6 +123,7 @@ const orderedTopUsers = computed(() => {
                 <template #append>
                     <q-btn
                         type="submit"
+                        unelevated
                         rounded
                         color="primary"
                         @click="submit"
