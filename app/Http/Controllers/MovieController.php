@@ -71,9 +71,15 @@ class MovieController extends Controller
      */
     public function create(): Response
     {
-        $studios = Studio::all();
+        $locale = App::getLocale();
+
+        // Get studios ordered by name->$locale and name->ja-JP
+        $studios = Studio::orderBy("name->{$locale}")
+            ->orderBy('name->ja-JP')
+            ->get();
         $movie_types = MovieType::all();
-        $tags = Tag::getWithType('movie');
+
+        $tags = Tag::all();
 
         return Inertia::render('Movie/Create', ['studios' => $studios, 'movieTypes' => $movie_types, 'tags' => $tags]);
     }

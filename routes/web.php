@@ -135,6 +135,9 @@ Route::get('/user/{user}', function (User $user) {
 /**
  * Contribution bible routes.
  */
+Route::get('bible', function () {
+    return Inertia::render('Bible/Index');
+})->name('bible.index');
 Route::get('bible/general', function () {
     return Inertia::render('Bible/General');
 })->name('bible.general');

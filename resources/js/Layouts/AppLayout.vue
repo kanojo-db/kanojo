@@ -229,17 +229,17 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                                 clickable
                             >
                                 <q-item-section>
-                                    <q-item-label>Movie</q-item-label>
+                                    <q-item-label>Add Movie</q-item-label>
                                 </q-item-section>
                             </q-item>
                             <q-item v-close-popup>
                                 <q-item-section>
-                                    <q-item-label>Model</q-item-label>
+                                    <q-item-label>Add Model</q-item-label>
                                 </q-item-section>
                             </q-item>
                             <q-item v-close-popup>
                                 <q-item-section>
-                                    <q-item-label>Studio</q-item-label>
+                                    <q-item-label>Add Studio</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </q-list>
@@ -248,17 +248,23 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                 <LanguageSwitcher />
                 <q-avatar
                     v-if="page.props.user"
-                    size="32px"
-                    color="white"
+                    size="34px"
+                    color="secondary"
+                    class="pointer"
+                    :src="
+                        page.props.user.profile_photo_path
+                            ? page.props.user.profile_photo_path
+                            : null
+                    "
                 >
-                    <q-icon
-                        class="cursor-pointer"
-                        name="mdi-account"
-                        size="24px"
-                        color="pink-3"
-                    />
+                    <template v-if="!page.props.user.profile_photo_path">
+                        <span class="text-h6 text-weight-bolder text-white">
+                            {{ page.props.user.name.charAt(0) }}
+                        </span>
+                    </template>
                     <q-menu
                         dense
+                        :offset="[0, 15]"
                         auto-close
                     >
                         <q-list

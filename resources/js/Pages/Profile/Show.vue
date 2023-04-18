@@ -49,24 +49,42 @@ const page = usePage<PageProps>();
     />
 
     <div class="col bg-grey-3">
-        <div class="row q-py-lg q-px-md items-end">
-            <h1
-                class="text-h3 text-grey-8 text-weight-bold q-mt-none q-mb-none ellipsis-2-lines"
+        <div class="row q-py-lg q-px-md items-center">
+            <q-avatar
+                class="q-mr-md"
+                color="secondary"
+                size="100px"
+                :src="
+                    props.user.profile_photo_path
+                        ? props.user.profile_photo_path
+                        : null
+                "
             >
-                {{ page?.props?.user?.name }}
-            </h1>
-            <span
-                v-if="page?.props?.user"
-                class="text-h6 q-ml-md text-grey-7"
-            >
-                {{
-                    $t('web.profile.member_since', {
-                        date: DateTime.fromISO(
-                            page?.props?.user?.created_at,
-                        ).toLocaleString(DateTime.DATE_FULL),
-                    })
-                }}
-            </span>
+                <template v-if="!props.user.profile_photo_path">
+                    <span class="text-h2 text-weight-bolder text-white">
+                        {{ props.user.name.charAt(0) }}
+                    </span>
+                </template>
+            </q-avatar>
+            <div class="row items-end">
+                <h1
+                    class="text-h3 text-grey-8 text-weight-bold q-mt-none q-mb-none ellipsis-2-lines"
+                >
+                    {{ page?.props?.user?.name }}
+                </h1>
+                <span
+                    v-if="page?.props?.user"
+                    class="text-h6 q-ml-md text-grey-7"
+                >
+                    {{
+                        $t('web.profile.member_since', {
+                            date: DateTime.fromISO(
+                                page?.props?.user?.created_at,
+                            ).toLocaleString(DateTime.DATE_FULL),
+                        })
+                    }}
+                </span>
+            </div>
         </div>
         <div class="row q-pb-sm q-px-md">
             <h2 class="text-h4 q-my-none">{{ $t('web.profile.stats') }}</h2>

@@ -92,10 +92,7 @@ const changeFallbackLocale = () => {
         class="q-mr-lg"
         :label="locale"
     >
-        <q-menu
-            anchor="bottom middle"
-            self="top middle"
-        >
+        <q-menu :offset="[0, 15]">
             <q-list
                 class="q-pa-md"
                 style="min-width: 300px"

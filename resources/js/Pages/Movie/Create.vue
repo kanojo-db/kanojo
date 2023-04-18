@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { PropType, ref } from 'vue';
 
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Studio, Studios } from '@/types/models';
+import { getName } from '@/utils/item';
 
 defineOptions({
     layout: AppLayout,
@@ -33,9 +34,8 @@ const form = useForm({
     title: '',
     originalTitle: '',
     productCode: '',
-    releaseDate: new Date(0).toISOString(),
+    releaseDate: null,
     length: 0,
-    poster: null,
     tags: null,
     studioId: null,
     movieTypeId: null,
@@ -53,24 +53,96 @@ const submit = () => {
 const filterFn = (val, update) => {
     update(() => {
         const needle = val.toLowerCase();
-        options.value = props.studios.filter(
-            (v) => v.name.toLowerCase().indexOf(needle) > -1,
-        );
+        options.value = props.studios.filter((v) => {
+            const name = getName(v, 'en-US');
+
+            return name.toLowerCase().indexOf(needle) > -1;
+        });
     });
 };
 </script>
 
 <template>
-    <div class="q-pa-md">
-        <q-form @submit.prevent="submit">
+    <div class="col bg-grey-3">
+        <div class="column q-py-lg q-px-md">
+            <h1 class="text-h4 q-mt-none q-mb-md">Add a movie</h1>
+            <q-card
+                flat
+                class="bg-grey-4 q-pa-md"
+                style="max-width: 600px"
+            >
+                <p class="text-body1 text-weight-bolder q-mb-sm">
+                    Thank you for wanting to help!
+                </p>
+                <p class="text-body1 q-mb-sm">
+                    Before you continue, make sure the title you are adding is
+                    not already in the database. Search for the product code or
+                    title using the search button in the top right corner.
+                </p>
+                <p class="text-body1 q-mb-none">
+                    Make sure to read the
+                    <Link
+                        class="underline"
+                        :href="route('bible.general')"
+                    >
+                        Contribution Bible
+                    </Link>
+                    before you start adding a movie.
+                </p>
+            </q-card>
+        </div>
+    </div>
+    <div class="row q-pa-md q-gutter-md">
+        <q-form
+            class="col"
+            @submit.prevent="submit"
+        >
+            <div class="row q-col-gutter-md">
+                <div class="col">
+                    <q-input
+                        id="product_code"
+                        v-model="form.productCode"
+                        label="Product Code *"
+                        stack-label
+                        required
+                        :error="!!form?.errors?.product_code"
+                        :error-message="form.errors.product_code"
+                    />
+                </div>
+
+                <div class="col">
+                    <q-select
+                        v-model="movie_type"
+                        clearable
+                        stack-label
+                        use-input
+                        input-debounce="0"
+                        label="Movie Type *"
+                        :options="movieTypes"
+                        option-value="id"
+                        option-label="name"
+                        :error="!!form?.errors?.movieTypeId"
+                        :error-message="form.errors.movieTypeId"
+                        @filter="filterFn"
+                    >
+                        <template #no-option>
+                            <q-item>
+                                <q-item-section class="text-grey">
+                                    {{ $t('web.search.no_results') }}
+                                </q-item-section>
+                            </q-item>
+                        </template>
+                    </q-select>
+                </div>
+            </div>
+
             <div class="row q-col-gutter-md">
                 <div class="col">
                     <q-input
                         id="title"
                         v-model="form.title"
                         label="Title"
-                        filled
-                        required
+                        stack-label
                         :error="!!form?.errors?.title"
                         :error-message="form.errors.title"
                     />
@@ -82,8 +154,8 @@ const filterFn = (val, update) => {
                     <q-input
                         id="original_title"
                         v-model="form.originalTitle"
-                        label="Original Title"
-                        filled
+                        label="Japanese Title *"
+                        stack-label
                         required
                         :error="!!form?.errors?.original_title"
                         :error-message="form.errors.original_title"
@@ -93,58 +165,35 @@ const filterFn = (val, update) => {
 
             <div class="row q-col-gutter-md">
                 <div class="col">
-                    <q-input
-                        id="product_code"
-                        v-model="form.productCode"
-                        label="Product Code"
-                        filled
-                        required
-                        :error="!!form?.errors?.product_code"
-                        :error-message="form.errors.product_code"
-                    />
-                </div>
-            </div>
-
-            <div class="row q-col-gutter-md">
-                <div class="col">
                     <q-select
                         v-model="studio"
                         clearable
-                        filled
+                        stack-label
                         use-input
                         input-debounce="0"
                         label="Studio"
                         :options="options"
                         option-value="id"
-                        option-label="name"
                         :error="!!form?.errors?.studio"
                         :error-message="form.errors.studio"
                         @filter="filterFn"
                     >
-                        <template #no-option>
-                            <q-item>
-                                <q-item-section class="text-grey">
-                                    {{ $t('web.search.no_results') }}
+                        <template #selected>
+                            {{ studio?.name ? getName(studio, 'en-US') : null }}
+                        </template>
+                        <template #option="scope">
+                            <q-item v-bind="scope.itemProps">
+                                <q-item-section>
+                                    <q-item-label>
+                                        {{
+                                            scope.opt.name
+                                                ? getName(scope.opt, 'en-US')
+                                                : null
+                                        }}
+                                    </q-item-label>
                                 </q-item-section>
                             </q-item>
                         </template>
-                    </q-select>
-                </div>
-                <div class="col">
-                    <q-select
-                        v-model="movie_type"
-                        clearable
-                        filled
-                        use-input
-                        input-debounce="0"
-                        label="Movie Type"
-                        :options="movieTypes"
-                        option-value="id"
-                        option-label="name"
-                        :error="!!form?.errors?.movieType"
-                        :error-message="form.errors.movieType"
-                        @filter="filterFn"
-                    >
                         <template #no-option>
                             <q-item>
                                 <q-item-section class="text-grey">
@@ -156,13 +205,13 @@ const filterFn = (val, update) => {
                 </div>
             </div>
 
-            <div class="row q-col-gutter-md">
+            <div class="col-6 row q-col-gutter-md">
                 <div class="col">
                     <q-input
                         v-model="form.releaseDate"
-                        filled
+                        clearable
+                        stack-label
                         mask="date"
-                        :rules="['date']"
                         label="Release Date"
                     >
                         <template #append>
@@ -197,35 +246,10 @@ const filterFn = (val, update) => {
                         id="length"
                         v-model="form.length"
                         label="Length"
-                        filled
+                        stack-label
                         required
                         :error="!!form?.errors?.length"
                         :error-message="form.errors.length"
-                    />
-                </div>
-            </div>
-
-            <div class="row q-col-gutter-md">
-                <div class="col">
-                    <q-file
-                        v-model="form.poster"
-                        filled
-                        label="Poster"
-                    />
-                </div>
-            </div>
-
-            <div class="row q-col-gutter-md">
-                <div class="col">
-                    <q-select
-                        v-model="form.tags"
-                        filled
-                        multiple
-                        :options="tags"
-                        use-chips
-                        label="Tags"
-                        :option-value="(option) => option.name.en"
-                        :option-label="(option) => option.name.en"
                     />
                 </div>
             </div>
@@ -241,5 +265,44 @@ const filterFn = (val, update) => {
                 </div>
             </div>
         </q-form>
+        <q-card
+            flat
+            class="col bg-grey-1 q-pa-md"
+            style="max-width: 600px"
+        >
+            <p class="text-overline text-grey-6">
+                * indicates required fields.
+            </p>
+            <p class="text-h6">What is a product code?</p>
+            <p class="text-body1">
+                A movie is mainly identified by its <b>product code</b>. The
+                product code is a mostly unique identifier for a movie. It is
+                usually a combination of a short name for the studio or a
+                series, and a number.
+            </p>
+            <p class="text-body1">
+                The
+                <Link
+                    class="underline"
+                    :href="route('bible.general')"
+                >
+                    Contribution Bible
+                </Link>
+                contains a list of special product codes that are used for
+                movies from websites, magazines, and other special sources.
+            </p>
+            <p class="text-body1">
+                While we strive to be as complete as possible, some titles may
+                be banned due to their content. If you are unsure whether a
+                title is banned or not, please take a look at the
+                <Link
+                    class="underline"
+                    :href="route('bible.general')"
+                >
+                    list of banned titles in the Contribution Bible
+                </Link>
+                .
+            </p>
+        </q-card>
     </div>
 </template>
