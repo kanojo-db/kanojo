@@ -52,6 +52,9 @@ sudo chown -R www-data:www-data .
 # Restart queue workers to pick up new code
 php artisan queue:restart
 
+# Restart the Inertia server
+sudo supervisorctl restart inertiassr
+
 # Exit maintenance mode
 php artisan up
 

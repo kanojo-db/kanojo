@@ -37,10 +37,10 @@ createServer((page) =>
                 .use(i18n)
                 .use(ZiggyVue, {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
+                    // @ts-expect-error
                     ...page.props.ziggy,
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
+                    // @ts-expect-error
                     location: new URL(page.props.ziggy.location),
                 })
                 .use(Quasar, {
