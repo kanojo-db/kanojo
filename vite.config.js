@@ -7,7 +7,7 @@ import path from 'path';
 import DefineOptions from 'unplugin-vue-define-options/vite';
 import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ command, mode, ssrBuild }) => {
     const env = loadEnv(mode, process.cwd(), '');
 
     return {
@@ -45,6 +45,12 @@ export default defineConfig(({ command, mode }) => {
             }),
             quasar({
                 sassVariables: 'resources/css/variables.sass',
+                runMode:
+                    mode === 'production'
+                        ? ssrBuild
+                            ? 'ssr-server'
+                            : 'ssr-client'
+                        : 'web-client',
             }),
             DefineOptions(),
             command === 'build'
