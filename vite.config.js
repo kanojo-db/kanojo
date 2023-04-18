@@ -1,13 +1,10 @@
 /* eslint-env node */
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import { quasar } from '@quasar/vite-plugin';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
-import { dirname, resolve } from 'node:path';
 import path from 'path';
 import DefineOptions from 'unplugin-vue-define-options/vite';
-import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ command, mode }) => {
@@ -48,15 +45,6 @@ export default defineConfig(({ command, mode }) => {
             }),
             quasar({
                 sassVariables: 'resources/css/variables.sass',
-            }),
-            VueI18nPlugin({
-                /* options */
-                // locale messages resource pre-compile option
-                include: resolve(
-                    dirname(fileURLToPath(import.meta.url)),
-                    './resources/js/vue-i18n-locales.generated.js',
-                ),
-                runtimeOnly: false,
             }),
             DefineOptions(),
             command === 'build'
