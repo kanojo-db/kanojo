@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
 import { useQuasar } from 'quasar';
@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import DialogMediaUpload from '@/Components/DialogMediaUpload.vue';
 import MovieTabBar from '@/Components/MovieTabBar.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { PageProps } from '@/types/inertia';
 import { Movie } from '@/types/models';
 import { useFirstImage, useTitle } from '@/utils/item';
 
@@ -35,6 +36,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const page = usePage<PageProps>();
 
 const currentRoute = route();
 
@@ -73,6 +76,58 @@ const openMediaUploadDialog = () => {
             },
         );
     });
+};
+
+const likeMediaForm = useForm({});
+
+const hasLiked = (media: any) => {
+    const userLike = media?.love_reactant?.reactions.filter((reaction) => {
+        return reaction.reacter.reacterable.id === page?.props?.user?.id;
+    });
+
+    return userLike?.length > 0 && userLike?.[0]?.reaction_type_id === 1;
+};
+
+const hasDisliked = (media: any) => {
+    const userLike = media?.love_reactant?.reactions.filter((reaction) => {
+        return reaction.reacter.reacterable.id === page?.props?.user?.id;
+    });
+
+    return userLike?.length > 0 && userLike?.[0]?.reaction_type_id === 2;
+};
+
+const likeMedia = (mediaId: number) => {
+    likeMediaForm.post(
+        route('movies.media.like.store', {
+            movie: props.movie,
+            medium: mediaId,
+        }),
+        {
+            preserveScroll: true,
+
+            onSuccess: () => {
+                likeMediaForm.reset();
+                router.reload();
+            },
+        },
+    );
+};
+
+const dislikeMedia = (mediaId: number) => {
+    likeMediaForm.post(
+        route('movies.media.dislike.store', {
+            movie: props.movie,
+            medium: mediaId,
+        }),
+        {
+            preserveScroll: true,
+
+            onSuccess: () => {
+                likeMediaForm.reset();
+                router.reload();
+            },
+        },
+    );
 };
 </script>
 
@@ -207,9 +262,11 @@ const openMediaUploadDialog = () => {
                             <q-btn
                                 unelevated
                                 round
-                                :color="hasLiked ? 'secondary' : 'primary'"
+                                :color="
+                                    hasLiked(poster) ? 'secondary' : 'primary'
+                                "
                                 icon="mdi-thumb-up"
-                                @click="likeMovie"
+                                @click="() => likeMedia(poster.id)"
                             >
                                 <q-tooltip class="bg-primary"> Like </q-tooltip>
                             </q-btn>
@@ -219,9 +276,13 @@ const openMediaUploadDialog = () => {
                             <q-btn
                                 unelevated
                                 round
-                                :color="hasDisliked ? 'secondary' : 'primary'"
+                                :color="
+                                    hasDisliked(poster)
+                                        ? 'secondary'
+                                        : 'primary'
+                                "
                                 icon="mdi-thumb-down"
-                                @click="dislikeMovie"
+                                @click="() => dislikeMedia(poster.id)"
                             >
                                 <q-tooltip class="bg-primary">
                                     Dislike

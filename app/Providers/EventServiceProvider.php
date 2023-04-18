@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Listeners\MediaReactionAdded;
+use App\Listeners\MediaReactionRemoved;
+use Cog\Laravel\Love\Reaction\Events\ReactionHasBeenAdded;
+use Cog\Laravel\Love\Reaction\Events\ReactionHasBeenRemoved;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,6 +23,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ReactionHasBeenAdded::class => [
+            MediaReactionAdded::class,
+        ],
+        ReactionHasBeenRemoved::class => [
+            MediaReactionRemoved::class,
         ],
     ];
 

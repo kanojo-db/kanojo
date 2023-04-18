@@ -9,7 +9,7 @@ return [
      */
     'from' => [
         'name' => env('APP_NAME', 'Kanojo'),
-        'avatar_url' => null,
+        'avatar_url' => 'https://avatars.githubusercontent.com/u/118662174',
     ],
 
     /**

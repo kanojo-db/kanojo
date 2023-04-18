@@ -38,6 +38,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::model('media', \App\Models\KanojoMedia::class);
     }
 
     /**

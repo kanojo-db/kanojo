@@ -75,7 +75,7 @@ return [
         'discord' => [
             'driver' => 'custom',
             'via' => MarvinLabs\DiscordLogger\Logger::class,
-            'level' => 'critical',
+            'level' => 'error',
             'url' => env('LOG_DISCORD_WEBHOOK'),
             'ignore_exceptions' => env('LOG_DISCORD_IGNORE_EXCEPTIONS', false),
         ],

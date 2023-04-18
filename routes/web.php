@@ -11,10 +11,13 @@ use App\Http\Controllers\MovieFavoriteController;
 use App\Http\Controllers\MovieHistoryController;
 use App\Http\Controllers\MovieLikeController;
 use App\Http\Controllers\MovieMediaController;
+use App\Http\Controllers\MovieMediaLikeController;
 use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonHistoryController;
 use App\Http\Controllers\PersonMediaController;
+use App\Http\Controllers\PersonMediaDislikeController;
+use App\Http\Controllers\PersonMediaLikeController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsAccountController;
@@ -82,6 +85,8 @@ Route::resource('movies', MovieController::class);
 Route::resource('movies.media', MovieMediaController::class)->only([
     'index', 'store', 'destroy',
 ])->shallow();
+Route::resource('movies.media.like', MovieMediaLikeController::class)->only(['store'])->shallow();
+Route::resource('movies.media.dislike', MovieMediaLikeController::class)->only(['store'])->shallow();
 Route::resource('movies.history', MovieHistoryController::class)->only([
     'index',
 ])->shallow();
@@ -99,6 +104,8 @@ Route::resource('models', PersonController::class);
 Route::resource('models.media', PersonMediaController::class)->only([
     'index', 'store', 'destroy',
 ])->shallow();
+Route::post('/models/{person}/media/{media}/like', [PersonMediaLikeController::class, 'store'])->name('models.media.like');
+Route::post('/models/{person}/media/{media}/dislike', [PersonMediaDislikeController::class, 'store'])->name('models.media.dislike');
 Route::resource('models.history', PersonHistoryController::class)->only([
     'index',
 ])->shallow();

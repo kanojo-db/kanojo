@@ -49,6 +49,9 @@ php artisan migrate --force
 # Fix permissions since we're not using www-data for deployment
 sudo chown -R www-data:www-data .
 
+# Restart queue workers to pick up new code
+php artisan queue:restart
+
 # Exit maintenance mode
 php artisan up
 
