@@ -2,6 +2,17 @@ interface sluggable {
     slug: string;
 }
 
+export interface Tag extends sluggable {
+    id: number;
+    name: TranslatableString;
+    type: string;
+    order_column: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export type Tags = Tag[];
+
 export interface ContentReport {
     // columns
     id: number;

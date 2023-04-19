@@ -89,7 +89,7 @@ class MovieController extends Controller
      */
     public function store(StoreMovieRequest $request): RedirectResponse
     {
-        /** @var array{title: string|null, original_title: string, product_code: string, release_date: Carbon|null, length: int|null, studio_id: int|null, movie_type_id: int, tags: array<int>|null} */
+        /** @var array{title: string|null, originalTitle: string, productCode: string, releaseDate: Carbon|null, runtime: int|null, studioId: int|null, movieTypeId: int} */
         $validatedData = $request->validated();
 
         $locale = App::getLocale();
@@ -97,22 +97,16 @@ class MovieController extends Controller
         $movie = Movie::create([
             'title' => [
                 $locale => $validatedData['title'],
-                'ja-JP' => $validatedData['original_title'],
+                'ja-JP' => $validatedData['originalTitle'],
             ],
-            'product_code' => $validatedData['product_code'],
-            'release_date' => $validatedData['release_date'],
-            'length' => $validatedData['length'],
-            'studio_id' => $validatedData['studio_id'],
-            'movie_type_id' => $validatedData['movie_type_id'],
+            'product_code' => $validatedData['productCode'],
+            'release_date' => $validatedData['releaseDate'],
+            'length' => $validatedData['runtime'],
+            'studio_id' => $validatedData['studioId'],
+            'movie_type_id' => $validatedData['movieTypeId'],
         ]);
 
-        if ($validatedData['tags'] !== null) {
-            $movie->attachTags($validatedData['tags']);
-        }
-
-        $movie->save();
-
-        return Redirect::route('movies.index');
+        return Redirect::route('movies.show', $movie->slug);
     }
 
     /**

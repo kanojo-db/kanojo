@@ -13,6 +13,9 @@ git stash
 # Pull the latest version of the app
 git pull origin main
 
+# Install npm dependencies
+npm install ci
+
 # Install composer dependencies
 composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
 

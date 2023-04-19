@@ -6,7 +6,6 @@ namespace App\Http\Requests;
 
 use App\Models\MovieType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreMovieRequest extends FormRequest
 {
@@ -29,15 +28,13 @@ class StoreMovieRequest extends FormRequest
         $validTypes = MovieType::all(['id'])->toArray();
 
         return [
-            'studio_id' => ['nullable', 'integer', 'exists:studios,id'],
-            'movie_type_id' => ['required', 'integer', Rule::in($validTypes)],
+            'studioId' => ['nullable', 'integer', 'exists:studios,id'],
+            'movieTypeId' => ['required', 'integer', 'exists:types.id'],
             'title' => ['nullable', 'string'],
-            'original_title' => ['required', 'string'],
-            'product_code' => ['required', 'string'],
-            'release_date' => ['nullable', 'date'],
-            'length' => ['nullable', 'integer'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['string'],
+            'originalTitle' => ['required', 'string'],
+            'productCode' => ['required', 'string'],
+            'releaseDate' => ['nullable', 'date'],
+            'runtime' => ['nullable', 'integer'],
         ];
     }
 }

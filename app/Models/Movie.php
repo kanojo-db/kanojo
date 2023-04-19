@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\MediaCollectionType;
+use Chelout\RelationshipEvents\Concerns\HasMorphManyEvents;
 use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
 use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +39,7 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
     use Searchable;
     use SoftDeletes;
     use QueryCacheable;
+    use HasMorphManyEvents;
 
     /**
      * The attributes that are mass assignable.
@@ -77,6 +79,45 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
      * @var int|\DateTime
      */
     public $cacheFor = 3600;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    /**
+     * When invalidating automatically on update, you can specify
+     * which tags to invalidate.
+     *
+     * @param  string|null  $relation
+     * @param  \Illuminate\Database\Eloquent\Collection<array-key, KanojoMedia>|null  $pivotedModels
+     * @return string[]
+     */
+    public function getCacheTagsToInvalidateOnUpdate($relation = null, $pivotedModels = null): array
+    {
+        // When the Many To Many relations are being attached/detached or updated,
+        // $pivotedModels will contain the list of models that were attached or detached.
+
+        // Based on the roles attached or detached,
+        // the following tags will be invalidated:
+        // ['user:1:roles:1', 'user:1:roles:2', ..., 'user:1:roles']
+
+        if ($relation === 'media' && $pivotedModels !== null) {
+            $tags = array_reduce($pivotedModels->all(), function ($tags, KanojoMedia $media) {
+                return array_merge($tags, ["user:{$this->id}:medias:{$media->id}"]);
+            }, []);
+
+            return array_merge($tags, [
+                "user:{$this->id}:medias",
+            ]);
+
+        }
+
+        return [];
+    }
 
     /**
      * The attributes that should be cast.

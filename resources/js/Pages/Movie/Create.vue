@@ -3,7 +3,7 @@ import { Link, useForm } from '@inertiajs/vue3';
 import { PropType, ref } from 'vue';
 
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Studio, Studios } from '@/types/models';
+import { MovieType, MovieTypes, Studio, Studios, Tags } from '@/types/models';
 import { getName } from '@/utils/item';
 
 defineOptions({
@@ -16,11 +16,11 @@ const props = defineProps({
         required: true,
     },
     movieTypes: {
-        type: Array,
+        type: Array as PropType<MovieTypes>,
         required: true,
     },
     tags: {
-        type: Array,
+        type: Array as PropType<Tags>,
         required: true,
     },
 });
@@ -28,15 +28,15 @@ const props = defineProps({
 const options = ref(props.studios);
 
 const studio = ref<Studio>();
-const movie_type = ref(null);
+const movie_type = ref<MovieType>();
 
 const form = useForm({
     title: '',
     originalTitle: '',
     productCode: '',
     releaseDate: null,
-    length: 0,
-    tags: null,
+    runtime: 0,
+    tags: [],
     studioId: null,
     movieTypeId: null,
 });
@@ -44,13 +44,13 @@ const form = useForm({
 const submit = () => {
     form.transform((data) => ({
         ...data,
-        studio_id: studio.value?.id,
-        movie_type_id: movie_type.value?.id,
-        tags: data.tags.map((v) => v.name.en),
+        studioId: studio.value?.id,
+        movieTypeId: movie_type.value?.id,
+        tags: data.tags.map((v: any) => v?.name.id),
     })).post(route('movies.store'));
 };
 
-const filterFn = (val, update) => {
+const filterFn = (val: string, update: any) => {
     update(() => {
         const needle = val.toLowerCase();
         options.value = props.studios.filter((v) => {
@@ -105,8 +105,8 @@ const filterFn = (val, update) => {
                         label="Product Code *"
                         stack-label
                         required
-                        :error="!!form?.errors?.product_code"
-                        :error-message="form.errors.product_code"
+                        :error="!!form?.errors?.productCode"
+                        :error-message="form.errors.productCode"
                     />
                 </div>
 
@@ -157,8 +157,8 @@ const filterFn = (val, update) => {
                         label="Japanese Title *"
                         stack-label
                         required
-                        :error="!!form?.errors?.original_title"
-                        :error-message="form.errors.original_title"
+                        :error="!!form?.errors?.originalTitle"
+                        :error-message="form.errors.originalTitle"
                     />
                 </div>
             </div>
@@ -174,12 +174,12 @@ const filterFn = (val, update) => {
                         label="Studio"
                         :options="options"
                         option-value="id"
-                        :error="!!form?.errors?.studio"
-                        :error-message="form.errors.studio"
+                        :error="!!form?.errors?.studioId"
+                        :error-message="form.errors.studioId"
                         @filter="filterFn"
                     >
                         <template #selected>
-                            {{ studio?.name ? getName(studio, 'en-US') : null }}
+                            {{ studio?.name ? getName(studio, 'en-US') : '' }}
                         </template>
                         <template #option="scope">
                             <q-item v-bind="scope.itemProps">
@@ -188,7 +188,7 @@ const filterFn = (val, update) => {
                                         {{
                                             scope.opt.name
                                                 ? getName(scope.opt, 'en-US')
-                                                : null
+                                                : ''
                                         }}
                                     </q-item-label>
                                 </q-item-section>
@@ -243,13 +243,13 @@ const filterFn = (val, update) => {
                 </div>
                 <div class="col">
                     <q-input
-                        id="length"
-                        v-model="form.length"
+                        id="runtime"
+                        v-model="form.runtime"
                         label="Length"
                         stack-label
                         required
-                        :error="!!form?.errors?.length"
-                        :error-message="form.errors.length"
+                        :error="!!form?.errors?.runtime"
+                        :error-message="form.errors.runtime"
                     />
                 </div>
             </div>
