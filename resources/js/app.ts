@@ -6,7 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { Dialog, Notify, Quasar } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
 import 'quasar/src/css/index.sass';
-import { DefineComponent, createSSRApp, h } from 'vue';
+import { DefineComponent, createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
 import route from 'ziggy-js';
 
@@ -35,7 +35,7 @@ createInertiaApp({
             messages: localeMessages,
         });
 
-        const vueApp = createSSRApp({ render: () => h(App, props) })
+        const vueApp = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(i18n)

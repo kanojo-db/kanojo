@@ -37,9 +37,6 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
             }),
             vue({
                 template: {
-                    preprocessOptions: {
-                        ssrBuild: ssrBuild,
-                    },
                     transformAssetUrls: {
                         base: null,
                         includeAbsolute: false,
@@ -49,12 +46,6 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
             }),
             quasar({
                 sassVariables: 'resources/css/variables.sass',
-                runMode:
-                    mode === 'production'
-                        ? ssrBuild
-                            ? 'ssr-server'
-                            : 'ssr-client'
-                        : 'web-client',
             }),
             DefineOptions(),
             command === 'build'
