@@ -56,7 +56,7 @@ sudo chown -R www-data:www-data .
 php artisan queue:restart
 
 # Restart the Inertia server
-sudo supervisorctl restart inertiassr
+# sudo supervisorctl restart inertiassr
 
 # Exit maintenance mode
 php artisan up
