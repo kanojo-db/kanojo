@@ -2,7 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr",
+        "build": "vite build",
         "lint": "eslint --ext .js,.ts,.vue resources/js",
         "prepare": "husky install",
         "commit": "cz",
