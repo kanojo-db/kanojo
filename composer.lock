@@ -2229,16 +2229,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "4.18.0",
+            "version": "4.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "53faab8433cd099328965d90b79d05eb176cff58"
+                "reference": "4b806df88437bb4d5ace75d1d76ae7b23ece168d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/53faab8433cd099328965d90b79d05eb176cff58",
-                "reference": "53faab8433cd099328965d90b79d05eb176cff58",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/4b806df88437bb4d5ace75d1d76ae7b23ece168d",
+                "reference": "4b806df88437bb4d5ace75d1d76ae7b23ece168d",
                 "shasum": ""
             },
             "require": {
@@ -2312,7 +2312,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/4.18.0"
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.19.0"
             },
             "funding": [
                 {
@@ -2320,7 +2320,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-04-08T13:04:47+00:00"
+            "time": "2023-04-22T18:33:33+00:00"
         },
         {
             "name": "laravel/fortify",
