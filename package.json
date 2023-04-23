@@ -48,7 +48,7 @@
         "laravel-vite-plugin": "^0.7.4",
         "lint-staged": "^13.2.1",
         "lodash": "^4.17.21",
-        "postcss": "^8.4.22",
+        "postcss": "^8.4.23",
         "sass": "1.32.12",
         "ts-loader": "^9.4.2",
         "typescript": "^5.0.4",
