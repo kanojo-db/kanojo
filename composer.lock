@@ -3622,16 +3622,16 @@
         },
         {
             "name": "marvinlabs/laravel-discord-logger",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marvinlabs/laravel-discord-logger.git",
-                "reference": "01ed365662b11ddac27e4eca04d8b53a0830ed8f"
+                "reference": "aaa08fda2a1b7c58373622f8cd5b955df1d36b91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marvinlabs/laravel-discord-logger/zipball/01ed365662b11ddac27e4eca04d8b53a0830ed8f",
-                "reference": "01ed365662b11ddac27e4eca04d8b53a0830ed8f",
+                "url": "https://api.github.com/repos/marvinlabs/laravel-discord-logger/zipball/aaa08fda2a1b7c58373622f8cd5b955df1d36b91",
+                "reference": "aaa08fda2a1b7c58373622f8cd5b955df1d36b91",
                 "shasum": ""
             },
             "require": {
@@ -3680,7 +3680,7 @@
             ],
             "support": {
                 "issues": "https://github.com/marvinlabs/laravel-discord-logger/issues",
-                "source": "https://github.com/marvinlabs/laravel-discord-logger/tree/v1.4.0"
+                "source": "https://github.com/marvinlabs/laravel-discord-logger/tree/v1.4.1"
             },
             "funding": [
                 {
@@ -3688,7 +3688,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-28T15:25:37+00:00"
+            "time": "2023-04-18T08:24:22+00:00"
         },
         {
             "name": "meilisearch/meilisearch-php",
