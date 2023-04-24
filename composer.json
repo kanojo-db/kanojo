@@ -27,7 +27,6 @@
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.12",
-        "marvinlabs/laravel-discord-logger": "^1.4",
         "meilisearch/meilisearch-php": "^1.0",
         "owen-it/laravel-auditing": "^13.0",
         "ramsey/uuid": "4.x-dev",
