@@ -102,8 +102,7 @@
             "dont-discover": [
                 "barryvdh/laravel-debugbar",
                 "barryvdh/laravel-ide-helper",
-                "laravel/dusk",
-                "pestphp/pest"
+                "laravel/dusk"
             ]
         }
     },
