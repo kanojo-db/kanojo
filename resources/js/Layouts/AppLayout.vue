@@ -91,7 +91,7 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
             >
                 Please verify your email address by clicking on the link we sent
                 to your email address.
-                <template v-slot:action>
+                <template #action>
                     <q-btn
                         flat
                         color="white"
@@ -130,9 +130,9 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                                 clickable
                             >
                                 <q-item-section>
-                                    <q-item-label
-                                        >Recently released</q-item-label
-                                    >
+                                    <q-item-label>
+                                        Recently released
+                                    </q-item-label>
                                 </q-item-section>
                             </q-item>
                             <q-item v-close-popup>
@@ -315,7 +315,7 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                 <template v-else>
                     <q-btn
                         flat
-                        :0href="route('login')"
+                        :href="route('login')"
                     >
                         {{ $t('web.general.login') }}
                     </q-btn>
