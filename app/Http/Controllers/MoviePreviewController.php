@@ -44,6 +44,7 @@ class MoviePreviewController extends Controller
         ])->render();
 
         $screenshot = Browsershot::html($html)
+            ->setChromePath('/var/www/.cache/puppeteer/chrome/linux-1108766/chrome-linux/chrome')
             ->noSandbox()
             ->showBackground()
             ->windowSize(1200, 630)
