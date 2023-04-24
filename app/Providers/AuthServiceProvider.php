@@ -10,13 +10,11 @@ use App\Models\ContentReport;
 use App\Models\Movie;
 use App\Models\Person;
 use App\Models\Studio;
-use App\Models\User;
 use App\Policies\ContentReportPolicy;
 use App\Policies\MoviePolicy;
 use App\Policies\PersonPolicy;
 use App\Policies\StudioPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -37,8 +35,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(function (User $user) {
-            return $user->hasRole('admin') ? true : null;
-        });
+
     }
 }

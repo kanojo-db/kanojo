@@ -15,6 +15,15 @@ use Inertia\Response;
 class StudioController extends Controller
 {
     /**
+     * Create the controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Studio::class, 'studio');
+        $this->middleware('auth')->except(['show', 'index']);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(): void

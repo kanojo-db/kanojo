@@ -28,6 +28,15 @@ use Spatie\Tags\Tag;
 class MovieController extends Controller
 {
     /**
+     * Create the controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Movie::class, 'movie');
+        $this->middleware('auth')->except(['show', 'index']);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(): Response
@@ -112,9 +121,9 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $movie): Response
+    public function show(Movie $movie): Response
     {
-        $movieRecord = Movie::with([
+        $movie->load([
             'studio',
             'type',
             'tags',
@@ -125,31 +134,31 @@ class MovieController extends Controller
             'loveReactant.reactions.type',
             'loveReactant.reactionCounters',
             'loveReactant.reactionTotal',
-        ])->where('slug', $movie)->firstOrFail();
+        ]);
 
         /** @var User|null */
         $user = Auth::user();
 
         // If it's in the user's favorites, mark it as such
         if (Auth::check() && $user !== null) {
-            $inFavorites = $user->favorites->contains($movieRecord);
+            $inFavorites = $user->favorites->contains($movie);
         }
 
         // If it's in the user's wishlist, mark it as such
         if (Auth::check() && $user !== null) {
-            $inWishlist = $user->wishlist->contains($movieRecord);
+            $inWishlist = $user->wishlist->contains($movie);
         }
 
         // If it's in the user's collection list, mark it as such
         if (Auth::check() && $user !== null) {
-            $inCollection = $user->collection->contains($movieRecord);
+            $inCollection = $user->collection->contains($movie);
         }
 
         return Inertia::render('Movie/Show', [
-            'movie' => $movieRecord,
-            'inFavorites' => $inFavorites ?? false,
-            'inWishlist' => $inWishlist ?? false,
-            'inCollection' => $inCollection ?? false,
+            'movie' => $movie,
+            'inFavorites' => $inFavorites ?? null,
+            'inWishlist' => $inWishlist ?? null,
+            'inCollection' => $inCollection ?? null,
         ]);
     }
 

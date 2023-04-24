@@ -13,19 +13,19 @@ class StudioPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user): bool|null
+    public function before(?User $user): bool|null
     {
-        if ($user->isAdministrator()) {
+        if ($user?->isAdministrator()) {
             return true;
         }
 
-        if ($user->isBanned()) {
+        if ($user?->isBanned()) {
             return false;
         }
 
         return null;
     }
-    
+
     /**
      * Determine whether the user can view any models.
      */
@@ -37,9 +37,9 @@ class StudioPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Studio $studio): Response|bool
+    public function view(?User $user, Studio $studio): Response|bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**

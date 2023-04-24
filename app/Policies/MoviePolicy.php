@@ -13,13 +13,17 @@ class MoviePolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user): bool|null
+    public function before(?User $user): bool|null
     {
-        if ($user->isAdministrator()) {
+        if ($user === null) {
+            return null;
+        }
+
+        if ($user?->isAdministrator()) {
             return true;
         }
 
-        if ($user->isBanned()) {
+        if ($user?->isBanned()) {
             return false;
         }
 
@@ -29,17 +33,17 @@ class MoviePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(?User $user): Response|bool
+    public function viewAny(?User $user): bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Movie $movie): Response|bool
+    public function view(?User $user, Movie $movie): bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**

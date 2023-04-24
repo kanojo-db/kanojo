@@ -13,13 +13,13 @@ class PersonPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user): bool|null
+    public function before(?User $user): bool|null
     {
-        if ($user->isAdministrator()) {
+        if ($user?->isAdministrator()) {
             return true;
         }
 
-        if ($user->isBanned()) {
+        if ($user?->isBanned()) {
             return false;
         }
 
@@ -39,7 +39,7 @@ class PersonPolicy
      */
     public function view(?User $user, Person $person): Response|bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**

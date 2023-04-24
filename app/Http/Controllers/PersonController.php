@@ -23,6 +23,15 @@ use Spatie\QueryBuilder\QueryBuilder;
 class PersonController extends Controller
 {
     /**
+     * Create the controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Person::class, 'model');
+        $this->middleware('auth')->except(['show', 'index']);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(): Response
@@ -51,44 +60,44 @@ class PersonController extends Controller
                     DB::raw('YEAR(birthdate) AS value'),
                     DB::raw('COUNT(*) AS count'),
                 ])
-                ->where('birthdate', '!=', null)
-                ->groupBy(
-                    $expression
-                )
-                ->orderBy(
-                    $expression
-                )
-                ->get();
+                    ->where('birthdate', '!=', null)
+                    ->groupBy(
+                        $expression
+                    )
+                    ->orderBy(
+                        $expression
+                    )
+                    ->get();
             },
             'heightCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('height as value'),
                     DB::raw('COUNT(*) AS count'),
                 ])
-                ->where('height', '!=', null)
-                ->groupBy('value')
-                ->orderBy('value')
-                ->get();
+                    ->where('height', '!=', null)
+                    ->groupBy('value')
+                    ->orderBy('value')
+                    ->get();
             },
             'bustCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('bust as value'),
                     DB::raw('COUNT(*) AS count'),
                 ])
-                ->where('bust', '!=', null)
-                ->groupBy('value')
-                ->orderBy('value')
-                ->get();
+                    ->where('bust', '!=', null)
+                    ->groupBy('value')
+                    ->orderBy('value')
+                    ->get();
             },
             'waistCounts' => function (): Collection {
                 return Person::select([
                     DB::raw('waist as value'),
                     DB::raw('COUNT(*) AS count'),
                 ])
-                ->where('waist', '!=', null)
-                ->groupBy('value')
-                ->orderBy('value')
-                ->get();
+                    ->where('waist', '!=', null)
+                    ->groupBy('value')
+                    ->orderBy('value')
+                    ->get();
             },
             'hipCounts' => function (): Collection {
                 return Person::select([
