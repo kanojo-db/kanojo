@@ -12,6 +12,7 @@ use App\Http\Controllers\MovieHistoryController;
 use App\Http\Controllers\MovieLikeController;
 use App\Http\Controllers\MovieMediaController;
 use App\Http\Controllers\MovieMediaLikeController;
+use App\Http\Controllers\MoviePreviewController;
 use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonHistoryController;
@@ -96,6 +97,7 @@ Route::resource('movies.favorite', MovieFavoriteController::class)->only(['store
 Route::resource('movies.wishlist', MovieWishlistController::class)->only(['store', 'destroy'])->shallow();
 Route::resource('movies.collection', MovieCollectionController::class)->only(['store', 'destroy'])->shallow();
 Route::resource('movies.reports', ContentReportController::class)->shallow();
+Route::get('/movies/{movie}/preview', [MoviePreviewController::class, 'show'])->name('movies.preview.show');
 
 /**
  * Person routes.
