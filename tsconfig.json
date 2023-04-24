@@ -1,32 +1,40 @@
 {
     "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "moduleResolution": "node",
-        "strict": true,
-        "jsx": "preserve",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
         "allowJs": true,
-        "lib": ["esnext", "dom"],
-        "types": [
-            "@types/node",
-            "@types/ziggy-js",
-            "unplugin-vue-define-options/macros-global",
-            "vitest/globals",
-            "vite/client"
-        ],
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "noEmit": true,
+        "outDir": "./public/build/assets",
         "paths": {
             "@/*": ["./resources/js/*"]
         },
-        "outDir": "./public/build/assets"
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "noImplicitThis": true,
+        "verbatimModuleSyntax": true,
+        "strict": true,
+        "target": "esnext",
+        "types": [
+            "@intlify/unplugin-vue-i18n/messages",
+            "@types/node",
+            "unplugin-icons/types/vue",
+            "unplugin-vue-define-options/macros-global",
+            "vite/client",
+            "vitest/globals"
+        ]
     },
-    "typeRoots": ["./node_modules/@types", "resources/js/types"],
+    "exclude": ["node_modules", "public"],
     "include": [
-        "resources/js/**/*.ts",
         "resources/js/**/*.d.ts",
+        "resources/js/**/*.ts",
         "resources/js/**/*.vue"
     ],
-    "exclude": ["node_modules", "public"]
+    "typeRoots": ["./node_modules/@types", "resources/js/types"]
 }

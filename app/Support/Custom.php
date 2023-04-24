@@ -20,7 +20,7 @@ class Custom extends Basic
             ->addDirective(Directive::IMG, [Keyword::SELF, 'media.kanojodb.com'])
             ->addDirective(Directive::MEDIA, Keyword::SELF)
             ->addDirective(Directive::OBJECT, Keyword::NONE)
-            ->addDirective(Directive::SCRIPT, [Keyword::SELF, Keyword::UNSAFE_INLINE, 'js-agent.newrelic.com', '*.nr-data.net'])
+            // ->addDirective(Directive::SCRIPT, [Keyword::SELF, Keyword::UNSAFE_INLINE, 'js-agent.newrelic.com', '*.nr-data.net'])
             ->addDirective(Directive::STYLE, [Keyword::SELF, Keyword::UNSAFE_INLINE])
             ->addDirective(Directive::FONT, [Keyword::SELF, 'data:'])
             ->addDirective(Directive::CONNECT, 'o4504320317259776.ingest.sentry.io')

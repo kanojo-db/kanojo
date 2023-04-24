@@ -15,15 +15,18 @@ defineOptions({
             </h1>
         </div>
     </div>
+
     <div class="q-ma-md">
         <div class="row q-col-gutter-lg full-width">
             <div class="col-2 q-pl-none">
-                <SidemenuBibleGeneral />
+                <sidemenu-bible-general />
             </div>
+
             <div class="col col-10">
                 <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
                     General Tips
                 </h2>
+
                 <p class="text-body1">
                     Our data is a mix of user-contributed and scraped data. We
                     scrape multiple online stores every day for new releases. We
@@ -32,6 +35,7 @@ defineOptions({
                     you may come across. Click "Edit" on any movie, model,
                     series or studio to access the editing interface.
                 </p>
+
                 <p class="text-body1">
                     Please refrain from engaging in editing wars with other
                     contributors.
@@ -40,6 +44,7 @@ defineOptions({
                 <h3 class="text-h6 text-weight-bold q-mt-none q-mb-md">
                     Reporting Issues
                 </h3>
+
                 <p class="text-body1">
                     Content issue reports are mostly handled by a team of
                     <strong>volunteer</strong> moderators. They can help you
@@ -49,11 +54,14 @@ defineOptions({
                     intervene and lock fields during an editing war or make a
                     final decision about reccuring issues.
                 </p>
+
                 <p class="text-body1">
                     Proving a source for your report is not required, but it can
                     help moderators to reach a decision faster.
                 </p>
+
                 <p class="text-body1">Reports should be written in English.</p>
+
                 <p class="text-body1">
                     Do not erase data manually before submitting a report, as
                     moderators need to check the validity of the original data
@@ -63,13 +71,16 @@ defineOptions({
                 <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
                     Incorrect Entries
                 </h2>
+
                 <p class="text-body1">
                     We do not recycle entries. Please avoid repurposing existing
                     entries for new content.
                 </p>
+
                 <p class="text-body1">
                     Entries with incorrect data should be fixed, not deleted.
                 </p>
+
                 <p class="text-body1">
                     In case of duplicates, use the report function to ask a
                     moderator to merge the entries or remove the duplicate

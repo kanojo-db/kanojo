@@ -25,7 +25,8 @@ class StoreMovieRequest extends FormRequest
     {
         return [
             'studioId' => ['nullable', 'integer', 'exists:studios,id'],
-            'movieTypeId' => ['required', 'integer'],
+            'seriesId' => ['nullable', 'integer', 'exists:series,id'],
+            'movieTypeId' => ['required', 'integer', 'exists:types,id'],
             'title' => ['nullable', 'string'],
             'originalTitle' => ['required', 'string'],
             'productCode' => ['required', 'string'],

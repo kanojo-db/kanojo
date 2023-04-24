@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { useDialogPluginComponent } from 'quasar';
+import copy from 'copy-to-clipboard';
 import { ref } from 'vue';
 
+import MdiClose from '~icons/mdi/close';
+import MdiContentCopy from '~icons/mdi/content-copy';
+
 const props = defineProps({
+    modelValue: {
+        type: Boolean,
+        required: true,
+    },
     url: {
         type: String,
         required: true,
@@ -13,51 +20,52 @@ const props = defineProps({
     },
 });
 
+const emit = defineEmits<{
+    (event: 'update:modelValue', value: boolean): void;
+}>();
+
 const url = ref(props.url);
-
-defineEmits([...useDialogPluginComponent.emits]);
-
-const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 </script>
 
 <template>
-    <q-dialog
-        ref="dialogRef"
-        @hide="onDialogHide"
-    >
-        <q-card>
-            <q-card-section class="bg-primary text-white row items-center">
-                <div class="text-weight-bold text-h6">
-                    {{
-                        $t('web.dialogs.share_link.title', { pageName: title })
-                    }}
-                </div>
-                <q-space />
-                <q-btn
-                    v-close-popup
-                    icon="mdi-close"
-                    flat
-                    round
-                    dense
-                />
-            </q-card-section>
+    <v-card>
+        <v-card-title
+            class="flex flex-row items-center bg-primary text-stone-50"
+        >
+            <div class="line-clamp-1 text-ellipsis text-xl font-extrabold">
+                {{ $t('dialogs.shareLink.title', { pageName: title }) }}
+            </div>
 
-            <q-separator />
+            <v-spacer />
 
-            <q-card-section>
-                <q-form
-                    class="row"
-                    @submit.prevent="onDialogOK"
-                >
-                    <q-input
-                        v-model="url"
-                        readonly
-                        :label="$t('web.dialogs.share_link.url')"
-                        class="col-12"
-                        filled
+            <v-btn
+                :icon="MdiClose"
+                variant="text"
+                @click="emit('update:modelValue', false)"
+            />
+        </v-card-title>
+
+        <v-card-text>
+            <div class="mb-2 font-bold">
+                {{ $t('dialogs.shareLink.url') }}
+            </div>
+
+            <v-text-field
+                v-model="url"
+                class="mb-2"
+                readonly
+                :aria-label="$t('dialogs.shareLink.url')"
+                hide-details
+            >
+                <template #append-inner>
+                    <v-btn
+                        :icon="MdiContentCopy"
+                        :aria-label="$t('general.copy')"
+                        variant="text"
+                        @click="copy(url)"
                     />
-                </q-form>
-            </q-card-section>
-        </q-card>
-    </q-dialog>
+                </template>
+            </v-text-field>
+        </v-card-text>
+    </v-card>
 </template>

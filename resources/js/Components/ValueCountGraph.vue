@@ -1,21 +1,15 @@
 <script setup lang="ts">
+import type { PropType } from 'vue';
+
 import {
     BarElement,
     CategoryScale,
     Chart as ChartJS,
     LinearScale,
 } from 'chart.js';
-import { PropType, computed } from 'vue';
+import { computed } from 'vue';
 import { Bar } from 'vue-chartjs';
-
-ChartJS.register(BarElement, CategoryScale, LinearScale);
-
-interface Count {
-    value: number;
-    count: number;
-}
-
-type Counts = Count[];
+import { useTheme } from 'vuetify';
 
 const props = defineProps({
     counts: {
@@ -27,10 +21,21 @@ const props = defineProps({
         default: undefined,
     },
     highlightValue: {
-        type: Number,
+        type: [Number, String] as PropType<string | number>,
         default: undefined,
     },
 });
+
+ChartJS.register(BarElement, CategoryScale, LinearScale);
+
+const theme = useTheme();
+
+export interface Count {
+    value: number;
+    count: number;
+}
+
+type Counts = Count[];
 
 const values = computed(() => {
     if (props.customValues) {
@@ -53,10 +58,10 @@ const values = computed(() => {
 const chartColor = computed(() => {
     return values.value.map((value) => {
         if (value == props.highlightValue) {
-            return '#BB4430';
+            return theme.current.value.colors.secondary;
         }
 
-        return '#69306D';
+        return theme.current.value.colors.primary;
     });
 });
 
@@ -111,7 +116,7 @@ const chartOptions = {
 </script>
 
 <template>
-    <Bar
+    <bar
         :data="chartData"
         :options="chartOptions"
     />

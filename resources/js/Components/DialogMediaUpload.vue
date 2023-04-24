@@ -1,82 +1,125 @@
 <script setup lang="ts">
-import { useDialogPluginComponent } from 'quasar';
-import { reactive } from 'vue';
+import type { MediaCollection } from '@/types/enums';
+import type { Item } from '@/types/models';
+import type { PropType } from 'vue';
+
+import { router, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+import MdiClose from '~icons/mdi/close';
+
+import { getItemRouteName, getItemRouteParams } from '@/utils/item';
 
 const props = defineProps({
-    uploadForm: {
-        type: Object,
+    modelValue: {
+        type: Boolean,
+        required: true,
+    },
+    item: {
+        type: Object as PropType<Item>,
+        required: true,
+    },
+    currentCollectionName: {
+        type: String as PropType<MediaCollection>,
         required: true,
     },
 });
 
-// Make a local copy of the upload form so we can modify it without mutating the original
-const uploadForm = reactive(props.uploadForm);
+const emit = defineEmits<{
+    (event: 'update:modelValue', value: boolean): void;
+}>();
 
-const emit = defineEmits([...useDialogPluginComponent.emits]);
+const selectedFile = ref<File[] | undefined>(undefined);
 
-const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
+const mediaUploadForm = useForm<{
+    media: File | undefined;
+    collection_name: MediaCollection;
+}>({
+    media: undefined,
+    collection_name: props.currentCollectionName,
+});
 
-function onOKClick() {
-    emit('ok', uploadForm);
+const submit = () => {
+    mediaUploadForm.post(
+        route(`${getItemRouteName(props.item)}.media.store`, {
+            ...getItemRouteParams(props.item),
+        }),
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                emit('update:modelValue', false);
 
-    onDialogOK();
-}
+                router.reload({
+                    preserveScroll: true,
+                    preserveState: true,
+                    only: ['images'],
+                });
+            },
+        },
+    );
+};
 </script>
 
 <template>
-    <q-dialog
-        ref="dialogRef"
-        @hide="onDialogHide"
-    >
-        <q-card>
-            <q-card-section class="bg-primary text-white row items-center">
-                <div class="text-weight-bold text-h6">
-                    {{ $t('web.dialogs.media_upload.title') }}
-                </div>
-                <q-space />
-                <q-btn
-                    v-close-popup
-                    icon="mdi-close"
-                    flat
-                    round
-                    dense
-                />
-            </q-card-section>
+    <v-card>
+        <v-card-title
+            class="flex flex-row items-center bg-primary text-stone-50"
+        >
+            <div class="line-clamp-1 text-ellipsis text-xl font-extrabold">
+                {{ $t('dialogs.media_upload.title') }}
+            </div>
 
-            <q-separator />
+            <v-spacer />
 
-            <q-card-section>
-                <p class="text-body1">
-                    {{ $t('web.dialogs.media_upload.instructions') }}
+            <v-btn
+                :icon="MdiClose"
+                variant="text"
+                @click="emit('update:modelValue', false)"
+            />
+        </v-card-title>
+
+        <v-divider />
+
+        <v-form @submit.prevent="submit">
+            <v-card-text>
+                <p>
+                    {{ $t('dialogs.media_upload.instructions') }}
                 </p>
-                <p class="text-body1">
-                    {{ $t('web.dialogs.media_upload.requirements_heading') }}
+
+                <p class="mt-4 font-semibold">
+                    {{ $t('dialogs.media_upload.requirements_heading') }}
                 </p>
-                <ul class="text-body1">
-                    <li>{{ $t('web.dialogs.media_upload.requirements_1') }}</li>
-                    <li>{{ $t('web.dialogs.media_upload.requirements_2') }}</li>
-                    <li>{{ $t('web.dialogs.media_upload.requirements_3') }}</li>
+
+                <ul class="mb-4 ml-4 list-disc">
+                    <li>{{ $t('dialogs.media_upload.requirements_1') }}</li>
+
+                    <li>{{ $t('dialogs.media_upload.requirements_2') }}</li>
+
+                    <li>{{ $t('dialogs.media_upload.requirements_3') }}</li>
                 </ul>
-                <q-form
-                    class="row"
-                    @submit.prevent="onOKClick"
-                >
-                    <q-file
-                        v-model="uploadForm.media"
-                        class="col-grow"
-                        filled
-                        label="Select a file"
-                        @update="onOKClick"
-                    />
 
-                    <q-btn
-                        type="submit"
-                        label="Upload"
-                        color="primary"
-                        class="q-ml-md"
-                    />
-                </q-form>
-            </q-card-section>
-        </q-card>
-    </q-dialog>
+                <v-file-input
+                    v-model="selectedFile"
+                    label="Select a file"
+                    prepend-icon=""
+                    :error-messages="mediaUploadForm.errors.media"
+                    @update:model-value="mediaUploadForm.media = $event[0]"
+                />
+            </v-card-text>
+
+            <v-card-actions>
+                <v-btn
+                    type="submit"
+                    color="primary"
+                    block
+                    :loading="mediaUploadForm.processing"
+                    :text="
+                        mediaUploadForm.processing
+                            ? `${mediaUploadForm.progress?.percentage}%`
+                            : $t('dialogs.media_upload.submit')
+                    "
+                />
+            </v-card-actions>
+        </v-form>
+    </v-card>
 </template>

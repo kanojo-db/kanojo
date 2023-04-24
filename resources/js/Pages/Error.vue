@@ -3,11 +3,11 @@ import { computed } from 'vue';
 
 import AppLayout from '@/Layouts/AppLayout.vue';
 
+const props = defineProps({ status: Number });
+
 defineOptions({
     layout: AppLayout,
 });
-
-const props = defineProps({ status: Number });
 
 const title = computed(() => {
     return {
@@ -27,10 +27,13 @@ const description = computed(() => {
 </script>
 
 <template>
-    <div class="row q-ma-xl">
-        <h1 class="q-mt-none text-h1 text-weight-bold">{{ title }}</h1>
-        <div class="q-mb-none text-h3 text-weight-regular">
-            {{ description }}
+    <v-container>
+        <div class="prose">
+            <h1 class="text-2xl font-bold">{{ title }}</h1>
+
+            <p>
+                {{ description }}
+            </p>
         </div>
-    </div>
+    </v-container>
 </template>

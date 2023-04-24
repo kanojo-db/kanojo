@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/mousewheel';
-import 'swiper/css/scrollbar';
+import type { Movies, People, Series, Studios } from '@/types/models';
+import type { PropType } from 'vue';
+
 import { FreeMode, Mousewheel, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { PropType } from 'vue';
 
-import { Movies, People } from '@/types/models';
-import { isMovie, isPerson } from '@/utils/item';
-
-import ModelCard from './ModelCard.vue';
-import MovieCard from './MovieCard.vue';
+import ModelCard from '@/Components/ModelCard.vue';
+import MovieCard from '@/Components/MovieCard.vue';
+import SeriesCard from '@/Components/SeriesCard.vue';
+import StudioCard from '@/Components/StudioCard.vue';
+import { isMovie, isPerson, isSeries, isStudio } from '@/utils/item';
 
 const props = defineProps({
     items: {
-        type: Array as PropType<Movies | People>,
+        type: Array as PropType<
+            Movies | (People & { movies_count: number }[]) | Series[] | Studios
+        >,
         required: true,
     },
 });
@@ -25,7 +25,7 @@ const modules = [FreeMode, Mousewheel, Scrollbar];
 
 <template>
     <swiper
-        :free-mode="true"
+        free-mode
         :modules="modules"
         :mousewheel="{
             forceToAxis: true,
@@ -34,20 +34,27 @@ const modules = [FreeMode, Mousewheel, Scrollbar];
         :slides-per-group="1"
         slides-per-group-auto
         slides-per-view="auto"
-        :space-between="16"
     >
         <swiper-slide
             v-for="(item, index) in props.items"
             :key="index"
-            class="q-mb-md"
-            style="width: 200px"
+            class="mb-2 mr-4 max-w-[100px] md:max-w-[200px]"
             :virtual-index="index"
         >
             <template v-if="isMovie(item)">
-                <MovieCard :movie="item" />
+                <movie-card :movie="item" />
             </template>
+
             <template v-if="isPerson(item)">
-                <ModelCard :model="item" />
+                <model-card :model="item" />
+            </template>
+
+            <template v-if="isSeries(item)">
+                <series-card :series="item" />
+            </template>
+
+            <template v-if="isStudio(item)">
+                <studio-card :studio="item" />
             </template>
         </swiper-slide>
     </swiper>

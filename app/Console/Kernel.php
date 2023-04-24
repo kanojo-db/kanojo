@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('cache:prune-stale-tags')->hourly();
+        $schedule->command('app:compute-popularity App\\Models\\Movie')->daily();
     }
 
     /**

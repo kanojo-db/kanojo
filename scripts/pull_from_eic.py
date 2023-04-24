@@ -48,7 +48,7 @@ search_url_template = 'https://www.eic-book.com/search?sort=asc_sale_day&size=12
 
 titles_urls = []
 
-current_date = date.fromisocalendar(2000, 1, 1)
+current_date = date.fromisocalendar(2022, 9, 1)
 current_page = 1
 while True:
     # Get the first page of results

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
 use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
+use Cog\Laravel\Love\Reaction\Models\Reaction;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,12 +26,13 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use TwoFactorAuthenticatable;
     use Reacterable;
     use HasRoles;
     use SoftDeletes;
     use Notifiable;
+    use HasBelongsToManyEvents;
+    use HasRelationshipObservables;
 
     /**
      * The attributes that are mass assignable.
@@ -40,8 +44,6 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
         'email',
         'password',
         'google_id',
-        'twitter_id',
-        'facebook_id',
         'github_id',
     ];
 
@@ -60,7 +62,16 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
      *
      * @var string[]
      */
-    protected $appends = ['is_administrator', 'is_banned'];
+    protected $appends = [
+        'is_administrator',
+        'is_banned',
+        'audits_this_week',
+        'total_audits',
+        'has_gravatar',
+        'gravatar_url',
+        'average_rating',
+        'unread_notifications_count',
+    ];
 
     /**
      * {@inheritDoc}
@@ -76,7 +87,7 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
      */
     public function favorites(): BelongsToMany
     {
-        return $this->belongsToMany(Movie::class, 'movie_user_favorite');
+        return $this->belongsToMany(Movie::class, 'movie_user_favorite')->withTimestamps();
     }
 
     /**
@@ -86,7 +97,7 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
      */
     public function wishlist(): BelongsToMany
     {
-        return $this->belongsToMany(Movie::class, 'movie_user_wishlist');
+        return $this->belongsToMany(Movie::class, 'movie_user_wishlist')->withTimestamps();
     }
 
     /**
@@ -96,7 +107,7 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
      */
     public function collection(): BelongsToMany
     {
-        return $this->belongsToMany(Movie::class, 'movie_user_collection');
+        return $this->belongsToMany(Movie::class, 'movie_user_collection')->withTimestamps();
     }
 
     /**
@@ -112,9 +123,9 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
     /**
      * Check if the user is an administrator.
      *
-     * @return Attribute<bool, void>
+     * @return Attribute<bool, never>
      */
-    public function isAdministrator(): Attribute
+    protected function isAdministrator(): Attribute
     {
         return new Attribute(
             get: fn () => $this->hasRole('admin')
@@ -124,12 +135,102 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
     /**
      * Check if the user is banned.
      *
-     * @return Attribute<bool, void>
+     * @return Attribute<bool, never>
      */
-    public function isBanned(): Attribute
+    protected function isBanned(): Attribute
     {
         return new Attribute(
             get: fn () => $this->hasRole('banned'),
+        );
+    }
+
+    /** Returns the number of audits in the past week.
+     *
+     * @return Attribute<int, never>
+     */
+    protected function auditsThisWeek(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->audits()->where('created_at', '>=', now()->subWeek())->count()
+        );
+    }
+
+    /** Returns the total number of audits
+     *
+     * @return Attribute<int, never>
+     */
+    protected function totalAudits(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->audits()->count()
+        );
+    }
+
+    /**
+     * Returns whether the user has a Gravatar.
+     *
+     * @return Attribute<bool, never>
+     */
+    protected function hasGravatar(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $hash = md5(strtolower(trim($this->email)));
+
+                $url = "https://www.gravatar.com/avatar/{$hash}?d=404";
+                $headers = @get_headers($url);
+
+                return ! empty($headers) && preg_match('|200|', $headers[0]);
+            }
+        );
+    }
+
+    /**
+     * Returns the Gravatar URL for the user.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function gravatarUrl(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $hash = md5(strtolower(trim($this->email)));
+
+                return "https://www.gravatar.com/avatar/{$hash}";
+            }
+        );
+    }
+
+    /**
+     * Returns the average rating of the user's reactions.
+     *
+     * @return Attribute<int, never>
+     */
+    protected function averageRating(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                // We multiply by 100 to get a percentage, then round to the nearest integer.
+                return round(Reaction::where('reacter_id', $this->getLoveReacter()->id)->avg('rate') * 100 ?? 0);
+            }
+        );
+    }
+
+    /**
+     * Returns the number of unread notifications.
+     *
+     * @return Attribute<int, never>
+     */
+    protected function unreadNotificationsCount(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if ($this->id === auth()->id()) {
+                    return $this->unreadNotifications()->count();
+                }
+
+                return null;
+            }
         );
     }
 }

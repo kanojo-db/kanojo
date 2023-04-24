@@ -1,75 +1,78 @@
 <script setup lang="ts">
-import { useDialogPluginComponent } from 'quasar';
-import { reactive } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
-const props = defineProps({
-    tokenForm: {
-        type: Object,
+import MdiClose from '~icons/mdi/close';
+
+defineProps({
+    modelValue: {
+        type: Boolean,
         required: true,
     },
 });
 
-// Make a local copy of tokenForm so we can change it without mutating the prop
-const tokenForm = reactive(props.tokenForm);
+const emit = defineEmits<{
+    (event: 'update:modelValue', value: boolean): void;
+}>();
 
-const emit = defineEmits([...useDialogPluginComponent.emits]);
+const tokenCreateForm = useForm({
+    name: '',
+});
 
-const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
+const submit = () => {
+    tokenCreateForm.post(route('settings.tokens.create'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            tokenCreateForm.reset();
 
-function onOKClick() {
-    emit('ok', props.tokenForm);
-
-    onDialogOK();
-}
+            emit('update:modelValue', false);
+        },
+    });
+};
 </script>
 
 <template>
-    <q-dialog
-        ref="dialogRef"
-        @hide="onDialogHide"
-    >
-        <q-card>
-            <q-card-section class="bg-primary text-white row items-center">
-                <div class="text-weight-bold text-h6">
-                    {{ $t('web.dialogs.create_token.title') }}
-                </div>
-                <q-space />
-                <q-btn
-                    v-close-popup
-                    icon="mdi-close"
-                    flat
-                    round
-                    dense
+    <v-card>
+        <v-card-title
+            class="flex flex-row items-center bg-primary text-stone-50"
+        >
+            <div class="line-clamp-1 text-ellipsis text-xl font-extrabold">
+                {{ $t('dialogs.create_token.title') }}
+            </div>
+
+            <v-spacer />
+
+            <v-btn
+                :icon="MdiClose"
+                variant="text"
+                @click="emit('update:modelValue', false)"
+            />
+        </v-card-title>
+
+        <v-divider />
+
+        <v-form @submit.prevent="submit">
+            <v-card-text>
+                <v-label for="token-name">
+                    {{ $t('dialogs.create_token.description') }}
+                </v-label>
+
+                <v-text-field
+                    v-model="tokenCreateForm.name"
+                    name="token-name"
+                    required
                 />
-            </q-card-section>
+            </v-card-text>
 
-            <q-separator />
+            <v-card-actions>
+                <v-spacer />
 
-            <q-card-section>
-                <q-form
-                    class="row"
-                    @submit.prevent="onOKClick"
-                >
-                    <p class="text-body1">
-                        {{ $t('web.dialogs.create_token.description') }}
-                    </p>
-                    <q-input
-                        v-model="tokenForm.name"
-                        label="Token Name"
-                        class="col-12"
-                        filled
-                        required
-                        maxlength="255"
-                    />
-
-                    <q-btn
-                        type="submit"
-                        label="Upload"
-                        color="primary"
-                        class="col-12 q-mt-md"
-                    />
-                </q-form>
-            </q-card-section>
-        </q-card>
-    </q-dialog>
+                <v-btn
+                    type="submit"
+                    color="primary"
+                    :text="$t('general.saveChanges')"
+                    :loading="tokenCreateForm.processing"
+                />
+            </v-card-actions>
+        </v-form>
+    </v-card>
 </template>

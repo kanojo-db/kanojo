@@ -13,16 +13,8 @@ class ContentReportPolicy
 {
     use HandlesAuthorization;
 
-    public function before(?User $user): bool|null
+    public function before(?User $user): ?bool
     {
-        if ($user?->isAdministrator()) {
-            return true;
-        }
-
-        if ($user?->isBanned()) {
-            return false;
-        }
-
         return null;
     }
 
@@ -31,15 +23,21 @@ class ContentReportPolicy
      */
     public function viewAny(User $user): Response|bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ContentReport $contentReport): Response|bool
+    public function view(?User $user, ContentReport $report): Response|bool
     {
-        return true;
+        if ($report->public) {
+            return true;
+        }
+
+        return optional($user)->hasRole('moderator') || $report->reporter_id === optional($user)->id ?
+            Response::allow() :
+            Response::deny('This report is not public.');
     }
 
     /**
@@ -47,29 +45,29 @@ class ContentReportPolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('create content report');
+        return $user->can('create content report');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ContentReport $contentReport): Response|bool
+    public function update(User $user, ContentReport $report): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('edit content report');
+        return $user->can('edit content report');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ContentReport $contentReport): Response|bool
+    public function delete(User $user, ContentReport $report): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('delete content report');
+        return $user->can('delete content report');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, ContentReport $contentReport): Response|bool
+    public function restore(User $user, ContentReport $report): Response|bool
     {
         return Response::denyAsNotFound();
     }
@@ -77,7 +75,7 @@ class ContentReportPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, ContentReport $contentReport): Response|bool
+    public function forceDelete(User $user, ContentReport $report): Response|bool
     {
         return Response::denyAsNotFound();
     }

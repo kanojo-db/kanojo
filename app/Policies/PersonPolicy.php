@@ -13,16 +13,8 @@ class PersonPolicy
 {
     use HandlesAuthorization;
 
-    public function before(?User $user): bool|null
+    public function before(?User $user): ?bool
     {
-        if ($user?->isAdministrator()) {
-            return true;
-        }
-
-        if ($user?->isBanned()) {
-            return false;
-        }
-
         return null;
     }
 
@@ -31,7 +23,7 @@ class PersonPolicy
      */
     public function viewAny(?User $user): Response|bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**
@@ -47,7 +39,7 @@ class PersonPolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('create person');
+        return $user->can('create person');
     }
 
     /**
@@ -55,7 +47,7 @@ class PersonPolicy
      */
     public function update(User $user, Person $person): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('edit person');
+        return $user->can('edit person');
     }
 
     /**
@@ -63,7 +55,7 @@ class PersonPolicy
      */
     public function delete(User $user, Person $person): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('delete person');
+        return $user->can('delete person');
     }
 
     /**

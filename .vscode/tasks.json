@@ -1,9 +1,10 @@
 {
     "tasks": [
         {
-            "type": "eslint",
+            "label": "npm: run lint",
+            "type": "shell",
             "problemMatcher": ["$eslint-stylish"],
-            "label": "eslint: lint whole folder"
+            "command": "npm run lint"
         }
     ]
 }

@@ -13,20 +13,8 @@ class MoviePolicy
 {
     use HandlesAuthorization;
 
-    public function before(?User $user): bool|null
+    public function before(?User $user): ?bool
     {
-        if ($user === null) {
-            return null;
-        }
-
-        if ($user?->isAdministrator()) {
-            return true;
-        }
-
-        if ($user?->isBanned()) {
-            return false;
-        }
-
         return null;
     }
 
@@ -51,7 +39,7 @@ class MoviePolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('create movie');
+        return $user->can('create movie');
     }
 
     /**
@@ -59,7 +47,7 @@ class MoviePolicy
      */
     public function update(User $user, Movie $movie): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('edit movie');
+        return $user->can('edit movie');
     }
 
     /**

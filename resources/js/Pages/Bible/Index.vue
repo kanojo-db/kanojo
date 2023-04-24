@@ -60,54 +60,55 @@ const categoryColors = {
 </script>
 
 <template>
-    <div class="flex column items-center justify-center q-py-xl no-wrap">
-        <h1 class="text-h1 text-weight-bolder q-mb-xl">Contribution Bible</h1>
+    <v-container>
+        <h1 class="text-h1 my-12 text-center font-extralight">
+            Contribution Bible
+        </h1>
+
         <div class="content-wrapper q-mt-xl">
             <div class="row full-width">
                 <Link
                     class="col col-6"
                     :href="route('bible.general')"
                 >
-                    <q-card class="bg-primary q-px-xl q-py-xl q-ma-md">
+                    <v-card class="q-px-xl q-py-xl q-ma-md bg-primary">
                         <p
-                            class="text-h1 text-white text-weight-bolder q-mt-xl"
+                            class="text-h1 text-weight-bolder q-mt-xl text-stone-50"
                         >
                             General
                         </p>
-                        <hr
-                            class="q-mb-xl"
-                            style="border: 6px solid white"
-                        />
-                    </q-card>
+
+                        <v-divider />
+                    </v-card>
                 </Link>
 
                 <Link
                     class="col col-6"
                     href="#"
                 >
-                    <q-card class="bg-secondary q-px-xl q-py-xl q-ma-md">
+                    <q-card class="q-px-xl q-py-xl q-ma-md bg-secondary">
                         <p
-                            class="text-h1 text-white text-weight-bolder q-mt-xl"
+                            class="text-h1 text-weight-bolder q-mt-xl text-stone-50"
                         >
                             Images
                         </p>
-                        <hr
-                            class="q-mb-xl"
-                            style="border: 6px solid white"
-                        />
+
+                        <v-divider />
                     </q-card>
                 </Link>
             </div>
+
             <div class="row full-width">
                 <Link
                     class="col col-4"
                     href="#"
                 >
                     <q-card class="bg-accent q-px-xl q-py-xl q-ma-md">
-                        <p class="text-h2 text-white text-weight-bolder">
+                        <p class="text-h2 text-weight-bolder text-stone-50">
                             Movies
                         </p>
-                        <hr style="border: 6px solid white" />
+
+                        <v-divider />
                     </q-card>
                 </Link>
 
@@ -116,10 +117,11 @@ const categoryColors = {
                     href="#"
                 >
                     <q-card class="bg-green q-px-xl q-py-xl q-ma-md">
-                        <p class="text-h2 text-white text-weight-bolder">
+                        <p class="text-h2 text-weight-bolder text-stone-50">
                             Models
                         </p>
-                        <hr style="border: 6px solid white" />
+
+                        <v-divider />
                     </q-card>
                 </Link>
 
@@ -128,33 +130,37 @@ const categoryColors = {
                     href="#"
                 >
                     <q-card class="bg-blue q-px-xl q-py-xl q-ma-md">
-                        <p class="text-h2 text-white text-weight-bolder">
+                        <p class="text-h2 text-weight-bolder text-stone-50">
                             Studios
                         </p>
-                        <hr style="border: 6px solid white" />
+
+                        <v-divider />
                     </q-card>
                 </Link>
             </div>
+
             <div class="row full-width">
                 <div class="col">
                     <h2 class="text-h2 text-weight-bolder q-mx-md q-mt-xl">
                         Featured Articles
                     </h2>
+
                     <div class="grid-2">
                         <div
                             v-for="article in featuredArticles"
                             :key="article.title"
-                            class="row items-center col col-6"
+                            class="row col col-6 items-center"
                             style="border-bottom: 1px solid #d1d4d2"
                         >
                             <q-chip
                                 class="q-ma-md"
                                 :class="categoryColors[article.category]"
-                                text-color="white text-overline font-weight-bold"
+                                text-color="white text-overline font-bold"
                                 size="lg"
                             >
                                 {{ article.category }}
                             </q-chip>
+
                             <Link :href="article.link">
                                 <h3 class="text-h5 text-weight-bolder">
                                     {{ article.title }}
@@ -165,5 +171,5 @@ const categoryColors = {
                 </div>
             </div>
         </div>
-    </div>
+    </v-container>
 </template>

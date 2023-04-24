@@ -6,11 +6,11 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Http\Requests\UpdatePersonRequest;
-use App\Models\Movie;
+use App\Models\Country;
+use App\Models\Gender;
 use App\Models\Person;
+use App\Sorts\RelationshipCountSort;
 use Carbon\Carbon;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PersonController extends Controller
@@ -36,11 +37,20 @@ class PersonController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Person/Index', [
+        return Inertia::render('PersonIndex', [
             'models' => function () {
                 return QueryBuilder::for(Person::class)
                     ->defaultSort('-created_at')
-                    ->allowedSorts(['created_at', 'birthdate', 'height'])
+                    ->allowedSorts([
+                        'created_at',
+                        'birthdate',
+                        'height',
+                        'bust',
+                        'waist',
+                        'hip',
+                        'popularity',
+                        AllowedSort::custom('movies', new RelationshipCountSort(), 'movies'),
+                    ])
                     ->allowedFilters([
                         AllowedFilter::scope('born', 'born_between'),
                         'height',
@@ -49,6 +59,7 @@ class PersonController extends Controller
                         'hip',
                     ])
                     ->with('media')
+                    ->withCount('movies')
                     ->paginate(25)
                     ->appends(request()->query());
             },
@@ -113,34 +124,70 @@ class PersonController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('Item/Create', [
+            'type' => 'person',
+            'country' => Country::all(),
+            'gender' => Gender::all(),
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UpdatePersonRequest $request): RedirectResponse
+    {
+        $validatedData = $request->validated();
+
+        $locale = App::getLocale();
+
+        $person = Person::create([
+            'name' => [
+                $locale => $validatedData['name'],
+                'ja-JP' => $validatedData['original_name'],
+            ],
+            'birthdate' => $validatedData['birthdate'],
+            'career_start' => $validatedData['career_start'],
+            'career_end' => $validatedData['career_end'],
+            'blood_type' => $validatedData['blood_type'],
+            'cup_size' => $validatedData['cup_size'],
+            'height' => $validatedData['height'],
+            'bust' => $validatedData['bust'],
+            'waist' => $validatedData['waist'],
+            'hip' => $validatedData['hip'],
+            'country_id' => $validatedData['country_id'] ?? null,
+        ]);
+
+        return Redirect::route('models.show', $person->slug);
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(Person $model): Response
     {
-        return Inertia::render('Person/Show', [
-            'person' => function () use ($model): Person {
+        return Inertia::render('Item/Show', [
+            'item' => function () use ($model): Person {
                 $model->load([
                     'media',
+                    'country',
+                    'aliases',
+                    'movies.media',
+                    'movies.type',
+                    'movies.loveReactant.reactions.reacter.reacterable',
+                    'movies.loveReactant.reactions.type',
+                    'movies.loveReactant.reactionCounters',
+                    'movies.loveReactant.reactionTotal',
                 ]);
 
+                $model->setRelation('movies', $model->getStarringMovies((int) request()->query('per_page', 25)));
+
+                $model->visit();
+
                 return $model;
-            },
-            'movieCount' => function () use ($model): int {
-                return Movie::whereHas('models', function (Builder $query) use ($model) {
-                    $query->where('person_id', $model->id);
-                })->count();
-            },
-            'movies' => function () use ($model): LengthAwarePaginator {
-                return Movie::whereHas('models', function (Builder $query) use ($model) {
-                    $query->where('person_id', $model->id);
-                })->with([
-                    'media',
-                    'type',
-                    'loveReactant.reactions.reacter.reacterable',
-                    'loveReactant.reactions.type',
-                    'loveReactant.reactionCounters',
-                    'loveReactant.reactionTotal',
-                ])->orderBy('release_date', 'desc')->paginate(25);
             },
         ]);
     }
@@ -150,9 +197,13 @@ class PersonController extends Controller
      */
     public function edit(Person $model): Response
     {
-        $model->load('media');
+        $model->load(['media', 'gender', 'aliases']);
 
-        return Inertia::render('Person/Edit', ['person' => $model]);
+        return Inertia::render('Item/Edit', [
+            'item' => $model,
+            'countries' => fn () => Country::all(),
+            'genders' => fn () => Gender::all(),
+        ]);
     }
 
     /**
@@ -171,7 +222,6 @@ class PersonController extends Controller
                 'ja-JP' => $validatedData['original_name'],
             ],
             'birthdate' => $validatedData['birthdate'],
-            'country' => $validatedData['country'],
             'career_start' => $validatedData['career_start'],
             'career_end' => $validatedData['career_end'],
             'blood_type' => $validatedData['blood_type'],
@@ -180,9 +230,27 @@ class PersonController extends Controller
             'bust' => $validatedData['bust'],
             'waist' => $validatedData['waist'],
             'hip' => $validatedData['hip'],
+            'country_id' => $validatedData['country_id'] ?? null,
         ]);
 
+        $shouldSave = false;
+
+        // If gender_id was changed, update the relationship
+        if ($validatedData['gender_id']) {
+            $gender = Gender::find($validatedData['gender_id']);
+
+            $model->gender()->associate($gender);
+
+            $shouldSave = true;
+        }
+
+        // Avoid saving if no relationships were changed
+        if ($shouldSave) {
+            $model->save();
+        }
+
         // If birthdate was changed, update all movies with this person
+        // TODO: This should be a job.
         if ($model->wasChanged('birthdate')) {
             $model->load('movies');
 
@@ -203,5 +271,15 @@ class PersonController extends Controller
         }
 
         return Redirect::route('models.show', $model);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Person $model): RedirectResponse
+    {
+        $model->delete();
+
+        return redirect()->route('models.index');
     }
 }

@@ -6,8 +6,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
+use App\Transformers\MovieSearchResultTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class SearchMovieController extends Controller
 {
@@ -19,7 +21,7 @@ class SearchMovieController extends Controller
      * @group Search
      *
      * @queryParam query string required Pass a text query to search. Can be a title or a product code. Example: ABC-123
-     * @queryParam language string Pass a locale value to display translated data for the fields that support it. Defaults to en. Example: jp
+     * @queryParam language string Pass a locale value to display translated data for the fields that support it. Defaults to en-US. Example: ja-JP
      * @queryParam page integer Specify which page to query. Defaults to 1. Example: 2
      */
     public function index(Request $request): JsonResponse
@@ -27,13 +29,20 @@ class SearchMovieController extends Controller
         $validatedData = $request->validate([
             'query' => ['required', 'string'],
             // TODO: Validate according to the list of languages we support at a given time.
-            'language' => ['optional', 'string']
+            'language' => ['nullable', 'string'],
+            'page' => ['nullable', 'integer'],
         ]);
 
-        $moviesResults = Movie::search($validatedData['query'])->paginate(25);
+        $paginator = Movie::search($validatedData['query'])->paginate(25);
+
+        $language = $validatedData['language'] ?? 'en-US';
 
         return response()->json(
-            $moviesResults
+            fractal()
+                ->collection($paginator->getCollection())
+                ->transformWith(new MovieSearchResultTransformer($language))
+                ->paginateWith(new IlluminatePaginatorAdapter($paginator))
+                ->toArray()
         );
     }
 }

@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import type { Counts } from '@/types/internal';
+import type { PropType } from 'vue';
+
 import {
     BarElement,
     CategoryScale,
     Chart as ChartJS,
     LinearScale,
 } from 'chart.js';
-import { PropType, computed, ref } from 'vue';
+import { computed } from 'vue';
 import { Bar } from 'vue-chartjs';
-
-import { Counts } from '@/types/internal';
-
-ChartJS.register(BarElement, CategoryScale, LinearScale);
+import { useTheme } from 'vuetify';
 
 const props = defineProps({
     modelValue: {
-        type: Object,
+        type: Object as PropType<(number | null)[]>,
         required: true,
     },
     counts: {
@@ -29,14 +29,18 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    disabled: {
+        type: Boolean,
+    },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+    (event: 'update:modelValue', value: [number | null, number | null]): void;
+}>();
 
-const value = ref({
-    min: props.modelValue.min,
-    max: props.modelValue.max,
-});
+const theme = useTheme();
+
+ChartJS.register(BarElement, CategoryScale, LinearScale);
 
 const values = computed(() => {
     const values = props.counts.map((c) => c.value);
@@ -58,11 +62,15 @@ const end = computed(() => {
 
 const chartColor = computed(() => {
     return values.value.map((d) => {
-        if (d >= value.value.min && d <= value.value.max) {
-            return '#69306D';
+        if (props.modelValue[0] === null || props.modelValue[1] === null) {
+            return theme.current.value.colors.darkSurface;
         }
 
-        return '#babfbc';
+        if (d >= props.modelValue[0] && d <= props.modelValue[1]) {
+            return theme.current.value.colors.secondary;
+        }
+
+        return theme.current.value.colors.darkSurface;
     });
 });
 
@@ -110,37 +118,48 @@ const chartOptions = {
     },
 };
 
-function updateValue($event: { min: number; max: number }) {
-    value.value = $event;
-    emit('update:modelValue', $event);
+function updateValue(event: [number | null, number | null]) {
+    emit('update:modelValue', event);
 }
 </script>
 
 <template>
-    <Bar
-        class="fit"
+    <bar
+        class="w-full max-w-full"
         :data="chartData"
         :options="chartOptions"
         :width="345"
         :height="100"
     />
-    <q-range
-        :model-value="modelValue"
+
+    <v-range-slider
+        :model-value="props.modelValue"
         :min="start"
         :max="end"
-        :left-label-value="
-            modelValue.min === null
-                ? 'Not set'
-                : `${modelValue.min}${leftLabelValue}`
-        "
-        :right-label-value="
-            modelValue.max === null
-                ? 'Not set'
-                : `${modelValue.max}${rightLabelValue}`
-        "
-        snap
-        label-always
-        switch-label-side
+        :step="1"
+        strict
+        hide-details
+        track-fill-color="#6a306d"
+        :disabled="props.disabled"
         @update:model-value="updateValue"
     />
+
+    <div class="flex items-center justify-between">
+        <span class="my-2 text-sm text-gray-500">{{
+            props.modelValue[0] ?? $t('general.notSet')
+        }}</span>
+
+        <v-btn
+            v-if="props.modelValue[0] !== null || props.modelValue[1] !== null"
+            size="small"
+            variant="text"
+            @click="updateValue([null, null])"
+        >
+            {{ $t('general.clear') }}
+        </v-btn>
+
+        <span class="my-2 text-sm text-gray-500">{{
+            props.modelValue[1] ?? $t('general.notSet')
+        }}</span>
+    </div>
 </template>

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ContentReportType;
+use App\Events\ContentReportCreated;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +26,11 @@ class ContentReport extends Model
     protected $fillable = [
         'type',
         'message',
+        'public',
+        'reporter_id',
+        'reportable_id',
+        'reportable_type',
+        'status',
     ];
 
     /**
@@ -31,6 +38,15 @@ class ContentReport extends Model
      */
     protected $casts = [
         'report_type' => ContentReportType::class,
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array<string, string>
+     */
+    protected $dispatchesEvents = [
+        'created' => ContentReportCreated::class,
     ];
 
     /**
@@ -51,5 +67,26 @@ class ContentReport extends Model
     public function reporter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reporter_id');
+    }
+
+    /**
+     * Scope for visible reports. Admins, moderators and the reporter can see everything.
+     * Others can only see publci reports and their own reports.
+     *
+     * @param  Builder<ContentReport>  $query
+     * @return Builder<ContentReport>
+     */
+    public function scopeVisible(Builder $query): Builder
+    {
+        // If the current user is an admin or moderator, return everything.
+        if (auth()->check() && (auth()->user()?->hasRole('admin') || auth()->user()?->hasRole('moderator'))) {
+            return $query;
+        }
+
+        // If the current user is not an admin or moderator, return only public reports and the user's own reports.
+        return $query->where(function (Builder $query) {
+            $query->where('public', true)
+                ->orWhere('reporter_id', auth()->user()?->id);
+        });
     }
 }

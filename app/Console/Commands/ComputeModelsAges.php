@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Jobs\ComputeModelsAgesJob;
 use App\Models\Movie;
-use App\Models\Person;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class ComputeModelsAges extends Command
 {
@@ -17,7 +17,7 @@ class ComputeModelsAges extends Command
      *
      * @var string
      */
-    protected $signature = 'kanojo:refreshAllAges';
+    protected $signature = 'kanojo:refresh-ages';
 
     /**
      * The console command description.
@@ -31,21 +31,17 @@ class ComputeModelsAges extends Command
      */
     public function handle(): int
     {
-        $movies = Movie::whereHas('models', function (Builder $query) {
+        Movie::whereHas('models', function (Builder $query) {
             $query->whereNot('birthdate', null);
-        })->whereNot('release_date', null)->get();
+        })->whereNot('release_date', null)
+            ->chunkById(100, function (Collection $movies) {
+                /** @param  Movie  $movie */
+                $movies->each(function ($movie) {
+                    $this->info("Dispatching job for movie {$movie->id}");
 
-        $movies->each(function (Movie $movie) {
-            $movie->models()->each(function (Person $model) use ($movie) {
-                try {
-                    $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
-
-                    $movie->models()->updateExistingPivot($model->id, ['age' => $age]);
-                } catch (\Throwable $th) {
-                    $this->error('Error when setting age: '.$th->getMessage());
-                }
+                    ComputeModelsAgesJob::dispatch($movie);
+                });
             });
-        });
 
         return Command::SUCCESS;
     }

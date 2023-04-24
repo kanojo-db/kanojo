@@ -11,7 +11,7 @@ return [
     /*
      * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
      */
-    'title' => null,
+    'title' => 'Kanojo Developer Documentation',
 
     /*
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
@@ -21,7 +21,7 @@ return [
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => null,
+    'base_url' => 'api.kanojodb.com',
 
     /*
      * Tell Scribe what routes to generate documentation for.
@@ -38,12 +38,12 @@ return [
                 /*
                  * Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
                  */
-                'prefixes' => ['api/*'],
+                'prefixes' => ['*'],
 
                 /*
                  * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
-                'domains' => ['*'],
+                'domains' => ['api.*'],
 
                 /*
                  * [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
@@ -161,7 +161,7 @@ return [
          * Whether to automatically create a docs endpoint for you to view your generated docs.
          * If this is false, you can still set up routing manually.
          */
-        'add_routes' => true,
+        'add_routes' => false,
 
         /*
          * URL path to use for the docs endpoint (if `add_routes` is true).

@@ -1,143 +1,177 @@
 <script setup lang="ts">
-import { useDialogPluginComponent } from 'quasar';
-import { reactive } from 'vue';
+import type { Item } from '@/types/models';
+import type { PropType } from 'vue';
+
+import { useForm } from '@inertiajs/vue3';
+
+import MdiCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline';
+import MdiCheckboxMarkedOutline from '~icons/mdi/checkbox-marked-outline';
+import MdiClose from '~icons/mdi/close';
+import MdiRadioboxBlank from '~icons/mdi/radiobox-blank';
+import MdiRadioBoxMarked from '~icons/mdi/radiobox-marked';
+
+import { getItemRouteName, getItemRouteParams } from '@/utils/item';
 
 const props = defineProps({
-    title: {
-        type: String,
+    modelValue: {
+        type: Boolean,
         required: true,
     },
-    reportForm: {
-        type: Object,
+    item: {
+        type: Object as PropType<Item>,
         required: true,
     },
 });
 
-const emit = defineEmits([...useDialogPluginComponent.emits]);
+const emit = defineEmits<{
+    (event: 'update:modelValue', value: boolean): void;
+}>();
 
-const reportForm = reactive(props.reportForm);
-
-const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
+const reportForm = useForm({
+    type: null,
+    message: '',
+    public: true,
+});
 
 function onOKClick() {
-    emit('ok', reportForm);
-
-    onDialogOK();
+    reportForm.post(
+        route(`${getItemRouteName(props.item)}.reports.store`, {
+            ...getItemRouteParams(props.item),
+        }),
+        {
+            onSuccess: () => {
+                emit('update:modelValue', false);
+            },
+        },
+    );
 }
 </script>
 
 <template>
-    <q-dialog
-        ref="dialogRef"
-        @hide="onDialogHide"
-    >
-        <q-card style="width: 700px; max-width: 80vw">
-            <q-card-section class="bg-primary text-white row items-center">
-                <div class="text-weight-bold text-h6">
-                    {{ $t('web.dialogs.report_content.title', { title }) }}
-                </div>
-                <q-space />
-                <q-btn
-                    v-close-popup
-                    icon="mdi-close"
-                    flat
-                    round
-                    dense
-                />
-            </q-card-section>
+    <v-card>
+        <v-card-title
+            class="flex flex-row items-center bg-primary text-stone-50"
+        >
+            <div class="line-clamp-1 text-ellipsis text-xl font-extrabold">
+                {{ $t('dialogs.reportContent.title') }}
+            </div>
 
-            <q-separator />
+            <v-spacer />
 
-            <q-card-section>
-                <q-form
-                    class="column"
-                    @submit.prevent="onOKClick"
+            <v-btn
+                :icon="MdiClose"
+                variant="text"
+                @click="emit('update:modelValue', false)"
+            />
+        </v-card-title>
+
+        <v-form @submit.prevent="onOKClick">
+            <v-card-text>
+                <h2 class="mb-6 text-lg font-bold">
+                    {{ $t('dialogs.reportContent.type_of_problem') }}
+                </h2>
+
+                <v-radio-group
+                    v-model="reportForm.type"
+                    :error-messages="reportForm.errors.type"
                 >
-                    <div class="row">
-                        <h2 class="text-h6 text-weight-bold q-mt-none q-mb-sm">
-                            <q-icon name="mdi-flag" />
-                            {{
-                                $t('web.dialogs.report_content.type_of_problem')
-                            }}
-                        </h2>
-                    </div>
-
-                    <div class="row">
-                        <div class="col column">
-                            <q-radio
-                                v-model="reportForm.type"
-                                val="duplicate"
-                                :label="
-                                    $t('web.dialogs.report_content.duplicate')
-                                "
+                    <v-row>
+                        <v-col
+                            class="p-0"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-radio
+                                :true-icon="MdiRadioBoxMarked"
+                                :false-icon="MdiRadioboxBlank"
+                                value="duplicate"
+                                :label="$t('dialogs.reportContent.duplicate')"
                             />
-                            <q-radio
-                                v-model="reportForm.type"
-                                val="incorrect"
-                                :label="
-                                    $t('web.dialogs.report_content.incorrect')
-                                "
+                        </v-col>
+
+                        <v-col
+                            class="p-0"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-radio
+                                :true-icon="MdiRadioBoxMarked"
+                                :false-icon="MdiRadioboxBlank"
+                                value="incorrect"
+                                :label="$t('dialogs.reportContent.incorrect')"
                             />
-                            <q-radio
-                                v-model="reportForm.type"
-                                val="bad_image"
-                                :label="
-                                    $t('web.dialogs.report_content.bad_image')
-                                "
+                        </v-col>
+
+                        <v-col
+                            class="p-0"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-radio
+                                :true-icon="MdiRadioBoxMarked"
+                                :false-icon="MdiRadioboxBlank"
+                                value="bad_image"
+                                :label="$t('dialogs.reportContent.bad_image')"
                             />
-                        </div>
+                        </v-col>
 
-                        <div class="col column">
-                            <q-radio
-                                v-model="reportForm.type"
-                                val="spam"
-                                :label="$t('web.dialogs.report_content.spam')"
+                        <v-col
+                            class="p-0"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-radio
+                                :true-icon="MdiRadioBoxMarked"
+                                :false-icon="MdiRadioboxBlank"
+                                value="spam"
+                                :label="$t('dialogs.reportContent.spam')"
                             />
-                            <q-radio
-                                v-model="reportForm.type"
-                                val="other"
-                                :label="$t('web.dialogs.report_content.other')"
+                        </v-col>
+
+                        <v-col
+                            class="p-0"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-radio
+                                :true-icon="MdiRadioBoxMarked"
+                                :false-icon="MdiRadioboxBlank"
+                                value="other"
+                                :label="$t('dialogs.reportContent.other')"
                             />
-                        </div>
-                    </div>
+                        </v-col>
+                    </v-row>
+                </v-radio-group>
 
-                    <div class="row">
-                        <h2 class="text-h6 text-weight-bold q-mt-none q-mb-sm">
-                            <q-icon name="mdi-comment-text" />
-                            {{
-                                $t(
-                                    'web.dialogs.report_content.additional_information',
-                                )
-                            }}
-                        </h2>
-                    </div>
+                <h2 class="mb-2 text-lg font-bold">
+                    {{ $t('dialogs.reportContent.additional_information') }}
+                </h2>
 
-                    <div class="row">
-                        <q-input
-                            v-model="reportForm.message"
-                            type="textarea"
-                            filled
-                            class="full-width"
-                        />
-                    </div>
+                <v-textarea
+                    v-model="reportForm.message"
+                    hide-details
+                    aria-label="Additional information"
+                    :error-messages="reportForm.errors.message"
+                />
 
-                    <div class="row q-mt-md">
-                        <q-checkbox
-                            v-model="reportForm.public"
-                            :label="
-                                $t('web.dialogs.report_content.public_report')
-                            "
-                        />
-                    </div>
+                <v-checkbox
+                    v-model="reportForm.public"
+                    :true-icon="MdiCheckboxMarkedOutline"
+                    :false-icon="MdiCheckboxBlankOutline"
+                    :label="$t('dialogs.reportContent.public_report')"
+                    :error-messages="reportForm.errors.public"
+                />
+            </v-card-text>
 
-                    <q-btn
-                        type="submit"
-                        label="Upload"
-                        color="primary"
-                        class="col-12 q-mt-md"
-                    />
-                </q-form>
-            </q-card-section>
-        </q-card>
-    </q-dialog>
+            <v-card-actions class="justify-end">
+                <v-btn
+                    type="submit"
+                    variant="flat"
+                    color="primary"
+                    :loading="reportForm.processing"
+                    :text="$t('general.send')"
+                />
+            </v-card-actions>
+        </v-form>
+    </v-card>
 </template>

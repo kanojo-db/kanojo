@@ -15,11 +15,9 @@ class PersonHistoryController extends Controller
      */
     public function index(Person $model): Response
     {
-        return Inertia::render('Person/History', [
-            'model' => function () use ($model): Person {
-                $model->load(['media']);
-
-                $model->load(['audits' => function ($query) {
+        return Inertia::render('Item/History', [
+            'item' => function () use ($model): Person {
+                $model->load(['media', 'audits' => function ($query) {
                     $query->latest()->paginate(10);
                 }]);
 

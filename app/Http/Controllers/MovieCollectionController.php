@@ -6,8 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class MovieCollectionController extends Controller
 {
@@ -22,7 +22,7 @@ class MovieCollectionController extends Controller
             return back();
         }
 
-        return back();
+        return response('Unauthorized', 401)->header('Content-Type', 'text/plain');
     }
 
     public function destroy(Movie $movie): RedirectResponse
@@ -36,6 +36,6 @@ class MovieCollectionController extends Controller
             return back();
         }
 
-        return back();
+        return response('Unauthorized', 401)->header('Content-Type', 'text/plain');
     }
 }

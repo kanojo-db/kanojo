@@ -27,9 +27,9 @@ class UpdatePersonRequest extends FormRequest
         return [
             'name' => ['nullable', 'string'],
             'original_name' => ['required'],
-            // 'gender' => ['required', 'integer', 'min:0', 'max:3'],
+            'gender_id' => ['nullable', 'integer', 'exists:genders,id'],
             'birthdate' => ['nullable', 'date'],
-            'country' => ['nullable', 'string'],
+            'country_id' => ['nullable', 'integer', 'exists:countries,id'],
             'career_start' => ['nullable', 'date'],
             'career_end' => ['nullable', 'date'],
             // TODO: Replace blood type with an enum

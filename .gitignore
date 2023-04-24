@@ -22,4 +22,6 @@ _ide_helper_models.php
 .phpstorm.meta.php
 coverage/
 .phpunit.result.cache
-resources/js/ziggy.js
+resources/js/types/ziggy.d.ts
+coverage
+.scannerwork

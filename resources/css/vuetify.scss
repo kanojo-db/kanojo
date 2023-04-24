@@ -1,0 +1,11 @@
+$noto-sans: 'Noto Sans', 'Noto Sans JP', sans-serif;
+
+@forward 'vuetify/settings' with (
+    $utilities: false,
+    $reset: true,
+
+    // This is mainly a fallback font, since we also use Noto Sans fonts based on the lang attribute
+    $body-font-family: $noto-sans,
+
+    $divider-border-color: theme('colors.stone.500')
+);
