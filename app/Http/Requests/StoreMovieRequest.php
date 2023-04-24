@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Models\MovieType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMovieRequest extends FormRequest
@@ -24,12 +23,9 @@ class StoreMovieRequest extends FormRequest
      */
     public function rules(): array
     {
-        /** @var int[] */
-        $validTypes = MovieType::all(['id'])->toArray();
-
         return [
             'studioId' => ['nullable', 'integer', 'exists:studios,id'],
-            'movieTypeId' => ['required', 'integer', 'exists:types.id'],
+            'movieTypeId' => ['required', 'integer'],
             'title' => ['nullable', 'string'],
             'originalTitle' => ['required', 'string'],
             'productCode' => ['required', 'string'],

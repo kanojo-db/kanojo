@@ -21,9 +21,9 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
                 ),
             },
         },
-        /*ssr: {
+        ssr: {
             noExternal: ['@inertiajs/server'],
-        },*/
+        },
         server: {
             hmr: {
                 host: '192.168.0.44',
@@ -46,6 +46,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
             }),
             quasar({
                 sassVariables: 'resources/css/variables.sass',
+                runMode: ssrBuild ? 'ssr-server' : 'ssr-server',
             }),
             DefineOptions(),
             command === 'build'

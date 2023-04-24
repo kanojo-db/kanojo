@@ -58,10 +58,10 @@ class MovieController extends Controller
                     DB::raw('age AS value'),
                     DB::raw('COUNT(*) AS count'),
                 ])
-                ->where('age', '!=', null)
-                ->groupBy('value')
-                ->orderBy('value')
-                ->get();
+                    ->where('age', '!=', null)
+                    ->groupBy('value')
+                    ->orderBy('value')
+                    ->get();
             },
         ]);
     }
@@ -96,13 +96,13 @@ class MovieController extends Controller
 
         $movie = Movie::create([
             'title' => [
-                $locale => $validatedData['title'],
+                $locale => $validatedData['title'] ?? null,
                 'ja-JP' => $validatedData['originalTitle'],
             ],
             'product_code' => $validatedData['productCode'],
-            'release_date' => $validatedData['releaseDate'],
-            'length' => $validatedData['runtime'],
-            'studio_id' => $validatedData['studioId'],
+            'release_date' => $validatedData['releaseDate'] ?? null,
+            'length' => $validatedData['runtime'] ?? null,
+            'studio_id' => $validatedData['studioId'] ?? null,
             'movie_type_id' => $validatedData['movieTypeId'],
         ]);
 

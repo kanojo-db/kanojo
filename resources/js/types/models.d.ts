@@ -148,6 +148,8 @@ export interface User {
     love_reacter: Reacter;
     roles: UserRoles;
     permissions: Permissions;
+    is_administrator: boolean;
+    is_banned: boolean;
 }
 export type Users = User[];
 

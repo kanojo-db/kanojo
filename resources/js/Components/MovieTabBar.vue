@@ -9,7 +9,6 @@ import { PageProps } from '@/types/inertia';
 import { Movie } from '@/types/models';
 import { useTitle } from '@/utils/item';
 
-import { useAdmin } from '../utils/user';
 import DialogReportContent from './DialogReportContent.vue';
 import DialogShareLink from './DialogShareLink.vue';
 
@@ -28,7 +27,7 @@ const title = useTitle(props.movie, locale);
 
 const fullUrl = ref(window.location.href.split('?')[0]);
 
-const isAdmin = useAdmin(page?.props?.user);
+const isAdmin = page?.props?.user?.is_administrator;
 
 const $q = useQuasar();
 
