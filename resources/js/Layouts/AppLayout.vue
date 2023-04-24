@@ -70,6 +70,8 @@ const resendEmail = () => {
 };
 
 const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
+
+const isAdmin = computed(() => !!page.props.user?.is_administrator);
 </script>
 
 <template>
@@ -246,7 +248,9 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                         </q-list>
                     </q-menu>
                 </q-btn>
+
                 <LanguageSwitcher />
+
                 <q-avatar
                     v-if="page.props.user"
                     size="34px"
@@ -274,12 +278,10 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                         >
                             <q-item
                                 clickable
-                                @click="
-                                    $inertia.get(
-                                        route('profile.show', {
-                                            user: page.props.user?.id ?? 0,
-                                        }),
-                                    )
+                                :href="
+                                    route('profile.show', {
+                                        user: page.props.user?.id ?? 0,
+                                    })
                                 "
                             >
                                 <q-item-section class="q-py-md">
@@ -294,16 +296,34 @@ const isEmailVerified = computed(() => !!page.props.user?.email_verified_at);
                             <q-separator class="q-my-xs" />
                             <q-item
                                 clickable
-                                @click="$inertia.get(route('settings.account'))"
+                                :href="route('settings.account')"
                             >
                                 <q-item-section>
                                     {{ $t('web.general.pages.settings') }}
                                 </q-item-section>
                             </q-item>
+                            <q-separator
+                                v-if="isAdmin"
+                                class="q-my-xs"
+                            />
+                            <q-item
+                                v-if="isAdmin"
+                                clickable
+                                href="/telescope"
+                            >
+                                <q-item-section> Telescope </q-item-section>
+                            </q-item>
+                            <q-item
+                                v-if="isAdmin"
+                                clickable
+                                href="/horizon"
+                            >
+                                <q-item-section> Horizon </q-item-section>
+                            </q-item>
                             <q-separator class="q-my-xs" />
                             <q-item
                                 clickable
-                                @click="logout"
+                                @click="() => logout()"
                             >
                                 <q-item-section>
                                     {{ $t('web.general.logout') }}
