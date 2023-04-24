@@ -107,4 +107,20 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
     {
         return $this->hasMany(Audit::class);
     }
+
+    /**
+     * Check if the user is an administrator.
+     */
+    public function isAdministrator(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    /**
+     * Check if the user is banned.
+     */
+    public function isBanned(): bool
+    {
+        return $this->hasRole('banned');
+    }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\Movie;
+use App\Models\ContentReport;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class MoviePolicy
+class ContentReportPolicy
 {
     use HandlesAuthorization;
 
@@ -29,7 +29,7 @@ class MoviePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(?User $user): Response|bool
+    public function viewAny(User $user): Response|bool
     {
         return Response::allow();
     }
@@ -37,7 +37,7 @@ class MoviePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Movie $movie): Response|bool
+    public function view(User $user, ContentReport $contentReport): Response|bool
     {
         return Response::allow();
     }
@@ -47,29 +47,29 @@ class MoviePolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('create movie');
+        return $user->hasVerifiedEmail() && $user->can('create content report');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Movie $movie): Response|bool
+    public function update(User $user, ContentReport $contentReport): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('edit movie');
+        return $user->hasVerifiedEmail() && $user->can('edit content report');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Movie $movie): Response|bool
+    public function delete(User $user, ContentReport $contentReport): Response|bool
     {
-        return $user->can('delete movie');
+        return $user->hasVerifiedEmail() && $user->can('delete content report');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Movie $movie): Response|bool
+    public function restore(User $user, ContentReport $contentReport): Response|bool
     {
         return Response::denyAsNotFound();
     }
@@ -77,7 +77,7 @@ class MoviePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Movie $movie): Response|bool
+    public function forceDelete(User $user, ContentReport $contentReport): Response|bool
     {
         return Response::denyAsNotFound();
     }

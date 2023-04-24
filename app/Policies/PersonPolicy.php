@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\Movie;
+use App\Models\Person;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class MoviePolicy
+class PersonPolicy
 {
     use HandlesAuthorization;
 
@@ -37,7 +37,7 @@ class MoviePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Movie $movie): Response|bool
+    public function view(?User $user, Person $person): Response|bool
     {
         return Response::allow();
     }
@@ -47,29 +47,29 @@ class MoviePolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('create movie');
+        return $user->hasVerifiedEmail() && $user->can('create person');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Movie $movie): Response|bool
+    public function update(User $user, Person $person): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('edit movie');
+        return $user->hasVerifiedEmail() && $user->can('edit person');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Movie $movie): Response|bool
+    public function delete(User $user, Person $person): Response|bool
     {
-        return $user->can('delete movie');
+        return $user->hasVerifiedEmail() && $user->can('delete person');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Movie $movie): Response|bool
+    public function restore(User $user, Person $person): Response|bool
     {
         return Response::denyAsNotFound();
     }
@@ -77,7 +77,7 @@ class MoviePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Movie $movie): Response|bool
+    public function forceDelete(User $user, Person $person): Response|bool
     {
         return Response::denyAsNotFound();
     }

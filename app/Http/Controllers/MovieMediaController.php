@@ -18,6 +18,8 @@ class MovieMediaController extends Controller
      */
     public function index(Movie $movie): Response
     {
+        $this->authorize('viewAny', $movie);
+
         $movie->load('media');
 
         /** @var string $collectionName */
@@ -36,6 +38,8 @@ class MovieMediaController extends Controller
      */
     public function store(StoreMovieMediaRequest $request, Movie $movie): RedirectResponse
     {
+        $this->authorize('create', $movie);
+
         /** @var array{collection_name: string, media: \Illuminate\Http\UploadedFile} */
         $validatedData = $request->validated();
 

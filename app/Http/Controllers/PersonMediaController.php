@@ -17,6 +17,8 @@ class PersonMediaController extends Controller
      */
     public function index(Person $model): Response
     {
+        $this->authorize('viewAny', $model);
+
         $model->load(['media']);
 
         $posters = $model->getMedia('profile');
@@ -29,6 +31,8 @@ class PersonMediaController extends Controller
      */
     public function store(StoreMovieMediaRequest $request, Person $model): RedirectResponse
     {
+        $this->authorize('create', $model);
+
         /** @var array{collection_name: string, media: \Illuminate\Http\UploadedFile} */
         $validatedData = $request->validated();
 
