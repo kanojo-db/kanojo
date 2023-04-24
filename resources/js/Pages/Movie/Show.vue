@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { DateTime, Duration } from 'luxon';
 import { PropType, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -129,6 +129,53 @@ const groupedTags = computed(() => {
 </script>
 
 <template>
+    <Head :title="title">
+        <!-- Twitter -->
+        <meta
+            name="twitter:card"
+            content="summary_large_image"
+        />
+        <meta
+            name="twitter:site"
+            content="@kanojodb"
+        />
+        <meta
+            name="twitter:title"
+            :content="title"
+        />
+        <meta
+            name="twitter:image"
+            :content="route('movies.preview.show', [props.movie])"
+        />
+        <!-- OpenGraph -->
+        <meta
+            property="og:title"
+            :content="title"
+        />
+        <meta
+            property="og:image"
+            :content="route('movies.preview.show', [props.movie])"
+        />
+        <meta
+            property="og:url"
+            :content="route('movies.show', [props.movie])"
+        />
+        <meta
+            property="og:site_name"
+            content="Kanojo"
+        />
+        <meta
+            property="og:type"
+            content="video.movie"
+        />
+        <!-- Google -->
+        <meta
+            v-if="props.movie.type.name === 'JAV'"
+            name="rating"
+            content="adult"
+        />
+    </Head>
+
     <div
         itemscope
         itemtype="https://schema.org/Movie"

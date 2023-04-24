@@ -14,7 +14,7 @@
         <div class="bg-slate-200 px-6 py-4">
             <img src="https://kanojodb.com/images/logo-light.svg" class="object-contain h-16">
         </div>
-        <div class="flex flex-row justify-center gap-8 p-6">
+        <div class="flex flex-row gap-8 p-6">
             <!-- If there is a front cover, show it. Otherwise, show a placeholder -->
             @if ($frontCover)
                 <img src="{{ $frontCover }}" alt="{{ $movie->title }}" class="rounded shadow-md"
