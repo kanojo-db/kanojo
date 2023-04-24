@@ -32,7 +32,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         plugins: [
             laravel({
                 input: 'resources/js/app.ts',
-                // ssr: 'resources/js/ssr.ts',
+                ssr: 'resources/js/ssr.ts',
                 refresh: true,
             }),
             vue({
