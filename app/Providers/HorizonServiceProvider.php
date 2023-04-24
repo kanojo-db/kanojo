@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Models\User;
@@ -31,7 +33,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewHorizon', function (User $user): bool {
-            return $user->roles->contains('name', 'admin');
+            return $user->isAdministrator();
         });
     }
 }

@@ -7,6 +7,7 @@ namespace App\Models;
 use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableInterface;
 use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -55,11 +56,11 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
     ];
 
     /**
-     * The relationships that should always be loaded.
+     * The accessors to append to the model's array form.
      *
      * @var string[]
      */
-    protected $with = ['roles'];
+    protected $appends = ['is_administrator', 'is_banned'];
 
     /**
      * {@inheritDoc}
@@ -110,17 +111,25 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
 
     /**
      * Check if the user is an administrator.
+     *
+     * @return Attribute<bool, void>
      */
-    public function isAdministrator(): bool
+    public function isAdministrator(): Attribute
     {
-        return $this->hasRole('admin');
+        return new Attribute(
+            get: fn () => $this->hasRole('admin')
+        );
     }
 
     /**
      * Check if the user is banned.
+     *
+     * @return Attribute<bool, void>
      */
-    public function isBanned(): bool
+    public function isBanned(): Attribute
     {
-        return $this->hasRole('banned');
+        return new Attribute(
+            get: fn () => $this->hasRole('banned'),
+        );
     }
 }

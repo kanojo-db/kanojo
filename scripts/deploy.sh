@@ -17,7 +17,7 @@ git pull origin main
 npm install ci
 
 # Install composer dependencies
-composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
+composer install --no-scripts --no-interaction --optimize-autoloader
 
 # Clear the old cache
 php artisan clear-compiled
