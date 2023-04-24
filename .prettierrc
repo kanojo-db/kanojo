@@ -1,12 +1,34 @@
 {
-    "tabWidth": 4,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "all",
     "bracketSpacing": true,
+    "importOrder": [
+        "<TYPES>",
+        "",
+        "<TYPES>^[.]",
+        "",
+        "<THIRD_PARTY_MODULES>",
+        "",
+        "^~icons/(.*)$",
+        "",
+        "^@/(.*)$",
+        "",
+        "^[./]",
+        "",
+        "^(?!.*[.](css|scss|sass)$)[./].*$",
+        "",
+        ".(css|scss|sass)$"
+    ],
+    "importOrderTypeScriptVersion": "5.1.6",
+    "pluginSearchDirs": false,
+    "plugins": [
+        "@shufo/prettier-plugin-blade",
+        "@ianvs/prettier-plugin-sort-imports",
+        "prettier-plugin-packagejson",
+        "prettier-plugin-tailwindcss"
+    ],
+    "semi": true,
     "singleAttributePerLine": true,
-    "importOrder": ["^@/(.*)$", "^[./]"],
-    "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "useTabs": false
 }

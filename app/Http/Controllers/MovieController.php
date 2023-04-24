@@ -6,24 +6,24 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Filters\FiltersFeaturedModelAge;
+use App\Filters\FiltersMovieMedia;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
 use App\Models\MovieType;
+use App\Models\Person;
+use App\Models\Series;
 use App\Models\Studio;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\Tags\Tag;
 
 class MovieController extends Controller
 {
@@ -41,13 +41,24 @@ class MovieController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Movie/Index', [
+        return Inertia::render('MovieIndex', [
             'movies' => function (): LengthAwarePaginator {
                 return QueryBuilder::for(Movie::class)
                     ->defaultSort('-release_date')
-                    ->allowedSorts(['created_at', 'product_code', 'release_date'])
+                    ->allowedSorts([
+                        'created_at',
+                        'release_date',
+                        'updated_at',
+                        'title',
+                        'popularity',
+                    ])
                     ->allowedFilters([
                         AllowedFilter::custom('age', new FiltersFeaturedModelAge),
+                        AllowedFilter::custom('media', new FiltersMovieMedia),
+                        AllowedFilter::scope('recent', 'recentlyReleased'),
+                        AllowedFilter::scope('upcoming', 'upcoming'),
+                        AllowedFilter::scope('type', 'ofType'),
+                        AllowedFilter::exact('studio_id'),
                     ])
                     ->with([
                         'media',
@@ -58,7 +69,6 @@ class MovieController extends Controller
                         'loveReactant.reactionCounters',
                         'loveReactant.reactionTotal',
                     ])
-                    ->cacheFor(86400 /* 1 day */)
                     ->paginate(25)
                     ->appends(request()->query());
             },
@@ -72,6 +82,10 @@ class MovieController extends Controller
                     ->orderBy('value')
                     ->get();
             },
+            'movieTypes' => function (): Collection {
+                return MovieType::orderBy('name')
+                    ->get();
+            },
         ]);
     }
 
@@ -80,17 +94,32 @@ class MovieController extends Controller
      */
     public function create(): Response
     {
-        $locale = App::getLocale();
+        // Get the studio search parameter
+        $studioSearch = request()->query('studio', null);
 
-        // Get studios ordered by name->$locale and name->ja-JP
-        $studios = Studio::orderBy("name->{$locale}")
-            ->orderBy('name->ja-JP')
-            ->get();
-        $movie_types = MovieType::all();
+        // Get the series search parameter
+        $seriesSearch = request()->query('series', null);
 
-        $tags = Tag::all();
+        return Inertia::render('Item/Create', [
+            'type' => 'movie',
+            'series' => function () use ($seriesSearch): Collection {
+                // If series search is set and is a string, return the results
+                if ($seriesSearch && is_string($seriesSearch)) {
+                    return Series::search($seriesSearch)->get();
+                }
 
-        return Inertia::render('Movie/Create', ['studios' => $studios, 'movieTypes' => $movie_types, 'tags' => $tags]);
+                return collect();
+            },
+            'studios' => function () use ($studioSearch): Collection {
+                // If studio search is set and is a string, return the results
+                if ($studioSearch && is_string($studioSearch)) {
+                    return Studio::search($studioSearch)->get();
+                }
+
+                return collect();
+            },
+            'movieTypes' => MovieType::all(),
+        ]);
     }
 
     /**
@@ -98,7 +127,7 @@ class MovieController extends Controller
      */
     public function store(StoreMovieRequest $request): RedirectResponse
     {
-        /** @var array{title: string|null, originalTitle: string, productCode: string, releaseDate: Carbon|null, runtime: int|null, studioId: int|null, movieTypeId: int} */
+        /** @var array{title: string|null, originalTitle: string, releaseDate: Carbon|null, runtime: int|null, studioId: int|null, movieTypeId: int, seriesId: int|null} */
         $validatedData = $request->validated();
 
         $locale = App::getLocale();
@@ -108,11 +137,11 @@ class MovieController extends Controller
                 $locale => $validatedData['title'] ?? null,
                 'ja-JP' => $validatedData['originalTitle'],
             ],
-            'product_code' => $validatedData['productCode'],
             'release_date' => $validatedData['releaseDate'] ?? null,
             'length' => $validatedData['runtime'] ?? null,
             'studio_id' => $validatedData['studioId'] ?? null,
-            'movie_type_id' => $validatedData['movieTypeId'],
+            'type_id' => $validatedData['movieTypeId'],
+            'series_id' => $validatedData['seriesId'] ?? null,
         ]);
 
         return Redirect::route('movies.show', $movie->slug);
@@ -125,10 +154,11 @@ class MovieController extends Controller
     {
         $movie->load([
             'studio',
+            'series',
             'type',
-            'tags',
             'media',
             'models',
+            'versions',
             'models.media',
             'loveReactant.reactions.reacter.reacterable',
             'loveReactant.reactions.type',
@@ -136,29 +166,10 @@ class MovieController extends Controller
             'loveReactant.reactionTotal',
         ]);
 
-        /** @var User|null */
-        $user = Auth::user();
+        $movie->visit();
 
-        // If it's in the user's favorites, mark it as such
-        if (Auth::check() && $user !== null) {
-            $inFavorites = $user->favorites->contains($movie);
-        }
-
-        // If it's in the user's wishlist, mark it as such
-        if (Auth::check() && $user !== null) {
-            $inWishlist = $user->wishlist->contains($movie);
-        }
-
-        // If it's in the user's collection list, mark it as such
-        if (Auth::check() && $user !== null) {
-            $inCollection = $user->collection->contains($movie);
-        }
-
-        return Inertia::render('Movie/Show', [
-            'movie' => $movie,
-            'inFavorites' => $inFavorites ?? null,
-            'inWishlist' => $inWishlist ?? null,
-            'inCollection' => $inCollection ?? null,
+        return Inertia::render('Item/Show', [
+            'item' => $movie,
         ]);
     }
 
@@ -167,9 +178,47 @@ class MovieController extends Controller
      */
     public function edit(Movie $movie): Response
     {
-        $movie->load(['studio', 'media', 'tags']);
+        $movie->load(['studio', 'media', 'models', 'versions']);
 
-        return Inertia::render('Movie/Edit', ['movie' => $movie]);
+        $studioSearch = request()->query('studio', null);
+
+        $seriesSearch = request()->query('series', null);
+
+        $modelSearch = request()->query('model', null);
+
+        return Inertia::render('Item/Edit', [
+            'item' => $movie,
+            'movieTypes' => fn () => MovieType::all(),
+            'series' => function () use ($movie, $seriesSearch): Collection {
+                if ($seriesSearch && is_string($seriesSearch)) {
+                    return Series::search($seriesSearch)->get();
+                }
+
+                if ($movie->series) {
+                    return collect([$movie->series]);
+                }
+
+                return collect();
+            },
+            'studios' => function () use ($movie, $studioSearch): Collection {
+                if ($studioSearch && is_string($studioSearch)) {
+                    return Studio::search($studioSearch)->get();
+                }
+
+                if ($movie->studio) {
+                    return collect([$movie->studio]);
+                }
+
+                return collect();
+            },
+            'models' => function () use ($modelSearch): Collection {
+                if ($modelSearch && is_string($modelSearch)) {
+                    return Person::search($modelSearch)->get();
+                }
+
+                return collect();
+            },
+        ]);
     }
 
     /**
@@ -177,7 +226,7 @@ class MovieController extends Controller
      */
     public function update(UpdateMovieRequest $request, Movie $movie): RedirectResponse
     {
-        /** @var array{title: string|null, original_title: string, product_code: string, release_date: Carbon|null, runtime: int|null} */
+        /** @var array{title: string|null, original_title: string, release_date: Carbon|null, runtime: int|null, type_id: int, studio_id: int|null, series_id: int|null, is_vr: boolean, is_3d: boolean} */
         $validatedData = $request->validated();
 
         // TODO: Allow updating other locales. Maybe through another controller?
@@ -185,26 +234,17 @@ class MovieController extends Controller
 
         $movie->update([
             'title' => [
-                $locale => $validatedData['title'],
+                $locale => $validatedData['title'] ?? null,
                 'ja-JP' => $validatedData['original_title'],
             ],
-            'product_code' => $validatedData['product_code'],
-            'release_date' => $validatedData['release_date'],
-            'runtime' => $validatedData['runtime'],
+            'release_date' => $validatedData['release_date'] ?? null,
+            'runtime' => $validatedData['runtime'] ?? null,
+            'type_id' => $validatedData['type_id'],
+            'studio_id' => $validatedData['studio_id'] ?? null,
+            'series_id' => $validatedData['series_id'] ?? null,
+            'is_vr' => $validatedData['is_vr'],
+            'is_3d' => $validatedData['is_3d'],
         ]);
-
-        // If release_date was changed and we have models linked, update the ages
-        if ($movie->wasChanged('release_date') && $movie->models()->count() > 0) {
-            foreach ($movie->models as $model) {
-                if ($model->birthdate === null) {
-                    continue;
-                }
-
-                $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
-
-                $movie->models()->updateExistingPivot($model->id, ['age' => $age]);
-            }
-        }
 
         return Redirect::route('movies.show', $movie);
     }

@@ -1,90 +1,125 @@
 <script setup lang="ts">
+import type { Sessions, User } from '@/types/models';
+import type { PropType } from 'vue';
+
 import { Head, usePage } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
 
-import MenuCardSettings from '@/Components/MenuCardSettings.vue';
+import SideMenuPage from '@/Components/SideMenuPage.vue';
+import SideMenuUser from '@/Components/SideMenuUser.vue';
+import UserAvatar from '@/Components/UserAvatar.vue';
+import UserName from '@/Components/UserName.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { PageProps } from '@/types/inertia';
+
+const props = defineProps({
+    sessions: {
+        type: Array as PropType<Sessions>,
+        required: true,
+    },
+});
 
 defineOptions({
     layout: AppLayout,
 });
 
-const props = defineProps({
-    sessions: {
-        type: Array,
-        required: true,
-    },
-});
-
-const page = usePage<PageProps>();
-
-const columns = [
-    {
-        name: 'ip_address',
-        label: 'IP Address',
-        field: 'ip_address',
-        required: true,
-        align: 'left',
-    },
-    {
-        name: 'browser',
-        label: 'Browser',
-        field: 'browser',
-        required: true,
-        align: 'left',
-    },
-    {
-        name: 'platform',
-        label: 'Platform',
-        field: 'platform',
-        required: true,
-        align: 'left',
-    },
-    {
-        name: 'last_active',
-        label: 'Last Active',
-        field: 'last_active',
-        required: true,
-        align: 'left',
-        format: (val: string) => {
-            return DateTime.fromISO(val).toRelative();
-        },
-    },
-];
+const page = usePage();
 </script>
 
 <template>
     <Head
-        :title="`${page?.props?.user?.name} - ${$t(
-            'web.settings.sessions.title',
-        )}`"
+        :title="`${page?.props?.user?.name} - ${$t('settings.sessions.title')}`"
     />
 
-    <div class="col bg-grey-3">
-        <div class="row q-py-lg q-px-md">
-            <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                {{ page?.props?.user?.name }}
-            </h1>
-        </div>
+    <div class="flex flex-col bg-stone-300 dark:bg-stone-700">
+        <v-container>
+            <v-row align="center">
+                <v-col>
+                    <div
+                        class="my-8 flex flex-col gap-6 lg:flex-row lg:items-center"
+                    >
+                        <user-avatar
+                            :size="160"
+                            :user="page.props.user as User"
+                            text-class="text-8xl"
+                        />
+
+                        <div class="flex flex-col gap-6">
+                            <div class="flex flex-row items-end">
+                                <user-name
+                                    class="my-0 text-ellipsis text-5xl font-black text-stone-700 dark:text-stone-100"
+                                    :user="page.props.user as User"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
-    <div class="q-ma-md">
-        <div class="row q-col-gutter-lg full-width">
-            <div class="col-2 q-pl-none">
-                <MenuCardSettings />
-            </div>
-            <div class="col col-10">
-                <h2 class="text-h5 text-weight-bold q-mt-none q-mb-md">
-                    {{ $t('web.settings.sessions.title') }}
-                </h2>
-                <q-table
-                    grid
-                    :rows="props.sessions"
-                    :columns="columns"
-                    row-key="id"
-                    hide-header
-                />
-            </div>
-        </div>
-    </div>
+
+    <side-menu-page>
+        <template #left>
+            <side-menu-user />
+        </template>
+
+        <template #right>
+            <v-table hover>
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            {{ $t('settings.sessions.ip_address') }}
+                        </th>
+
+                        <th scope="col">
+                            {{ $t('settings.sessions.browser') }}
+                        </th>
+
+                        <th scope="col">
+                            {{ $t('settings.sessions.platform') }}
+                        </th>
+
+                        <th scope="col">
+                            {{ $t('settings.sessions.last_active') }}
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr
+                        v-for="session in props.sessions"
+                        :key="session.id"
+                    >
+                        <td>
+                            <v-chip
+                                v-if="session.is_current_device"
+                                color="primary"
+                            >
+                                {{ $t('settings.sessions.current') }}
+                            </v-chip>
+
+                            {{ session.ip_address }}
+                        </td>
+
+                        <td>
+                            {{ session.browser }}
+                        </td>
+
+                        <td>
+                            {{ session.platform }}
+                        </td>
+
+                        <td>
+                            {{
+                                session.last_active
+                                    ? DateTime.fromISO(
+                                          session.last_active,
+                                      ).toRelative()
+                                    : $t('settings.sessions.unknown')
+                            }}
+                        </td>
+                    </tr>
+                </tbody>
+            </v-table>
+        </template>
+    </side-menu-page>
 </template>

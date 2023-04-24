@@ -3,107 +3,106 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <footer class="footer p-10 bg-neutral text-white">
+    <v-footer
+        class="grow-0 flex-col items-start justify-center gap-4 bg-stone-600 p-10 text-stone-50 dark:bg-stone-800 md:flex-row md:gap-16"
+    >
         <div>
             <img
                 alt="Kanojo Logo"
                 src="/images/logo-dark.svg"
-                style="width: 150px; height: 48px"
-                fit="contain"
+                class="h-[48px]] w-[150px] object-contain"
             />
         </div>
-        <div>
-            <span class="footer-title">
-                {{ $t('web.general.pages.general') }}
-            </span>
-            <Link
-                :href="route('about.index')"
-                class="link link-hover"
-            >
-                {{ $t('web.general.pages.about') }}
-            </Link>
-            <Link
-                :href="route('privacy')"
-                class="link link-hover"
-            >
-                {{ $t('web.general.pages.privacyPolicy') }}
-            </Link>
-            <Link
-                href="#"
-                class="link link-hover"
-            >
-                {{ $t('web.general.pages.contact_us') }}
-            </Link>
-            <a
-                class="link link-hover"
-                :href="route('scribe')"
-            >
-                {{ $t('web.general.pages.api') }}
-            </a>
-            <a
-                class="link link-hover"
-                href="https://kanojo1.statuspage.io/"
-            >
-                {{ $t('web.general.pages.status') }}
-            </a>
+
+        <div class="flex flex-col gap-4 md:flex-row md:gap-36">
+            <div class="flex flex-col">
+                <span class="mb-2 font-bold">
+                    {{ $t('general.pages.general') }}
+                </span>
+
+                <Link
+                    :href="route('about.index')"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.about') }}
+                </Link>
+
+                <Link
+                    :href="route('plugins')"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.plugins') }}
+                </Link>
+
+                <Link
+                    :href="route('privacy')"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.privacyPolicy') }}
+                </Link>
+
+                <a
+                    :href="route('scribe')"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.api') }}
+                </a>
+            </div>
+
+            <div class="flex flex-col">
+                <span class="mb-2 font-bold">
+                    {{ $t('general.pages.contribute') }}
+                </span>
+
+                <Link
+                    href="https://hosted.weblate.org/projects/kanojo/website/"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.helpTranslate') }}
+                </Link>
+            </div>
+
+            <div class="flex flex-col">
+                <span class="mb-2 font-bold">
+                    {{ $t('general.pages.community') }}
+                </span>
+
+                <a
+                    href="https://kanojo.sleekplan.app"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.requestFeatures') }}
+                </a>
+
+                <a
+                    href="https://discord.gg/chg5KzTHHp"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.discord') }}
+                </a>
+
+                <a
+                    href="https://github.com/kanojo-db"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.github') }}
+                </a>
+
+                <a
+                    rel="me"
+                    href="https://mastodon.social/@kanojodb"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.mastodon') }}
+                </a>
+
+                <a
+                    href="https://twitter.com/kanojodb"
+                    class="hover:text-secondary"
+                >
+                    {{ $t('general.pages.twitter') }}
+                </a>
+            </div>
         </div>
-        <div>
-            <span class="footer-title">
-                {{ $t('web.general.pages.contribute') }}
-            </span>
-            <Link
-                class="link link-hover"
-                :href="route('bible.index')"
-            >
-                {{ $t('web.general.pages.bible') }}
-            </Link>
-            <Link
-                class="link link-hover"
-                :href="route('movies.create')"
-            >
-                {{ $t('web.general.pages.add_movie') }}
-            </Link>
-            <Link
-                class="link link-hover"
-                :href="route('movies.create')"
-            >
-                {{ $t('web.general.pages.fill_missing') }}
-            </Link>
-            <Link
-                class="link link-hover"
-                href="https://hosted.weblate.org/projects/kanojo/website/"
-            >
-                {{ $t('web.general.pages.help_translate') }}
-            </Link>
-        </div>
-        <div>
-            <span class="footer-title">
-                {{ $t('web.general.pages.community') }}
-            </span>
-            <a
-                class="link link-hover"
-                href="https://kanojo.sleekplan.app"
-            >
-                {{ $t('web.general.pages.requestFeatures') }}
-            </a>
-            <a
-                class="link link-hover"
-                href="https://discord.gg/chg5KzTHHp"
-            >
-                {{ $t('web.general.pages.discord') }}
-            </a>
-            <a
-                class="link link-hover"
-                href="https://github.com/kanojo-db"
-            >
-                {{ $t('web.general.pages.github') }}
-            </a>
-            <a
-                class="link link-hover"
-                href="https://twitter.com/kanojodb"
-            >
-                {{ $t('web.general.pages.twitter') }}
-            </a>
-        </div>
-    </footer>
+    </v-footer>
 </template>

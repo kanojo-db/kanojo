@@ -25,6 +25,7 @@ class SearchRequest extends FormRequest
     {
         return [
             'q' => ['required', 'string'],
+            'type' => ['nullable', 'string', 'in:movies,people,series,studios'],
         ];
     }
 }

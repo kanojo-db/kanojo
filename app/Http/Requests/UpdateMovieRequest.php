@@ -26,9 +26,13 @@ class UpdateMovieRequest extends FormRequest
         return [
             'title' => ['nullable', 'string'],
             'original_title' => ['required', 'string'],
-            'product_code' => ['required', 'string'],
             'release_date' => ['nullable', 'date'],
             'runtime' => ['nullable', 'integer'],
+            'type_id' => ['nullable', 'integer', 'exists:types,id'],
+            'studio_id' => ['nullable', 'integer', 'exists:studios,id'],
+            'series_id' => ['nullable', 'integer', 'exists:series,id'],
+            'is_vr' => ['nullable', 'boolean'],
+            'is_3d' => ['nullable', 'boolean'],
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Person;
 use App\Models\User;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -15,8 +16,8 @@ class WelcomeController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('Welcome', [
-            'popularModels' => Person::with(['media'])->take(25)->cacheFor(now()->addDay())->get(),
-            'popularMovies' => Movie::latest()
+            'popularModels' => Person::popular()->with(['media'])->withCount(['movies'])->take(25)->get(),
+            'popularMovies' => Movie::popular()
                 ->with([
                     'media',
                     'type',
@@ -24,7 +25,6 @@ class WelcomeController extends Controller
                     'loveReactant.reactions.type',
                 ])
                 ->take(25)
-                ->cacheFor(now()->addDay())
                 ->get(),
             'latestMovies' => Movie::latest()
                 ->with([
@@ -45,8 +45,8 @@ class WelcomeController extends Controller
                 ])
                 ->take(25)
                 ->get(),
-            'recentlyReleasedMovies' => Movie::latest('release_date')
-                ->where('release_date', '<=', now()->toDateString())
+            'recentlyReleasedMovies' => Movie::recentlyReleased(Carbon::now()->format('Y-m-d'))
+                ->orderBy('release_date', 'desc')
                 ->with([
                     'media',
                     'type',
@@ -61,17 +61,10 @@ class WelcomeController extends Controller
             'topUsers' => function (): mixed {
                 $topUsers = User::orderBy('audits_count', 'desc')
                     ->withCount('audits')
-                    ->take(10)
+                    ->take(12)
                     ->get();
 
-                return $topUsers->map(function (User $user): mixed {
-                    return [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'total_audits' => $user->getAttribute('audits_count'),
-                        'audits_this_week' => $user->audits()->where('created_at', '>=', now()->subWeek())->count(),
-                    ];
-                });
+                return $topUsers;
             },
         ]);
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Http\Middleware\UpgradeToHttpsUnderNgrok;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Routing\Router;
@@ -25,6 +26,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        UpgradeToHttpsUnderNgrok::class,
     ];
 
     /**
@@ -43,6 +45,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Localization::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\AgeGateMiddleware::class,
         ],
 
         'api' => [

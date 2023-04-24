@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Listeners\MediaReactionAdded;
-use App\Listeners\MediaReactionRemoved;
+use App\Events\ContentReportCreated;
+use App\Events\MovieVersionUpdated;
+use App\Listeners\ReactionAdded;
+use App\Listeners\ReactionRemoved;
+use App\Listeners\SendNewContentReportNotification;
+use App\Listeners\UpdateMovieReleaseDate;
 use Cog\Laravel\Love\Reaction\Events\ReactionHasBeenAdded;
 use Cog\Laravel\Love\Reaction\Events\ReactionHasBeenRemoved;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -24,11 +27,17 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ContentReportCreated::class => [
+            SendNewContentReportNotification::class,
+        ],
+        MovieVersionUpdated::class => [
+            UpdateMovieReleaseDate::class,
+        ],
         ReactionHasBeenAdded::class => [
-            MediaReactionAdded::class,
+            ReactionAdded::class,
         ],
         ReactionHasBeenRemoved::class => [
-            MediaReactionRemoved::class,
+            ReactionRemoved::class,
         ],
     ];
 

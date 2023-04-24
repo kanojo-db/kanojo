@@ -7,9 +7,9 @@
         "ryannaddy.laravel-artisan",
         "amiralizadeh9480.laravel-extra-intellisense",
         "mikestead.dotenv",
-        "onecentlin.laravel5-snippets",
         "lokalise.i18n-ally",
         "SanderRonde.phpstan-vscode",
-        "open-southeners.laravel-pint"
+        "open-southeners.laravel-pint",
+        "stylelint.vscode-stylelint"
     ]
 }

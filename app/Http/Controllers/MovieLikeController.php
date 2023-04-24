@@ -6,8 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Cog\Laravel\Love\ReactionType\Models\ReactionType;
+use Illuminate\Support\Facades\Auth;
 
 class MovieLikeController extends Controller
 {
@@ -21,18 +21,19 @@ class MovieLikeController extends Controller
 
         if (Auth::check() && $user !== null) {
             $reacterFacade = $user->viaLoveReacter();
+            $likeType = ReactionType::fromName('Like');
 
-            $hasLiked = $reacterFacade->hasReactedTo($movie, 'Like');
+            $hasLiked = $reacterFacade->hasReactedTo($movie, $likeType->getName());
 
             if ($reacterFacade->hasReactedTo($movie)) {
-                $reacterFacade->unreactTo($movie, 'Like');
+                $reacterFacade->unreactTo($movie, $likeType->getName());
 
                 if ($hasLiked) {
                     return;
                 }
             }
 
-            $reacterFacade->reactTo($movie, 'Like');
+            $reacterFacade->reactTo($movie, $likeType->getName());
         }
     }
 }

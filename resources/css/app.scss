@@ -1,111 +1,35 @@
-// General
+@import 'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900&display=swap';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: 'Noto Sans', 'Noto Sans JP', sans-serif;
+    }
+}
+
+:root {
+    --swiper-scrollbar-sides-offset: 0%;
+}
 
 ::selection {
     background: #69306d;
     color: #fff;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-a:hover {
+.select-white::selection {
+    background: #fff;
     color: #69306d;
 }
 
-// Utilities
-.content-wrapper {
-    max-width: 1400px;
-    width: 100%;
-    margin-left: map-get($map: $space-md, $key: 'x');
-    margin-right: map-get($map: $space-md, $key: 'x');
-    flex-wrap: wrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.bg-checkered {
+    background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23e7e5e4' d='M0 0h8v8H0zm8 8h8v8H8z'/%3E%3C/svg%3E");
+    background-size: 16px 16px;
 }
 
-.pointer {
-    cursor: pointer;
-}
-
-// Text
-.underline {
-    text-decoration: underline;
-}
-
-// Grids
-.card-grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 200px);
-    grid-template-rows: repeat(auto-fill, 403px);
-    grid-gap: map-get($map: $space-md, $key: 'x') map-get($map: $space-md, $key: 'y');
-    align-items: start;
-    justify-items: start;
-}
-
-.grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(50%, 1fr));
-    grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
-}
-
-.grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(33%, 1fr));
-    grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
-}
-
-.grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(25%, 1fr));
-    grid-gap: map-get($space-md, 'x') map-get($space-md, 'y');
-}
-
-@media (max-width: $breakpoint-sm) {
-    .grid-2,
-    .grid-3,
-    .grid-4 {
-        grid-template-columns: repeat(1, minmax(100%, 1fr));
-    }
-}
-
-@media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
-    .grid-2 {
-        grid-template-columns: repeat(1, minmax(100%, 1fr));
-    }
-
-    .grid-3,
-    .grid-4 {
-        grid-template-columns: repeat(2, minmax(50%, 2fr));
-    }
-}
-
-@media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
-    .grid-2 {
-        grid-template-columns: repeat(2, minmax(50%, 2fr));
-    }
-
-    .grid-3 {
-        grid-template-columns: repeat(2, minmax(50%, 2fr));
-    }
-
-    .grid-4 {
-        grid-template-columns: repeat(3, minmax(33%, 1fr));
-    }
-}
-
-@media (min-width: $breakpoint-lg) {
-    .grid-2 {
-        grid-template-columns: repeat(2, minmax(50%, 1fr));
-    }
-
-    .grid-3 {
-        grid-template-columns: repeat(3, minmax(33%, 1fr));
-    }
-
-    .grid-4 {
-        grid-template-columns: repeat(4, minmax(25%, 1fr));
-    }
+.hero {
+    background-image: url('/images/media-plugin-hero.png');
+    background-size: cover;
 }

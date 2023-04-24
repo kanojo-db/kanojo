@@ -27,6 +27,10 @@ nonprocessed = []
 # List all .jpg files with same name as directory
 for dirname, dirnames, filenames in os.walk('.'):
     for filename in filenames:
+        # Skip files with -front in their name
+        if "-front" in filename:
+            continue
+
         # Process all files matching the pattern <dirname>.jpg
         print("Processing " + os.path.join(dirname, filename))
         filepath = filename
@@ -44,13 +48,23 @@ for dirname, dirnames, filenames in os.walk('.'):
             case _ if 0 < ratio <= 0.75:
                 # DVD - Front (w/h = 0.70)
                 print("Detected: DVD - Front")
-                # Don't touch this, it's already good
+                nonprocessed.append(filepath + " (dvd front)")
                 continue
             case _ if 0.75 < ratio <= 1:
                 # Blu-ray - Front (w/h = 0.85)
                 print("Detected: Blu-ray - Front")
-                # Don't touch this, it's already good
+                nonprocessed.append(filepath + " (blu-ray front)")
                 continue
+            case _ if 1.32 < ratio <= 1.34:
+                # DVD - Blank padded (w/h = 1.33)
+                print("Detected: DVD - Blank padded, skipping")
+                nonprocessed.append(filepath + " (blank padded)")
+                continue
+            case _ if 1.40 < ratio <= 1.42:
+                # DVD - No Spine (w/h = 1.41)
+                print("Detected: DVD - No Spine")
+                croppedwidth = round(width * 0.498)
+                pass
             case _ if 1.43 < ratio <= 1.465:
                 # DVD - Slim (w/h = 1.45)
                 print("Detected: DVD - Slim")
@@ -62,6 +76,16 @@ for dirname, dirnames, filenames in os.walk('.'):
                 print("Detected: DVD - Normal")
                 croppedwidth = round(width * 0.472)
                 pass
+            case _ if 1.60 < ratio <= 1.64:
+                # Special Boxset - Thin (w/h = 1.62)
+                print("Detected: Special Boxset - Thin")
+                croppedwidth = round(width * 0.452)
+                pass
+            case _ if 1.64 < ratio <= 1.67:
+                # Special Boxset - Fat (w/h = 1.66)
+                print("Detected: Special Boxset - Fat")
+                croppedwidth = round(width * 0.424)
+                pass
             case _ if 1.72 < ratio <= 1.74:
                 # Blu-ray - 5mm spine (w/h = 1.73)
                 print("Detected: Blu-ray - 5mm spine")
@@ -72,7 +96,7 @@ for dirname, dirnames, filenames in os.walk('.'):
                 print("Detected: Blu-ray - 12mm spine")
                 croppedwidth = round(width * 0.477)
                 pass
-            case _ if 1.785 < ratio <= 1.82:
+            case _ if 1.785 < ratio <= 1.83:
                 # Blu-ray - 14mm spine (w/h = 1.79)
                 print("Detected: Blu-ray - 14mm spine")
                 croppedwidth = round(width * 0.473)
@@ -85,7 +109,7 @@ for dirname, dirnames, filenames in os.walk('.'):
             case _:
                 print("Failed to detect cover type")
                 # Don't touch this, we don't know what it is
-                nonprocessed.append(filepath)
+                nonprocessed.append(filepath + " (unknown)")
                 continue
 
         croptupple = [(width - croppedwidth), 0, width, height]
@@ -108,6 +132,9 @@ print("Process complete")
 
 # Print list of non-processed files
 if len(nonprocessed) > 0:
+    # Sort the list
+    nonprocessed.sort()
+
     print("The following files were not processed:")
     for i in nonprocessed:
         print("  " + i)

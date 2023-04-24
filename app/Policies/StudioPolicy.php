@@ -13,14 +13,10 @@ class StudioPolicy
 {
     use HandlesAuthorization;
 
-    public function before(?User $user): bool|null
+    public function before(?User $user): ?bool
     {
-        if ($user?->isAdministrator()) {
-            return true;
-        }
-
-        if ($user?->isBanned()) {
-            return false;
+        if ($user === null) {
+            return null;
         }
 
         return null;
@@ -31,7 +27,7 @@ class StudioPolicy
      */
     public function viewAny(User $user): Response|bool
     {
-        return Response::allow();
+        return true;
     }
 
     /**
@@ -47,7 +43,7 @@ class StudioPolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('create studio');
+        return $user->can('create studio');
     }
 
     /**
@@ -55,7 +51,7 @@ class StudioPolicy
      */
     public function update(User $user, Studio $studio): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('edit studio');
+        return $user->can('edit studio');
     }
 
     /**
@@ -63,7 +59,7 @@ class StudioPolicy
      */
     public function delete(User $user, Studio $studio): Response|bool
     {
-        return $user->hasVerifiedEmail() && $user->can('delete studio');
+        return $user->can('delete studio');
     }
 
     /**

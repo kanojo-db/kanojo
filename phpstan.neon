@@ -7,3 +7,5 @@ parameters:
     excludePaths:
         - vendor/
     level: 8
+    stubFiles:
+        - stubs/limelight.stub

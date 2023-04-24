@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 
 const form = useForm({
     password: '',
 });
 
-const passwordInput = ref(null);
-
 const submit = () => {
     form.post(route('password.confirm'), {
         onFinish: () => {
             form.reset();
-
-            passwordInput.value.focus();
         },
     });
 };
@@ -22,48 +17,59 @@ const submit = () => {
 <template>
     <Head title="Secure Area" />
 
-    <!--<AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your
-            password before continuing.
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel
-                    for="password"
-                    value="Password"
+    <v-app>
+        <v-app-bar
+            flat
+            class="bg-primary"
+        >
+            <v-app-bar-title class="mr-2 max-w-[130px]">
+                <img
+                    alt="Back to home"
+                    src="/images/logo-dark.svg"
+                    class="h-[36px] w-[130px] object-contain"
                 />
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="current-password"
-                    autofocus
-                />
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password"
-                />
-            </div>
+            </v-app-bar-title>
 
-            <div class="flex justify-end mt-4">
-                <PrimaryButton
-                    class="ml-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
+            <template #append>
+                <language-switcher />
+            </template>
+        </v-app-bar>
+
+        <v-main>
+            <v-container
+                class="flex h-full flex-col items-center justify-center"
+            >
+                <v-form
+                    class="w-full max-w-sm"
+                    @submit.prevent="submit"
                 >
-                    Confirm
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
-    -->
+                    <v-row>
+                        <v-col>
+                            <v-text-field
+                                id="password"
+                                v-model="form.password"
+                                type="password"
+                                required
+                                autocomplete="current-password"
+                                :label="$t('general.password')"
+                                :error-messages="form.errors.password"
+                            />
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col>
+                            <v-btn
+                                block
+                                color="primary"
+                                type="submit"
+                                :text="$t('general.confirmPassword')"
+                                :disabled="form.processing"
+                            />
+                        </v-col>
+                    </v-row>
+                </v-form>
+            </v-container>
+        </v-main>
+    </v-app>
 </template>

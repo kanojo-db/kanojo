@@ -31,8 +31,7 @@ class StoreMovieMediaRequest extends FormRequest
             'collection_name' => ['required', new Enum(MediaCollectionType::class)],
             'media' => [
                 'required',
-                'file',
-                File::types(['jpeg', 'png', 'webp'])->max(14000 /* 14MB */),
+                File::types(['jpeg', 'png', 'webp', 'svg'])->max(14000 /* 14MB */),
             ],
         ];
     }

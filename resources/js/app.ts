@@ -1,20 +1,24 @@
+import type { DefineComponent } from 'vue';
+
 import { createInertiaApp } from '@inertiajs/vue3';
-import '@quasar/extras/mdi-v6/mdi-v6.css';
-import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css';
 import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { Dialog, Notify, Quasar } from 'quasar';
-import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
-import 'quasar/src/css/index.sass';
-import { DefineComponent, createSSRApp, h } from 'vue';
-import { createI18n } from 'vue-i18n';
-import route from 'ziggy-js';
+import { createSSRApp, h } from 'vue';
 
-import localeMessages from '@/vue-i18n-locales.generated';
+import getI18nPlugin from '@/plugins/i18n';
+import link from '@/plugins/link';
+import pinia from '@/plugins/pinia';
+import getVuetifyPlugin from '@/plugins/vuetify';
 
-import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.es';
+
+import 'vuetify/styles/main.sass';
 import '../css/app.scss';
-import { Ziggy } from './ziggy';
+import '../css/vuetify.scss';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/mousewheel';
+import 'swiper/css/scrollbar';
 
 const appName =
     window.document.getElementsByTagName('title')[0]?.innerText || 'Kanojo';
@@ -26,25 +30,19 @@ createInertiaApp({
             `./Pages/${name}.vue`,
             import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
         ),
-    progress: { color: '#69306D', includeCSS: true },
+    progress: { color: '#15B097', includeCSS: true },
     setup({ el, App, props, plugin }) {
-        const i18n = createI18n({
-            legacy: false,
-            locale: props.initialPage.props.locale as string,
-            fallbackLocale: 'en-US',
-            messages: localeMessages,
-        });
+        const i18n = getI18nPlugin(props.initialPage.props.locale as string);
+
+        const vuetify = getVuetifyPlugin(i18n);
 
         const vueApp = createSSRApp({ render: () => h(App, props) })
-            .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(pinia)
             .use(i18n)
-            .use(Quasar, {
-                plugins: { Dialog, Notify },
-                iconSet: quasarIconSet,
-            });
-
-        vueApp.config.globalProperties.$route = route;
+            .use(vuetify)
+            .use(link)
+            .use(plugin);
 
         if (import.meta.env.PROD) {
             Sentry.init({

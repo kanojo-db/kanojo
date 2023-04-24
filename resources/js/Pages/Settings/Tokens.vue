@@ -1,245 +1,244 @@
 <script setup lang="ts">
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import type { Token, Tokens, User } from '@/types/models';
+import type { PropType } from 'vue';
+
+import { Head, router, usePage } from '@inertiajs/vue3';
 import copy from 'copy-to-clipboard';
 import { DateTime } from 'luxon';
-import { useQuasar } from 'quasar';
+import { ref, watch } from 'vue';
+import { useDisplay } from 'vuetify';
+
+import MdiContentCopy from '~icons/mdi/content-copy';
+import MdiPlus from '~icons/mdi/plus';
 
 import DialogCreateToken from '@/Components/DialogCreateToken.vue';
-import MenuCardSettings from '@/Components/MenuCardSettings.vue';
+import SideMenuPage from '@/Components/SideMenuPage.vue';
+import SideMenuUser from '@/Components/SideMenuUser.vue';
+import UserAvatar from '@/Components/UserAvatar.vue';
+import UserName from '@/Components/UserName.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { PageProps } from '@/types/inertia';
+
+const props = defineProps({
+    tokens: {
+        type: Array as PropType<Tokens>,
+        required: true,
+    },
+});
 
 defineOptions({
     layout: AppLayout,
 });
 
-const props = defineProps({
-    tokens: {
-        type: Array,
-        required: true,
-    },
-});
-
-const page = usePage<PageProps>();
-
-const tokenCreateForm = useForm({
-    name: '',
-});
-
-const tokenCreateFormSubmit = () => {
-    tokenCreateForm.post(route('settings.tokens.create'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            tokenCreateForm.reset();
-        },
-    });
-};
-
-const $q = useQuasar();
-
-const openTokenCreateDialog = () => {
-    $q.dialog({
-        component: DialogCreateToken,
-        componentProps: {
-            tokenForm: tokenCreateForm,
-            onSubmit: tokenCreateFormSubmit,
-        },
-    }).onOk((data: typeof tokenCreateForm) => {
-        tokenCreateForm.name = data.name;
-
-        tokenCreateFormSubmit();
-    });
-};
+const page = usePage();
 
 const copyToken = (token: string) => {
     copy(token, {
-        onCopy: () => {
-            $q.notify({
-                message: 'Token copied to clipboard',
-                color: 'positive',
-                icon: 'mdi-check',
-            });
-        },
+        format: 'text/plain',
     });
 };
 
-const columns = [
-    {
-        name: 'name',
-        label: 'Name',
-        field: 'name',
-        align: 'left',
-    },
-    {
-        name: 'last_used_at',
-        label: 'Last Used',
-        field: 'last_used_at',
-        align: 'left',
-        format: (val: string) => {
-            if (!val) {
-                return 'Never';
-            }
+const deleteToken = (token: Token, index: number) => {
+    isTokenDeleting.value[index] = true;
 
-            return DateTime.fromISO(val).toRelative();
+    router.delete(
+        route('settings.tokens.destroy', {
+            token: token.id,
+        }),
+        {
+            preserveScroll: true,
+            onFinish: () => {
+                isTokenDeleting.value[index] = false;
+            },
         },
-    },
-    {
-        name: 'created_at',
-        label: 'Created',
-        field: 'created_at',
-        align: 'left',
-        format: (val: string) =>
-            DateTime.fromISO(val).toLocaleString(DateTime.DATETIME_SHORT),
-    },
-    {
-        name: 'actions',
-        label: 'Actions',
-        align: 'center',
-    },
-];
-
-const deleteToken = (rowId: number) => {
-    router.delete(route('settings.tokens.destroy', rowId), {
-        preserveScroll: true,
-    });
+    );
 };
+
+const isTokenDeleting = ref<boolean[]>([]);
+
+const { mdAndUp, thresholds } = useDisplay();
+const isCreateDialogOpen = ref(false);
+
+watch(
+    () => props.tokens.length,
+    () => {
+        isTokenDeleting.value = Array.from(
+            { length: props.tokens.length },
+            () => false,
+        );
+    },
+    {
+        immediate: true,
+    },
+);
 </script>
 
 <template>
     <Head
-        :title="`${page?.props?.user?.name} - ${$t(
-            'web.settings.tokens.title',
-        )}`"
+        :title="`${page?.props?.user?.name} - ${$t('settings.tokens.title')}`"
     />
 
-    <div class="col bg-grey-3">
-        <div class="row q-py-lg q-px-md">
-            <h1 class="text-h4 q-mt-none q-mb-none ellipsis-2-lines">
-                {{ page?.props?.user?.name }}
-            </h1>
-        </div>
-    </div>
-    <div class="q-ma-md">
-        <div class="row q-col-gutter-lg full-width">
-            <div class="col-2 q-pl-none">
-                <MenuCardSettings />
-            </div>
-            <div class="col col-10">
-                <div class="row items-center justify-between q-mb-md">
-                    <h2 class="text-h5 text-weight-bold q-mt-none">
-                        {{ $t('web.settings.tokens.title') }}
-                    </h2>
-                    <q-btn
-                        icon="mdi-help-circle-outline"
-                        color="primary"
-                        :label="$t('web.general.help')"
-                        disable
-                    />
-                </div>
-                <q-banner
-                    v-if="props.tokens.length === 0"
-                    inline-actions
-                    class="bg-grey-1"
-                >
-                    {{ $t('web.settings.tokens.no_tokens') }}
-                    <template #action>
-                        <q-btn
-                            flat
-                            color="primary"
-                            :label="$t('web.settings.tokens.create_token')"
-                            @click="openTokenCreateDialog"
+    <div class="flex flex-col bg-stone-300 dark:bg-stone-700">
+        <v-container>
+            <v-row align="center">
+                <v-col>
+                    <div
+                        class="my-8 flex flex-col gap-6 lg:flex-row lg:items-center"
+                    >
+                        <user-avatar
+                            :size="160"
+                            :user="page.props.user as User"
+                            text-class="text-8xl"
                         />
-                    </template>
-                </q-banner>
-                <template v-else>
-                    <q-banner
-                        v-if="$attrs._session?._flash?.token"
-                        inline-actions
-                        class="bg-grey-1 q-mb-md"
-                    >
-                        {{ $t('web.settings.tokens.success') }}
-                        <template #action>
-                            <code class="q-py-sm q-px-md bg-grey-2">
-                                {{ $attrs._session?._flash?.token }}
-                                <q-btn
-                                    icon="mdi-content-copy"
-                                    size="sm"
-                                    flat
-                                    color="primary"
-                                    @click="
-                                        () =>
-                                            copyToken(
-                                                $attrs._session?._flash?.token,
-                                            )
-                                    "
+
+                        <div class="flex flex-col gap-6">
+                            <div class="flex flex-row items-end">
+                                <user-name
+                                    class="my-0 text-ellipsis text-5xl font-black text-stone-700 dark:text-stone-100"
+                                    :user="page.props.user as User"
                                 />
-                            </code>
-                        </template>
-                    </q-banner>
-
-                    <q-table
-                        :rows="props.tokens"
-                        :columns="columns"
-                        row-key="id"
-                    >
-                        <template #body="props">
-                            <q-tr :props="props">
-                                <q-td
-                                    key="name"
-                                    :props="props"
-                                >
-                                    {{ props.row.name }}
-                                </q-td>
-                                <q-td
-                                    key="last_used_at"
-                                    :props="props"
-                                >
-                                    {{ props.row.last_used_at }}
-                                </q-td>
-                                <q-td
-                                    key="created_at"
-                                    :props="props"
-                                >
-                                    {{ props.row.created_at }}
-                                </q-td>
-                                <q-td
-                                    key="actions"
-                                    :props="props"
-                                >
-                                    <q-btn
-                                        icon="mdi-delete"
-                                        flat
-                                        color="negative"
-                                        @click="
-                                            () =>
-                                                $q
-                                                    .dialog({
-                                                        title: 'Delete Token',
-                                                        message:
-                                                            'Are you sure you want to delete this token?',
-                                                        ok: true,
-                                                        cancel: 'Cancel',
-                                                    })
-                                                    .onOk(() =>
-                                                        deleteToken(
-                                                            props.row.id,
-                                                        ),
-                                                    )
-                                        "
-                                    />
-                                </q-td>
-                            </q-tr>
-                        </template>
-                    </q-table>
-
-                    <q-btn
-                        color="primary"
-                        :label="$t('web.settings.tokens.create_token')"
-                        class="q-mt-md"
-                        @click="openTokenCreateDialog"
-                    />
-                </template>
-            </div>
-        </div>
+                            </div>
+                        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
+
+    <side-menu-page>
+        <template #left>
+            <side-menu-user />
+        </template>
+
+        <template #right>
+            <v-banner v-if="props.tokens.length === 0">
+                {{ $t('settings.tokens.no_tokens') }}
+                <template #actions>
+                    <v-dialog
+                        v-model="isCreateDialogOpen"
+                        :fullscreen="!mdAndUp"
+                        :max-width="mdAndUp ? thresholds.sm : undefined"
+                    >
+                        <template #activator="{ props: dialogProps }">
+                            <v-btn
+                                v-bind="dialogProps"
+                                variant="tonal"
+                                :prepend-icon="MdiPlus"
+                                :text="$t('settings.tokens.create_token')"
+                            />
+                        </template>
+
+                        <dialog-create-token v-model="isCreateDialogOpen" />
+                    </v-dialog>
+                </template>
+            </v-banner>
+
+            <template v-else>
+                <v-row class="mt-0">
+                    <v-col class="pt-0">
+                        <v-dialog
+                            v-model="isCreateDialogOpen"
+                            :fullscreen="!mdAndUp"
+                            :max-width="mdAndUp ? thresholds.sm : undefined"
+                        >
+                            <template #activator="{ props: dialogProps }">
+                                <v-btn
+                                    v-bind="dialogProps"
+                                    variant="tonal"
+                                    :prepend-icon="MdiPlus"
+                                    :text="$t('settings.tokens.create_token')"
+                                />
+                            </template>
+
+                            <dialog-create-token v-model="isCreateDialogOpen" />
+                        </v-dialog>
+                    </v-col>
+                </v-row>
+
+                <v-banner v-if="$attrs._session?._flash?.token">
+                    {{ $t('settings.tokens.success') }}
+                    <template #actions>
+                        <code class="q-py-sm q-px-md bg-grey-2">
+                            {{ $attrs._session?._flash?.token }}
+                            <v-btn
+                                :icon="MdiContentCopy"
+                                @click="
+                                    () =>
+                                        copyToken(
+                                            $attrs._session?._flash?.token,
+                                        )
+                                "
+                            />
+                        </code>
+                    </template>
+                </v-banner>
+
+                <v-table hover>
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                {{ $t('settings.tokens.name') }}
+                            </th>
+
+                            <th scope="col">
+                                {{ $t('settings.tokens.last_used') }}
+                            </th>
+
+                            <th scope="col">
+                                {{ $t('settings.tokens.created') }}
+                            </th>
+
+                            <th scope="col">
+                                {{ $t('settings.tokens.actions') }}
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template v-if="props.tokens.length > 0">
+                            <tr
+                                v-for="(token, index) in props.tokens"
+                                :key="token.id"
+                            >
+                                <td>
+                                    {{ token.name }}
+                                </td>
+
+                                <td>
+                                    {{
+                                        token.last_used_at
+                                            ? DateTime.fromISO(
+                                                  token.last_used_at,
+                                              ).toLocaleString(
+                                                  DateTime.DATETIME_SHORT,
+                                              )
+                                            : $t('settings.tokens.neverUsed')
+                                    }}
+                                </td>
+
+                                <td>
+                                    {{
+                                        DateTime.fromISO(
+                                            token.created_at,
+                                        ).toLocaleString(
+                                            DateTime.DATETIME_SHORT,
+                                        )
+                                    }}
+                                </td>
+
+                                <td>
+                                    <v-btn
+                                        text="Delete"
+                                        variant="flat"
+                                        color="error"
+                                        :loading="isTokenDeleting[index]"
+                                        @click="() => deleteToken(token, index)"
+                                    />
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </v-table>
+            </template>
+        </template>
+    </side-menu-page>
 </template>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Models\MetadataLanguage;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Session;
@@ -40,7 +41,7 @@ class HandleInertiaRequests extends Middleware
             'locale' => app()->getLocale(),
             'user' => function () use ($request) {
                 if (! $request->user()) {
-                    return;
+                    return null;
                 }
 
                 $request->user()->load('roles');
@@ -57,6 +58,9 @@ class HandleInertiaRequests extends Middleware
             },
             '_session' => function () {
                 return Session::all();
+            },
+            'languages' => function () {
+                return MetadataLanguage::all();
             },
         ]);
     }

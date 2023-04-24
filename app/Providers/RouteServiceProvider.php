@@ -29,11 +29,24 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('api')
-                ->middleware('ifMatch')
-                ->middleware('ifNoneMatch')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
+            // If running dev, expose the API routes in the /api/ directory. Otherwise, expose them at api.kanojo.app
+            if (config('app.env') === 'local') {
+                Route::prefix('api')
+                    ->middleware('api')
+                    ->middleware('ifMatch')
+                    ->middleware('ifNoneMatch')
+                    ->group(base_path('routes/api.php'));
+            } else {
+                Route::domain('api.'.config('app.url'))
+                    ->middleware('api')
+                    ->middleware('ifMatch')
+                    ->middleware('ifNoneMatch')
+                    ->group(base_path('routes/api.php'));
+            }
+
+            Route::domain('developer.'.config('app.url'))
+                ->middleware(config('scribe.laravel.middleware', []))
+                ->group(base_path('routes/developer.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

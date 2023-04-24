@@ -56,7 +56,7 @@ return [
     |
      */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'localhost'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -192,6 +192,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -219,7 +220,7 @@ return [
      */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Crawler' => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class,
     ])->toArray(),
 
 ];

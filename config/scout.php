@@ -140,17 +140,17 @@ return [
         'key' => env('MEILISEARCH_KEY', null),
         'index-settings' => [
             Person::class => [
-                'filterableAttributes'=> ['id', 'name', 'birthdate', 'height', 'bust', 'waist', 'hip'],
+                'filterableAttributes' => ['id', 'name', 'birthdate', 'height', 'bust', 'waist', 'hip'],
                 'sortableAttributes' => ['id', 'name', 'created_at', 'deleted_at', 'birthdate', 'height', 'bust', 'waist', 'hip'],
             ],
             Movie::class => [
-                'filterableAttributes'=> ['id', 'title', 'product_code', 'type.name'],
-                'sortableAttributes' => ['id', 'title',  'product_code'],
+                'filterableAttributes' => ['id', 'title', 'type.name'],
+                'sortableAttributes' => ['id', 'title'],
             ],
             Studio::class => [
-                'filterableAttributes'=> ['id', 'name', 'founded_date'],
+                'filterableAttributes' => ['id', 'name', 'founded_date'],
                 'sortableAttributes' => ['id', 'name',  'founded_date'],
-            ]
-        ]
+            ],
+        ],
     ],
 ];

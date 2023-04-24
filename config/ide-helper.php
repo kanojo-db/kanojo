@@ -142,6 +142,8 @@ return [
 
     'model_locations' => [
         'app',
+        'vendor/cybercog/laravel-love/src/*/Models',
+        'vendor/laravel/framework/src/Illuminate/Notifications',
     ],
 
     /*

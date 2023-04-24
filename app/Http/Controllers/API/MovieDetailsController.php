@@ -4,149 +4,44 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\MediaCollectionType;
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
-use App\Models\Person;
-use Carbon\Carbon;
-use Cog\Laravel\Love\Reactant\ReactionCounter\Models\ReactionCounter;
+use App\Transformers\MovieTransformer;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
-use Throwable;
+use Illuminate\Http\Request;
+use Spatie\Fractalistic\ArraySerializer;
 
 class MovieDetailsController extends Controller
 {
     /**
-     * Get Details
+     * Details
      *
      * Get the primary information about a movie.
      *
-     * @group Movie
+     * @group Movies
      *
-     * @urlParam movie_slug required The slug of the movie, usually a product code. Example: abc-123
+     * @urlParam movie_id required The ID of the movie.
      *
      * @queryParam language string Pass a locale value to display translated data for the fields that
-     * support it. Defaults to en. Example: jp
+     * support it. Defaults to en-US. Example: ja-JP
      */
-    public function show(string $slug): JsonResponse
+    public function show(Request $request, string $movie_id): JsonResponse
     {
-        Log::debug('MovieDetailsController::show() called with: '.$slug);
-
-        $movie = Movie::where('slug', $slug)->with([
-            'media',
-            'models',
-            'models.media',
-            'tags',
-            'loveReactant.reactionCounters',
-            'loveReactant.reactionTotal',
-        ])->firstOrFail();
-
-        /**
-         * Get the language from the query string, default to en-US
-         *
-         * @var string
-         */
-        $language = request()->query('language', 'en-US');
-
-        /** @var \Illuminate\Support\Collection<int, \Spatie\Tags\Tag> */
-        $tags = $movie->tags;
-
-        // We only need the id and name of the tags
-        $genres = $tags->map(function (\Spatie\Tags\Tag $tag) use ($language) {
-            return [
-                'id' => $tag->id,
-                'name' => $tag->getTranslation('name', $language, true),
-            ];
-        });
-
-        // Get the path to the poster
-        $poster = $movie->getFirstMedia(MediaCollectionType::FrontCover->value);
-
-        $posterUrl = $poster !== null ? $poster->getFullUrl() : null;
-
-        $backdrop = $movie->getFirstMedia(MediaCollectionType::FullCover->value);
-
-        $backdropUrl = $backdrop !== null ? $backdrop->getFullUrl() : null;
-
-        // Get the vote data
-        try {
-            /** @var \Cog\Laravel\Love\Reactant\Models\Reactant|null */
-            $reactant = $movie->loveReactant;
-
-            if ($reactant === null) {
-                throw new \Exception('Reactant not found');
-            }
-
-            $votes = $reactant->reactionCounters->map(function (ReactionCounter $vote): int {
-                // @phpstan-ignore-next-line
-                return $vote->count;
-            });
-            $total = $reactant->reactionTotal;
-        } catch (Throwable $t) {
-            $votes = null;
-            $total = null;
-        }
-
-        if ($movie->studio !== null) {
-            $studio = [
-                [
-                    'id' => $movie->studio->id,
-                    'name' => $movie->studio->getTranslation('name', $language, true) === '' ?
-                                $movie->studio->getTranslation('name', 'ja-JP', false) :
-                                $movie->studio->getTranslation('name', $language, false),
-                ],
-            ];
-        } else {
-            $studio = [];
-        }
-
-        // Load the movie's cast
-        try {
-            $cast = $movie->models->map(function (Person $model) use ($movie, $language) {
-                // If the model has a birthdate and the movie has a release date, calculate the age of the
-                // model at the time of the movie's release
-                if ($model->birthdate !== null && $movie->release_date !== null) {
-                    $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
-                } else {
-                    $age = null;
-                }
-
-                $profileImage = $model->getFirstMedia('profile');
-
-                return [
-                    'id' => $model->id,
-                    'name' => $model->getTranslation('name', $language, true) === '' ?
-                                $model->getTranslation('name', 'ja-JP', false) :
-                                $model->getTranslation('name', $language, false),
-                    'age' => $age,
-                    'age_text' => $age !== null ? __('web.general.years_old', ['age' => $age]) : null,
-                    'profile_path' => $profileImage !== null ?
-                                        $profileImage->getFullUrl() :
-                                        null,
-                ];
-            });
-        } catch (Throwable $t) {
-            Log::error($t->getMessage());
-            Log::error($t->getTraceAsString());
-
-            $cast = [];
-        }
-
-        // Return the movie details as JSON
-        return response()->json([
-            'backdrop_path' => $backdropUrl,
-            'cast' => $cast,
-            'genres' => $genres,
-            'id' => $movie->id,
-            'original_title' => $movie->getTranslation('title', 'ja-JP', false),
-            'poster_path' => $posterUrl,
-            'product_code' => $movie->product_code,
-            'release_date' => $movie->release_date,
-            'runtime' => $movie->length,
-            'studios' => $studio,
-            'title' => $movie->getTranslation('title', $language, true),
-            'vote_average' => $votes !== null ? $votes->avg() * 100 : null,
-            'vote_count' => $total !== null ? $total->getAttribute('count') : null,
+        $validatedData = $request->validate([
+            // TODO: Validate according to the list of languages we support at a given time.
+            'language' => ['nullable', 'string'],
+            'page' => ['nullable', 'integer'],
         ]);
+
+        $movie = Movie::where('id', $movie_id)->firstOrFail();
+
+        return response()->json(
+            fractal()
+                ->item($movie)
+                ->parseIncludes(['cast', 'studio'])
+                ->transformWith(new MovieTransformer($validatedData['language'] ?? null))
+                ->serializeWith(new ArraySerializer())
+                ->toArray()
+        );
     }
 }
