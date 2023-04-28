@@ -44,7 +44,7 @@ createServer((page) =>
                     location: new URL(page.props.ziggy.location),
                 })
                 .use(Quasar, {
-                    plugins: { Dialog, Notify },
+                    plugins: {},
                     iconSet: quasarIconSet,
                 });
 
