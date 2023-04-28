@@ -13,6 +13,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     return {
         build: {
             sourcemap: true,
+            ssr: ssrBuild,
         },
         resolve: {
             alias: {
@@ -22,7 +23,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
             },
         },
         ssr: {
-            noExternal: ['@inertiajs/server'],
+            noExternal: ['@inertiajs/vue3/server'],
         },
         server: {
             hmr: {

@@ -1,6 +1,5 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import createServer from '@inertiajs/vue3/server';
-import * as Sentry from '@sentry/vue';
 import { renderToString } from '@vue/server-renderer';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { Dialog, Notify, Quasar } from 'quasar';
@@ -47,22 +46,6 @@ createServer((page) =>
                     plugins: {},
                     iconSet: quasarIconSet,
                 })*/
-
-            Sentry.init({
-                app: ssrApp,
-                dsn: 'https://5fce5990e0e6417e8855d803341140cd@o4504320317259776.ingest.sentry.io/4504320373620736',
-                integrations: [
-                    new Sentry.BrowserTracing({
-                        tracePropagationTargets: [
-                            'localhost',
-                            'kanojodb.com',
-                            /^\//,
-                        ],
-                    }),
-                ],
-                tracesSampleRate: 0.1,
-                logErrors: true,
-            });
 
             return ssrApp;
         },
