@@ -126,8 +126,6 @@ const groupedTags = computed(() => {
 
     return groupedTags;
 });
-
-const fullUrl = ref(window.location.href.split('?')[0]);
 </script>
 
 <template>
@@ -140,10 +138,6 @@ const fullUrl = ref(window.location.href.split('?')[0]);
         <meta
             property="twitter:domain"
             content="kanojodb.com"
-        />
-        <meta
-            property="twitter:url"
-            :content="fullUrl"
         />
         <meta
             name="twitter:site"
@@ -173,10 +167,6 @@ const fullUrl = ref(window.location.href.split('?')[0]);
         <meta
             property="og:image"
             :content="route('movies.preview.show', [props.movie])"
-        />
-        <meta
-            property="og:url"
-            :content="route('movies.show', [props.movie])"
         />
         <meta
             property="og:site_name"
