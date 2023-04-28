@@ -6,6 +6,7 @@ import { Dialog, Notify, Quasar } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
 import { DefineComponent, createSSRApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
+import route from 'ziggy-js';
 
 import localeMessages from '@/vue-i18n-locales.generated';
 
@@ -41,6 +42,16 @@ createServer((page) =>
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
                     location: new URL(page.props.ziggy.location),
+                })
+                .mixin({
+                    methods: {
+                        route: (name, params, absolute) => {
+                            return route(name, params, absolute, {
+                                ...page.props.ziggy,
+                                location: new URL(page.props.ziggy.url),
+                            });
+                        },
+                    },
                 });
             /*.use(Quasar, {
                     plugins: {},

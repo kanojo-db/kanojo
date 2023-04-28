@@ -60,6 +60,7 @@ createInertiaApp({
                     }),
                 ],
                 tracesSampleRate: 0.1,
+                sampleRate: 0.1,
                 logErrors: true,
             });
         }
