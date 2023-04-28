@@ -2,6 +2,7 @@
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { mdiMagnify, mdiPlus } from '@quasar/extras/mdi-v6';
 import { computed, ref } from 'vue';
+import route from 'ziggy-js';
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 import { PageProps } from '@/types/inertia';
