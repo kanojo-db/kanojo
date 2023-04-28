@@ -17,7 +17,7 @@
         <div class="flex flex-row gap-8 p-6">
             <!-- If there is a front cover, show it. Otherwise, show a placeholder -->
             @if ($frontCover)
-                <img src="{{ $frontCover }}" alt="{{ $movie->title }}" class="rounded shadow-md"
+                <img src="{{ $frontCover }}" alt="{{ $movie->title }}" class="rounded shadow-md object-cover"
                     style="width: 320px; height: 480px;" />
             @else
                 <div class="flex bg-slate-200 text-slate-300 rounded shadow-md"

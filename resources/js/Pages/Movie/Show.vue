@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { DateTime, Duration } from 'luxon';
-import { PropType, computed } from 'vue';
+import { PropType, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import ModelRoleCard from '@/Components/ModelRoleCard.vue';
@@ -126,6 +126,8 @@ const groupedTags = computed(() => {
 
     return groupedTags;
 });
+
+const fullUrl = ref(window.location.href.split('?')[0]);
 </script>
 
 <template>
@@ -136,12 +138,24 @@ const groupedTags = computed(() => {
             content="summary_large_image"
         />
         <meta
+            property="twitter:domain"
+            content="kanojodb.com"
+        />
+        <meta
+            property="twitter:url"
+            :content="fullUrl"
+        />
+        <meta
             name="twitter:site"
             content="@kanojodb"
         />
         <meta
             name="twitter:title"
             :content="title"
+        />
+        <meta
+            name="twitter:description"
+            :content="`Information about ${title} (${movie.product_code})`"
         />
         <meta
             name="twitter:image"
@@ -151,6 +165,10 @@ const groupedTags = computed(() => {
         <meta
             property="og:title"
             :content="title"
+        />
+        <meta
+            property="og:description"
+            :content="`Information about ${title} (${movie.product_code})`"
         />
         <meta
             property="og:image"
