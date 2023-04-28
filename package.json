@@ -64,7 +64,7 @@
         "@inertiajs/vue3": "^1.0.6",
         "@quasar/extras": "^1.16.3",
         "@sentry/tracing": "^7.50.0",
-        "@sentry/vue": "^7.49.0",
+        "@sentry/vue": "^7.50.0",
         "chart.js": "^4.3.0",
         "copy-to-clipboard": "^3.3.3",
         "lodash-es": "^4.17.21",
