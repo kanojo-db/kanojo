@@ -42,11 +42,11 @@ createServer((page) =>
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
                     location: new URL(page.props.ziggy.location),
-                })
-                .use(Quasar, {
+                });
+            /*.use(Quasar, {
                     plugins: {},
                     iconSet: quasarIconSet,
-                });
+                })*/
 
             Sentry.init({
                 app: ssrApp,
