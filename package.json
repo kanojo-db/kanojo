@@ -72,7 +72,7 @@
         "puppeteer": "^20.2.0",
         "quasar": "^2.11.10",
         "simple-icons": "^8.12.1",
-        "swiper": "^9.2.4",
+        "swiper": "^9.3.2",
         "vue-chartjs": "^5.2.0",
         "vue-i18n": "^9.2.2"
     },
