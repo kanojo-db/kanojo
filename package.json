@@ -10,7 +10,7 @@
     },
     "devDependencies": {
         "@babel/types": "^7.21.5",
-        "@commitlint/cli": "^17.6.1",
+        "@commitlint/cli": "^17.6.3",
         "@commitlint/config-conventional": "^17.6.1",
         "@commitlint/cz-commitlint": "^17.5.0",
         "@intlify/eslint-plugin-vue-i18n": "^2.0.0",
