@@ -7683,16 +7683,16 @@
         },
         {
             "name": "spatie/laravel-tags",
-            "version": "4.3.7",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-tags.git",
-                "reference": "490a8828dc9396ddee60ed580f6b5924b7c497db"
+                "reference": "7cee368fc273f32b140ab7b8b81cd66026f89255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-tags/zipball/490a8828dc9396ddee60ed580f6b5924b7c497db",
-                "reference": "490a8828dc9396ddee60ed580f6b5924b7c497db",
+                "url": "https://api.github.com/repos/spatie/laravel-tags/zipball/7cee368fc273f32b140ab7b8b81cd66026f89255",
+                "reference": "7cee368fc273f32b140ab7b8b81cd66026f89255",
                 "shasum": ""
             },
             "require": {
@@ -7741,7 +7741,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-tags/issues",
-                "source": "https://github.com/spatie/laravel-tags/tree/4.3.7"
+                "source": "https://github.com/spatie/laravel-tags/tree/4.4.0"
             },
             "funding": [
                 {
@@ -7749,7 +7749,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-25T09:12:48+00:00"
+            "time": "2023-05-16T15:24:45+00:00"
         },
         {
             "name": "spatie/laravel-translatable",
