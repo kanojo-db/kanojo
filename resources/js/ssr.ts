@@ -25,6 +25,15 @@ createServer((page) =>
                 import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
             ),
         setup({ App, props, plugin }) {
+            const Ziggy = {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                ...props.initialPage.props.ziggy,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                location: new URL(props.initialPage.props.ziggy.url),
+            };
+
             const i18n = createI18n({
                 legacy: false,
                 locale: props.initialPage.props.locale as string,
@@ -35,19 +44,10 @@ createServer((page) =>
             const ssrApp = createSSRApp({ render: () => h(App, props) })
                 .use(plugin)
                 .use(i18n)
-                .use(ZiggyVue, {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
-                    ...props.initialPage.props.ziggy,
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
-                    location: new URL(props.initialPage.props.ziggy.url),
-                })
                 .mixin({
                     methods: {
-                        route: (name, params, absolute, config = Ziggy) => {
-                            return route(name, params, absolute, config);
-                        },
+                        route: (name, params, absolute, config = Ziggy) =>
+                            route(name, params, absolute, config),
                     },
                 });
             /*.use(Quasar, {
