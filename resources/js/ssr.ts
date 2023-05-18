@@ -38,18 +38,15 @@ createServer((page) =>
                 .use(ZiggyVue, {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
-                    ...page.props.ziggy,
+                    ...props.initialPage.props.ziggy,
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
-                    location: new URL(page.props.ziggy.location),
+                    location: new URL(props.initialPage.props.ziggy.url),
                 })
                 .mixin({
                     methods: {
-                        route: (name, params, absolute) => {
-                            return route(name, params, absolute, {
-                                ...page.props.ziggy,
-                                location: new URL(page.props.ziggy.url),
-                            });
+                        route: (name, params, absolute, config = Ziggy) => {
+                            return route(name, params, absolute, config);
                         },
                     },
                 });

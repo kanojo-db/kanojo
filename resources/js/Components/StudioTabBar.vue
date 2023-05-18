@@ -21,7 +21,7 @@ const props = defineProps({
 
 const page = usePage<PageProps>();
 
-const fullUrl = ref(window.location.href.split('?')[0]);
+const fullUrl = ref(window?.location.href.split('?')[0]);
 
 const isAdmin = page?.props?.user?.is_administrator;
 
