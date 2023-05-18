@@ -25,7 +25,7 @@ const locale = useI18n().locale.value;
 
 const title = useTitle(props.movie, locale);
 
-const fullUrl = ref(window?.location.href.split('?')[0] ?? '');
+const fullUrl = ref(window ? window?.location.href.split('?')[0] : '');
 
 const isAdmin = page?.props?.user?.is_administrator;
 
