@@ -26,12 +26,8 @@ createServer((page) =>
             ),
         setup({ App, props, plugin }) {
             const Ziggy = {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 ...props.initialPage.props.ziggy,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                location: new URL(props.initialPage.props.ziggy.url),
+                location: new URL(props.initialPage.url),
             };
 
             const i18n = createI18n({
