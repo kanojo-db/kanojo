@@ -27,7 +27,7 @@ createServer((page) =>
         setup({ App, props, plugin }) {
             const Ziggy = {
                 ...props.initialPage.props.ziggy,
-                location: new URL(props.initialPage.ziggy.url),
+                location: new URL(props.initialPage.props.ziggy.url),
             };
 
             const i18n = createI18n({

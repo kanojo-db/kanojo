@@ -33,12 +33,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $ziggy = new Ziggy($group = null, $request->url());
+
         return array_merge(parent::share($request), [
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy())->toArray(), [
-                    'location' => $request->url(),
-                ]);
-            },
+            'ziggy' => $ziggy->toArray(),
             'locale' => app()->getLocale(),
             'user' => function () use ($request) {
                 if (! $request->user()) {
