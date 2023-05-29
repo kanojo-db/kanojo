@@ -71,7 +71,7 @@
         "luxon": "^3.3.0",
         "puppeteer": "^20.2.0",
         "quasar": "^2.11.10",
-        "simple-icons": "^8.14.0",
+        "simple-icons": "^9.0.0",
         "swiper": "^9.3.2",
         "vue-chartjs": "^5.2.0",
         "vue-i18n": "^9.2.2"
