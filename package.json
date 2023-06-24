@@ -62,7 +62,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.6",
-        "@quasar/extras": "^1.16.3",
+        "@quasar/extras": "^1.16.4",
         "@sentry/tracing": "^7.52.1",
         "@sentry/vue": "^7.56.0",
         "chart.js": "^4.3.0",
