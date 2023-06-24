@@ -7982,16 +7982,16 @@
         },
         {
             "name": "spatie/typescript-transformer",
-            "version": "2.1.14",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/typescript-transformer.git",
-                "reference": "3ee4694e94d2d5865b7272c471be766c323ab3d4"
+                "reference": "84c5e564a825809445b5dd5ae5f45873851c51c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/typescript-transformer/zipball/3ee4694e94d2d5865b7272c471be766c323ab3d4",
-                "reference": "3ee4694e94d2d5865b7272c471be766c323ab3d4",
+                "url": "https://api.github.com/repos/spatie/typescript-transformer/zipball/84c5e564a825809445b5dd5ae5f45873851c51c2",
+                "reference": "84c5e564a825809445b5dd5ae5f45873851c51c2",
                 "shasum": ""
             },
             "require": {
@@ -8038,7 +8038,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/typescript-transformer/issues",
-                "source": "https://github.com/spatie/typescript-transformer/tree/2.1.14"
+                "source": "https://github.com/spatie/typescript-transformer/tree/2.2.0"
             },
             "funding": [
                 {
@@ -8050,7 +8050,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-07T07:42:06+00:00"
+            "time": "2023-06-02T12:10:10+00:00"
         },
         {
             "name": "symfony/console",
