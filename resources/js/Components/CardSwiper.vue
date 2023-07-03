@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { FreeMode, Mousewheel, Scrollbar } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/mousewheel';
 import 'swiper/css/scrollbar';
+import { FreeMode, Mousewheel, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { PropType } from 'vue';
 
