@@ -70,7 +70,7 @@
         "lodash-es": "^4.17.21",
         "luxon": "^3.3.0",
         "puppeteer": "^20.7.3",
-        "quasar": "^2.11.10",
+        "quasar": "^2.12.2",
         "simple-icons": "^9.3.0",
         "swiper": "^9.4.1",
         "vue-chartjs": "^5.2.0",
