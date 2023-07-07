@@ -9,7 +9,67 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      laravel:
+        patterns:
+          - "laravel/*"
+          - "league/flysystem-aws-s3-v3"
+          - "http-interop/http-factory-guzzle"
+          - "coconutcraig/laravel-postmark"
+          - "inertiajs/inertia-laravel"
+      spatie:
+        patterns:
+          - "spatie/*"
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
+    groups:
+      sentry:
+        patterns:
+          - "@sentry/*"
+      vue:
+        patterns:
+          - "vue"
+          - "vue-tsc"
+          - "@vitejs/plugin-vue"
+          - "@vue-macros/*"
+          - "@vue/*"
+          - "@testing-library/vue"
+      vite:
+        patterns:
+          - "vite"
+          - "vite-plugin-*"
+          - "vitest"
+          - "laravel-vite-plugin"
+          - "@vitejs/*"
+      intlify:
+        patterns:
+          - "@intlify/*"
+          - "vue-i18n"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-plugin-*"
+          - "eslint-config-*"
+          - "@typescript-eslint/*"
+      commitlint:
+        - "@commitlint/*"
+      luxon:
+        patterns:
+          - "luxon"
+          - "@types/luxon"
+      lodash-es:
+        patterns:
+          - "lodash-es"
+          - "@types/lodash-es"
+      css:
+        patterns:
+          - "autoprefixer"
+          - "postcss"
+          - "postcss-*"
+          - "sass"
+      ziggy-js:
+        patterns:
+          - "ziggy-js"
+          - "@types/ziggy-js"
