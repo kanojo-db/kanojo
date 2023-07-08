@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 return [
     'about' => [
         'community' => 'Comunidad',
@@ -162,7 +159,7 @@ return [
         'reports' => [
             'opened_at' => 'Abierto el {data}',
             'report_type' => 'Tipo de informe:',
-            'x_reports' => 'Sin Reporte | {count} Reportes| {count} Reportes ',
+            'x_reports' => 'Sin Reporte | {count} reportes| {count} reportes ',
         ],
         'tabs' => [
             'overview' => [
@@ -201,5 +198,8 @@ return [
     'login' => [
         'submit' => 'Iniciar sesión',
         'welcomeBack' => '¡Bienvenido de nuevo!',
+    ],
+    'register' => [
+        'already' => '¿Ya tienes una cuenta?',
     ],
 ];
