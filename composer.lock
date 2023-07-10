@@ -7130,16 +7130,16 @@
         },
         {
             "name": "spatie/laravel-data",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-data.git",
-                "reference": "ec8135711ef1dcba8650eb28d02c2a771b11349d"
+                "reference": "a975123d86e0133a361ac225d17acb3d11aa351f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-data/zipball/ec8135711ef1dcba8650eb28d02c2a771b11349d",
-                "reference": "ec8135711ef1dcba8650eb28d02c2a771b11349d",
+                "url": "https://api.github.com/repos/spatie/laravel-data/zipball/a975123d86e0133a361ac225d17acb3d11aa351f",
+                "reference": "a975123d86e0133a361ac225d17acb3d11aa351f",
                 "shasum": ""
             },
             "require": {
@@ -7201,7 +7201,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-data/issues",
-                "source": "https://github.com/spatie/laravel-data/tree/3.6.0"
+                "source": "https://github.com/spatie/laravel-data/tree/3.7.0"
             },
             "funding": [
                 {
@@ -7209,7 +7209,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-02T12:17:38+00:00"
+            "time": "2023-07-05T11:45:14+00:00"
         },
         {
             "name": "spatie/laravel-enum",
