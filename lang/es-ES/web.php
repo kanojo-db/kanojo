@@ -3,7 +3,7 @@ return [
     'about' => [
         'community' => 'Comunidad',
         'point3' => 'Construido por personas como tú. Creamos Kanojo para resolver algunos de los problemas que hemos tenido con otros sitios o herramientas en los últimos 10 años.',
-        'title' => 'Kanojo es una {0} base de datos japonesa de películas y videos gravure para adultos',
+        'title' => 'Kanojo es una {0} base de datos japonesa de películas y videos grabados para adultos',
         'subtitle' => 'Todos los datos son enviados y seleccionados por los usuarios,{0} con el objetivo de proveer una información de alta calidad.',
         'point2' => 'Se acabo el screpear tiendas en línea o evadir baneos de IP para obtener la información que necesitas. Nosotros proveemos un API comprensivo y fácil de usar para los desarrolladores, para integrar nuestros datos con tus herramientas o servicios.',
         'point1' => 'Una extensa base de datos con información de películas, estudios y modelos, complementada con imágenes. Incluye todo lo que necesitas para encontrar tu siguiente título favorito, desde etiquetas detalladas hasta información de la modelo.',
