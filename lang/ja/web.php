@@ -1,6 +1,1 @@
 <?php
-return [
-    'general' => [
-        'unknown' => '',
-    ],
-];
