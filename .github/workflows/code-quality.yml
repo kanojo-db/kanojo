@@ -27,7 +27,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Initialize CodeQL
               uses: github/codeql-action/init@v2
@@ -58,7 +58,7 @@ jobs:
                   MECAB_PATH: mecab
 
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Get Composer cache directory
               id: composer-cache
@@ -96,7 +96,7 @@ jobs:
                   php-version: '8.2'
 
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Get npm cache directory
               id: npm-cache-dir
@@ -144,7 +144,7 @@ jobs:
                   MECAB_PATH: mecab
 
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Copy .env
               run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -200,7 +200,7 @@ jobs:
             DB_PASSWORD: root
             MAIL_MAILER: log
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             - uses: shivammathur/setup-php@v2
               with:
@@ -257,7 +257,7 @@ jobs:
             security-events: write
         steps:
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
@@ -298,7 +298,7 @@ jobs:
         continue-on-error: true
         steps:
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
