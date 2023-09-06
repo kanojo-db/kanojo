@@ -186,7 +186,7 @@ jobs:
               run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage-php.xml
 
             - name: Upload coverage artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v3
               if: always()
               with:
                   name: pest-coverage
@@ -285,7 +285,7 @@ jobs:
               run: LARAVEL_BYPASS_ENV_CHECK=1 npm run coverage
 
             - name: Upload coverage artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v3
               if: always()
               with:
                   name: vitest-coverage
