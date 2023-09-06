@@ -1,75 +1,89 @@
 version: 2
 
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: composer
-    directory: /
-    schedule:
-      interval: weekly
-    groups:
-      laravel:
-        patterns:
-          - "laravel/*"
-          - "league/flysystem-aws-s3-v3"
-          - "http-interop/http-factory-guzzle"
-          - "coconutcraig/laravel-postmark"
-          - "inertiajs/inertia-laravel"
-      spatie:
-        patterns:
-          - "spatie/*"
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: weekly
-    groups:
-      sentry:
-        patterns:
-          - "@sentry/*"
-      vue:
-        patterns:
-          - "vue"
-          - "vue-tsc"
-          - "@vitejs/plugin-vue"
-          - "@vue-macros/*"
-          - "@vue/*"
-          - "@testing-library/vue"
-      vite:
-        patterns:
-          - "vite"
-          - "vite-plugin-*"
-          - "vitest"
-          - "laravel-vite-plugin"
-          - "@vitejs/*"
-      intlify:
-        patterns:
-          - "@intlify/*"
-          - "vue-i18n"
-      eslint:
-        patterns:
-          - "eslint"
-          - "eslint-plugin-*"
-          - "eslint-config-*"
-          - "@typescript-eslint/*"
-      commitlint:
-        - "@commitlint/*"
-      luxon:
-        patterns:
-          - "luxon"
-          - "@types/luxon"
-      lodash-es:
-        patterns:
-          - "lodash-es"
-          - "@types/lodash-es"
-      css:
-        patterns:
-          - "autoprefixer"
-          - "postcss"
-          - "postcss-*"
-          - "sass"
-      ziggy-js:
-        patterns:
-          - "ziggy-js"
-          - "@types/ziggy-js"
+    - package-ecosystem: 'github-actions'
+      directory: '/'
+      schedule:
+          interval: 'weekly'
+      groups:
+          major:
+              update-types: ['major']
+          minor_and_patch:
+              update-types: ['minor', 'patch']
+    - package-ecosystem: composer
+      directory: /
+      schedule:
+          interval: weekly
+      groups:
+          laravel:
+              patterns:
+                  - 'laravel/*'
+                  - 'league/flysystem-aws-s3-v3'
+                  - 'http-interop/http-factory-guzzle'
+                  - 'coconutcraig/laravel-postmark'
+                  - 'inertiajs/inertia-laravel'
+          spatie:
+              patterns:
+                  - 'spatie/*'
+          other-patch:
+              update-types: ['patch']
+          other-minor:
+              update-types: ['minor']
+    - package-ecosystem: npm
+      directory: /
+      schedule:
+          interval: weekly
+      groups:
+          sentry:
+              patterns:
+                  - '@sentry/*'
+          vue:
+              patterns:
+                  - 'vue'
+                  - 'vue-tsc'
+                  - '@vitejs/plugin-vue'
+                  - '@vue-macros/*'
+                  - '@vue/*'
+                  - '@testing-library/vue'
+          vite:
+              patterns:
+                  - 'vite'
+                  - 'vite-plugin-*'
+                  - 'vitest'
+                  - 'laravel-vite-plugin'
+                  - '@vitejs/*'
+          intlify:
+              patterns:
+                  - '@intlify/*'
+                  - 'vue-i18n'
+          eslint:
+              patterns:
+                  - 'eslint'
+                  - 'eslint-plugin-*'
+                  - 'eslint-config-*'
+                  - '@typescript-eslint/*'
+          commitlint:
+              patterns:
+                  - '@commitlint/*'
+          luxon:
+              patterns:
+                  - 'luxon'
+                  - '@types/luxon'
+          lodash-es:
+              patterns:
+                  - 'lodash-es'
+                  - '@types/lodash-es'
+          css:
+              patterns:
+                  - 'autoprefixer'
+                  - 'postcss'
+                  - 'postcss-*'
+                  - 'sass'
+          ziggy-js:
+              patterns:
+                  - 'ziggy-js'
+                  - '@types/ziggy-js'
+          other-patch:
+              update-types: ['patch']
+          other-minor:
+              update-types: ['minor']
