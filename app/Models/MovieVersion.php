@@ -34,6 +34,11 @@ class MovieVersion extends Model
         'updated' => MovieVersionUpdated::class,
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'id';
+    }
+
     /**
      * The movie this version belongs to.
      *

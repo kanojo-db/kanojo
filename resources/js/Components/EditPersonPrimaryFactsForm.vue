@@ -65,6 +65,7 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.original_name"
                         name="original_name"
+                        autocomplete="off"
                         required
                         :error-messages="itemEditForm.errors.original_name"
                     />
@@ -83,6 +84,7 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.name"
                         name="translated_name"
+                        autocomplete="off"
                         :error-messages="itemEditForm.errors.name"
                     />
                 </v-col>
@@ -103,6 +105,7 @@ const submit = () => {
                         v-model="itemEditForm.birthdate"
                         name="birthdate"
                         type="date"
+                        autocomplete="off"
                         clearable
                         persistent-clear
                         :error-messages="itemEditForm.errors.birthdate"
@@ -125,6 +128,7 @@ const submit = () => {
                         :items="props.countries"
                         item-value="id"
                         item-title="name"
+                        autocomplete="off"
                         clearable
                         persistent-clear
                         :error-messages="itemEditForm.errors.country_id"
@@ -145,6 +149,7 @@ const submit = () => {
                         v-model="itemEditForm.gender_id"
                         name="gender"
                         :items="props.genders"
+                        autocomplete="off"
                         item-value="id"
                         :item-title="
                             (item) => getName(item as Tag, 'en-US', false)
@@ -171,6 +176,7 @@ const submit = () => {
                         v-model="itemEditForm.career_start"
                         name="career_start"
                         type="date"
+                        autocomplete="off"
                         clearable
                         persistent-clear
                         :error-messages="itemEditForm.errors.career_start"
@@ -193,6 +199,7 @@ const submit = () => {
                         v-model="itemEditForm.career_end"
                         name="career_end"
                         type="date"
+                        autocomplete="off"
                         clearable
                         persistent-clear
                         :error-messages="itemEditForm.errors.career_end"
@@ -217,6 +224,7 @@ const submit = () => {
                         v-model="itemEditForm.height"
                         name="height"
                         type="number"
+                        autocomplete="off"
                         suffix="cm"
                         clearable
                         persistent-clear
@@ -309,6 +317,7 @@ const submit = () => {
                         v-model="itemEditForm.bust"
                         name="bust"
                         type="number"
+                        autocomplete="off"
                         suffix="cm"
                         clearable
                         persistent-clear
@@ -329,6 +338,7 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.waist"
                         name="waist"
+                        autocomplete="off"
                         type="number"
                         suffix="cm"
                         clearable
@@ -350,6 +360,7 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.hip"
                         name="hip"
+                        autocomplete="off"
                         type="number"
                         suffix="cm"
                         clearable

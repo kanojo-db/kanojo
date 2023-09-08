@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\ContentReport;
+use App\Models\MovieVersion;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -27,6 +29,9 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimiting();
+
+        Route::model('report', ContentReport::class);
+        Route::model('version', MovieVersion::class);
 
         $this->routes(function () {
             // If running dev, expose the API routes in the /api/ directory. Otherwise, expose them at api.kanojo.app

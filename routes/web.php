@@ -43,7 +43,10 @@ use App\Http\Controllers\StudioExternalIdsController;
 use App\Http\Controllers\StudioHistoryController;
 use App\Http\Controllers\StudioMediaController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\ContentReport;
+use App\Models\Movie;
+use App\Models\Person;
+use App\Models\Series;
+use App\Models\Studio;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -59,8 +62,6 @@ use OwenIt\Auditing\Models\Audit;
 | be assigned to the "web" middleware group. Make something great!
 |
  */
-
-Route::model('report', ContentReport::class);
 
 /**
  * General routes.
@@ -122,6 +123,12 @@ Route::get('search', SearchController::class)
 /**
  * Movie routes.
  */
+// Redirect /movies/{id} to /movies/{slug}. {id} contains only numbers.
+Route::get('/movies/{id}', function (string $id) {
+    $movie = Movie::findOrFail($id);
+
+    return redirect()->route('movies.show', $movie->slug);
+})->where('id', '[0-9]+');
 Route::resource('movies', MovieController::class);
 Route::post('/movies/{movie}/cast', [MovieCastController::class, 'store'])
     ->name('movies.cast.store');
@@ -164,6 +171,11 @@ Route::get('/movies/{movie}/preview.webp', [MoviePreviewController::class, 'show
 /**
  * Person routes.
  */
+Route::get('/models/{id}', function (string $id) {
+    $model = Person::findOrFail($id);
+
+    return redirect()->route('models.show', $model->slug);
+})->where('id', '[0-9]+');
 Route::resource('models', PersonController::class);
 Route::get('/models/{model}/media', [PersonMediaController::class, 'index'])
     ->name('models.media.index');
@@ -188,6 +200,11 @@ Route::resource('models.alternative-names', PersonAliasController::class)
 /**
  * Studio routes.
  */
+Route::get('/studios/{id}', function (string $id) {
+    $studio = Studio::findOrFail($id);
+
+    return redirect()->route('studios.show', $studio->slug);
+})->where('id', '[0-9]+');
 Route::resource('studios', StudioController::class);
 Route::get('/studios/{studio}/media', [StudioMediaController::class, 'index'])
     ->name('studios.media.index');
@@ -206,6 +223,11 @@ Route::post('/studios/{studio}/external-ids', [StudioExternalIdsController::clas
 /**
  * Series routes.
  */
+Route::get('/series/{id}', function (string $id) {
+    $series = Series::findOrFail($id);
+
+    return redirect()->route('series.show', $series->slug);
+})->where('id', '[0-9]+');
 Route::resource('series', SeriesController::class);
 Route::resource('series.history', SeriesHistoryController::class)
     ->only([

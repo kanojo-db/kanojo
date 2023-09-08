@@ -77,7 +77,7 @@ const editForm = useForm({
 
 function onOKClick() {
     editForm.patch(
-        route('version.update', {
+        route('movies.version.update', {
             movie: props.item.slug,
             version: props.version.id,
         }),

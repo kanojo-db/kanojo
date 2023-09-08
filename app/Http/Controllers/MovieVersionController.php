@@ -26,7 +26,7 @@ class MovieVersionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MovieVersionRequest $request, MovieVersion $version): RedirectResponse
+    public function update(MovieVersionRequest $request, Movie $movie, MovieVersion $version): RedirectResponse
     {
         $validatedData = $request->validated();
 
@@ -38,7 +38,7 @@ class MovieVersionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MovieVersion $version): RedirectResponse
+    public function destroy(Movie $movie, MovieVersion $version): RedirectResponse
     {
         $version->delete();
 

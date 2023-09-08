@@ -7,7 +7,6 @@ namespace App\Console\Commands;
 use App\Jobs\ComputeModelsAgesJob;
 use App\Models\Movie;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class ComputeModelsAges extends Command
@@ -31,9 +30,7 @@ class ComputeModelsAges extends Command
      */
     public function handle(): int
     {
-        Movie::whereHas('models', function (Builder $query) {
-            $query->whereNot('birthdate', null);
-        })->whereNot('release_date', null)
+        Movie::whereHas('models')
             ->chunkById(100, function (Collection $movies) {
                 /** @param  Movie  $movie */
                 $movies->each(function ($movie) {

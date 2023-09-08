@@ -35,7 +35,8 @@ function deleteVersion(version: MovieVersion, index: number) {
     isDeleting.value[index] = true;
 
     router.delete(
-        route('version.destroy', {
+        route('movies.version.destroy', {
+            movie: props.item.id,
             version: version.id,
         }),
         {

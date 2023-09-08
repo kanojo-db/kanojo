@@ -67,7 +67,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.twitter_id"
                         name="twitter_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Twitter"
+                        :error-messages="itemEditForm.errors.twitter_id"
                     />
                 </v-col>
 
@@ -84,7 +86,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.instagram_id"
                         name="instagram_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Instagram"
+                        :error-messages="itemEditForm.errors.instagram_id"
                     />
                 </v-col>
 
@@ -101,7 +105,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.tiktok_id"
                         name="tiktok_id"
+                        autocomplete="off"
                         :prepend-inner-icon="TikTok"
+                        :error-messages="itemEditForm.errors.tiktok_id"
                     />
                 </v-col>
             </v-row>
@@ -120,7 +126,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.youtube_id"
                         name="youtube_id"
+                        autocomplete="off"
                         :prepend-inner-icon="YouTube"
+                        :error-messages="itemEditForm.errors.youtube_id"
                     />
                 </v-col>
 
@@ -137,7 +145,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.ameblo_id"
                         name="ameblo_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Ameba"
+                        :error-messages="itemEditForm.errors.ameblo_id"
                     />
                 </v-col>
 
@@ -154,7 +164,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.wikidata_id"
                         name="wikidata_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Wikidata"
+                        :error-messages="itemEditForm.errors.wikidata_id"
                     />
                 </v-col>
             </v-row>
@@ -173,7 +185,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.google_id"
                         name="google_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Google"
+                        :error-messages="itemEditForm.errors.google_id"
                     />
                 </v-col>
 
@@ -190,7 +204,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.imdb_id"
                         name="imdb_id"
+                        autocomplete="off"
                         :prepend-inner-icon="IMDb"
+                        :error-messages="itemEditForm.errors.imdb_id"
                     />
                 </v-col>
 
@@ -207,7 +223,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.fanza_id"
                         name="fanza_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Fanza"
+                        :error-messages="itemEditForm.errors.fanza_id"
                     />
                 </v-col>
             </v-row>
@@ -226,7 +244,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.tmdb_id"
                         name="tmdb_id"
+                        autocomplete="off"
                         :prepend-inner-icon="TheMovieDb"
+                        :error-messages="itemEditForm.errors.tmdb_id"
                     />
                 </v-col>
 
@@ -243,7 +263,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.line_blog_id"
                         name="line_blog_id"
+                        autocomplete="off"
                         :prepend-inner-icon="Line"
+                        :error-messages="itemEditForm.errors.line_blog_id"
                     />
                 </v-col>
 
@@ -260,7 +282,9 @@ const submit = () => {
                     <v-text-field
                         v-model="itemEditForm.onlyfans_id"
                         name="onlyfans_id"
+                        autocomplete="off"
                         :prepend-inner-icon="OnlyFans"
+                        :error-messages="itemEditForm.errors.onlyfans_id"
                     />
                 </v-col>
             </v-row>
