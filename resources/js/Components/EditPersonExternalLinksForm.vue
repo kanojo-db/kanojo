@@ -294,6 +294,7 @@ const submit = () => {
                     <v-btn
                         color="primary"
                         type="submit"
+                        :loading="itemEditForm.processing"
                     >
                         {{ $t('general.saveChanges') }}
                     </v-btn>

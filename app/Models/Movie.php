@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Contracts\PopularityContract;
 use App\Enums\MediaCollectionType;
+use App\Events\MovieUpdated;
 use App\Traits\HasPopularity;
 use App\Traits\LockColumns;
 use Carbon\Carbon;
@@ -33,16 +34,16 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Movie extends Model implements HasMedia, AuditableContract, ReactableInterface, PopularityContract
+class Movie extends Model implements AuditableContract, HasMedia, PopularityContract, ReactableInterface
 {
     use Auditable;
     use HasFactory;
-    use Sluggable;
+    use HasPopularity;
     use InteractsWithMedia;
+    use LockColumns;
     use Reactable;
     use Searchable;
-    use HasPopularity;
-    use LockColumns;
+    use Sluggable;
 
     /**
      * Attributes
@@ -107,6 +108,15 @@ class Movie extends Model implements HasMedia, AuditableContract, ReactableInter
         'fanart_count',
         'content_report_count',
         'external_links',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array<string, string>
+     */
+    protected $dispatchesEvents = [
+        'updated' => MovieUpdated::class,
     ];
 
     /**

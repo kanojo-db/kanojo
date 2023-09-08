@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Contracts\PopularityContract;
 use App\Enums\MediaCollectionType;
+use App\Events\PersonUpdated;
 use App\Traits\HasPopularity;
 use App\Traits\LockColumns;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -33,11 +34,11 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
 {
     use Auditable;
     use HasFactory;
-    use Searchable;
-    use InteractsWithMedia;
-    use Sluggable;
     use HasPopularity;
+    use InteractsWithMedia;
     use LockColumns;
+    use Searchable;
+    use Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -90,6 +91,15 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
      * @var string[]
      */
     protected $appends = ['poster', 'external_links', 'content_report_count', 'poster_count'];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array<string, string>
+     */
+    protected $dispatchesEvents = [
+        'updated' => PersonUpdated::class,
+    ];
 
     /**
      * Sluggable configuration.
