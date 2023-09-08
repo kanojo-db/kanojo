@@ -23,6 +23,7 @@ class MovieVersion extends Model
         'release_date',
         'product_code',
         'movie_id',
+        'barcode',
     ];
 
     /**

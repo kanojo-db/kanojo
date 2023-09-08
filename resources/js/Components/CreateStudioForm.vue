@@ -82,7 +82,7 @@ const submit = () => {
             <v-col>
                 <v-btn
                     color="primary"
-                    text="Add"
+                    :text="$t('general.saveChanges')"
                     type="submit"
                     :loading="form.processing"
                 />

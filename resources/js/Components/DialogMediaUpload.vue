@@ -113,11 +113,7 @@ const submit = () => {
                     color="primary"
                     block
                     :loading="mediaUploadForm.processing"
-                    :text="
-                        mediaUploadForm.processing
-                            ? `${mediaUploadForm.progress?.percentage}%`
-                            : $t('dialogs.media_upload.submit')
-                    "
+                    :text="$t('dialogs.media_upload.submit')"
                 />
             </v-card-actions>
         </v-form>

@@ -29,8 +29,6 @@ class StoreMovieRequest extends FormRequest
             'movieTypeId' => ['required', 'integer', 'exists:types,id'],
             'title' => ['nullable', 'string'],
             'originalTitle' => ['required', 'string'],
-            'productCode' => ['required', 'string'],
-            'releaseDate' => ['nullable', 'date'],
             'runtime' => ['nullable', 'integer'],
         ];
     }

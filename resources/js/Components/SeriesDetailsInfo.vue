@@ -46,12 +46,13 @@ const updateItemsPerPage = function (value: number) {
     itemsPerPage.value = value;
     currentPage.value = 1;
 
-    router.replace(
+    router.get(
         route(currentRoute.value, {
             ...routeParams.value,
             page: currentPage.value,
             per_page: itemsPerPage.value,
         }),
+        {},
         {
             preserveState: true,
             preserveScroll: true,

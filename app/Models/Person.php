@@ -240,6 +240,11 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
      */
     public function toSearchableArray(): array
     {
+        // Ensure aliases are loaded, since we want to search them too
+        if (! $this->relationLoaded('aliases')) {
+            $this->load('aliases');
+        }
+
         $array = $this->toArray();
 
         // TODO: Eventually refine this.
@@ -316,7 +321,7 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
                 'width' => $image->getWidth(),
                 'height' => $image->getHeight(),
             ])
-            ->toMediaCollection(MediaCollectionType::Logo->value);
+            ->toMediaCollection(MediaCollectionType::Profile->value);
     }
 
     /**

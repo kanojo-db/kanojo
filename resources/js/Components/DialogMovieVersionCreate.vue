@@ -179,11 +179,7 @@ const submit = () => {
                     type="submit"
                     color="primary"
                     :loading="versionCreateForm.processing"
-                    :text="
-                        versionCreateForm.processing
-                            ? `${versionCreateForm.progress?.percentage}%`
-                            : $t('general.saveChanges')
-                    "
+                    :text="$t('general.saveChanges')"
                 />
             </v-card-actions>
         </v-form>

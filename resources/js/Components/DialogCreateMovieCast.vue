@@ -140,11 +140,7 @@ watch(modelSearch, (value) => {
                     type="submit"
                     color="primary"
                     :loading="addCastMemberForm.processing"
-                    :text="
-                        addCastMemberForm.processing
-                            ? `${addCastMemberForm.progress?.percentage}%`
-                            : $t('general.saveChanges')
-                    "
+                    :text="$t('general.saveChanges')"
                 />
             </v-card-actions>
         </v-form>

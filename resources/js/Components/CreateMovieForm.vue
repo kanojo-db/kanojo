@@ -51,7 +51,7 @@ watch(studioSearch, (value) => {
             preserveScroll: true,
             replace: true,
             only: ['studios'],
-            onSuccess: () => {
+            onFinish: () => {
                 studioSearchLoading.value = false;
             },
         },
@@ -75,18 +75,23 @@ watch(seriesSearch, (value) => {
             preserveScroll: true,
             replace: true,
             only: ['series'],
-            onSuccess: () => {
+            onFinish: () => {
                 seriesSearchLoading.value = false;
             },
         },
     );
 });
 
-const form = useForm({
+const form = useForm<{
+    title: string;
+    originalTitle: string;
+    runtime: number;
+    studioId: number | null;
+    movieTypeId: number | null;
+    seriesId: number | null;
+}>({
     title: '',
     originalTitle: '',
-    productCode: '',
-    releaseDate: null,
     runtime: 0,
     studioId: null,
     movieTypeId: null,
@@ -100,44 +105,6 @@ const submit = () => {
 
 <template>
     <v-form @submit.prevent="submit">
-        <v-row>
-            <v-col>
-                <div class="mb-2 flex flex-row items-center">
-                    <v-label
-                        for="type"
-                        text="Type *"
-                    />
-                </div>
-
-                <v-select
-                    v-model="form.movieTypeId"
-                    name="type"
-                    :items="movieTypes"
-                    item-value="id"
-                    item-title="name"
-                    :error-messages="form.errors.movieTypeId"
-                />
-            </v-col>
-
-            <v-col>
-                <div class="mb-2 flex flex-row items-center">
-                    <v-label
-                        for="release_date"
-                        text="Release Date"
-                    />
-                </div>
-
-                <v-text-field
-                    v-model="form.releaseDate"
-                    type="date"
-                    name="release_date"
-                    clearable
-                    persistent-clear
-                    :error-messages="form.errors.releaseDate"
-                />
-            </v-col>
-        </v-row>
-
         <v-row>
             <v-col>
                 <div class="mb-2 flex flex-row items-center">
@@ -221,6 +188,24 @@ const submit = () => {
             <v-col>
                 <div class="mb-2 flex flex-row items-center">
                     <v-label
+                        for="type"
+                        text="Type *"
+                    />
+                </div>
+
+                <v-select
+                    v-model="form.movieTypeId"
+                    name="type"
+                    :items="movieTypes"
+                    item-value="id"
+                    item-title="name"
+                    :error-messages="form.errors.movieTypeId"
+                />
+            </v-col>
+
+            <v-col>
+                <div class="mb-2 flex flex-row items-center">
+                    <v-label
                         for="runtime"
                         text="Runtime"
                     />
@@ -241,7 +226,7 @@ const submit = () => {
             <v-col>
                 <v-btn
                     color="primary"
-                    text="Add"
+                    :text="$t('general.saveChanges')"
                     type="submit"
                     :loading="form.processing"
                 />

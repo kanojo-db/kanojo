@@ -137,7 +137,6 @@ class MovieController extends Controller
                 $locale => $validatedData['title'] ?? null,
                 'ja-JP' => $validatedData['originalTitle'],
             ],
-            'release_date' => $validatedData['releaseDate'] ?? null,
             'length' => $validatedData['runtime'] ?? null,
             'studio_id' => $validatedData['studioId'] ?? null,
             'type_id' => $validatedData['movieTypeId'],

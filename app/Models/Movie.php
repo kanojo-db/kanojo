@@ -527,6 +527,11 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
      */
     public function toSearchableArray(): array
     {
+        // Ensure versions are loaded
+        if (! $this->relationLoaded('versions')) {
+            $this->load('versions');
+        }
+
         $array = $this->toArray();
 
         // TODO: Eventually refine this.

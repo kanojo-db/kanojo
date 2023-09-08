@@ -15,6 +15,11 @@ class AgeUpdateListener
      */
     public function onMovieUpdate(MovieUpdated $event)
     {
+        // Check if we have models on the movie first, to avoid unnecessary jobs
+        if ($event->movie->models()->count() === 0) {
+            return;
+        }
+
         // Queue a job to update the age of the models for this movie
         ComputeModelsAges::dispatch($event->movie);
     }

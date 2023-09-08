@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { PageProps } from '@/types/inertia';
 import type { Item } from '@/types/models';
 import type { PropType } from 'vue';
 

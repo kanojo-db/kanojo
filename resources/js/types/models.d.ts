@@ -214,6 +214,8 @@ export interface Movie extends Sluggable, Reactable, Linkable {
     // accessors
     poster: Media | null;
     fanart: Media | null;
+    poster_count: number;
+    fanart_count: number;
     // feature flags
     is_vr: boolean;
     is_3d: boolean;
@@ -294,7 +296,9 @@ export interface Person extends Sluggable, Linkable {
     audits?: Audits;
     // accessors
     poster?: Media;
+    poster_count: number;
 }
+
 export type People = Person[];
 
 export interface Studio extends Sluggable, Linkable {
@@ -310,6 +314,7 @@ export interface Studio extends Sluggable, Linkable {
     audits?: Audits;
     // accessors
     logo: Media | null;
+    logo_count: number;
     // relations
     movies: Paginated<Movie>;
     media: Medias;
