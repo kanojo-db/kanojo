@@ -64,11 +64,10 @@ const submit = () => {
             </v-card-text>
 
             <v-card-actions>
-                <v-spacer />
-
                 <v-btn
                     type="submit"
                     color="primary"
+                    block
                     :text="$t('general.saveChanges')"
                     :loading="tokenCreateForm.processing"
                 />

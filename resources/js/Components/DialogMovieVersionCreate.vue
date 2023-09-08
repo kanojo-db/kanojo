@@ -173,11 +173,10 @@ const submit = () => {
             </v-card-text>
 
             <v-card-actions>
-                <v-spacer />
-
                 <v-btn
                     type="submit"
                     color="primary"
+                    block
                     :loading="versionCreateForm.processing"
                     :text="$t('general.saveChanges')"
                 />

@@ -107,16 +107,8 @@ const confirmDelete = () => {
 
         <v-card-actions>
             <v-btn
-                :disabled="processing"
-                @click="emit('update:modelValue', false)"
-            >
-                {{ $t('dialogs.confirmDelete.cancel') }}
-            </v-btn>
-
-            <v-spacer />
-
-            <v-btn
                 color="error"
+                block
                 :loading="processing"
                 @click="confirmDelete"
             >

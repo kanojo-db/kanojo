@@ -134,11 +134,10 @@ watch(modelSearch, (value) => {
             </v-card-text>
 
             <v-card-actions>
-                <v-spacer />
-
                 <v-btn
                     type="submit"
                     color="primary"
+                    block
                     :loading="addCastMemberForm.processing"
                     :text="$t('general.saveChanges')"
                 />

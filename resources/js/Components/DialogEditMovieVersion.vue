@@ -173,8 +173,8 @@ function onOKClick() {
             <v-card-actions class="justify-end">
                 <v-btn
                     type="submit"
-                    variant="flat"
                     color="primary"
+                    block
                     :loading="editForm.processing"
                     :text="$t('general.saveChanges')"
                 />

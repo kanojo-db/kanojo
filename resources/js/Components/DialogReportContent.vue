@@ -166,8 +166,8 @@ function onOKClick() {
             <v-card-actions class="justify-end">
                 <v-btn
                     type="submit"
-                    variant="flat"
                     color="primary"
+                    block
                     :loading="reportForm.processing"
                     :text="$t('general.send')"
                 />
