@@ -10,7 +10,11 @@
         "averageMoviesPerModel": "Promedio de películas por modelo",
         "statsIntro": "A la gente guay le gusta ver cifras y gráficos. Aquí tienes algunos que creemos que te interesarán.",
         "distributionMoviesPerYear": "Distribución de las películas por año de producción*",
-        "distributionMoviesPerYearInfo": "* Los datos sólo incluyen películas con un año de producción conocido."
+        "distributionMoviesPerYearInfo": "* Los datos sólo incluyen películas con un año de producción conocido.",
+        "distributionMoviesPerAgeOfPerformer": "Distribución de las películas por edad de los actores*",
+        "distributionModelsPerYearOfBirthNote": "*Los datos solo incluyen modelos con un año de nacimiento conocido.",
+        "distributionModelsPerYearOfBirth": "Distribución de los modelos por año de tu nacimiento*",
+        "distributionMoviesPerAgeOfPerformerNote": "* Los datos sólo incluyen películas con la edad conocida de los actores."
     },
     "dialogs": {
         "create_token": {
@@ -66,7 +70,7 @@
         "popularModels": "Modelos populares",
         "popularMovies": "Películas populares",
         "recentlyAddedMovies": "Películas recientemente añadidas",
-        "slogan": "Encuentra tu siguiente amor",
+        "slogan": "Encuentra a tu próximo amor",
         "recentlyUpdatedMovies": "Películas recientemente actualizadas",
         "countModels": "Modelos",
         "leaderboard": "Clasificación",
