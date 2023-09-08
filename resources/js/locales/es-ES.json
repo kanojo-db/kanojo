@@ -24,22 +24,6 @@
             "instructions": "Selecciona una imagen de perfil presionando el botón de abajo y\n            selecciona una imagen de tu computadora.",
             "requirements_2": "Una resolución mínima de 300x450",
             "requirements_3": "Relación de aspecto 1{1}{5} (2{3})"
-        },
-        "share_link": {
-            "title": "Compartir {pageName}",
-            "url": "URL"
-        },
-        "report_content": {
-            "title": "Informe {title}",
-            "type_of_problem": "Tipo de problema",
-            "additional_information": "Información adicional",
-            "public_report": "Hacer público este informe",
-            "report": "Informe",
-            "bad_image": "Mala imagen",
-            "duplicate": "Duplicado",
-            "incorrect": "Contenido incorrecto",
-            "spam": "Spam",
-            "other": "Otros"
         }
     },
     "general": {
@@ -62,8 +46,7 @@
             "fill_missing": "Llenar datos faltantes",
             "search": "Buscar",
             "settings": "Ajustes",
-            "discord": "Servidor en discord",
-            "content_reports": "Contenido de los informes"
+            "discord": "Servidor en discord"
         },
         "x_percent": "{number}%",
         "view_profile": "Ver perfil",
@@ -115,7 +98,6 @@
         "edits": "Ediciones totales",
         "favorites": "Favoritos",
         "collection": "Colección",
-        "stats": "Estadísticas",
         "wishlist": "Lista de deseos",
         "memberSince": "Miembro desde {date}"
     },
@@ -196,9 +178,6 @@
     "login": {
         "submit": "Iniciar sesión",
         "welcomeBack": "¡Bienvenido de nuevo!"
-    },
-    "register": {
-        "already": "¿Ya tienes una cuenta?"
     },
     "$vuetify": {
         "badge": "Placa",
