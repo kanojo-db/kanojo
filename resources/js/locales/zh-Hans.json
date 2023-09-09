@@ -1,7 +1,7 @@
 {
     "$vuetify": {
         "badge": "徽章",
-        "open": "Open",
+        "open": "打开",
         "close": "关闭",
         "dataIterator": {
             "noResultsText": "没有符合条件的结果",
@@ -66,7 +66,7 @@
             "counterSize": "{0} 个文件（共 {1}）"
         },
         "timePicker": {
-            "am": "AM",
+            "am": "上午",
             "pm": "PM"
         },
         "pagination": {
@@ -76,20 +76,20 @@
                 "previous": "上一页",
                 "page": "转到页面 {0}",
                 "currentPage": "当前页 {0}",
-                "first": "First page",
-                "last": "Last page"
+                "first": "第一页",
+                "last": "最后一页"
             }
         },
         "stepper": {
-            "next": "Next",
-            "prev": "Previous"
+            "next": "下一个",
+            "prev": "上一页"
         },
         "rating": {
             "ariaLabel": {
-                "item": "Rating {0} of {1}"
+                "item": "评分 {0} 到 {1}"
             }
         },
-        "loading": "Loading...",
+        "loading": "加载中...",
         "infiniteScroll": {
             "loadMore": "Load more",
             "empty": "No more"
