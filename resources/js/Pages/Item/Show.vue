@@ -4,7 +4,7 @@ import type { Palette, Swatch } from '@vibrant/color';
 import type { Component, PropType } from 'vue';
 
 import { Head } from '@inertiajs/vue3';
-import Vibrant from 'node-vibrant';
+import Vibrant from 'node-vibrant/lib/bundle';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTheme } from 'vuetify';
@@ -74,7 +74,7 @@ if (
     props.item?.poster &&
     !import.meta.env.SSR
 ) {
-    const VibrantInstance = new Vibrant(props.item.poster.original_url);
+    const VibrantInstance = Vibrant.from(props.item.poster.original_url);
 
     VibrantInstance.getPalette().then((palette: Palette) => {
         vibrant.value = palette.Vibrant;

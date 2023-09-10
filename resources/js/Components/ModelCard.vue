@@ -12,8 +12,12 @@ import { useName } from '@/utils/item';
 
 const props = defineProps({
     model: {
-        type: Object as PropType<Person & { movies_count: number }>,
+        type: Object as PropType<Person & { movies_count?: number }>,
         required: true,
+    },
+    textClass: {
+        type: String,
+        default: '',
     },
 });
 
@@ -62,14 +66,20 @@ const name = useName(props.model, locale);
                 />
             </div>
 
-            <div class="relative flex flex-col flex-nowrap place-items-start">
+            <div
+                class="relative flex flex-col flex-nowrap place-items-start"
+                :class="props.textClass"
+            >
                 <span
                     class="mt-3 line-clamp-1 overflow-hidden text-ellipsis font-bold"
                 >
                     {{ name }}
                 </span>
 
-                <span class="mb-2">
+                <span
+                    v-if="props.model.movies_count"
+                    class="mb-2"
+                >
                     {{
                         $t('general.movieCount', {
                             count: props.model.movies_count,

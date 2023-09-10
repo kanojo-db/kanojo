@@ -16,8 +16,9 @@ import MdiClose from '~icons/mdi/close?raw';
 
 import { dark, light } from '@/themes';
 
-function getVuetifyPlugin(i18n: I18n) {
+function getVuetifyPlugin(i18n: I18n, ssr: boolean = false) {
     return createVuetify({
+        ssr,
         components: {
             ...components,
             VOtpInput,

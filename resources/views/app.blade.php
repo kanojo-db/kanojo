@@ -5,8 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title inertia>{{ config('app.name', 'Kanojo') }}</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -28,11 +26,11 @@
     <meta name="msapplication-TileColor" content="#d6d3d1">
     <meta name="msapplication-TileImage" content="{{ asset('icons/icon-144x144.png') }}">
     <meta name="theme-color" content="#6a306d">
+    @inertiaHead
 
     <!-- Scripts -->
     @routes
     @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
-    @inertiaHead
 
     <script type="application/ld+json">
         {

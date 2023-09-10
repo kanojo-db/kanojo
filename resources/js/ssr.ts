@@ -14,9 +14,9 @@ import getVuetifyPlugin from '@/plugins/vuetify';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.es';
 
-import 'vuetify/styles/main.sass';
 import '../css/app.scss';
 import '../css/vuetify.scss';
+import 'vuetify/styles';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/mousewheel';
@@ -39,7 +39,7 @@ createServer((page) =>
         setup({ App, props, plugin }) {
             const i18n = getI18nPlugin(props.initialPage.props.locale);
 
-            const vuetify = getVuetifyPlugin(i18n);
+            const vuetify = getVuetifyPlugin(i18n, true);
 
             const Ziggy = {
                 ...props.initialPage.props.ziggy,

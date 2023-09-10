@@ -9,14 +9,14 @@ use App\Models\Movie;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 
-class ComputeModelsAges extends Command
+class ComputeAllModelsAges extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'kanojo:refresh-ages';
+    protected $signature = 'kanojo:refresh-all-ages';
 
     /**
      * The console command description.

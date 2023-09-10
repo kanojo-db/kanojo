@@ -3,7 +3,7 @@ import type { DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createSSRApp, h } from 'vue';
+import { createApp, h } from 'vue';
 
 import getI18nPlugin from '@/plugins/i18n';
 import link from '@/plugins/link';
@@ -12,9 +12,9 @@ import getVuetifyPlugin from '@/plugins/vuetify';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.es';
 
-import 'vuetify/styles/main.sass';
 import '../css/app.scss';
 import '../css/vuetify.scss';
+import 'vuetify/styles';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/mousewheel';
@@ -36,7 +36,7 @@ createInertiaApp({
 
         const vuetify = getVuetifyPlugin(i18n);
 
-        const vueApp = createSSRApp({ render: () => h(App, props) })
+        const vueApp = createApp({ render: () => h(App, props) })
             .use(ZiggyVue, Ziggy)
             .use(pinia)
             .use(i18n)

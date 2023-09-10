@@ -91,7 +91,7 @@ const genderIcon = computed(() => {
 
             <span
                 v-if="name !== props.item.name['ja-JP']"
-                class="mt-1 text-lg font-bold"
+                class="mt-1 text-xl font-bold"
             >
                 {{ props.item.name['ja-JP'] }}
             </span>

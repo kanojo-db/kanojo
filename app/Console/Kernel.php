@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('cache:prune-stale-tags')->hourly();
         $schedule->command('app:compute-popularity App\\Models\\Movie')->daily();
+        $schedule->command('app:compute-popularity App\\Models\\Person')->daily();
     }
 
     /**

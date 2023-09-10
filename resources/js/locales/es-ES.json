@@ -112,14 +112,6 @@
             "models": "Modelos"
         }
     },
-    "bible": {
-        "general": {
-            "general_tips": "Tips generales"
-        },
-        "sections": {
-            "general": "General"
-        }
-    },
     "movie": {
         "show": {
             "remove_like": "Remover me gusta",

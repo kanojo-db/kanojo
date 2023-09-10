@@ -17,6 +17,7 @@ use App\Http\Controllers\MovieLikeController;
 use App\Http\Controllers\MovieMediaController;
 use App\Http\Controllers\MovieMediaLikeController;
 use App\Http\Controllers\MoviePreviewController;
+use App\Http\Controllers\MoviePreviewInternalController;
 use App\Http\Controllers\MovieVersionController;
 use App\Http\Controllers\MovieWishlistController;
 use App\Http\Controllers\NotificationController;
@@ -28,6 +29,8 @@ use App\Http\Controllers\PersonHistoryController;
 use App\Http\Controllers\PersonMediaController;
 use App\Http\Controllers\PersonMediaDislikeController;
 use App\Http\Controllers\PersonMediaLikeController;
+use App\Http\Controllers\PersonPreviewController;
+use App\Http\Controllers\PersonPreviewInternalController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SeriesContentReportController;
@@ -165,6 +168,8 @@ Route::resource('movies.wishlist', MovieWishlistController::class)
 Route::resource('movies.collection', MovieCollectionController::class)
     ->only(['store', 'destroy'])->shallow();
 Route::resource('movies.reports', MovieContentReportController::class);
+Route::get('/movies/{movie}/preview', [MoviePreviewInternalController::class, 'show'])
+    ->name('movies.preview.internal');
 Route::get('/movies/{movie}/preview.webp', [MoviePreviewController::class, 'show'])
     ->name('movies.preview.show');
 
@@ -196,6 +201,10 @@ Route::resource('models.history', PersonHistoryController::class)
 Route::resource('models.reports', PersonContentReportController::class);
 Route::resource('models.alternative-names', PersonAliasController::class)
     ->only(['store', 'update', 'destroy']);
+Route::get('/models/{model}/preview', [PersonPreviewInternalController::class, 'show'])
+    ->name('models.preview.internal');
+Route::get('/models/{model}/preview.webp', [PersonPreviewController::class, 'show'])
+    ->name('models.preview.show');
 
 /**
  * Studio routes.

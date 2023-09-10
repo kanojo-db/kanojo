@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 
 import MdiMagnify from '~icons/mdi/magnify';
 
@@ -17,6 +18,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const { locale } = useI18n();
 
 const searchForm = useForm({
     q: '',
@@ -95,7 +98,7 @@ const submit = () => {
                         </span>
 
                         <span class="text-4xl font-black lg:text-5xl">
-                            {{ props.movieCount.toLocaleString() }}
+                            {{ props.movieCount.toLocaleString(locale) }}
                         </span>
                     </div>
                 </v-col>
@@ -114,7 +117,7 @@ const submit = () => {
                         </span>
 
                         <span class="text-4xl font-black lg:text-5xl">
-                            {{ props.modelCount.toLocaleString() }}
+                            {{ props.modelCount.toLocaleString(locale) }}
                         </span>
                     </div>
                 </v-col>
@@ -133,7 +136,7 @@ const submit = () => {
                         </span>
 
                         <span class="text-4xl font-black lg:text-5xl">
-                            {{ props.tagCount.toLocaleString() }}
+                            {{ props.tagCount.toLocaleString(locale) }}
                         </span>
                     </div>
                 </v-col>

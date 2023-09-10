@@ -10,7 +10,7 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import Icons from 'unplugin-icons/vite';
 import DefineOptions from 'unplugin-vue-define-options/vite';
 import { defineConfig } from 'vite';
-import vuetify from 'vite-plugin-vuetify';
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 import { configDefaults } from 'vitest/config';
 
 dotenv.config();
@@ -20,6 +20,7 @@ export default defineConfig(({ mode, ssrBuild }) => {
         build: {
             sourcemap: true,
             ssr: ssrBuild,
+            cssCodeSplit: false,
         },
         ssr: {
             noExternal: [

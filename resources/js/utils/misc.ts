@@ -8,10 +8,6 @@ import { DateTime } from 'luxon';
  * @return {Array} The menu entries.
  */
 export function getMenuEntries() {
-    if (import.meta.env.SSR) {
-        return [];
-    }
-
     return [
         {
             title: 'Movies',
@@ -22,7 +18,7 @@ export function getMenuEntries() {
                     routeParams: {
                         'filter[recent]': import.meta.env.SSR
                             ? ''
-                            : DateTime.local().toISODate() ?? '',
+                            : DateTime.now().toISODate(),
                     },
                 },
                 {
@@ -31,7 +27,7 @@ export function getMenuEntries() {
                     routeParams: {
                         'filter[upcoming]': import.meta.env.SSR
                             ? ''
-                            : DateTime.local().toISODate() ?? '',
+                            : DateTime.now().toISODate() ?? '',
                     },
                 },
                 {

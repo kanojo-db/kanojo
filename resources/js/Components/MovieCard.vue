@@ -23,6 +23,9 @@ const props = defineProps({
         type: Object as PropType<Movie>,
         required: true,
     },
+    hideText: {
+        type: Boolean,
+    },
 });
 
 const locale = useI18n().locale.value;
@@ -129,6 +132,7 @@ const { mdAndUp } = useDisplay();
                 />
 
                 <span
+                    v-if="!hideText"
                     class="mt-4 line-clamp-2 overflow-hidden text-ellipsis text-sm font-bold md:text-base"
                 >
                     {{ title }}
