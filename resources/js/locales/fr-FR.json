@@ -10,7 +10,22 @@
         "statsHeader": "Quelques chiffres",
         "statsIntro": "Les gens cool aiment voir des chiffres et des graphiques. En voici quelques-uns qui devraient vous intéresser.",
         "subtitle": "Chaque élément de données est soumis et sélectionné par nos utilisateurs,{0} dans le but de fournir des informations de haute qualité.",
-        "title": "Kanojo est une base de données {0} de films japonais pour adultes et de vidéos de gravure"
+        "title": "Kanojo est une base de données {0} de films japonais pour adultes et de vidéos de gravure",
+        "distributionOfModelsPerHeight": "Distribution des modèles par taille*",
+        "distributionOfModelsPerHipSize": "Distribution des modèles par taille des hanches*",
+        "distributionOfModelsPerBustSizeNote": "* Les données ne comprennent que les modèles dont le tour de poitrine est connu.",
+        "distributionMoviesPerAgeOfPerformer": "Répartition des films par âge des acteurs*",
+        "distributionOfModelsPerCupSizeNote": "* Les données ne comprennent que les modèles dont la taille du bonnet de soutien-gorge est connue.",
+        "distributionModelsPerYearOfBirthNote": "* Les données ne comprennent que les modèles dont l'année de naissance est connue.",
+        "distributionOfModelsPerHeightNote": "* Les données ne comprennent que les modèles dont la taille est connue.",
+        "distributionOfModelsPerCupSize": "Distribution des modèles par taille de bonnet*",
+        "distributionOfModelsPerWaistSizeNote": "* Les données ne comprennent que les modèles dont le tour de taille est connu.",
+        "distributionOfModelsPerWaistSize": "Distribution des modèles par tour de taille*",
+        "distributionOfModelsPerBustSize": "Distribution des modèles par taille de poitrine*",
+        "moviesWithoutPoster": "Films sans affiche",
+        "distributionOfModelsPerHipSizeNote": "* Les données ne comprennent que les modèles dont le tour de hanche est connu.",
+        "distributionModelsPerYearOfBirth": "Distribution des modèles par année de naissance*",
+        "distributionMoviesPerAgeOfPerformerNote": "* Les données ne comprennent que les films dont l'âge des interprètes est connu."
     },
     "dialogs": {
         "create_token": {
@@ -23,7 +38,8 @@
             "requirements_2": "A minimum resolution of 300x450",
             "requirements_3": "Aspect ratio of 1{1}.5 (2{3})",
             "requirements_heading": "Profile images must meet the following criteria:",
-            "title": "Upload Media"
+            "title": "Upload Media",
+            "submit": "Envoyer"
         },
         "reportContent": {
             "additional_information": "Information additionnelle",
@@ -40,6 +56,32 @@
         "shareLink": {
             "title": "Partager {pageName}",
             "url": "URL"
+        },
+        "addCast": {
+            "title": "Ajouter un acteur à {itemTitle}"
+        },
+        "confirmDelete": {
+            "title": "Supprimer {itemName}",
+            "delete": "Supprimer",
+            "body": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+            "cancel": "Annuler"
+        },
+        "editMovieVersion": {
+            "format": {
+                "umd": "UMD",
+                "dvd": "DVD",
+                "uhdBluray": "Blu-ray UHD",
+                "vhs": "VHS",
+                "laserdisc": "Laserdisc",
+                "digital": "VOD",
+                "hddvd": "HD DVD",
+                "bluray": "Blu-ray"
+            },
+            "title": "Modifier la version pour {itemTitle}"
+        },
+        "create_alias": {
+            "title": "Créer un alias",
+            "name": "Nom"
         }
     },
     "edit": {
@@ -210,6 +252,15 @@
         "infiniteScroll": {
             "loadMore": "Load more",
             "empty": "No more"
+        }
+    },
+    "admin": {
+        "telescope": "Telescope",
+        "horizon": "Horizon"
+    },
+    "dialog": {
+        "addCast": {
+            "name": "Nom"
         }
     }
 }
