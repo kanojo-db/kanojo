@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
@@ -9,6 +9,8 @@ const submitForm = () => {
 </script>
 
 <template>
+    <Head :title="$t('general.pages.age_gate')" />
+
     <v-app>
         <v-app-bar
             flat

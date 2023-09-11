@@ -13,7 +13,7 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-    tagCount: {
+    studioCount: {
         type: Number,
         required: true,
     },
@@ -132,11 +132,11 @@ const submit = () => {
                         <span
                             class="text-center text-2xl font-bold uppercase lg:text-3xl"
                         >
-                            {{ $t('welcome.countCategories') }}
+                            {{ $t('welcome.countStudios') }}
                         </span>
 
                         <span class="text-4xl font-black lg:text-5xl">
-                            {{ props.tagCount.toLocaleString(locale) }}
+                            {{ props.studioCount.toLocaleString(locale) }}
                         </span>
                     </div>
                 </v-col>

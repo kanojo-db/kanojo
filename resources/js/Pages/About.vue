@@ -9,7 +9,7 @@ defineOptions({
 </script>
 
 <template>
-    <Head title="About" />
+    <Head :title="$t('general.pages.about')" />
 
     <div
         class="flex flex-col items-center justify-center bg-stone-600 p-4 md:p-12"

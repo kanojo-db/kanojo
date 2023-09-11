@@ -110,18 +110,21 @@ function submit() {
 
                 <v-switch
                     v-model="accountSettingsForm.show_jav"
+                    disabled
                     :label="$t('settings.account.show_adult_content')"
                     hide-details
                 />
 
                 <v-switch
                     v-model="accountSettingsForm.show_gravure"
+                    disabled
                     :label="$t('settings.account.show_gravure_content')"
                     hide-details
                 />
 
                 <v-switch
                     v-model="accountSettingsForm.show_minors"
+                    disabled
                     :label="$t('settings.account.show_gravure_minors_content')"
                     hide-details
                 />
@@ -129,6 +132,7 @@ function submit() {
                 <v-btn
                     type="submit"
                     color="primary"
+                    disabled
                     :text="$t('general.saveChanges')"
                     class="mt-2"
                 />

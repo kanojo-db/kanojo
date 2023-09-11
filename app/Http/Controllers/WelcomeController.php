@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use App\Models\Person;
+use App\Models\Studio;
 use App\Models\User;
 use Carbon\Carbon;
 use Inertia\Inertia;
@@ -57,7 +58,7 @@ class WelcomeController extends Controller
                 ->get(),
             'movieCount' => Movie::count(),
             'modelCount' => Person::count(),
-            'tagCount' => \Spatie\Tags\Tag::count(),
+            'studioCount' => Studio::count(),
             'topUsers' => function (): mixed {
                 $topUsers = User::orderBy('audits_count', 'desc')
                     ->withCount('audits')

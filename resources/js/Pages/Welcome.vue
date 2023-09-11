@@ -2,6 +2,8 @@
 import type { Movies, People, Users } from '@/types/models';
 import type { PropType } from 'vue';
 
+import { Head } from '@inertiajs/vue3';
+
 import CardSwiper from '@/Components/CardSwiper.vue';
 import Leaderboard from '@/Components/Leaderboard.vue';
 import WelcomeHero from '@/Components/WelcomeHero.vue';
@@ -36,7 +38,7 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-    tagCount: {
+    studioCount: {
         type: Number,
         required: true,
     },
@@ -52,10 +54,12 @@ defineOptions({
 </script>
 
 <template>
+    <Head :title="$t('welcome.slogan')" />
+
     <welcome-hero
         :model-count="props.modelCount"
         :movie-count="props.movieCount"
-        :tag-count="props.tagCount"
+        :studio-count="props.studioCount"
     />
 
     <v-container class="p-4">

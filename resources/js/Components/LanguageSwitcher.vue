@@ -51,8 +51,7 @@ const changeLocale = () => {
 
     changeLocaleForm.locale = currentLocale.value;
 
-    // Skip this if no user is logged in or we're in SSR
-    if (!page.props.user || import.meta.env.SSR) {
+    if (import.meta.env.SSR) {
         return;
     }
 

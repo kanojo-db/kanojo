@@ -132,7 +132,25 @@ const shouldShowImage = computed(() => {
 </script>
 
 <template>
-    <Head :title="title ?? undefined" />
+    <Head :title="title">
+        <!-- OpenGraph -->
+        <meta
+            property="og:title"
+            :content="title"
+        />
+
+        <meta
+            v-if="isMovie(props.item)"
+            property="og:image"
+            :content="route('movies.preview.show', { movie: props.item.slug })"
+        />
+
+        <meta
+            v-else-if="isPerson(props.item)"
+            property="og:image"
+            :content="route('models.preview.show', { model: props.item.slug })"
+        />
+    </Head>
 
     <item-info-page
         :item="props.item"
