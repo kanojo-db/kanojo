@@ -142,13 +142,17 @@ const shouldShowImage = computed(() => {
         <meta
             v-if="isMovie(props.item)"
             property="og:image"
-            :content="route('movies.preview.show', { movie: props.item.slug })"
+            :content="`https://kanojodb.com${route('movies.preview.show', {
+                movie: props.item.slug,
+            })}`"
         />
 
         <meta
             v-else-if="isPerson(props.item)"
             property="og:image"
-            :content="route('models.preview.show', { model: props.item.slug })"
+            :content="`https://kanojodb.com${route('models.preview.show', {
+                model: props.item.slug,
+            })}`"
         />
 
         <meta
