@@ -30,17 +30,19 @@ const movieDuration = computed(() => {
 </script>
 
 <template>
-    <div class="flex items-center justify-center overflow-hidden bg-stone-50">
+    <div
+        class="flex h-full items-center justify-center overflow-hidden bg-stone-50"
+    >
         <v-container
             fluid
-            class="h-100 p-0"
+            class="h-full p-0"
         >
             <v-row
                 no-gutters
-                class="h-100"
+                class="h-full"
             >
                 <div
-                    class="mr-4 flex w-[37%] items-center justify-center bg-primary"
+                    class="mr-4 flex h-full w-[37%] items-center justify-center bg-primary"
                 >
                     <v-img
                         v-if="
