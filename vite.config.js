@@ -20,7 +20,6 @@ export default defineConfig(({ mode, ssrBuild }) => {
         build: {
             sourcemap: true,
             ssr: ssrBuild,
-            cssCodeSplit: false,
         },
         ssr: {
             noExternal: [
