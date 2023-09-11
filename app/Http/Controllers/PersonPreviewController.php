@@ -21,9 +21,16 @@ class PersonPreviewController extends Controller
         $disk = Storage::disk('r2');
 
         if ($disk->exists($this->getImagePath($model))) {
-            return response($disk->get($this->getImagePath($model)), 200, [
-                'Content-Type' => 'image/webp',
-            ]);
+            $fileDate = $disk->lastModified($this->getImagePath($model));
+            $modelDate = $model->updated_at->timestamp;
+
+            if ($fileDate > $modelDate) {
+                return response($disk->get($this->getImagePath($model)), 200, [
+                    'Content-Type' => 'image/webp',
+                ]);
+            }
+
+            $disk->delete($this->getImagePath($model));
         }
 
         $screenshot = Browsershot::url(route('models.preview.internal', $model))

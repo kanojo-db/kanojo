@@ -83,7 +83,7 @@ const genderIcon = computed(() => {
                         </v-img>
                     </div>
 
-                    <v-col class="flex items-start pt-10">
+                    <v-col class="mt-10 flex items-start">
                         <div class="flex flex-col gap-2">
                             <div class="flex flex-col gap-2">
                                 <div

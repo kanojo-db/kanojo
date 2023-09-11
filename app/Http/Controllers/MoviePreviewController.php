@@ -21,9 +21,16 @@ class MoviePreviewController extends Controller
         $disk = Storage::disk('r2');
 
         if ($disk->exists($this->getImagePath($movie))) {
-            return response($disk->get($this->getImagePath($movie)), 200, [
-                'Content-Type' => 'image/webp',
-            ]);
+            $fileDate = $disk->lastModified($this->getImagePath($movie));
+            $movieDate = $movie->updated_at->timestamp;
+
+            if ($fileDate > $movieDate) {
+                return response($disk->get($this->getImagePath($movie)), 200, [
+                    'Content-Type' => 'image/webp',
+                ]);
+            }
+
+            $disk->delete($this->getImagePath($movie));
         }
 
         $screenshot = Browsershot::url(route('movies.preview.internal', $movie))
