@@ -284,3 +284,9 @@ const genderIcon = computed(() => {
         </v-container>
     </div>
 </template>
+
+<style lang="scss">
+body {
+    height: 100%;
+}
+</style>
