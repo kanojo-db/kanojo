@@ -42,7 +42,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->middleware('ifNoneMatch')
                     ->group(base_path('routes/api.php'));
             } else {
-                Route::domain('api.'.config('app.url'))
+                Route::domain('api.kanojodb.com')
                     ->middleware('api')
                     ->middleware('ifMatch')
                     ->middleware('ifNoneMatch')
