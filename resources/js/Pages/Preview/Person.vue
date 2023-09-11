@@ -44,9 +44,7 @@ const genderIcon = computed(() => {
 </script>
 
 <template>
-    <div
-        class="flex h-[630px] w-[1200px] items-center justify-center overflow-hidden bg-stone-50"
-    >
+    <div class="flex items-center justify-center overflow-hidden bg-stone-50">
         <v-container
             fluid
             class="h-100 p-0"

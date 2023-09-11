@@ -30,6 +30,7 @@ class MoviePreviewController extends Controller
             ->setChromePath('/usr/bin/chromium')
             ->noSandbox()
             ->showBackground()
+            ->waitUntilNetworkIdle()
             ->windowSize(1200, 630)
             ->setScreenshotType('webp', 100)
             ->screenshot($this->getImagePath($movie));
