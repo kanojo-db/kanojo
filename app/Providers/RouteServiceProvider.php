@@ -49,7 +49,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->group(base_path('routes/api.php'));
             }
 
-            Route::domain('developer.'.config('app.url'))
+            Route::domain('developer.kanojodb.com')
                 ->middleware(config('scribe.laravel.middleware', []))
                 ->group(base_path('routes/developer.php'));
 
