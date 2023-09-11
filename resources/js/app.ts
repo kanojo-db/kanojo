@@ -1,27 +1,16 @@
 import type { DefineComponent } from 'vue';
 
-
-
 import { createInertiaApp } from '@inertiajs/vue3';
 import * as Sentry from '@sentry/vue';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
-
-
 
 import getI18nPlugin from '@/plugins/i18n';
 import link from '@/plugins/link';
 import pinia from '@/plugins/pinia';
 import getVuetifyPlugin from '@/plugins/vuetify';
 
-
-
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.es';
-
-
-
-
-
 
 import '../css/app.scss';
 import '../css/vuetify.scss';
@@ -31,15 +20,8 @@ import 'swiper/css/free-mode';
 import 'swiper/css/mousewheel';
 import 'swiper/css/scrollbar';
 
-
-
-
-
-const appName =
-    window.document.getElementsByTagName('title')[0]?.innerText || 'Kanojo';
-
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title} - Kanojo`,
     resolve: (name) =>
         resolvePageComponent<DefineComponent>(
             `./Pages/${name}.vue`,
