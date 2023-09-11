@@ -150,6 +150,18 @@ const shouldShowImage = computed(() => {
             property="og:image"
             :content="route('models.preview.show', { model: props.item.slug })"
         />
+
+        <meta
+            v-if="isMovie(props.item) || isPerson(props.item)"
+            property="og:image:width"
+            content="1200"
+        />
+
+        <meta
+            v-if="isMovie(props.item) || isPerson(props.item)"
+            property="og:image:height"
+            content="630"
+        />
     </Head>
 
     <item-info-page
