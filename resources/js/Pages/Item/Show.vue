@@ -146,23 +146,13 @@ const isSSR = computed(() => {
         <meta
             v-if="isMovie(props.item)"
             property="og:image"
-            :content="`${isSSR ? 'https://kanojodb.com' : ''}${route(
-                'movies.preview.show',
-                {
-                    movie: props.item.slug,
-                },
-            )}`"
+            :content="`https://kanojodb.com/movies/${props.item.slug}/preview.webp`"
         />
 
         <meta
             v-else-if="isPerson(props.item)"
             property="og:image"
-            :content="`${isSSR ? 'https://kanojodb.com' : ''}${route(
-                'models.preview.show',
-                {
-                    model: props.item.slug,
-                },
-            )}`"
+            :content="`https://kanojodb.com/models/${props.item.slug}/preview.webp`"
         />
 
         <meta
