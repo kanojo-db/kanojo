@@ -129,10 +129,6 @@ if (isSeries(props.item)) {
 const shouldShowImage = computed(() => {
     return !isStudio(props.item);
 });
-
-const isSSR = computed(() => {
-    return import.meta.env.SSR;
-});
 </script>
 
 <template>
