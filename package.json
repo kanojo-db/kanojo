@@ -69,6 +69,7 @@
         "@intlify/unplugin-vue-i18n": "^1.0.1",
         "@intlify/vue-i18n-extensions": "^5.0.1",
         "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/git": "^10.0.1",
         "@sentry/vite-plugin": "^2.7.1",
         "@shufo/prettier-plugin-blade": "^1.11.1",
         "@tailwindcss/typography": "^0.5.10",
