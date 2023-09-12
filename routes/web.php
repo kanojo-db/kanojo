@@ -83,10 +83,10 @@ Route::get('/plugins', MediaServerPluginController::class)
 /**
  * Social login routes.
  */
-Route::get('/login/{provider}', [SocialLoginController::class, 'redirect'])
-    ->name('login.provider');
-Route::get('/login/{provider}/callback', [SocialLoginController::class, 'callback'])
-    ->name('login.provider.callback');
+// Route::get('/login/{provider}', [SocialLoginController::class, 'redirect'])
+//    ->name('login.provider');
+// Route::get('/login/{provider}/callback', [SocialLoginController::class, 'callback'])
+//    ->name('login.provider.callback');
 
 /**
  * Marketing pages.
