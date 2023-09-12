@@ -91,10 +91,6 @@ jobs:
               with:
                   node-version: 20
 
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-
             - name: Checkout code
               uses: actions/checkout@v4
 
@@ -110,19 +106,6 @@ jobs:
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
-
-            - name: Get Composer cache directory
-              id: composer-cache
-              run: |
-                  echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Set Composer cache
-              uses: actions/cache@v3
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
 
             - name: Install ESLint
               run: |

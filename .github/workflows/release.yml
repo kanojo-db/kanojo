@@ -1,0 +1,37 @@
+name: Release
+
+on: workflow_dispatch
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Get npm cache directory
+              id: npm-cache-dir
+              shell: bash
+              run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+            - name: Set npm Cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.npm-cache-dir.outputs.dir }}
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: Install ESLint
+              run: |
+                  npm ci
+
+            - name: Run Semantic Release
+              run: |
+                  npx semantic-release
