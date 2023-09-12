@@ -168,7 +168,11 @@ class MovieController extends Controller
 
         // Don't log visits from bots, as it may skew the popularity score
         if (! Crawler::isCrawler()) {
-            $movie->visit();
+            // Check if the user is an admin or mod, and if so, don't log the visit.
+            // We go around the site a lot, and it would skew the popularity score.
+            if (! auth()->user()?->hasAnyRole(['admin', 'moderator'])) {
+                $movie->visit();
+            }
         }
 
         return Inertia::render('Item/Show', [
