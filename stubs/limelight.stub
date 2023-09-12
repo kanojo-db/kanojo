@@ -51,5 +51,5 @@ class Limelight {
      *
      * @return Dispatcher
      */
-    public function dispatcher()
+    public function dispatcher();
 }

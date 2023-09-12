@@ -15,6 +15,7 @@ use App\Models\Person;
 use App\Models\Series;
 use App\Models\Studio;
 use Carbon\Carbon;
+use Crawler;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -165,7 +166,10 @@ class MovieController extends Controller
             'loveReactant.reactionTotal',
         ]);
 
-        $movie->visit();
+        // Don't log visits from bots, as it may skew the popularity score
+        if (! Crawler::isCrawler()) {
+            $movie->visit();
+        }
 
         return Inertia::render('Item/Show', [
             'item' => $movie,

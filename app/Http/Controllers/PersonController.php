@@ -11,6 +11,7 @@ use App\Models\Gender;
 use App\Models\Person;
 use App\Sorts\RelationshipCountSort;
 use Carbon\Carbon;
+use Crawler;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -185,7 +186,10 @@ class PersonController extends Controller
 
                 $model->setRelation('movies', $model->getStarringMovies((int) request()->query('per_page', 25)));
 
-                $model->visit();
+                // Don't log visits from bots, as it may skew the popularity score
+                if (Crawler::isCrawler()) {
+                    $model->visit();
+                }
 
                 return $model;
             },
