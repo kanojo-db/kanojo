@@ -15,10 +15,12 @@ class SeriesHistoryController extends Controller
      */
     public function index(Series $series): Response
     {
-        $series->load(['audits' => function ($query) {
-            $query->latest()->paginate(10);
-        }]);
+        return Inertia::render('Item/History', [
+            'item' => function () use ($series) {
+                $series->setRelation('audits', $series->audits()->latest()->paginate(10));
 
-        return Inertia::render('Item/History', ['item' => $series]);
+                return $series;
+            },
+        ]);
     }
 }

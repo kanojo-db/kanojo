@@ -2,11 +2,20 @@
 import type { Audit, Item } from '@/types/models';
 import type { PropType } from 'vue';
 
+import { Head } from '@inertiajs/vue3';
 import { DateTime } from 'luxon';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import MdiAutoFix from '~icons/mdi/auto-fix';
+import MdiHelp from '~icons/mdi/help';
+import MdiPencil from '~icons/mdi/pencil';
 
 import ItemInfoHeader from '@/Components/ItemInfoHeader.vue';
 import ItemInfoPage from '@/Components/ItemInfoPage.vue';
+import Pagination from '@/Components/Pagination.vue';
+import UserAvatar from '@/Components/UserAvatar.vue';
+import UserName from '@/Components/UserName.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { isMovie, isSeries, useName, useTitle } from '@/utils/item';
 
@@ -28,20 +37,37 @@ const title =
         ? useTitle(props.item, locale.value)
         : useName(props.item, locale.value);
 
-const isSystemChange = (change: Audit) => {
-    return change.user_id === null && change.url === 'console';
-};
-
 const getChangeIcon = (change: Audit) => {
     switch (change.event) {
         case 'created':
-            return 'mdi-auto-fix';
+            return MdiAutoFix;
         case 'updated':
-            return 'mdi-pencil';
+            return MdiPencil;
         default:
-            return 'mdi-help';
+            return MdiHelp;
     }
 };
+
+const currentPage = ref(props.item.audits?.current_page);
+
+// Some items have JSON fields, so we need to clean them up before displaying
+const jsonFields = ['title', 'name'];
+
+function cleanChangelog(change: object) {
+    // If change has any of the JSON fields, parse them and replace the value
+    for (const field of jsonFields) {
+        if (change[field]) {
+            // If the value is already an object, skip it
+            if (typeof change[field] === 'object') {
+                continue;
+            }
+
+            change[field] = JSON.parse(change[field]);
+        }
+    }
+
+    return JSON.stringify(change, null, 2);
+}
 </script>
 
 <template>
@@ -54,115 +80,99 @@ const getChangeIcon = (change: Audit) => {
 
         <template #default>
             <v-container>
-                <v-row
-                    v-if="props.item.audits?.data?.length > 0"
-                    class="row q-col-gutter-md"
-                >
+                <v-row v-if="props.item.audits?.data?.length > 0">
                     <v-col>
-                        <h2 class="text-h5 q-mb-none">
-                            {{ props.item.audits.length }} Changes
+                        <h2 class="mb-2 text-lg font-bold">
+                            {{ props.item?.audits.data.length }} Changes
                         </h2>
-
-                        <div
-                            v-for="(change, index) in props.item.audits"
-                            :key="`change-${index}`"
-                            class="full-width"
-                        >
-                            <v-card>
-                                <q-item
-                                    class="bg-grey-2 items-center justify-items-start"
-                                >
-                                    <q-avatar
-                                        size="32px"
-                                        font-size="16px"
-                                        color="white"
-                                        :text-color="
-                                            isSystemChange(change)
-                                                ? 'grey-6'
-                                                : 'grey-1'
-                                        "
-                                        :icon="
-                                            isSystemChange(change)
-                                                ? 'mdi-server'
-                                                : 'mdi-help'
-                                        "
-                                    />
-
-                                    <span class="text-weight-bold q-ml-sm">
-                                        {{
-                                            isSystemChange(change)
-                                                ? 'System'
-                                                : change.user?.name
-                                        }}
-                                    </span>
-                                </q-item>
-
-                                <v-divider />
-
-                                <q-item class="items-center justify-start">
-                                    <q-icon
-                                        size="16px"
-                                        color="'grey-6'"
-                                        :name="getChangeIcon(change)"
-                                    />
-
-                                    <span class="text-weight-bold q-ml-sm">
-                                        {{ change.event }} on
-                                        {{
-                                            DateTime.fromISO(
-                                                change.created_at,
-                                            ).toLocaleString(
-                                                DateTime.DATETIME_FULL_WITH_SECONDS,
-                                            )
-                                        }}
-                                    </span>
-                                </q-item>
-
-                                <v-divider />
-
-                                <q-item
-                                    v-if="change.old_values"
-                                    class="bg-red-1 items-center justify-items-start"
-                                >
-                                    <div class="q-mr-md">
-                                        <q-icon
-                                            size="16px"
-                                            color="'grey-6'"
-                                            name="mdi-minus"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        {{ JSON.stringify(change.old_values) }}
-                                    </div>
-                                </q-item>
-
-                                <v-divider />
-
-                                <q-item
-                                    v-if="change.new_values"
-                                    class="bg-green-1 items-center justify-items-start"
-                                >
-                                    <div class="q-mr-md">
-                                        <q-icon
-                                            size="16px"
-                                            color="'grey-6'"
-                                            name="mdi-plus"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        {{ JSON.stringify(change.new_values) }}
-                                    </div>
-                                </q-item>
-                            </v-card>
-                        </div>
                     </v-col>
                 </v-row>
 
-                <v-row v-else>
+                <v-row>
+                    <v-col>
+                        <pagination
+                            v-model="currentPage"
+                            :paginated-data="props.item.audits"
+                        />
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col>
+                        <v-card
+                            v-for="(change, index) in props.item?.audits.data"
+                            :key="`change-${index}`"
+                        >
+                            <v-card-title class="bg-stone-300 text-stone-950">
+                                <div
+                                    class="flex flex-row items-center justify-start gap-4"
+                                >
+                                    <user-avatar :user="change.user" />
+
+                                    <user-name
+                                        :user="change.user"
+                                        class="text-base"
+                                    />
+                                </div>
+                            </v-card-title>
+
+                            <v-divider />
+
+                            <div class="flex flex-row justify-start gap-2 p-2">
+                                <v-icon
+                                    class="h-6 w-6"
+                                    :icon="getChangeIcon(change)"
+                                />
+
+                                <span>
+                                    {{
+                                        $t('history.actionOnDate', {
+                                            action: $t(
+                                                `history.events.${change.event}`,
+                                            ),
+                                            date: DateTime.fromISO(
+                                                change.created_at,
+                                            )
+                                                .setLocale(locale)
+                                                .toLocaleString(
+                                                    DateTime.DATETIME_MED,
+                                                ),
+                                        })
+                                    }}
+                                </span>
+                            </div>
+
+                            <v-divider />
+
+                            <pre
+                                v-if="change.old_values"
+                                class="bg-red-100 p-2 dark:bg-red-900"
+                                v-text="cleanChangelog(change.old_values)"
+                            />
+
+                            <v-divider />
+
+                            <pre
+                                v-if="change.new_values"
+                                class="bg-green-100 p-2 dark:bg-green-900"
+                                v-text="cleanChangelog(change.new_values)"
+                            />
+                        </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-row v-if="props.item.audits.data.length === 0">
                     <v-col>
                         <div class="text-h5">No changes found.</div>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col>
+                        <pagination
+                            v-model="currentPage"
+                            :paginated-data="props.item.audits"
+                        />
                     </v-col>
                 </v-row>
             </v-container>

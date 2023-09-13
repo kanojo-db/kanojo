@@ -15,10 +15,16 @@ class StudioHistoryController extends Controller
      */
     public function index(Studio $studio): Response
     {
-        $studio->load(['media', 'audits' => function ($query) {
-            $query->latest()->paginate(10);
-        }]);
+        return Inertia::render('Item/History', [
+            'item' => function () use ($studio) {
+                $studio->load([
+                    'media',
+                ]);
 
-        return Inertia::render('Item/History', ['item' => $studio]);
+                $studio->setRelation('audits', $studio->audits()->latest()->paginate(10));
+
+                return $studio;
+            },
+        ]);
     }
 }
