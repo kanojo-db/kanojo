@@ -2,6 +2,9 @@ import type { I18n } from 'vue-i18n';
 
 import { useI18n } from 'vue-i18n';
 import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import { VOtpInput } from 'vuetify/labs/VOtpInput';
 import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n';
 
 import MdiCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline?raw';
@@ -16,6 +19,13 @@ import { dark, light } from '@/themes';
 function getVuetifyPlugin(i18n: I18n, ssr: boolean = false) {
     return createVuetify({
         ssr,
+        components: {
+            ...components,
+            VOtpInput,
+        },
+        directives: {
+            ...directives,
+        },
         defaults: {
             global: {
                 ripple: false,
