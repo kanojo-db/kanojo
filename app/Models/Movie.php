@@ -120,6 +120,21 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
     ];
 
     /**
+     * Attributes to exclude from the Audit.
+     *
+     * @var array<string>
+     */
+    protected $auditExclude = [
+        'popularity',
+        'love_reactant_id',
+        'locked_columns',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'slug',
+    ];
+
+    /**
      * Lifecycle
      */
 

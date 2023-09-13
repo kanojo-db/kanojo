@@ -94,6 +94,20 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
     protected $appends = ['poster', 'external_links', 'content_report_count', 'poster_count'];
 
     /**
+     * Attributes to exclude from the Audit.
+     *
+     * @var array<string>
+     */
+    protected $auditExclude = [
+        'popularity',
+        'locked_columns',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'slug',
+    ];
+
+    /**
      * The event map for the model.
      *
      * @var array<string, string>

@@ -28,10 +28,10 @@ class Studio extends Model implements AuditableContract, HasMedia
 {
     use Auditable;
     use HasFactory;
-    use Searchable;
     use InteractsWithMedia;
-    use Sluggable;
     use LockColumns;
+    use Searchable;
+    use Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -64,6 +64,19 @@ class Studio extends Model implements AuditableContract, HasMedia
         'content_report_count',
         'logo_count',
         'external_links',
+    ];
+
+    /**
+     * Attributes to exclude from the Audit.
+     *
+     * @var array<string>
+     */
+    protected $auditExclude = [
+        'locked_columns',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'slug',
     ];
 
     /**

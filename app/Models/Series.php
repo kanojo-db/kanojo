@@ -24,14 +24,14 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Series extends Model implements HasMedia, AuditableContract
+class Series extends Model implements AuditableContract, HasMedia
 {
     use Auditable;
     use HasFactory;
-    use Sluggable;
-    use Searchable;
     use InteractsWithMedia;
     use LockColumns;
+    use Searchable;
+    use Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,6 +56,18 @@ class Series extends Model implements HasMedia, AuditableContract
      * @var string[]
      */
     protected $appends = ['content_report_count'];
+
+    /**
+     * Attributes to exclude from the Audit.
+     *
+     * @var array<string>
+     */
+    protected $auditExclude = [
+        'locked_columns',
+        'created_at',
+        'updated_at',
+        'slug',
+    ];
 
     /**
      * Sluggable configuration.
