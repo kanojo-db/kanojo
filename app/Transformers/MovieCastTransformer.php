@@ -42,7 +42,7 @@ class MovieCastTransformer extends TransformerAbstract
                                 Carbon::parse($this->movie->release_date)->diffInYears(Carbon::parse($person->birthdate)) :
                                 null,
             'age_text' => $person->birthdate !== null && $this->movie->release_date !== null ?
-                                __('web.general.years_old', [
+                                __('api.years_old', [
                                     'age' => Carbon::parse($this->movie->release_date)->diffInYears(Carbon::parse($person->birthdate)),
                                 ]) :
                                 null,
