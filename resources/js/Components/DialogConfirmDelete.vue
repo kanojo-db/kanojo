@@ -29,6 +29,11 @@ const props = defineProps({
         type: Object as PropType<Item | Media>,
         required: true,
     },
+    parentItem: {
+        type: Object as PropType<Item>,
+        required: false,
+        default: null,
+    },
 });
 
 const emit = defineEmits<{
@@ -59,13 +64,19 @@ const confirmDelete = () => {
     processing.value = true;
 
     if (isMedia(props.item)) {
-        router.delete(route('media.destroy', { media: props.item.id }), {
-            onSuccess: () => {
-                router.reload();
-                processing.value = false;
-                emit('update:modelValue', false);
+        router.delete(
+            route(`${getItemRouteName(props.parentItem)}.media.destroy`, {
+                ...getItemRouteParams(props.parentItem),
+                media: props.item.id,
+            }),
+            {
+                onSuccess: () => {
+                    router.reload();
+                    processing.value = false;
+                    emit('update:modelValue', false);
+                },
             },
-        });
+        );
     } else {
         router.delete(
             route(

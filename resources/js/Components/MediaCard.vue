@@ -184,6 +184,7 @@ const isDeleteDialogOpen = ref(false);
                 <dialog-confirm-delete
                     v-model="isDeleteDialogOpen"
                     :item="props.media"
+                    :parent-item="props.item"
                 />
             </v-dialog>
         </v-card-actions>
