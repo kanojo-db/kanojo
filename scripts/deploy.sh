@@ -43,9 +43,6 @@ npm run build
 # Run database migrations
 php artisan migrate
 
-# Generate API docs
-php artisan scribe:generate
-
 # Fix permissions since we're not using www-data for deployment
 sudo chown -R www-data:www-data .
 
@@ -57,5 +54,9 @@ php artisan inertia:stop-ssr
 
 # Exit maintenance mode
 php artisan up
+
+# Generate API docs -- This should be done after the app is up, as Scribe
+# will make requests to the app to generate the docs.
+php artisan scribe:generate
 
 echo "Deployment finished!"

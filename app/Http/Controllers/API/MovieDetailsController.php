@@ -20,7 +20,7 @@ class MovieDetailsController extends Controller
      *
      * @group Movies
      *
-     * @urlParam product_code required The product code of the movie.
+     * @urlParam product_code required The product code of the movie. Example: BFAA-075
      *
      * @queryParam language string Pass a locale value to display translated data for the fields that
      * support it. Defaults to en-US. Example: ja-JP
