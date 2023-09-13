@@ -14,7 +14,7 @@ class MovieCollectionController extends Controller
     public function store(Movie $movie): RedirectResponse
     {
         // Make sure we are logged in and have permission to add to our collection.
-        if (Auth::check() || ! Auth::user()?->can('manage collection')) {
+        if (! Auth::check() || ! Auth::user()?->can('manage collection')) {
             return redirect()->route('login');
         }
 
@@ -30,7 +30,7 @@ class MovieCollectionController extends Controller
     public function destroy(Movie $movie): RedirectResponse
     {
         // Make sure we are logged in and have permission to add to our collection.
-        if (Auth::check() || ! Auth::user()?->can('manage collection')) {
+        if (! Auth::check() || ! Auth::user()?->can('manage collection')) {
             return redirect()->route('login');
         }
 
