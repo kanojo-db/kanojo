@@ -30,15 +30,12 @@ const routeStore = useRouteStore();
 
 const searchParam = computed(() => routeStore.params?.q);
 
-const searchType = computed(() => routeStore.params?.type);
-
 const search = ref('');
 
 const submit = () => {
     router.get(
         route('search', {
             q: search.value,
-            type: searchType.value,
         }),
     );
 };
