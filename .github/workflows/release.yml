@@ -55,7 +55,7 @@ jobs:
                   npm ci
 
             - name: Install dependencies
-              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader
+              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader --no-scripts
 
             - name: Run Semantic Release
               run: |
