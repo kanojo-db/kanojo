@@ -10,7 +10,6 @@ use App\Models\Country;
 use App\Models\Gender;
 use App\Models\Person;
 use App\Sorts\RelationshipCountSort;
-use Carbon\Carbon;
 use Crawler;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
@@ -219,7 +218,7 @@ class PersonController extends Controller
      */
     public function update(UpdatePersonRequest $request, Person $model): RedirectResponse
     {
-        /** @var array{birthdate: string|null, blood_type: string|null, career_end: string|null, career_start: string|null, country: string|null, cup_size: string|null, height: string|null, hip: string|null, name: string|null, original_name: string, blood_type: string, bust: string|null, waist: string|null} */
+        /** @var array{birthdate: string|null, blood_type: string|null, career_end: string|null, career_start: string|null, country_id: int|null, gender_id: int|null, cup_size: string|null, height: string|null, hip: string|null, name: string|null, original_name: string, blood_type: string, bust: string|null, waist: string|null} */
         $validatedData = $request->validated();
 
         $locale = App::getLocale();
@@ -239,44 +238,10 @@ class PersonController extends Controller
             'waist' => $validatedData['waist'],
             'hip' => $validatedData['hip'],
             'country_id' => $validatedData['country_id'] ?? null,
+            'gender_id' => $validatedData['gender_id'] ?? null,
         ]);
 
         $shouldSave = false;
-
-        // If gender_id was changed, update the relationship
-        if ($validatedData['gender_id']) {
-            $gender = Gender::find($validatedData['gender_id']);
-
-            $model->gender()->associate($gender);
-
-            $shouldSave = true;
-        }
-
-        // Avoid saving if no relationships were changed
-        if ($shouldSave) {
-            $model->save();
-        }
-
-        // If birthdate was changed, update all movies with this person
-        // TODO: This should be a job.
-        if ($model->wasChanged('birthdate')) {
-            $model->load('movies');
-
-            foreach ($model->movies as $movie) {
-                // If the release date is not set, skip
-                if (! $movie->release_date) {
-                    continue;
-                }
-
-                // If the release date is before the birthdate, skip
-                if (Carbon::parse($movie->release_date)->isBefore(Carbon::parse($model->birthdate))) {
-                    continue;
-                }
-
-                $age = Carbon::parse($movie->release_date)->diffInYears(Carbon::parse($model->birthdate));
-                $model->movies()->updateExistingPivot($movie->id, ['age' => $age]);
-            }
-        }
 
         return Redirect::route('models.show', $model);
     }
