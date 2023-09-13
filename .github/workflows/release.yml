@@ -6,16 +6,6 @@ jobs:
     release:
         runs-on: ubuntu-latest
         steps:
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 8.2
-                  coverage: pcov
-                  extensions: mecab-shono0027/php-mecab@master
-              env:
-                  MECAB_LIBS: mecab libmecab-dev mecab-ipadic-utf8 php8.2-dev
-                  MECAB_PATH: mecab
-
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
@@ -37,25 +27,11 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-node-
 
-            - name: Get Composer cache directory
-              id: composer-cache
-              run: |
-                  echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Set Composer cache
-              uses: actions/cache@v3
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
-
             - name: Install Node.js dependencies
               run: |
                   npm ci
-
-            - name: Install dependencies
-              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader --no-scripts
+              env:
+                  HUSKY: 0
 
             - name: Run Semantic Release
               run: |
