@@ -29,7 +29,7 @@ class MovieVersionRequest extends FormRequest
             'format' => ['required', new Enum(MovieFormat::class)],
             'product_code' => ['required', 'string', 'max:255'],
             'barcode' => ['nullable', 'string', 'max:255'],
-            'release_date' => ['required', 'date'],
+            'release_date' => ['nullable', 'date'],
         ];
     }
 }
