@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Movie;
-use App\Transformers\MovieSearchResultTransformer;
+use App\Models\MovieVersion;
+use App\Transformers\MovieVersionSearchResultTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
@@ -33,14 +33,14 @@ class SearchMovieController extends Controller
             'page' => ['nullable', 'integer'],
         ]);
 
-        $paginator = Movie::search($validatedData['query'])->paginate(25);
+        $paginator = MovieVersion::search($validatedData['query'])->paginate(25);
 
         $language = $validatedData['language'] ?? 'en-US';
 
         return response()->json(
             fractal()
                 ->collection($paginator->getCollection())
-                ->transformWith(new MovieSearchResultTransformer($language))
+                ->transformWith(new MovieVersionSearchResultTransformer($language))
                 ->paginateWith(new IlluminatePaginatorAdapter($paginator))
                 ->toArray()
         );

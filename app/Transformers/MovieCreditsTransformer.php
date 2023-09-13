@@ -11,6 +11,8 @@ class MovieCreditsTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
+     *
+     * @var array<string>
      */
     protected array $defaultIncludes = [
         'cast',
@@ -19,7 +21,7 @@ class MovieCreditsTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function transform(Movie $movie)
     {

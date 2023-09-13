@@ -22,9 +22,11 @@ class MovieMediaController extends Controller
      *
      * @urlParam movie_id required The ID of the movie.
      */
-    public function show(Request $request, string $movie_id): JsonResponse
+    public function show(Request $request, string $product_code): JsonResponse
     {
-        $movie = Movie::where('id', $movie_id)
+        $movie = Movie::whereHas('versions', function ($query) use ($product_code) {
+            $query->where('product_code', $product_code);
+        })
             ->with('media')
             ->firstOrFail();
 

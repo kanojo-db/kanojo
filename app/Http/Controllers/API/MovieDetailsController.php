@@ -20,12 +20,12 @@ class MovieDetailsController extends Controller
      *
      * @group Movies
      *
-     * @urlParam movie_id required The ID of the movie.
+     * @urlParam product_code required The product code of the movie.
      *
      * @queryParam language string Pass a locale value to display translated data for the fields that
      * support it. Defaults to en-US. Example: ja-JP
      */
-    public function show(Request $request, string $movie_id): JsonResponse
+    public function show(Request $request, string $product_code): JsonResponse
     {
         $validatedData = $request->validate([
             // TODO: Validate according to the list of languages we support at a given time.
@@ -33,13 +33,22 @@ class MovieDetailsController extends Controller
             'page' => ['nullable', 'integer'],
         ]);
 
-        $movie = Movie::where('id', $movie_id)->firstOrFail();
+        $movie = Movie::with([
+            'models',
+            'studio',
+            'series',
+            'versions' => function ($query) use ($product_code) {
+                $query->where('product_code', $product_code);
+            },
+        ])->whereHas('versions', function ($query) use ($product_code) {
+            $query->where('product_code', $product_code);
+        })->firstOrFail();
 
         return response()->json(
             fractal()
                 ->item($movie)
                 ->parseIncludes(['cast', 'studio'])
-                ->transformWith(new MovieTransformer($validatedData['language'] ?? null))
+                ->transformWith(new MovieTransformer($validatedData['language'] ?? null, true))
                 ->serializeWith(new ArraySerializer())
                 ->toArray()
         );

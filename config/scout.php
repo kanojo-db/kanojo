@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use App\Models\Movie;
+use App\Models\MovieVersion;
 use App\Models\Person;
+use App\Models\Series;
 use App\Models\Studio;
 
 return [
@@ -150,6 +152,14 @@ return [
             Studio::class => [
                 'filterableAttributes' => ['id', 'name', 'founded_date'],
                 'sortableAttributes' => ['id', 'name',  'founded_date'],
+            ],
+            Series::class => [
+                'filterableAttributes' => ['id', 'title'],
+                'sortableAttributes' => ['id', 'title'],
+            ],
+            MovieVersion::class => [
+                'filterableAttributes' => ['id', 'product_code', 'release_date'],
+                'sortableAttributes' => ['id', 'product_code', 'release_date'],
             ],
         ],
     ],

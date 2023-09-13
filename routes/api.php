@@ -71,9 +71,9 @@ Route::middleware('auth:sanctum')->group(function () {
      */
     Route::get('/movie/popular', [MoviePopularController::class, 'index']);
     Route::get('/movie/recently-released', [MovieRecentlyReleasedController::class, 'index']);
-    Route::get('/movie/{movie_id}', [MovieDetailsController::class, 'show'])->where('movie_id', '\d+');
-    Route::get('/movie/{movie_id}/credits', [MovieCreditsController::class, 'show'])->where('movie_id', '\d+');
-    Route::get('/movie/{movie_id}/images', [MovieMediaController::class, 'show'])->where('movie_id', '\d+');
+    Route::get('/movie/{product_code}/credits', [MovieCreditsController::class, 'show']);
+    Route::get('/movie/{product_code}/images', [MovieMediaController::class, 'show']);
+    Route::get('/movie/{product_code}', [MovieDetailsController::class, 'show']);
 
     /**
      * Person

@@ -24,7 +24,7 @@ class MovieSearchResultTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function transform(Movie $movie)
     {

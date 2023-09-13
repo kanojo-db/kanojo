@@ -24,6 +24,8 @@ class PersonTransformer extends TransformerAbstract
 
     /**
      * List of resources available to include
+     *
+     * @var array<string>
      */
     protected array $availableIncludes = [
         'movies',

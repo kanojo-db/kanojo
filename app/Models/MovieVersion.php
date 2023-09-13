@@ -8,10 +8,12 @@ use App\Events\MovieVersionUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 
 class MovieVersion extends Model
 {
     use HasFactory;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -38,6 +40,24 @@ class MovieVersion extends Model
     public function getRouteKeyName(): string
     {
         return 'id';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        if (! $this->relationLoaded('movie')) {
+            $this->load('movie');
+        }
+
+        $array = $this->toArray();
+
+        // TODO: Eventually refine this.
+
+        return $array;
     }
 
     /**
