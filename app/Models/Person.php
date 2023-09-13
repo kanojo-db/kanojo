@@ -51,6 +51,7 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
         'career_start',
         'career_end',
         'country_id',
+        'gender_id',
         'height',
         'bust',
         'waist',
