@@ -13,29 +13,33 @@ class MovieCollectionController extends Controller
 {
     public function store(Movie $movie): RedirectResponse
     {
-        /** @var User|null */
-        $user = Auth::user();
-
-        if (Auth::check() && $user !== null) {
-            $user->collection()->attach($movie);
-
-            return back();
+        // Make sure we are logged in and have permission to add to our collection.
+        if (Auth::check() || ! Auth::user()?->can('manage collection')) {
+            return redirect()->route('login');
         }
 
-        return response('Unauthorized', 401)->header('Content-Type', 'text/plain');
+        // At this point, we should be logged in, so we can safely assume that Auth::user() is not null.
+        /** @var User */
+        $user = Auth::user();
+
+        $user->collection()->attach($movie);
+
+        return back();
     }
 
     public function destroy(Movie $movie): RedirectResponse
     {
-        /** @var User|null */
-        $user = Auth::user();
-
-        if (Auth::check() && $user !== null) {
-            $user->collection()->detach($movie);
-
-            return back();
+        // Make sure we are logged in and have permission to add to our collection.
+        if (Auth::check() || ! Auth::user()?->can('manage collection')) {
+            return redirect()->route('login');
         }
 
-        return response('Unauthorized', 401)->header('Content-Type', 'text/plain');
+        // At this point, we should be logged in, so we can safely assume that Auth::user() is not null.
+        /** @var User */
+        $user = Auth::user();
+
+        $user->collection()->detach($movie);
+
+        return back();
     }
 }
