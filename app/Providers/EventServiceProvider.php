@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Events\ContentReportCreated;
 use App\Events\MovieVersionUpdated;
+use App\Listeners\AgeUpdateSubscriber;
 use App\Listeners\ReactionAdded;
 use App\Listeners\ReactionRemoved;
 use App\Listeners\SendNewContentReportNotification;
@@ -39,6 +40,15 @@ class EventServiceProvider extends ServiceProvider
         ReactionHasBeenRemoved::class => [
             ReactionRemoved::class,
         ],
+    ];
+
+    /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        AgeUpdateSubscriber::class,
     ];
 
     /**

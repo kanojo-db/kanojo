@@ -9,7 +9,7 @@ use App\Events\PersonUpdated;
 use App\Jobs\ComputeModelsAgesJob;
 use Illuminate\Events\Dispatcher;
 
-class AgeUpdateListener
+class AgeUpdateSubscriber
 {
     /**
      * Handle MovieUpdated events.
@@ -30,6 +30,11 @@ class AgeUpdateListener
      */
     public function onPersonUpdate(PersonUpdated $event): void
     {
+        // Check if the person has any movies, to avoid unnecessary jobs
+        if ($event->person->movies()->count() === 0) {
+            return;
+        }
+
         // If the movies relationship is not loaded, load it
         if (! $event->person->relationLoaded('movies')) {
             $event->person->load('movies');
