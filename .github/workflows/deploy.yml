@@ -14,4 +14,4 @@ jobs:
                   username: ${{ secrets.USERNAME }}
                   port: ${{ secrets.PORT }}
                   key: ${{ secrets.SSHKEY }}
-                  script: 'cd /var/www/kanojodb.com && sudo sh ./scripts/deploy.sh'
+                  script: 'cd /var/www/kanojodb.com && git pull origin main && sudo sh ./scripts/deploy.sh'

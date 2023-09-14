@@ -7,12 +7,6 @@ echo "Deployment started ..."
 # if already is in maintenance mode
 (php artisan down --refresh=60) || true
 
-# For safety, stash any changes
-git stash
-
-# Pull the latest version of the app
-git pull origin main
-
 # Install npm dependencies
 npm install ci
 
@@ -46,11 +40,11 @@ php artisan migrate
 # Fix permissions since we're not using www-data for deployment
 sudo chown -R www-data:www-data .
 
-# Restart Horizon
-php artisan horizon:terminate
-
 # Restart the Inertia server
 php artisan inertia:stop-ssr
+
+# Restart Horizon
+php artisan horizon:terminate
 
 # Exit maintenance mode
 php artisan up
