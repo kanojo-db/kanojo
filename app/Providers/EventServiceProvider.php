@@ -45,7 +45,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * The subscriber classes to register.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $subscribe = [
         AgeUpdateSubscriber::class,

@@ -46,8 +46,8 @@ php artisan migrate
 # Fix permissions since we're not using www-data for deployment
 sudo chown -R www-data:www-data .
 
-# Restart queue workers to pick up new code
-php artisan queue:restart
+# Restart Horizon
+php artisan horizon:terminate
 
 # Restart the Inertia server
 php artisan inertia:stop-ssr

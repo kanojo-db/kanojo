@@ -36,7 +36,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         Telescope::avatar(function (string $id, string $email) {
             $user = User::find($id);
 
-            if ($user->has_gravatar) {
+            if ($user?->has_gravatar) {
                 return $user->gravatar_url;
             }
 

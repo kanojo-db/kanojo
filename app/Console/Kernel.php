@@ -14,7 +14,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        // House-keeping tasks
         $schedule->command('cache:prune-stale-tags')->hourly();
+        $schedule->command('telescope:prune')->daily();
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
+        // Compute popularity scores
         $schedule->command('app:compute-popularity "App\\Models\\Movie"')->daily();
         $schedule->command('app:compute-popularity "App\\Models\\Person"')->daily();
     }
