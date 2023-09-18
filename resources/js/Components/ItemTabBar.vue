@@ -73,7 +73,7 @@ const title = computed(() => {
 });
 
 const fullUrl = ref(
-    import.meta.env.SSR ? '' : window.location.href.split('?')[0] ?? '',
+    import.meta.env.SSR ? '' : window.location.href.split('?')[0],
 );
 
 const isAdmin = page?.props?.user?.is_administrator;
