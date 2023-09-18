@@ -1,6 +1,8 @@
 name: Deploy to server
 
-on: workflow_dispatch
+on:
+    - workflow_dispatch
+    - release
 
 jobs:
     deploy:
