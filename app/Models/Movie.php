@@ -495,6 +495,8 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
 
     /**
      * Sluggable configuration.
+     *
+     * @return array<string, mixed>
      */
     public function sluggable(): array
     {
@@ -570,6 +572,7 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
         $reactantFacade = $this->getLoveReactant();
 
         // Parameters for the popularity algorithm
+        // @phpstan-ignore-next-line -- This exists, Laravel Love types are just kind of broken
         $reactionsInPastDay = $reactantFacade->reactions()->where('created_at', '>=', Carbon::now()->subDay())->count();
         $totalReactionsInPastDay = Reaction::where('created_at', '>=', Carbon::now()->subDay())->count();
 
@@ -582,6 +585,7 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
         $recentWishlists = $this->wishlist()->where('movie_user_wishlist.created_at', '>=', Carbon::now()->subDay())->count();
         $wishlistsInPastDay = DB::table('movie_user_wishlist')->where('created_at', '>=', Carbon::now()->subDay())->count();
 
+        // @phpstan-ignore-next-line -- This exists, Laravel Love types are just kind of broken
         $totalReactions = $reactantFacade->reactions()->count();
         $totalReactionForAll = Reaction::count();
 
