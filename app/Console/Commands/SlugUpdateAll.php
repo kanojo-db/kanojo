@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 
-class SlugUpdate extends Command
+class SlugUpdateAll extends Command
 {
     /**
      * The name and signature of the console command.
@@ -15,7 +15,7 @@ class SlugUpdate extends Command
      * @var string
      */
     protected $signature = 'slug:update-all
-            {model : Class name of model to update} {--id= : ID of model to update}';
+            {model : Class name of model to update}';
 
     /**
      * The console command description.
@@ -34,12 +34,20 @@ class SlugUpdate extends Command
         /** @var Model */
         $model = new $class;
 
-        $this->info('Updating slugs for '.$class.' with ID '.$this->option('id'));
+        $this->info('Updating slugs for '.$class);
 
-        $model::findOrFail($this->option('id'))->update([
-            'slug' => null,
-        ]);
+        $count = $model::whereNull('slug')->count();
 
-        $this->info('Done.');
+        $model::whereNull('slug')
+            ->chunkById(100, function ($models) {
+                $models->each(function ($model) {
+                    $this->info('Updating '.$model->id);
+                    $model->update([
+                        'slug' => null,
+                    ]);
+                });
+            });
+
+        $this->info('Processed '.$count.' records.');
     }
 }
