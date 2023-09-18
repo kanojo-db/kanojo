@@ -16,6 +16,9 @@ composer install --no-scripts --no-interaction --optimize-autoloader
 # Clear the old cache
 php artisan clear-compiled
 
+# Compile npm assets
+npm run build
+
 # Recreate cache
 php artisan optimize
 
@@ -31,11 +34,8 @@ php artisan route:cache
 # Cache views
 php artisan view:cache
 
-# Compile npm assets
-npm run build
-
 # Run database migrations
-php artisan migrate
+php artisan migrate --force
 
 # Fix permissions since we're not using www-data for deployment
 sudo chown -R www-data:www-data .
