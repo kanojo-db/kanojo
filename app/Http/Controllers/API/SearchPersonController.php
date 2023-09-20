@@ -33,6 +33,7 @@ class SearchPersonController extends Controller
             'page' => ['nullable', 'integer'],
         ]);
 
+        /** @var \Illuminate\Pagination\LengthAwarePaginator<Person> $paginator */
         $paginator = Person::search($validatedData['query'])->paginate(25);
 
         $language = $validatedData['language'] ?? 'en-US';

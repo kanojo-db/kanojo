@@ -9,6 +9,7 @@ use App\Http\Requests\StoreMovieMediaRequest;
 use App\Models\KanojoMedia;
 use App\Models\Movie;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -60,15 +61,12 @@ class MovieMediaController extends Controller
         /** @var array{collection_name: string, media: \Illuminate\Http\UploadedFile} */
         $validatedData = $request->validated();
 
-        if ($request->hasFile('media') && $request->file('media')->isValid()) {
-            if ($validatedData['collection_name'] === MediaCollectionType::FrontCover->value) {
-                $movie->addPoster($validatedData['media']);
-            } elseif ($validatedData['collection_name'] === MediaCollectionType::FullCover->value) {
-                $movie->addFanart($validatedData['media']);
-            } else {
-                // This type of media is not supported, so return an error.
-                return back()->withErrors(['media' => 'This type of media is not supported.']);
-            }
+        if ($request->hasFile('media') && $request->file('media') instanceof UploadedFile && $request->file('media')->isValid()) {
+            match ($validatedData['collection_name']) {
+                MediaCollectionType::FrontCover->value => $movie->addPoster($validatedData['media']),
+                MediaCollectionType::FullCover->value => $movie->addFanart($validatedData['media']),
+                default => back()->withErrors(['media' => 'This type of media is not supported.']),
+            };
         }
 
         return back();

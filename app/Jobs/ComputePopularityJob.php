@@ -18,15 +18,12 @@ class ComputePopularityJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    /**
-     * @var mixed
-     */
-    private $model;
+    private string $model;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($model)
+    public function __construct(string $model)
     {
         $this->model = $model;
     }
@@ -36,6 +33,7 @@ class ComputePopularityJob implements ShouldQueue
      */
     public function handle(): void
     {
+        /** @var \Illuminate\Database\Eloquent\Model $model */
         $model = new $this->model;
 
         $model::chunkById(100, function ($items) use ($model) {

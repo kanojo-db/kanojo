@@ -6,12 +6,15 @@ namespace App\Transformers;
 
 use App\Enums\MediaCollectionType;
 use App\Models\Series;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 class SeriesMediaTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
+     *
+     * @var array<string>
      */
     protected array $defaultIncludes = [
         'posters',
@@ -21,9 +24,9 @@ class SeriesMediaTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Series $series)
+    public function transform(Series $series): array
     {
         return [
             'id' => $series->id,
@@ -32,20 +35,16 @@ class SeriesMediaTransformer extends TransformerAbstract
 
     /**
      * Include posters
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includePosters(Series $series)
+    public function includePosters(Series $series): Collection
     {
         return $this->collection($series->getMedia(MediaCollectionType::FrontCover->value), new MediaTransformer());
     }
 
     /**
      * Include backdrops
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includeBackdrops(Series $series)
+    public function includeBackdrops(Series $series): Collection
     {
         return $this->collection($series->getMedia(MediaCollectionType::FullCover->value), new MediaTransformer());
     }

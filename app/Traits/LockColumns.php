@@ -11,14 +11,6 @@ trait LockColumns
     use HasTranslations;
 
     /**
-     * Cast locked_columns as a JSON column
-     */
-    public function initializeLockColumns(): void
-    {
-        $this->casts['locked_columns'] = 'json';
-    }
-
-    /**
      * Set a given attribute on the model if column is not locked
      */
     public function setAttribute($key, $value)

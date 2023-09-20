@@ -12,9 +12,9 @@ class MovieIDTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Movie $movie)
+    public function transform(Movie $movie): array
     {
         return [
             'id' => $movie->id,

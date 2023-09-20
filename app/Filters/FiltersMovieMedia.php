@@ -13,11 +13,11 @@ use Spatie\QueryBuilder\Filters\Filter;
 class FiltersMovieMedia implements Filter
 {
     /**
-     * @param  array<int, int>  $value
+     * @param  bool  $value
      */
     public function __invoke(Builder $query, mixed $value, string $property): mixed
     {
-        if ($value === 'true') {
+        if ($value === false) {
             return $query->whereHas('media');
         }
 

@@ -27,12 +27,12 @@ class RefreshReleaseDates extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         Movie::whereHas('versions')->with('versions')
             ->chunkById(100, function (Collection $movies) {
-                /** @param  Movie  $movie */
                 $movies->each(function ($movie) {
+                    /** @var Movie $movie */
                     $this->info("Updating earliest release date for movie {$movie->id}");
 
                     $movie->update([

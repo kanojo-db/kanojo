@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Transformers;
 
 use App\Models\Movie;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 
 class MovieTransformer extends TransformerAbstract
@@ -50,7 +52,7 @@ class MovieTransformer extends TransformerAbstract
             'release_date' => $movie->release_date,
             'runtime' => $movie->length,
             'belongs_to_series' => $movie->series?->getTranslation('title', $this->language, false) ?
-                $movie->series?->getTranslation('title', $this->language, false) :
+                $movie->series->getTranslation('title', $this->language, false) :
                 $movie->series?->getTranslation('title', 'ja-JP', false),
             'title' => $movie->getTranslation('title', $this->language, false),
             'web_path' => route('movies.show', $movie->slug, true),
@@ -65,10 +67,8 @@ class MovieTransformer extends TransformerAbstract
 
     /**
      * Include Cast
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includeCast(Movie $movie)
+    public function includeCast(Movie $movie): Collection
     {
         $movie->load('models');
 
@@ -77,10 +77,8 @@ class MovieTransformer extends TransformerAbstract
 
     /**
      * Include Studio
-     *
-     * @return \League\Fractal\Resource\Item
      */
-    public function includeStudio(Movie $movie)
+    public function includeStudio(Movie $movie): ?Item
     {
         $movie->load('studio');
 

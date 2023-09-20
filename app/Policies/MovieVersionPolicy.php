@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\MovieVersion;
@@ -13,7 +15,7 @@ class MovieVersionPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +23,7 @@ class MovieVersionPolicy
      */
     public function view(User $user, MovieVersion $movieVersion): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +31,7 @@ class MovieVersionPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->can('create movie');
     }
 
     /**
@@ -37,7 +39,7 @@ class MovieVersionPolicy
      */
     public function update(User $user, MovieVersion $movieVersion): bool
     {
-        //
+        return $user->can('edit movie');
     }
 
     /**
@@ -45,22 +47,22 @@ class MovieVersionPolicy
      */
     public function delete(User $user, MovieVersion $movieVersion): bool
     {
-        //
+        return $user->can('delete movie');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, MovieVersion $movieVersion): bool
+    public function restore(User $user, MovieVersion $movieVersion): Response
     {
-        //
+        return Response::denyAsNotFound();
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, MovieVersion $movieVersion): bool
+    public function forceDelete(User $user, MovieVersion $movieVersion): Response
     {
-        //
+        return Response::denyAsNotFound();
     }
 }

@@ -24,6 +24,9 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @mixin IdeHelperSeries
+ */
 class Series extends Model implements AuditableContract, HasMedia
 {
     use Auditable;
@@ -41,6 +44,13 @@ class Series extends Model implements AuditableContract, HasMedia
     protected $fillable = [
         'title',
         'studio_id',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $casts = [
+        'locked_columns' => 'array',
     ];
 
     /**

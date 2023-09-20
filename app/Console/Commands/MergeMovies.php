@@ -44,6 +44,7 @@ class MergeMovies extends Command
 
         /** @param  \App\Models\KanojoMedia  $media */
         $sourceMovie->media->each(function ($media) use ($targetMovie) {
+            /** @var \App\Models\KanojoMedia $media */
             $media->model_id = $targetMovie->id;
 
             $media->save();

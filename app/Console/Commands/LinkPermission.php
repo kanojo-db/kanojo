@@ -27,12 +27,14 @@ class LinkPermission extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $permission = $this->argument('permission');
         $role = $this->argument('role');
 
+        /** @var \Spatie\Permission\Models\Permission $permission */
         $permission = Permission::findByName($permission);
+        /** @var \Spatie\Permission\Models\Role $role */
         $role = Role::findByName($role);
 
         $role->givePermissionTo($permission);

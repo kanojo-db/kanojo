@@ -20,6 +20,10 @@ const props = defineProps({
         type: Object as PropType<Person>,
         required: true,
     },
+    moviesCount: {
+        type: Number,
+        required: true,
+    },
 });
 
 const { locale } = useI18n();
@@ -116,7 +120,7 @@ const genderIcon = computed(() => {
                                     >
                                         {{
                                             $t('personShow.moviesCount', {
-                                                number: props.model.movie_count.toLocaleString(),
+                                                number: props.moviesCount.toLocaleString(),
                                             })
                                         }}
                                     </v-chip>

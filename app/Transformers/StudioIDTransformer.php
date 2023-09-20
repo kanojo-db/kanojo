@@ -12,9 +12,9 @@ class StudioIDTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Studio $studio)
+    public function transform(Studio $studio): array
     {
         return [
             'id' => $studio->id,

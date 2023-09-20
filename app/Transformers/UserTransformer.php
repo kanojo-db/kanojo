@@ -12,9 +12,9 @@ class UserTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(User $user)
+    public function transform(User $user): array
     {
         return [
             'avatar' => $user->has_gravatar ? $user->gravatar_url : null,

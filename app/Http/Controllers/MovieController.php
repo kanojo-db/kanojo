@@ -205,7 +205,7 @@ class MovieController extends Controller
                     return collect([$movie->series]);
                 }
 
-                return collect();
+                return Series::search()->get();
             },
             'studios' => function () use ($movie, $studioSearch): Collection {
                 if ($studioSearch && is_string($studioSearch)) {
@@ -216,7 +216,7 @@ class MovieController extends Controller
                     return collect([$movie->studio]);
                 }
 
-                return collect();
+                return Studio::search()->get();
             },
             'models' => function () use ($modelSearch): Collection {
                 if ($modelSearch && is_string($modelSearch)) {

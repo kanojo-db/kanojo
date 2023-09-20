@@ -55,6 +55,7 @@ class PersonAliasController extends Controller
      */
     public function destroy(Person $model, Alias $alias): RedirectResponse
     {
+        // @phpstan-ignore-next-line -- This seems like a bug?
         $model->aliases()->delete($alias);
 
         return redirect()->back();

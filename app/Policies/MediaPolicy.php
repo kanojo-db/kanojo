@@ -53,7 +53,7 @@ class MediaPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, KanojoMedia $kanojoMedia): bool
+    public function restore(User $user, KanojoMedia $kanojoMedia): Response
     {
         return Response::denyAsNotFound();
     }
@@ -61,7 +61,7 @@ class MediaPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, KanojoMedia $kanojoMedia): bool
+    public function forceDelete(User $user, KanojoMedia $kanojoMedia): Response
     {
         return Response::denyAsNotFound();
     }

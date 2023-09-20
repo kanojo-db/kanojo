@@ -12,9 +12,9 @@ class MediaTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(KanojoMedia $media)
+    public function transform(KanojoMedia $media): array
     {
         return [
             'aspect_ratio' => $media->getCustomProperty('width') && $media->getCustomProperty('height') ?

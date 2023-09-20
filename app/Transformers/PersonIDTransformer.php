@@ -12,9 +12,9 @@ class PersonIDTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Person $person)
+    public function transform(Person $person): array
     {
         return [
             'id' => $person->id,

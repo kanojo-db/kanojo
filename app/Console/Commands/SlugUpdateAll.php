@@ -31,6 +31,13 @@ class SlugUpdateAll extends Command
     {
         $class = $this->argument('model');
 
+        // Check that $class is a string and that it extends Model.
+        if (! is_string($class) || ! is_subclass_of($class, Model::class)) {
+            $this->error('Invalid model class.');
+
+            return;
+        }
+
         /** @var Model */
         $model = new $class;
 

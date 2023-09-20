@@ -33,6 +33,7 @@ class SearchMovieController extends Controller
             'page' => ['nullable', 'integer'],
         ]);
 
+        /** @var \Illuminate\Pagination\LengthAwarePaginator<MovieVersion> $paginator */
         $paginator = MovieVersion::search($validatedData['query'])->paginate(25);
 
         $language = $validatedData['language'] ?? 'en-US';

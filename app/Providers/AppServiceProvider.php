@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Builder::macro('count', function () {
+            /** @var \Laravel\Scout\Builder $this */
+            // @phpstan-ignore-next-line -- this is a macro, so using a protected method is fine
             $raw = $this->engine()->search($this);
 
             return (int) $raw['nbHits'];

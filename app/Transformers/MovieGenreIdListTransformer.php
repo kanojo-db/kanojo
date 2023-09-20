@@ -11,9 +11,9 @@ class MovieGenreIdListTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(\Spatie\Tags\Tag $genre)
+    public function transform(\Spatie\Tags\Tag $genre): array
     {
         return [
             'id' => $genre->id,

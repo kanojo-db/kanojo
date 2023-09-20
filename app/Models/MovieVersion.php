@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
+/**
+ * @mixin IdeHelperMovieVersion
+ */
 class MovieVersion extends Model
 {
     use HasFactory;

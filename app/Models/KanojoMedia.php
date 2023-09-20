@@ -9,6 +9,9 @@ use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableInterface;
 use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @mixin IdeHelperKanojoMedia
+ */
 class KanojoMedia extends Media implements ReactableInterface
 {
     use Reactable;

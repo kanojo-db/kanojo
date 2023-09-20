@@ -33,6 +33,7 @@ class SearchSeriesController extends Controller
             'page' => ['nullable', 'integer'],
         ]);
 
+        /** @var \Illuminate\Pagination\LengthAwarePaginator<Series> $paginator */
         $paginator = Series::search($validatedData['query'])->paginate(25);
 
         $language = $validatedData['language'] ?? 'en-US';

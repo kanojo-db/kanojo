@@ -10,6 +10,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableObserver;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +25,9 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @mixin IdeHelperStudio
+ */
 class Studio extends Model implements AuditableContract, HasMedia
 {
     use Auditable;
@@ -45,6 +49,13 @@ class Studio extends Model implements AuditableContract, HasMedia
         'wikidata_id',
         'google_id',
         'corporate_number',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $casts = [
+        'locked_columns' => 'array',
     ];
 
     /**
@@ -256,8 +267,10 @@ class Studio extends Model implements AuditableContract, HasMedia
 
     /**
      * Return the most featured models for this studio.
+     *
+     * @return Collection<array-key, Person>
      */
-    public function getMostFeaturedModels()
+    public function getMostFeaturedModels(): Collection
     {
         return Person::whereHas('movies', function (Builder $query) {
             $query->where('studio_id', $this->id);
@@ -275,8 +288,10 @@ class Studio extends Model implements AuditableContract, HasMedia
 
     /**
      * Return the series with the most movies for this studio.
+     *
+     * @return Collection<array-key, Series>
      */
-    public function getMostActiveSeries()
+    public function getMostActiveSeries(): Collection
     {
         return Series::where('studio_id', $this->id)
             ->withCount('movies')

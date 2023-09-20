@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Transformers;
 
 use App\Models\Movie;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 class MovieCreditsTransformer extends TransformerAbstract
@@ -32,10 +33,8 @@ class MovieCreditsTransformer extends TransformerAbstract
 
     /**
      * Include cast
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includeCast(Movie $movie)
+    public function includeCast(Movie $movie): Collection
     {
         return $this->collection($movie->models, new CastTransformer());
     }

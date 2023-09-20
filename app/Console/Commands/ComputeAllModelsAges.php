@@ -32,7 +32,7 @@ class ComputeAllModelsAges extends Command
     {
         Movie::whereHas('models')
             ->chunkById(100, function (Collection $movies) {
-                /** @param  Movie  $movie */
+                /** @var \Illuminate\Support\Collection<array-key, \App\Models\Movie>  $movies */
                 $movies->each(function ($movie) {
                     $this->info("Dispatching job for movie {$movie->id}");
 

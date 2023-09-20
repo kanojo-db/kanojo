@@ -22,17 +22,20 @@ use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Models\Audit;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements ReacterableInterface, MustVerifyEmail
+/**
+ * @mixin IdeHelperUser
+ */
+class User extends Authenticatable implements MustVerifyEmail, ReacterableInterface
 {
     use HasApiTokens;
-    use HasFactory;
-    use TwoFactorAuthenticatable;
-    use Reacterable;
-    use HasRoles;
-    use SoftDeletes;
-    use Notifiable;
     use HasBelongsToManyEvents;
+    use HasFactory;
     use HasRelationshipObservables;
+    use HasRoles;
+    use Notifiable;
+    use Reacterable;
+    use SoftDeletes;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -211,7 +214,8 @@ class User extends Authenticatable implements ReacterableInterface, MustVerifyEm
         return new Attribute(
             get: function () {
                 // We multiply by 100 to get a percentage, then round to the nearest integer.
-                return round(Reaction::where('reacter_id', $this->getLoveReacter()->id)->avg('rate') * 100 ?? 0);
+                // @phpstan-ignore-next-line -- Laravel-love is a bit messed up with its types.
+                return round((Reaction::where('reacter_id', $this->getLoveReacter()->id)->avg('rate') ?? 0) * 100);
             }
         );
     }

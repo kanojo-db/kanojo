@@ -33,6 +33,7 @@ class SearchStudioController extends Controller
             'page' => ['nullable', 'integer'],
         ]);
 
+        /** @var \Illuminate\Pagination\LengthAwarePaginator<Studio> $paginator */
         $paginator = Studio::search($validatedData['query'])->paginate(25);
 
         $language = $validatedData['language'] ?? 'en-US';

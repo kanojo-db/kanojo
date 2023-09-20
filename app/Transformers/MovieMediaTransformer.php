@@ -6,12 +6,15 @@ namespace App\Transformers;
 
 use App\Enums\MediaCollectionType;
 use App\Models\Movie;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 class MovieMediaTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
+     *
+     * @var array<string>
      */
     protected array $defaultIncludes = [
         'posters',
@@ -21,9 +24,9 @@ class MovieMediaTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Movie $movie)
+    public function transform(Movie $movie): array
     {
         return [
             'id' => $movie->id,
@@ -32,20 +35,16 @@ class MovieMediaTransformer extends TransformerAbstract
 
     /**
      * Include posters
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includePosters(Movie $movie)
+    public function includePosters(Movie $movie): Collection
     {
         return $this->collection($movie->getMedia(MediaCollectionType::FrontCover->value), new MediaTransformer());
     }
 
     /**
      * Include backdrops
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includeBackdrops(Movie $movie)
+    public function includeBackdrops(Movie $movie): Collection
     {
         return $this->collection($movie->getMedia(MediaCollectionType::FullCover->value), new MediaTransformer());
     }

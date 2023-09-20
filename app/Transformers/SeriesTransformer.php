@@ -6,6 +6,7 @@ namespace App\Transformers;
 
 use App\Models\Series;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 class SeriesTransformer extends TransformerAbstract
@@ -24,6 +25,8 @@ class SeriesTransformer extends TransformerAbstract
 
     /**
      * List of resources available to include
+     *
+     * @var array<string>
      */
     protected array $availableIncludes = [
         'movies',
@@ -32,9 +35,9 @@ class SeriesTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Series $series)
+    public function transform(Series $series): array
     {
         return [
             'id' => $series->id,
@@ -47,10 +50,8 @@ class SeriesTransformer extends TransformerAbstract
 
     /**
      * Include Movies
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includeMovies(Series $series)
+    public function includeMovies(Series $series): Collection
     {
         $paginator = $series->movies()->latest('release_date')->paginate(25);
 

@@ -3,9 +3,11 @@ includes:
 
 parameters:
     paths:
-        - app/
+        - ./app
+    scanDirectories:
+        - ./helpers
     excludePaths:
-        - vendor/
+        - ./vendor
     level: 8
     stubFiles:
         - stubs/limelight.stub

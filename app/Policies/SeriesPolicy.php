@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Models\Series;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class SeriesPolicy
 {
@@ -61,16 +62,16 @@ class SeriesPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Series $series): bool
+    public function restore(User $user, Series $series): Response
     {
-
+        return Response::denyAsNotFound();
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Series $series): bool
+    public function forceDelete(User $user, Series $series): Response
     {
-
+        return Response::denyAsNotFound();
     }
 }

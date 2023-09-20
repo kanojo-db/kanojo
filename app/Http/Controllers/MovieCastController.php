@@ -41,14 +41,14 @@ class MovieCastController extends Controller
      */
     public function update(Request $request, Movie $movie, Person $model): RedirectResponse
     {
-        // This takes no input from the user, so no need to validate. We simply flip the locked status.
+        /** @var object{locked: bool, age: int|null}|null $pivot */
         $pivot = DB::table('movie_person')
             ->where('movie_id', $movie->id)
             ->where('person_id', $model->id)
             ->first();
 
         // Check if the pivot table record exists
-        if (! $pivot) {
+        if ($pivot === null) {
             return back()->with('error', 'Model not found.');
         }
 
@@ -69,6 +69,7 @@ class MovieCastController extends Controller
      */
     public function destroy(Request $request, Movie $movie, Person $model): RedirectResponse
     {
+        /** @var object{locked: bool, age: int|null}|null $pivot */
         $pivot = DB::table('movie_person')
             ->where('movie_id', $movie->id)
             ->where('person_id', $model->id)

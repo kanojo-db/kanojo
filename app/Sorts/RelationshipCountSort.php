@@ -9,10 +9,14 @@ use Spatie\QueryBuilder\Sorts\Sort;
 
 class RelationshipCountSort implements Sort
 {
-    public function __invoke(Builder $query, bool $descending, string $property)
+    /**
+     * @param  Builder<\Illuminate\Database\Eloquent\Model>  $query
+     * @return Builder<\Illuminate\Database\Eloquent\Model>
+     */
+    public function __invoke(Builder $query, bool $descending, string $property): Builder
     {
         $direction = $descending ? 'DESC' : 'ASC';
 
-        $query->withCount($property)->orderBy("{$property}_count", $direction);
+        return $query->withCount($property)->orderBy("{$property}_count", $direction);
     }
 }

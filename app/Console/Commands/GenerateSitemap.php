@@ -31,7 +31,7 @@ class GenerateSitemap extends Command
         // TODO: Add models, movies, studios, series, etc to the sitemap.
         // TODO: Add the static pages to the sitemap.
         // TODO: Check sitemap best practices.
-        SitemapGenerator::create()
+        SitemapGenerator::create('https://kanojodb.com')
             ->writeToFile(public_path('sitemap.xml'));
     }
 }

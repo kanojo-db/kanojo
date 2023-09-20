@@ -6,6 +6,7 @@ namespace App\Transformers;
 
 use App\Models\Person;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 class PersonTransformer extends TransformerAbstract
@@ -34,9 +35,9 @@ class PersonTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Person $person)
+    public function transform(Person $person): array
     {
         return [
             'birthday' => $person->birthdate,
@@ -53,10 +54,8 @@ class PersonTransformer extends TransformerAbstract
 
     /**
      * Include Movies
-     *
-     * @return \League\Fractal\Resource\Collection
      */
-    public function includeMovies(Person $person)
+    public function includeMovies(Person $person): Collection
     {
         $paginator = $person->movies()->latest('release_date')->paginate(25);
 

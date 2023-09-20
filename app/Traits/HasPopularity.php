@@ -6,9 +6,13 @@ namespace App\Traits;
 
 use App\Models\Visit;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use ReflectionClass;
 
+/**
+ * @template TModelClass of \Illuminate\Database\Eloquent\Model
+ */
 trait HasPopularity
 {
     /**
@@ -32,6 +36,8 @@ trait HasPopularity
 
     /**
      * Setting relationship
+     *
+     * @return MorphMany<Visit>
      */
     public function visits(): MorphMany
     {
@@ -40,40 +46,32 @@ trait HasPopularity
 
     /**
      * Return count of the visits in the last day
-     *
-     * @return mixed
      */
-    public function visitsDay()
+    public function visitsDay(): int
     {
         return $this->visitsLast(1);
     }
 
     /**
      * Return count of the visits in the last 7 days
-     *
-     * @return mixed
      */
-    public function visitsWeek()
+    public function visitsWeek(): int
     {
         return $this->visitsLast(7);
     }
 
     /**
      * Return count of the visits in the last 30 days
-     *
-     * @return mixed
      */
-    public function visitsMonth()
+    public function visitsMonth(): int
     {
         return $this->visitsLast(30);
     }
 
     /**
      * Return the count of visits since system was installed
-     *
-     * @return mixed
      */
-    public function visitsForever()
+    public function visitsForever(): int
     {
         return $this->visits()
             ->count();
@@ -82,9 +80,10 @@ trait HasPopularity
     /**
      * Filter by popularity.
      *
-     * @return mixed
+     * @param  Builder<TModelClass>  $query
+     * @return Builder<TModelClass>
      */
-    public function scopePopular($query)
+    public function scopePopular(Builder $query)
     {
         return $query->orderBy('popularity', 'desc');
     }
@@ -92,7 +91,7 @@ trait HasPopularity
     /**
      * Return the visits of the model in the last ($days) days
      */
-    public function visitsLast($days): int
+    public function visitsLast(int $days): int
     {
         return $this->visits()
             ->where('date', '>=', Carbon::now()->subDays($days)->toDateString())
@@ -102,7 +101,7 @@ trait HasPopularity
     /**
      * Return the visits of the model in a given interval date
      */
-    public function visitsBetween($from, $to): int
+    public function visitsBetween(string $from, string $to): int
     {
         return $this->visits()
             ->whereBetween('date', [$from, $to])

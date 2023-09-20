@@ -34,11 +34,19 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @mixin IdeHelperMovie
+ */
 class Movie extends Model implements AuditableContract, HasMedia, PopularityContract, ReactableInterface
 {
     use Auditable;
     use HasFactory;
+
+    /**
+     * @use HasPopularity<Movie>
+     */
     use HasPopularity;
+
     use InteractsWithMedia;
     use LockColumns;
     use Reactable;
@@ -84,6 +92,7 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
      * {@inheritDoc}
      */
     protected $casts = [
+        'locked_columns' => 'array',
     ];
 
     /**

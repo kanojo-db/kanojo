@@ -30,11 +30,19 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @mixin IdeHelperPerson
+ */
 class Person extends Model implements AuditableContract, HasMedia, PopularityContract
 {
     use Auditable;
     use HasFactory;
+
+    /**
+     * @use HasPopularity<Person>
+     */
     use HasPopularity;
+
     use InteractsWithMedia;
     use LockColumns;
     use Searchable;
@@ -70,6 +78,13 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
         'tmdb_id',
         'line_blog_id',
         'onlyfans_id',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $casts = [
+        'locked_columns' => 'array',
     ];
 
     /**
@@ -180,7 +195,7 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
     /**
      * Get the person's country.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Country>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Country, Person>
      */
     public function country(): BelongsTo
     {
@@ -190,7 +205,7 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
     /**
      * Get the person's gender.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Gender>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Gender, Person>
      */
     public function gender(): BelongsTo
     {

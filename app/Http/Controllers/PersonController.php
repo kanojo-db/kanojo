@@ -183,7 +183,7 @@ class PersonController extends Controller
                     'movies.loveReactant.reactionTotal',
                 ]);
 
-                $model->setRelation('movies', $model->getStarringMovies((int) request()->query('per_page', 25)));
+                $model->setRelation('movies', $model->getStarringMovies((int) request()->query('per_page', '25')));
 
                 // Don't log visits from bots, as it may skew the popularity score
                 if (Crawler::isCrawler()) {

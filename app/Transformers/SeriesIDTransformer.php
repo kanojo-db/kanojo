@@ -12,9 +12,9 @@ class SeriesIDTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform(Series $series)
+    public function transform(Series $series): array
     {
         return [
             'id' => $series->id,
