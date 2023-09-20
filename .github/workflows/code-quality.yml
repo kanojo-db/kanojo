@@ -60,6 +60,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
+            - name: Copy .env
+              run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
             - name: Get Composer cache directory
               id: composer-cache
               run: |
@@ -193,15 +196,23 @@ jobs:
                   MECAB_LIBS: mecab libmecab-dev mecab-ipadic-utf8 php8.2-dev
                   MECAB_PATH: mecab
 
-            - name: Prepare The Environment
-              run: cp .env.example .env
+            - name: Copy .env
+              run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
-            - name: Create Database
+            - name: Get Composer cache directory
+              id: composer-cache
               run: |
-                  sudo systemctl start mysql
-                  mysql --user="root" --password="root" -e "CREATE DATABASE \`my-database\` character set UTF8mb4 collate utf8mb4_bin;"
+                  echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-            - name: Install Composer Dependencies
+            - name: Set Composer cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
+
+            - name: Install dependencies
               run: composer install --dev --no-ansi --no-interaction --optimize-autoloader
 
             - name: Generate Application Key
