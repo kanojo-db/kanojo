@@ -77,7 +77,7 @@ jobs:
                       ${{ runner.os }}-composer-
 
             - name: Install dependencies
-              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader
+              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader --no-scripts
 
             - name: Run PHPStan
               run: |
@@ -149,7 +149,7 @@ jobs:
                       ${{ runner.os }}-composer-
 
             - name: Install dependencies
-              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader
+              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader --no-scripts
 
             - name: Generate application key
               run: php artisan key:generate
@@ -213,7 +213,7 @@ jobs:
                       ${{ runner.os }}-composer-
 
             - name: Install dependencies
-              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader
+              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader --no-scripts
 
             - name: Generate Application Key
               run: php artisan key:generate
@@ -327,7 +327,7 @@ jobs:
                   npm ci
 
             - name: Install dependencies
-              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader
+              run: composer install --dev --no-ansi --no-interaction --optimize-autoloader --no-scripts
 
             - name: Run ESLint
               if: always()
