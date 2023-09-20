@@ -123,6 +123,7 @@ class Studio extends Model implements AuditableContract, HasMedia
 
         $romajiTitle = $limelight->parse($japaneseTitle);
 
+        // @phpstan-ignore-next-line -- Limelight has bad types
         return $romajiTitle->string('romaji', ' ');
     }
 

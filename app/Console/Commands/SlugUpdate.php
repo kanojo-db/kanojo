@@ -31,10 +31,25 @@ class SlugUpdate extends Command
     {
         $class = $this->argument('model');
 
+        // Check that $class is a string and that it extends Model.
+        if (! is_string($class) || ! is_subclass_of($class, Model::class)) {
+            $this->error('Invalid model class.');
+
+            return;
+        }
+
+        $id = $this->option('id');
+
+        if (! is_numeric($id)) {
+            $this->error('Invalid ID.');
+
+            return;
+        }
+
         /** @var Model */
         $model = new $class;
 
-        $this->info('Updating slugs for '.$class.' with ID '.$this->option('id'));
+        $this->info('Updating slugs for '.$class.' with ID '.$id);
 
         $model::findOrFail($this->option('id'))->update([
             'slug' => null,

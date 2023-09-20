@@ -172,6 +172,7 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
 
         $romanizedTitle = $limelight->parse($japaneseTitle);
 
+        // @phpstan-ignore-next-line -- Limelight has bad types
         return $romanizedTitle->string('romaji', ' ');
     }
 

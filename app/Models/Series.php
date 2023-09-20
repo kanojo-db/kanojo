@@ -120,6 +120,7 @@ class Series extends Model implements AuditableContract, HasMedia
 
         $romanizedTitle = $limelight->parse($japaneseTitle);
 
+        // @phpstan-ignore-next-line -- Limelight has bad types
         return $romanizedTitle->string('romaji', ' ');
     }
 

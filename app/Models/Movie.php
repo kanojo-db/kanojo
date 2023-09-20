@@ -343,6 +343,8 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
 
     /**
      * Returns the movie's social media preview.
+     *
+     * @return Attribute<KanojoMedia|null, never>
      */
     protected function socialMediaPreview(): Attribute
     {
@@ -443,6 +445,7 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
 
         $romanizedTitle = $limelight->parse($japaneseTitle);
 
+        // @phpstan-ignore-next-line -- Limelight has bad types
         return $romanizedTitle->string('romaji', ' ');
     }
 
