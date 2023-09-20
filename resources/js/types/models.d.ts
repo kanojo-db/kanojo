@@ -77,6 +77,10 @@ interface Sluggable {
     slug: string;
 }
 
+interface Shareable {
+    social_image: string;
+}
+
 export interface Reactable {
     love_reactant_id: number;
     love_reactant: {
@@ -185,7 +189,7 @@ export interface MovieVersion {
 
 export type MovieVersions = MovieVersion[];
 
-export interface Movie extends Sluggable, Reactable, Linkable {
+export interface Movie extends Sluggable, Reactable, Linkable, Shareable {
     // columns
     id: number;
     title: TranslatableString;
@@ -254,7 +258,7 @@ export interface PersonAlias {
 
 export type PersonAliases = PersonAlias[];
 
-export interface Person extends Sluggable, Linkable {
+export interface Person extends Sluggable, Linkable, Shareable {
     // columns
     id: number;
     name: TranslatableString;

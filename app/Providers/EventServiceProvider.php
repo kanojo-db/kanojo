@@ -10,6 +10,7 @@ use App\Listeners\AgeUpdateSubscriber;
 use App\Listeners\ReactionAdded;
 use App\Listeners\ReactionRemoved;
 use App\Listeners\SendNewContentReportNotification;
+use App\Listeners\SocialImageUpdateSubscriber;
 use App\Listeners\UpdateMovieReleaseDate;
 use Cog\Laravel\Love\Reaction\Events\ReactionHasBeenAdded;
 use Cog\Laravel\Love\Reaction\Events\ReactionHasBeenRemoved;
@@ -49,6 +50,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $subscribe = [
         AgeUpdateSubscriber::class,
+        SocialImageUpdateSubscriber::class,
     ];
 
     /**

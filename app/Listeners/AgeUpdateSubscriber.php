@@ -53,12 +53,12 @@ class AgeUpdateSubscriber
     {
         $events->listen(
             'App\Events\MovieUpdated',
-            'App\Listeners\AgeUpdateListener@onMovieUpdate'
+            'App\Listeners\AgeUpdateSubscriber@onMovieUpdate'
         );
 
         $events->listen(
             'App\Events\PersonUpdated',
-            'App\Listeners\AgeUpdateListener@onPersonUpdate'
+            'App\Listeners\AgeUpdateSubscriber@onPersonUpdate'
         );
     }
 }

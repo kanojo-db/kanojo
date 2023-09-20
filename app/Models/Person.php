@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Contracts\PopularityContract;
 use App\Enums\MediaCollectionType;
+use App\Events\PersonCreated;
 use App\Events\PersonUpdated;
 use App\Traits\HasPopularity;
 use App\Traits\LockColumns;
@@ -106,7 +107,13 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
      *
      * @var string[]
      */
-    protected $appends = ['poster', 'external_links', 'content_report_count', 'poster_count'];
+    protected $appends = [
+        'poster',
+        'social_media_preview',
+        'external_links',
+        'content_report_count',
+        'poster_count',
+    ];
 
     /**
      * Attributes to exclude from the Audit.
@@ -128,6 +135,7 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
      * @var array<string, string>
      */
     protected $dispatchesEvents = [
+        'created' => PersonCreated::class,
         'updated' => PersonUpdated::class,
     ];
 
@@ -190,6 +198,10 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
     {
         $this->addMediaCollection(MediaCollectionType::Profile->value)
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
+        $this->addMediaCollection(MediaCollectionType::SocialMediaPreview->value)
+            ->singleFile()
+            ->acceptsMimeTypes(['image/webp']);
     }
 
     /**
@@ -321,6 +333,20 @@ class Person extends Model implements AuditableContract, HasMedia, PopularityCon
         return new Attribute(
             get: function () {
                 return $this->reports()->visible()->whereIn('status', ['open', 'in_progress'])->count();
+            }
+        );
+    }
+
+    /**
+     * Returns the movie's social media preview.
+     *
+     * @return Attribute<KanojoMedia|null, never>
+     */
+    protected function socialMediaPreview(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->getFirstMedia(MediaCollectionType::SocialMediaPreview->value);
             }
         );
     }

@@ -36,7 +36,7 @@ class ComputeAllModelsAges extends Command
                 $movies->each(function ($movie) {
                     $this->info("Dispatching job for movie {$movie->id}");
 
-                    ComputeModelsAgesJob::dispatch($movie);
+                    ComputeModelsAgesJob::dispatchSync($movie);
                 });
             });
 

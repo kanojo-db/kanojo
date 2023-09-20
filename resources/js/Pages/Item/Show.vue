@@ -140,15 +140,9 @@ const shouldShowImage = computed(() => {
         />
 
         <meta
-            v-if="isMovie(props.item)"
+            v-if="isMovie(props.item) || isPerson(props.item)"
             property="og:image"
-            :content="`https://kanojodb.com/movies/${props.item.slug}/preview.webp`"
-        />
-
-        <meta
-            v-else-if="isPerson(props.item)"
-            property="og:image"
-            :content="`https://kanojodb.com/models/${props.item.slug}/preview.webp`"
+            :content="props.item.social_image"
         />
 
         <meta
