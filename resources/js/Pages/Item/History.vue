@@ -83,7 +83,11 @@ function cleanChangelog(change: object) {
                 <v-row v-if="props.item.audits?.data?.length > 0">
                     <v-col>
                         <h2 class="mb-2 text-lg font-bold">
-                            {{ props.item?.audits.data.length }} Changes
+                            {{
+                                $t('history.numberOfChanges', {
+                                    number: props.item?.audits.data.total,
+                                })
+                            }}
                         </h2>
                     </v-col>
                 </v-row>
@@ -163,7 +167,9 @@ function cleanChangelog(change: object) {
 
                 <v-row v-if="props.item.audits.data.length === 0">
                     <v-col>
-                        <div class="text-h5">No changes found.</div>
+                        <div class="text-h5">
+                            {{ $t('history.noChanges') }}
+                        </div>
                     </v-col>
                 </v-row>
 

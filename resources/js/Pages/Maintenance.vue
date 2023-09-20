@@ -16,26 +16,15 @@
 
             <v-main>
                 <v-container class="prose">
-                    <h1>Maintenance in Progress - We'll be back shortly!</h1>
+                    <h1>
+                        {{ $t('general.maintenance.title') }}
+                    </h1>
 
                     <p>
-                        Kanojo is currently undergoing scheduled maintenance to
-                        enhance your experience.
+                        {{ $t('general.maintenance.description1') }}
                     </p>
 
-                    <p>
-                        If the website is offline longer than expected or this
-                        maintenance wasn't planned, keep an eye on our
-                        <a
-                            class="underline"
-                            href="https://twitter.com/kanojodb"
-                        >
-                            Twitter
-                        </a>
-                        for updates on the situation.
-                    </p>
-
-                    <p>We apologize for any inconvenience this may cause.</p>
+                    <p>{{ $t('general.maintenance.description3') }}</p>
                 </v-container>
             </v-main>
         </v-layout>

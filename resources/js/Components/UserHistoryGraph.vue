@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ChartData } from 'chart.js';
 import type { PropType } from 'vue';
 
 import {

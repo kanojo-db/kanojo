@@ -98,7 +98,7 @@ const submit = () => {
                     :href="route('password.request')"
                     class="mt-6 text-right underline hover:text-primary"
                 >
-                    Forgot your password?
+                    {{ $t('login.forgotPassword') }}
                 </Link>
 
                 <div class="mt-2">

@@ -172,7 +172,7 @@ export interface Series extends Sluggable, Linkable {
     // relations
     studio: Studio;
     movies: Paginated<Movie>;
-    audits?: Audits;
+    audits?: Paginated<Audit>;
     // counts
     movies_count?: number;
 }
@@ -213,7 +213,7 @@ export interface Movie extends Sluggable, Reactable, Linkable, Shareable {
     in_favorites: boolean;
     in_wishlist: boolean;
     in_collection: boolean;
-    audits?: Audits | null;
+    audits?: Paginated<Audit>;
     versions?: MovieVersions | null;
     // accessors
     poster: Media | null;
@@ -297,7 +297,7 @@ export interface Person extends Sluggable, Linkable, Shareable {
     movies: Paginated<Movie>;
     media: Medias;
     aliases: PersonAliases;
-    audits?: Audits;
+    audits?: Paginated<Audit>;
     // accessors
     poster?: Media;
     poster_count: number;
@@ -315,7 +315,7 @@ export interface Studio extends Sluggable, Linkable {
     deleted_at: string | null;
     // mutators
     translations: unknown;
-    audits?: Audits;
+    audits?: Paginated<Audit>;
     // accessors
     logo: Media | null;
     logo_count: number;

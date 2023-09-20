@@ -13,9 +13,6 @@ import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import MdiInformation from '~icons/mdi/information';
-import MdiPlus from '~icons/mdi/plus';
-
 import EditMovieCast from '@/Components/EditMovieCast.vue';
 import EditMovieExternalLinksForm from '@/Components/EditMovieExternalLinksForm.vue';
 import EditMoviePrimaryFactsForm from '@/Components/EditMoviePrimaryFactsForm.vue';
@@ -168,41 +165,6 @@ const updateCurrentTab = (tab: EditSubroute) => {
                             v-if="isMovie(props.item)"
                             :item="props.item"
                         />
-
-                        <v-window-item
-                            v-if="isMovie(props.item)"
-                            :value="EditSubroute.Scenes"
-                        >
-                            <v-row>
-                                <v-col>
-                                    <v-alert
-                                        type="info"
-                                        :icon="MdiInformation"
-                                    >
-                                        Scenes are an upcoming feature and are
-                                        not yet available.
-                                    </v-alert>
-                                </v-col>
-                            </v-row>
-
-                            <v-row>
-                                <v-col>
-                                    <v-btn
-                                        variant="tonal"
-                                        :prepend-icon="MdiPlus"
-                                        disabled
-                                    >
-                                        Add scene
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-
-                            <v-row>
-                                <v-col>
-                                    <p>No scenes have been added yet.</p>
-                                </v-col>
-                            </v-row>
-                        </v-window-item>
 
                         <edit-movie-external-links-form
                             v-if="isMovie(props.item)"

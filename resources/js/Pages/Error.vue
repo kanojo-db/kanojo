@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 import AppLayout from '@/Layouts/AppLayout.vue';
 
-const props = defineProps({ status: Number });
+const props = defineProps({ status: { type: Number, default: 500 } });
 
 defineOptions({
     layout: AppLayout,
@@ -27,6 +28,8 @@ const description = computed(() => {
 </script>
 
 <template>
+    <Head :title="title" />
+
     <v-container>
         <div class="prose">
             <h1 class="text-2xl font-bold">{{ title }}</h1>

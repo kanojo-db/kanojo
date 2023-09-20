@@ -48,7 +48,7 @@ const plugins = ref([
 
         <v-col class="flex justify-center">
             <h1 class="max-w-4xl text-6xl font-black text-stone-50">
-                Enhance your media player with top quality metadata
+                {{ $t('general.mediaServerPlugins.title') }}
             </h1>
         </v-col>
     </v-row>
@@ -60,7 +60,7 @@ const plugins = ref([
             class="flex flex-col gap-4"
         >
             <h2 class="text-4xl font-extrabold">
-                Our official plugins are available for all major media players
+                {{ $t('general.mediaServerPlugins.description') }}
             </h2>
 
             <div class="my-8 flex flex-row gap-8">
@@ -81,7 +81,11 @@ const plugins = ref([
                             :disabled="!plugin.link"
                             :href="plugin.link"
                             variant="flat"
-                            :text="plugin.link ? 'Download' : 'Soon'"
+                            :text="
+                                plugin.link
+                                    ? $t('general.download')
+                                    : $t('general.comingSoon')
+                            "
                             color="primary"
                             size="large"
                         />
@@ -116,22 +120,26 @@ const plugins = ref([
                     xl="5"
                     xxl="4"
                 >
-                    <h2 class="text-7xl font-black">As easy as 1, 2, 3</h2>
+                    <h2 class="text-7xl font-black">
+                        {{ $t('general.mediaServerPlugins.match.title') }}
+                    </h2>
 
                     <p class="mt-4 text-2xl">
-                        Our plugins are designed to be as easy to use as
-                        possible. Simply install the plugin, enter your API
-                        token and you're good to go.
+                        {{
+                            $t('general.mediaServerPlugins.match.description1')
+                        }}
                     </p>
 
                     <p class="mt-4 text-2xl">
-                        The plugin will automatically match your media with the
-                        correct metadata and artwork.
+                        {{
+                            $t('general.mediaServerPlugins.match.description2')
+                        }}
                     </p>
 
                     <p class="mt-4 text-2xl">
-                        You can also leverage our powerful search engine to fix
-                        any incorrect matches.
+                        {{
+                            $t('general.mediaServerPlugins.match.description3')
+                        }}
                     </p>
                 </v-col>
             </v-row>
@@ -152,23 +160,32 @@ const plugins = ref([
                     :order="2"
                     :order-lg="1"
                 >
-                    <h2 class="text-7xl font-black">Detailed and accurate</h2>
+                    <h2 class="text-7xl font-black">
+                        {{ $t('general.mediaServerPlugins.metadata.title') }}
+                    </h2>
 
                     <p class="mt-4 text-2xl">
-                        Our plugins are tailored to each media player to ensure
-                        the best possible experience.
+                        {{
+                            $t(
+                                'general.mediaServerPlugins.metadata.description1',
+                            )
+                        }}
                     </p>
 
                     <p class="mt-4 text-2xl">
-                        We provide detailed metadata for all your content,
-                        including cast, director, genres, release dates, artwork
-                        and more.
+                        {{
+                            $t(
+                                'general.mediaServerPlugins.metadata.description2',
+                            )
+                        }}
                     </p>
 
                     <p class="mt-4 text-2xl">
-                        We make sure to provide all the information you need to
-                        make your media player look great and find the content
-                        you want to watch.
+                        {{
+                            $t(
+                                'general.mediaServerPlugins.metadata.description3',
+                            )
+                        }}
                     </p>
                 </v-col>
 
@@ -196,7 +213,9 @@ const plugins = ref([
             align="center"
             class="flex flex-col gap-4"
         >
-            <h2 class="text-4xl font-extrabold">Download now</h2>
+            <h2 class="text-4xl font-extrabold">
+                {{ $t('general.mediaServerPlugins.downloadNow') }}
+            </h2>
 
             <div class="my-8 flex flex-row gap-8">
                 <v-card
@@ -216,7 +235,11 @@ const plugins = ref([
                             :disabled="!plugin.link"
                             :href="plugin.link"
                             variant="flat"
-                            :text="plugin.link ? 'Download' : 'Soon'"
+                            :text="
+                                plugin.link
+                                    ? $t('general.download')
+                                    : $t('general.comingSoon')
+                            "
                             color="primary"
                             size="large"
                         />

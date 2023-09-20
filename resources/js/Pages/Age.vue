@@ -1,10 +1,23 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
+const loading = ref(false);
+
 const submitForm = () => {
-    router.post(route('age_gate.store'));
+    loading.value = true;
+
+    router.post(
+        route('age_gate.store'),
+        {},
+        {
+            onSuccess: () => {
+                loading.value = false;
+            },
+        },
+    );
 };
 </script>
 
@@ -32,33 +45,29 @@ const submitForm = () => {
         <div class="mx-4 mt-4 flex h-full flex-col items-center justify-center">
             <div class="prose mb-8">
                 <h1 class="text-3xl font-black">
-                    This website contains adult content!
+                    {{ $t('general.pages.ageGate.title') }}
                 </h1>
 
                 <p>
-                    Some of the items on this website feature nudity and/or
-                    sexually explicit content.
+                    {{ $t('general.pages.ageGate.description1') }}
                 </p>
 
                 <p>
-                    By entering this website you agree that you are at least 18
-                    years old or the legal age to view adult content in your
-                    country.
+                    {{ $t('general.pages.ageGate.description2') }}
                 </p>
 
                 <p>
-                    This website does not provide any content itself and acts as
-                    a database and search engine for Japanese adult content and
-                    gravure idols.
+                    {{ $t('general.pages.ageGate.description3') }}
                 </p>
             </div>
 
             <v-form @submit.prevent="submitForm">
                 <v-btn
                     color="primary"
+                    :loading="loading"
                     type="submit"
                 >
-                    Enter
+                    {{ $t('general.pages.ageGate.confirm') }}
                 </v-btn>
             </v-form>
         </div>

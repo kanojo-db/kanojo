@@ -4,7 +4,7 @@ import type { Paginated, Person } from '@/types/models';
 import type { PropType } from 'vue';
 
 import { Head, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import PaginatedItemGrid from '@/Components/PaginatedItemGrid.vue';
 import RangeSlider from '@/Components/RangeSlider.vue';
@@ -63,26 +63,38 @@ const filterHipBetween = ref(
     route_params?.filter?.hip?.split(',') || [null, null],
 );
 
-const dateRange = ref([filterBornBetween.value[0], filterBornBetween.value[1]]);
+// eslint-disable-next-line vue/no-ref-object-destructure
+const dateRange = computed(() => [
+    filterBornBetween.value[0],
+    filterBornBetween.value[1],
+]);
 
-const heightRange = ref({
-    min: filterHeightBetween.value[0],
-    max: filterHeightBetween.value[1],
+const heightRange = computed(() => {
+    return {
+        min: filterHeightBetween.value[0],
+        max: filterHeightBetween.value[1],
+    };
 });
 
-const bustRange = ref({
-    min: filterBustBetween.value[0],
-    max: filterBustBetween.value[1],
+const bustRange = computed(() => {
+    return {
+        min: filterBustBetween.value[0],
+        max: filterBustBetween.value[1],
+    };
 });
 
-const waistRange = ref({
-    min: filterWaistBetween.value[0],
-    max: filterWaistBetween.value[1],
+const waistRange = computed(() => {
+    return {
+        min: filterWaistBetween.value[0],
+        max: filterWaistBetween.value[1],
+    };
 });
 
-const hipRange = ref({
-    min: filterHipBetween.value[0],
-    max: filterHipBetween.value[1],
+const hipRange = computed(() => {
+    return {
+        min: filterHipBetween.value[0],
+        max: filterHipBetween.value[1],
+    };
 });
 
 const loading = ref(false);
@@ -140,33 +152,66 @@ function applyFilters() {
             <side-menu title="Filter">
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Sort by
+                        {{ $t('models.sortBy') }}
                     </v-list-item-title>
 
                     <v-select
                         v-model="sortBy"
                         :items="[
-                            { value: 'movies', name: 'Number of movies' },
+                            { value: 'movies', name: $t('models.sort.movies') },
                             {
                                 value: '-movies',
-                                name: 'Number of movies (desc)',
+                                name: $t('models.sort.moviesDesc'),
                             },
-                            { value: 'birthdate', name: 'Birthdate' },
-                            { value: '-birthdate', name: 'Birthdate (desc)' },
-                            { value: 'height', name: 'Height' },
-                            { value: '-height', name: 'Height (desc)' },
-                            { value: 'bust', name: 'Bust' },
-                            { value: '-bust', name: 'Bust (desc)' },
-                            { value: 'waist', name: 'Waist' },
-                            { value: '-waist', name: 'Waist (desc)' },
-                            { value: 'hip', name: 'Hip' },
-                            { value: '-hip', name: 'Hip (desc)' },
-                            { value: 'popularity', name: 'Popularity' },
-                            { value: '-popularity', name: 'Popularity (desc)' },
-                            { value: 'created_at', name: 'Created at' },
-                            { value: '-created_at', name: 'Created at (desc)' },
-                            { value: 'updated_at', name: 'Updated at' },
-                            { value: '-updated_at', name: 'Updated at (desc)' },
+                            {
+                                value: 'birthdate',
+                                name: $t('models.sort.birthdate'),
+                            },
+                            {
+                                value: '-birthdate',
+                                name: $t('models.sort.birthdateDesc'),
+                            },
+                            { value: 'height', name: $t('models.sort.height') },
+                            {
+                                value: '-height',
+                                name: $t('models.sort.heightDesc'),
+                            },
+                            { value: 'bust', name: $t('models.sort.bust') },
+                            {
+                                value: '-bust',
+                                name: $t('models.sort.bustDesc'),
+                            },
+                            { value: 'waist', name: $t('models.sort.waist') },
+                            {
+                                value: '-waist',
+                                name: $t('models.sort.waistDesc'),
+                            },
+                            { value: 'hip', name: $t('models.sort.hip') },
+                            { value: '-hip', name: $t('models.sort.hipDesc') },
+                            {
+                                value: 'popularity',
+                                name: $t('models.sort.popularity'),
+                            },
+                            {
+                                value: '-popularity',
+                                name: $t('models.sort.popularityDesc'),
+                            },
+                            {
+                                value: 'created_at',
+                                name: $t('models.sort.createdAt'),
+                            },
+                            {
+                                value: '-created_at',
+                                name: $t('models.sort.createdAtDesc'),
+                            },
+                            {
+                                value: 'updated_at',
+                                name: $t('models.sort.updatedAt'),
+                            },
+                            {
+                                value: '-updated_at',
+                                name: $t('models.sort.updatedAtDesc'),
+                            },
                         ]"
                         item-value="value"
                         item-title="name"
@@ -178,7 +223,7 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Year of birth
+                        {{ $t('models.yearOfBirth') }}
                     </v-list-item-title>
 
                     <range-slider
@@ -190,7 +235,7 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Height
+                        {{ $t('models.height') }}
                     </v-list-item-title>
 
                     <range-slider
@@ -204,7 +249,7 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Bust Size
+                        {{ $t('models.bustSize') }}
                     </v-list-item-title>
 
                     <range-slider
@@ -218,7 +263,7 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Waist Size
+                        {{ $t('models.waistSize') }}
                     </v-list-item-title>
 
                     <range-slider
@@ -232,7 +277,7 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Hip Size
+                        {{ $t('models.hipSize') }}
                     </v-list-item-title>
 
                     <range-slider

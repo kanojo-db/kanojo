@@ -121,28 +121,41 @@ function applyFilters() {
             <side-menu title="Filter">
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Sort by
+                        {{ $t('movies.sortBy') }}
                     </v-list-item-title>
 
                     <v-select
                         v-model="sortBy"
                         :items="[
-                            { value: 'release_date', name: 'Release date' },
+                            {
+                                value: 'release_date',
+                                name: $t('movies.sortBy.releaseDate'),
+                            },
                             {
                                 value: '-release_date',
-                                name: 'Release date (desc)',
+                                name: $t('movies.sort.releaseDateDesc'),
                             },
-                            { value: 'title', name: 'Title' },
-                            { value: '-title', name: 'Title (desc)' },
-                            { value: 'release_date', name: 'Release date' },
+                            { value: 'title', name: $t('movies.sort.title') },
                             {
-                                value: '-release_date',
-                                name: 'Release date (desc)',
+                                value: '-title',
+                                name: $t('movies.sort.titleDesc'),
                             },
-                            { value: 'popularity', name: 'Popularity' },
-                            { value: '-popularity', name: 'Popularity (desc)' },
-                            { value: 'updated_at', name: 'Updated at' },
-                            { value: '-updated_at', name: 'Updated at (desc)' },
+                            {
+                                value: 'popularity',
+                                name: $t('movies.sort.popularity'),
+                            },
+                            {
+                                value: '-popularity',
+                                name: $t('movies.sort.popularityDesc'),
+                            },
+                            {
+                                value: 'updated_at',
+                                name: $t('movies.sort.updatedAt'),
+                            },
+                            {
+                                value: '-updated_at',
+                                name: $t('movies.sort.updatedAtDesc'),
+                            },
                         ]"
                         item-value="value"
                         item-title="name"
@@ -154,12 +167,15 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Type
+                        {{ $t('movies.filterByType') }}
                     </v-list-item-title>
 
                     <v-select
                         v-model="filterType"
-                        :items="[{ id: 0, name: 'All' }, ...props.movieTypes]"
+                        :items="[
+                            { id: 0, name: $t('movies.filter.all') },
+                            ...props.movieTypes,
+                        ]"
                         item-value="id"
                         item-title="name"
                         hide-details
@@ -170,7 +186,7 @@ function applyFilters() {
 
                 <v-list-item>
                     <v-list-item-title class="mb-4 font-bold">
-                        Age of featured models
+                        {{ $t('movies.filterByAge') }}
                     </v-list-item-title>
 
                     <range-slider

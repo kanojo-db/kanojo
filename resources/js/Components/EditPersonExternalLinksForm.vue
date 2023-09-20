@@ -6,7 +6,6 @@ import { useForm } from '@inertiajs/vue3';
 
 import Ameba from '~icons/custom/ameba';
 import Fanza from '~icons/custom/fanza';
-import MdiLock from '~icons/mdi/lock';
 import MdiLockOpen from '~icons/mdi/lock-open';
 import Google from '~icons/simple-icons/google';
 import IMDb from '~icons/simple-icons/imdb';

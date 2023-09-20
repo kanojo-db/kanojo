@@ -189,19 +189,27 @@ const loading = ref(false);
                         <v-table hover>
                             <thead>
                                 <tr>
-                                    <th scope="col">User</th>
+                                    <th scope="col">
+                                        {{ $t('reports.table.user') }}
+                                    </th>
 
-                                    <th scope="col">Subject</th>
+                                    <th scope="col">
+                                        {{ $t('reports.table.subject') }}
+                                    </th>
 
-                                    <th scope="col">Status</th>
+                                    <th scope="col">
+                                        {{ $t('reports.table.status') }}
+                                    </th>
 
-                                    <th scope="col">Date</th>
+                                    <th scope="col">
+                                        {{ $t('reports.table.date') }}
+                                    </th>
 
                                     <th
                                         v-if="isAdmin"
                                         scope="col"
                                     >
-                                        Actions
+                                        {{ $t('reports.table.actions') }}
                                     </th>
                                 </tr>
                             </thead>
