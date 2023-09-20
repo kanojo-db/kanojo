@@ -6,7 +6,7 @@ namespace App\Enums;
 
 /**
  * Represents the type of the media collection.
- * 
+ *
  * @typescript
  */
 enum MediaCollectionType: string
@@ -18,4 +18,6 @@ enum MediaCollectionType: string
     case Profile = 'profile';
     // Studio
     case Logo = 'logo';
+    // Social Media Preview
+    case SocialMediaPreview = 'social_media_preview';
 }

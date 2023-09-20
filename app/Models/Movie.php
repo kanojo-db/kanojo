@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Contracts\PopularityContract;
 use App\Enums\MediaCollectionType;
+use App\Events\MovieCreated;
 use App\Events\MovieUpdated;
 use App\Traits\HasPopularity;
 use App\Traits\LockColumns;
@@ -101,6 +102,7 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
     protected $appends = [
         'poster',
         'fanart',
+        'social_media_preview',
         'in_collection',
         'in_wishlist',
         'in_favorites',
@@ -116,6 +118,7 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
      * @var array<string, string>
      */
     protected $dispatchesEvents = [
+        'created' => MovieCreated::class,
         'updated' => MovieUpdated::class,
     ];
 
@@ -330,6 +333,18 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
     }
 
     /**
+     * Returns the movie's social media preview.
+     */
+    protected function socialMediaPreview(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->getFirstMedia(MediaCollectionType::SocialMediaPreview->value);
+            }
+        );
+    }
+
+    /**
      * Returns the movie's first front cover.
      *
      * @return Attribute<KanojoMedia|null, never>
@@ -535,6 +550,10 @@ class Movie extends Model implements AuditableContract, HasMedia, PopularityCont
 
         $this->addMediaCollection(MediaCollectionType::FullCover->value)
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
+        $this->addMediaCollection(MediaCollectionType::SocialMediaPreview->value)
+            ->singleFile()
+            ->acceptsMimeTypes(['image/webp']);
     }
 
     /**
