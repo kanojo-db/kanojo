@@ -51,7 +51,28 @@
             "report": "Report",
             "spam": "Spam",
             "title": "Signaler un problème de contenu",
-            "type_of_problem": "Type de problème"
+            "type_of_problem": "Type de problème",
+            "invalid": "Invalide",
+            "open": "Ouvert",
+            "type": "Type:",
+            "types": {
+                "spam": "Spam",
+                "duplicate": "Dupliquer",
+                "other": "Autre",
+                "bad_image": "Mauvaise image",
+                "incorrect": "Contenu incorrect"
+            },
+            "in_progress": "En cours",
+            "visibilities": {
+                "public": "Public",
+                "private": "Privé"
+            },
+            "visibility": "Visibilité:",
+            "noReports": "Aucun rapport trouvé.",
+            "resolved": "Résolu",
+            "rejected": "Rejeté",
+            "information": "Information:",
+            "subject": "Signaler un problème pour {title}"
         },
         "shareLink": {
             "title": "Partager {pageName}",
@@ -82,6 +103,9 @@
         "create_alias": {
             "title": "Créer un alias",
             "name": "Nom"
+        },
+        "versionCreate": {
+            "title": "Ajouter une version à {itemTitle}"
         }
     },
     "edit": {
@@ -89,6 +113,22 @@
             "add": "Ajouter un acteur",
             "lock": "Verrouillé",
             "person": "Personne"
+        },
+        "sections": {
+            "scenes": "Scènes",
+            "alternativeNames": "Noms alternatifs",
+            "primaryFacts": "Faits primaires",
+            "versions": "Versions",
+            "externalIds": "IDs externes"
+        },
+        "version": {
+            "add": "Ajouter une version"
+        },
+        "aliases": {
+            "add": "Ajouter un alias"
+        },
+        "alias": {
+            "name": "Nom"
         }
     },
     "general": {
@@ -118,7 +158,29 @@
         "saveChanges": "Enregistrer",
         "search": "Rechercher",
         "send": "Envoyer",
-        "unknown": "Inconnu"
+        "unknown": "Inconnu",
+        "download": "Télécharger",
+        "backToOverview": "Retour à l'aperçu",
+        "mediaServerPlugins": {
+            "downloadNow": "Télécharger maintenant",
+            "description": "Nos plugins officiels sont disponibles pour touts lecteurs média majeurs."
+        },
+        "confirmPassword": "Confirmer",
+        "maintenance": {
+            "description3": "Nous nous excusons pour toute désagrément causé.",
+            "description1": "Kanojo est actuellement en cours de maintenance programmée pour                         améliorer votre expérience.",
+            "title": "Maintenance en cours - Nous serons bientôt de retour!"
+        },
+        "darkMode": "Mode sombre",
+        "logout": "Déconnexion",
+        "links": "Liens",
+        "forgotPassword": "Veuillez entrer votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+        "login": "Connexion",
+        "addMovie": "Ajouter un film",
+        "edit": "Editer",
+        "email": "Email",
+        "addModel": "Ajouter un modèle",
+        "comingSoon": "Bientôt"
     },
     "personShow": {
         "moviesCount": "{number} films"
