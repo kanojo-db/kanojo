@@ -275,6 +275,9 @@ jobs:
               run: |
                   npm ci
 
+            - name: Generate Ziggy routes
+              run: npm run generate-routes
+
             - name: Run tests
               run: LARAVEL_BYPASS_ENV_CHECK=1 npm run coverage
 
