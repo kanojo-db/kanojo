@@ -63,6 +63,7 @@ const userScore = computed(() => {
 
 <template>
     <v-progress-circular
+        aria-label="Average score"
         :model-value="averageScore"
         :size="props.size"
         :width="props.width"

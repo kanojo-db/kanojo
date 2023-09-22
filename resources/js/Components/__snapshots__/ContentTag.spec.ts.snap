@@ -1,3 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`BtnDropdown > renders properly in SSR mode 1`] = `"<span class=\\"badge\\">Test Tag</span>"`;
+exports[`ContentTag > renders properly in SSR mode 1`] = `"<span class=\\"v-chip v-theme--light v-chip--density-default v-chip--size-default v-chip--variant-tonal\\" style=\\"\\" draggable=\\"false\\"><!--[--><!----><span class=\\"v-chip__underlay\\"></span><!--]--><!----><!----><div class=\\"v-chip__content\\"><!--[-->Test Tag<!--]--></div><!----><!----></span>"`;

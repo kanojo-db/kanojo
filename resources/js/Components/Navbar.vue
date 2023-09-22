@@ -65,11 +65,11 @@ const { mdAndUp } = useDisplay();
         class="bg-primary text-stone-50"
     >
         <v-app-bar-nav-icon
+            aria-label="Menu"
             class="block md:hidden"
+            :icon="MdiMenu"
             @click="() => emit('update:showDrawer', !props.showDrawer)"
-        >
-            <mdi-menu />
-        </v-app-bar-nav-icon>
+        />
 
         <v-app-bar-title class="mr-2 max-w-[130px]">
             <Link :href="route('welcome')">

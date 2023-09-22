@@ -43,8 +43,11 @@ export default defineConfig(({ mode, ssrBuild }) => {
                 'resources/js/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
             ],
             setupFiles: ['resources/js/vitestSetup.ts'],
-            coverage: 'istanbul',
-            reporter: ['text', 'lcov'],
+            server: {
+                deps: {
+                    inline: ['vuetify'],
+                },
+            },
         },
         plugins: [
             laravel({

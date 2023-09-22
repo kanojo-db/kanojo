@@ -3,15 +3,19 @@
  */
 import type { Movie } from '@/types/models';
 
-import messages from '@intlify/unplugin-vue-i18n/messages';
 import { mount, renderToString } from '@vue/test-utils';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { describe, expect, it } from 'vitest';
-import { createI18n } from 'vue-i18n';
+
+import getI18nPlugin from '@/plugins/i18n';
+import getVuetifyPlugin from '@/plugins/vuetify';
 
 import MovieCard from './MovieCard.vue';
 
 expect.extend(toHaveNoViolations);
+
+const i18n = getI18nPlugin('en-US');
+const vuetify = getVuetifyPlugin(i18n);
 
 const movie: Movie = {
     id: 1,
@@ -53,36 +57,7 @@ const movie: Movie = {
         created_at: '2021-01-01 00:00:00',
         updated_at: '2021-01-01 00:00:00',
     },
-    studio: {
-        id: 1,
-        name: {
-            'en-US': 'Studio Name',
-            'ja-JP': 'スタジオ名',
-        },
-        founded_date: '2021-01-01',
-        slug: 'studio-name',
-        created_at: '2021-01-01 00:00:00',
-        updated_at: '2021-01-01 00:00:00',
-        deleted_at: null,
-        translations: {},
-        external_links: {},
-        movies: {
-            current_page: 1,
-            data: [],
-            first_page_url: '',
-            from: 1,
-            last_page: 1,
-            last_page_url: '',
-            links: [],
-            next_page_url: null,
-            path: '',
-            per_page: 15,
-            prev_page_url: null,
-            to: 1,
-            total: 1,
-        },
-        media: [],
-    },
+    studio: null,
     type: {
         id: 1,
         name: 'Movie Type',
@@ -103,23 +78,19 @@ const movie: Movie = {
     fanart: null,
     poster: null,
     series: undefined,
+    poster_count: 0,
+    fanart_count: 0,
+    social_image: 'https://via.placeholder.com/1300x650',
 };
-
-const i18n = createI18n({
-    legacy: false,
-    locale: 'en-US',
-    fallbackLocale: 'en-US',
-    messages: messages,
-});
 
 describe('MovieCard', () => {
     it('renders properly in SSR mode', async () => {
         const contents = await renderToString(MovieCard, {
-            global: {
-                plugins: [i18n],
-            },
             props: {
                 movie,
+            },
+            global: {
+                plugins: [i18n, vuetify],
             },
         });
 
@@ -132,7 +103,7 @@ describe('MovieCard', () => {
                 mocks: {
                     $route: vi.fn(),
                 },
-                plugins: [i18n],
+                plugins: [i18n, vuetify],
             },
             props: {
                 movie,

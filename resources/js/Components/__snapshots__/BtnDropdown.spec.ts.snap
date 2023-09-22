@@ -1,3 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`BtnDropdown > renders properly in SSR mode 1`] = `"<div class=\\"dropdown\\"><button aria-label=\\"Button\\" tabindex=\\"0\\" class=\\"btn btn-sm btn-ghost btn-md\\"><!--[-->Button<!--]--></button><ul tabindex=\\"0\\" class=\\"dropdown-content z-50 menu w-52 rounded bg-stone-100 text-base-content p-2 shadow\\"><!--[--><!--]--></ul></div>"`;

@@ -1,13 +1,16 @@
 import type { Tag } from '@/types/models';
 
-import messages from '@intlify/unplugin-vue-i18n/messages';
 import { renderToString, shallowMount } from '@vue/test-utils';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { createI18n } from 'vue-i18n';
 
 import ContentTag from '@/Components/ContentTag.vue';
+import getI18nPlugin from '@/plugins/i18n';
+import getVuetifyPlugin from '@/plugins/vuetify';
 
 expect.extend(toHaveNoViolations);
+
+const i18n = getI18nPlugin('en-US');
+const vuetify = getVuetifyPlugin(i18n);
 
 const tag: Tag = {
     id: 1,
@@ -22,21 +25,14 @@ const tag: Tag = {
     updated_at: '2020-01-01 00:00:00',
 };
 
-const i18n = createI18n({
-    legacy: false,
-    locale: 'en-US',
-    fallbackLocale: 'en-US',
-    messages: messages,
-});
-
-describe('BtnDropdown', () => {
+describe('ContentTag', () => {
     it('renders properly in SSR mode', async () => {
         const contents = await renderToString(ContentTag, {
-            props: {
+            propsData: {
                 tag,
             },
             global: {
-                plugins: [i18n],
+                plugins: [i18n, vuetify],
             },
         });
 
@@ -45,11 +41,11 @@ describe('BtnDropdown', () => {
 
     it('has no a11y violations', async () => {
         const wrapper = shallowMount(ContentTag, {
-            props: {
+            propsData: {
                 tag,
             },
             global: {
-                plugins: [i18n],
+                plugins: [i18n, vuetify],
             },
         });
 
@@ -60,18 +56,5 @@ describe('BtnDropdown', () => {
         });
 
         expect(results).toHaveNoViolations();
-    });
-
-    it('renders the correct content', () => {
-        const wrapper = shallowMount(ContentTag, {
-            props: {
-                tag,
-            },
-            global: {
-                plugins: [i18n],
-            },
-        });
-
-        expect(wrapper.text()).toContain(tag.name['en-US']);
     });
 });

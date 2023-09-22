@@ -192,6 +192,7 @@ const logout = () => {
         >
             <template #activator="{ props }">
                 <v-btn
+                    aria-label="Open user menu"
                     class="lg:hidden"
                     v-bind="props"
                     :icon="MdiAccount"
