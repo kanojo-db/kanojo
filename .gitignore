@@ -26,4 +26,3 @@ resources/js/types/ziggy.d.ts
 coverage
 .scannerwork
 .DS_Store
-**/*/ziggy.generated.js
