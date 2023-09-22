@@ -343,14 +343,24 @@ jobs:
               uses: actions/download-artifact@v3
               with:
                   name: pest-coverage
-                  path: reports/pest-coverage.xml
+                  path: reports/
+
+            - name: Copy Pest coverage artifact to workspace
+              if: always()
+              run: |
+                  cp reports/pest-coverage.xml $GITHUB_WORKSPACE/pest-coverage.xml
 
             - name: Retrieve vitest coverage artifact
               if: always()
               uses: actions/download-artifact@v3
               with:
                   name: vitest-coverage
-                  path: reports/vitest-coverage.xml
+                  path: reports/
+
+            - name: Copy vitest coverage artifact to workspace
+              if: always()
+              run: |
+                  cp reports/vitest-coverage.xml $GITHUB_WORKSPACE/vitest-coverage.xml
 
             - name: SonarCloud Scan
               if: always()
