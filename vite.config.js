@@ -48,6 +48,9 @@ export default defineConfig(({ mode, ssrBuild }) => {
                     inline: ['vuetify'],
                 },
             },
+            coverage: {
+                reporter: ['lcov'],
+            },
         },
         plugins: [
             laravel({
