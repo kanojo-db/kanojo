@@ -331,7 +331,7 @@ jobs:
 
             - name: Run ESLint
               if: always()
-              run: npm run lint -- --format=json > eslint-report.json
+              run: npm run lint -- -f json -o ./eslint-report.json
 
             - name: Run PHPStan
               if: always()
