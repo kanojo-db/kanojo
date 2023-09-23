@@ -43,6 +43,7 @@ use App\Http\Controllers\StudioController;
 use App\Http\Controllers\StudioExternalIdsController;
 use App\Http\Controllers\StudioHistoryController;
 use App\Http\Controllers\StudioMediaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\Movie;
 use App\Models\Person;
@@ -50,8 +51,6 @@ use App\Models\Series;
 use App\Models\Studio;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use OwenIt\Auditing\Models\Audit;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,52 +240,8 @@ Route::resource('series.reports', SeriesContentReportController::class);
 /**
  * User profile routes.
  */
-Route::get('/user/{user}', function (User $user) {
-    // Get active_tab query parameter
-    $activeTab = request()->query('active_tab', 'activity');
-
-    return Inertia::render('Profile/Show', [
-        'userProfile' => $user,
-        'editsCount' => Audit::where('user_id', $user->id)->count(),
-        'averageRating' => $user->average_rating,
-        'wishlistCount' => $user->wishlist()->count(),
-        'favoriteCount' => $user->favorites()->count(),
-        'collectionCount' => $user->collection()->count(),
-        'activityThisPastMonth' => function () use ($user) {
-            return Audit::where('user_id', $user->id)
-                ->where('created_at', '>=', now()->subMonth())
-                ->get()
-                ->groupBy('auditable_type')
-                ->map(function ($audits, $auditableType) {
-                    return $audits->groupBy(function ($audit) {
-                        return $audit->created_at->format('Y-m-d');
-                    })->map(function ($audits, $date) {
-                        return $audits->count();
-                    })->toArray();
-                });
-        },
-        'recentActivity' => function () use ($user) {
-            return Audit::where('user_id', $user->id)
-                ->where('event', '!=', 'deleted')
-                ->with('auditable')
-                ->latest()
-                ->take(10)
-                ->get();
-        },
-        'items' => function () use ($activeTab, $user) {
-            switch ($activeTab) {
-                case 'wishlist':
-                    return $user->wishlist()->with('media')->latest()->paginate(20);
-                case 'favorites':
-                    return $user->favorites()->with('media')->latest()->paginate(20);
-                case 'collection':
-                    return $user->collection()->with('media')->latest()->paginate(20);
-                default:
-                    return null;
-            }
-        },
-    ]);
-})->name('profile.show');
+Route::resource('users', UserController::class)
+    ->only(['show', 'destroy']);
 
 /**
  * User locale switching.

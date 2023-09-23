@@ -222,7 +222,7 @@ const loading = ref(false);
                                     <td class="py-2 align-top">
                                         <Link
                                             :href="
-                                                route('profile.show', {
+                                                route('users.show', {
                                                     user: report.reporter.id,
                                                 })
                                             "

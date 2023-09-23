@@ -99,7 +99,7 @@ const orderedTopUsers = computed(() => {
                 :key="`top-user-${user.id}`"
                 class="flex w-full flex-row items-center"
             >
-                <Link :href="route('profile.show', user)">
+                <Link :href="route('users.show', user)">
                     <user-avatar
                         :user="user"
                         size="x-large"
@@ -107,7 +107,7 @@ const orderedTopUsers = computed(() => {
                 </Link>
 
                 <div class="ml-4 flex grow flex-col">
-                    <Link :href="route('profile.show', user)">
+                    <Link :href="route('users.show', user)">
                         <user-name
                             class="mb-1 text-2xl font-bold"
                             :user="user"
