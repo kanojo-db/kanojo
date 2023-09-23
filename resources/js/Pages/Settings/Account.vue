@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { User } from '@/types/models';
 
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 import MdiHelpCircle from '~icons/mdi/help-circle';
 
@@ -33,6 +34,20 @@ const accountSettingsForm = useForm({
 
 function submit() {
     accountSettingsForm.post(route('settings.account.update'));
+}
+
+const isDeleting = ref(false);
+
+function deleteAccount() {
+    if (page.props.user) {
+        isDeleting.value = true;
+
+        router.delete(route('users.destroy', { user: page.props.user.id }), {
+            onFinish: () => {
+                isDeleting.value = false;
+            },
+        });
+    }
 }
 </script>
 
@@ -74,68 +89,113 @@ function submit() {
         </template>
 
         <template #right>
-            <!--<q-banner
-                        v-if="$page.props.jetstream.flash.banner"
-                        class="text-stone-50 q-mb-sm"
-                        :class="{
-                            'bg-positive':
-                                $page.props.jetstream.flash.bannerStyle ===
-                                'success',
-                            'bg-negative':
-                                $page.props.jetstream.flash.bannerStyle ===
-                                'error',
-                        }"
-                    >
-                        {{ $page.props.jetstream.flash.banner }}
-                    </q-banner>-->
             <v-form @submit.prevent="submit">
-                <div class="flex flex-row gap-2">
-                    <h3 class="text-xl font-bold">
-                        {{ $t('settings.account.content_visibility') }}
-                    </h3>
+                <v-row>
+                    <v-col>
+                        <div class="flex flex-row gap-2">
+                            <h3 class="text-xl font-bold">
+                                {{ $t('settings.account.content_visibility') }}
+                            </h3>
 
-                    <v-tooltip
-                        :text="
-                            $t('settings.account.content_visibility_tooltip')
-                        "
-                    >
-                        <template #activator="{ props: tooltipProps }">
-                            <v-icon
-                                v-bind="tooltipProps"
-                                :icon="MdiHelpCircle"
-                            />
-                        </template>
-                    </v-tooltip>
-                </div>
+                            <v-tooltip
+                                :text="
+                                    $t(
+                                        'settings.account.content_visibility_tooltip',
+                                    )
+                                "
+                            >
+                                <template #activator="{ props: tooltipProps }">
+                                    <v-icon
+                                        v-bind="tooltipProps"
+                                        :icon="MdiHelpCircle"
+                                    />
+                                </template>
+                            </v-tooltip>
+                        </div>
+                    </v-col>
+                </v-row>
 
-                <v-switch
-                    v-model="accountSettingsForm.show_jav"
-                    disabled
-                    :label="$t('settings.account.show_adult_content')"
-                    hide-details
-                />
+                <v-row>
+                    <v-col>
+                        <v-switch
+                            v-model="accountSettingsForm.show_jav"
+                            disabled
+                            :label="$t('settings.account.show_adult_content')"
+                            hide-details
+                        />
+                    </v-col>
+                </v-row>
 
-                <v-switch
-                    v-model="accountSettingsForm.show_gravure"
-                    disabled
-                    :label="$t('settings.account.show_gravure_content')"
-                    hide-details
-                />
+                <v-row>
+                    <v-col>
+                        <v-switch
+                            v-model="accountSettingsForm.show_gravure"
+                            disabled
+                            :label="$t('settings.account.show_gravure_content')"
+                            hide-details
+                        />
+                    </v-col>
+                </v-row>
 
-                <v-switch
-                    v-model="accountSettingsForm.show_minors"
-                    disabled
-                    :label="$t('settings.account.show_gravure_minors_content')"
-                    hide-details
-                />
+                <v-row>
+                    <v-col>
+                        <v-switch
+                            v-model="accountSettingsForm.show_minors"
+                            disabled
+                            :label="
+                                $t(
+                                    'settings.account.show_gravure_minors_content',
+                                )
+                            "
+                            hide-details
+                        />
+                    </v-col>
+                </v-row>
 
-                <v-btn
-                    type="submit"
-                    color="primary"
-                    disabled
-                    :text="$t('general.saveChanges')"
-                    class="mt-2"
-                />
+                <v-row>
+                    <v-col>
+                        <v-btn
+                            type="submit"
+                            color="primary"
+                            disabled
+                            :text="$t('general.saveChanges')"
+                            class="mt-2"
+                        />
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col>
+                        <v-card
+                            border
+                            class="border-red-500"
+                            variant="flat"
+                        >
+                            <v-card-title class="font-black">
+                                {{ $t('settings.account.dangerZone') }}
+                            </v-card-title>
+
+                            <v-card-text
+                                class="flex flex-col items-start gap-4"
+                            >
+                                <p
+                                    class="prose"
+                                    v-text="
+                                        $t('settings.account.deleteAccountInfo')
+                                    "
+                                />
+
+                                <v-btn
+                                    color="red"
+                                    :loading="isDeleting"
+                                    @click="deleteAccount"
+                                >
+                                    {{ $t('settings.account.deleteAccount') }}
+                                </v-btn>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-form>
         </template>
     </side-menu-page>

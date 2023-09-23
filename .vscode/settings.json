@@ -46,5 +46,10 @@
     "stylelint.reportNeedlessDisables": true,
     "stylelint.validate": ["css", "less", "postcss", "vue", "scss"],
     "vitest.commandLine": "./vendor/bin/sail npm run test --",
-    "vitest.enable": true
+    "vitest.enable": true,
+    "sonarlint.testFilePattern": "{**/test/**,**/*test*,**/*Test*,**/*.spec.*}",
+    "sonarlint.disableTelemetry": true,
+    "sonarlint.connectedMode.project": {
+        "projectKey": "kanojo-db_kanojo"
+    }
 }

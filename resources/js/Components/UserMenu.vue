@@ -93,7 +93,7 @@ const logout = () => {
             <v-list-item
                 height="72"
                 :to="
-                    route('profile.show', {
+                    route('users.show', {
                         user: userStore.currentUser?.id ?? 0,
                     })
                 "
