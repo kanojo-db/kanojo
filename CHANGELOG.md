@@ -1,3 +1,29 @@
+# [1.1.0](https://github.com/kanojo-db/kanojo/compare/v1.0.2...v1.1.0) (2023-09-24)
+
+
+### Bug Fixes
+
+* **api:** untranslated age string ([ed7deca](https://github.com/kanojo-db/kanojo/commit/ed7decaff2c82067f2bbd67b6376841c1fb7d93c))
+* **api:** use movie versions for movie info ([f188bdf](https://github.com/kanojo-db/kanojo/commit/f188bdfdf92a589e1a99179196f2fbd3ea41e792))
+* **events:** non-existing event dispatched for age updates ([abb2d62](https://github.com/kanojo-db/kanojo/commit/abb2d62aaceb16c1f58056e72801a551b14b04ad))
+* **events:** register AgeUpdateSubscriber ([61ad804](https://github.com/kanojo-db/kanojo/commit/61ad8047fd8c63ec7a0c1df92d22b88f1a697a7a))
+* **history:** audits not showing ([5b28770](https://github.com/kanojo-db/kanojo/commit/5b28770670380c53b45ca252c52d102ba20c3c1f))
+* **i18n:** update translations for French ([1266f9c](https://github.com/kanojo-db/kanojo/commit/1266f9c6c60a48095763cc74f743797136ae71a1))
+* **media:** bad route for media deletion ([9943878](https://github.com/kanojo-db/kanojo/commit/99438783a415ae6581c31268989f15d2ce357b28))
+* **models:** do not track history for system columns ([fd610e0](https://github.com/kanojo-db/kanojo/commit/fd610e022ca775d5bcd12f757a85d965749d7124))
+* **movie:** make version release date nullable ([c14bddc](https://github.com/kanojo-db/kanojo/commit/c14bddcbb86357e005c65d94735b2603910d9e0c))
+* remove IP and user agent from change histories ([1333e50](https://github.com/kanojo-db/kanojo/commit/1333e50edbce8196f3974ab427aedcadd50bf39e))
+* revert vuetify treeshaking ([9b53b3d](https://github.com/kanojo-db/kanojo/commit/9b53b3d08525450bf6ba4f04db4740b190491a9c))
+* **search:** navigation loop on media pages due to type parameter ([d1c0e0e](https://github.com/kanojo-db/kanojo/commit/d1c0e0e50468b90700c8c8ee1c9c68cba4b2a8b9))
+* **user:** do not redirect logged in user on collection routes ([f273d52](https://github.com/kanojo-db/kanojo/commit/f273d5213eb64cdcd47f6bc3c629a95d766aa32e))
+
+
+### Features
+
+* **console:** add slug update command for single record ([0eb3e6b](https://github.com/kanojo-db/kanojo/commit/0eb3e6b0a2433d2b65eace54f56c392863ab1ba4))
+* **item:** generate social images automatically ([#559](https://github.com/kanojo-db/kanojo/issues/559)) ([b14537a](https://github.com/kanojo-db/kanojo/commit/b14537a64a596bb445cc74b9aff642b68f5eecfe))
+* **user:** ability to delete user account ([#561](https://github.com/kanojo-db/kanojo/issues/561)) ([4967f77](https://github.com/kanojo-db/kanojo/commit/4967f7703a8a9340405a0e3be7e2c5a89a9823b7))
+
 ## [1.0.2](https://github.com/kanojo-db/kanojo/compare/v1.0.1...v1.0.2) (2023-09-13)
 
 ### Bug Fixes
