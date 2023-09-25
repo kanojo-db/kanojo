@@ -4,7 +4,7 @@
         "open": "Open",
         "close": "閉じる",
         "dataIterator": {
-            "noResultsText": "検索結果が見つかりません。",
+            "noResultsText": "要求に一致するものが見つかりませんでした",
             "loadingText": "項目をロード中です..."
         },
         "dataTable": {
@@ -33,18 +33,18 @@
         },
         "datePicker": {
             "ok": "OK",
-            "cancel": "Cancel",
+            "cancel": "キャンセル",
             "range": {
-                "title": "Select dates",
-                "header": "Enter dates"
+                "title": "日付を選ぶ",
+                "header": "日付を入力"
             },
-            "title": "Select date",
+            "title": "日付を選ぶ",
             "header": "Enter date",
             "input": {
                 "placeholder": "Enter date"
             }
         },
-        "noDataText": "データはありません。",
+        "noDataText": "データは存在しません",
         "carousel": {
             "prev": "前のビジュアル",
             "next": "次のビジュアル",
@@ -56,10 +56,10 @@
             "moreEvents": "さらに{0}"
         },
         "input": {
-            "clear": "Clear {0}",
+            "clear": "消す{0}",
             "prependAction": "{0} prepended action",
-            "appendAction": "{0} appended action",
-            "otp": "Please enter OTP character {0}"
+            "appendAction": "{0} アクションを追加",
+            "otp": "純愛ペアのキャラを確認 {0}"
         },
         "fileInput": {
             "counter": "{0} ファイル",
@@ -76,23 +76,36 @@
                 "previous": "前のページ",
                 "page": "{0}ページ目に移動",
                 "currentPage": "現在のページ、ページ {0}",
-                "first": "First page",
-                "last": "Last page"
+                "first": "最初のページ",
+                "last": "最新のページ"
             }
         },
         "stepper": {
             "next": "Next",
-            "prev": "Previous"
+            "prev": "新着情報"
         },
         "rating": {
             "ariaLabel": {
                 "item": "評価 {1} のうち {0}"
             }
         },
-        "loading": "Loading...",
+        "loading": "読み込み中...",
         "infiniteScroll": {
-            "loadMore": "Load more",
-            "empty": "No more"
+            "loadMore": "さらに読み込む",
+            "empty": "他にはもうありません"
         }
+    },
+    "about": {
+        "distributionOfModelsPerHeight": "モデルごとの高さ一覧",
+        "averageMoviesPerModel": "モデルごとの平均出演数",
+        "distributionOfModelsPerBustSizeNote": "*データには既知のモデルのバストサイズのみ含んでいます。",
+        "distributionMoviesPerAgeOfPerformer": "*出演者の年齢に応じた動画の配布",
+        "distributionOfModelsPerCupSizeNote": "*データは既知のモデルのブラカップサイズのみ含んでいます。",
+        "distributionModelsPerYearOfBirthNote": "必須データは既知のモデルの生まれ年のみ含んでいます。",
+        "distributionOfModelsPerCupSize": "ブラカップごとのモデル一覧",
+        "community": "コミュニティラン",
+        "distributionMoviesPerYearInfo": "データには、動画の既知の生産年のみが含まれています。.",
+        "distributionModelsPerYearOfBirth": "生まれ年ごとのモデルの 分布",
+        "distributionMoviesPerAgeOfPerformerNote": "この動画のデータには、既知の女優の年齢のみが含まれています。"
     }
 }
