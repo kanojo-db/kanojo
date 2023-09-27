@@ -106,7 +106,7 @@
         "husky": "^8.0.3",
         "is-number": "^7.0.0",
         "jest-axe": "^8.0.0",
-        "laravel-vite-plugin": "^0.8.0",
+        "laravel-vite-plugin": "^0.8.1",
         "lint-staged": "^14.0.1",
         "lodash": "^4.17.21",
         "postcss": "^8.4.30",
